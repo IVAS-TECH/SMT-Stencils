@@ -6,18 +6,18 @@ class Controller {
   }
 }
 
-var moduleName = 'appController';
+var moduleName = 'statsController';
 
 var config = {
-  templateUrl : '/views/view-app.html',
+  templateUrl : '/views/view-stats.html',
   controller : moduleName,
   controllerAs : 'vm'
 };
 
-var appController = {
+var statsController = {
   moduleName : moduleName,
   config : config,
   controller : Controller
 };
 
-export var appController = appController;
+export var statsController = statsController;
