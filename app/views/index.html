@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ivo</title>
+    <link rel='stylesheet' href='/style/style.css' />
+</head>
+
+<body>
+    <div ng-view></div>
+    <script src='/dependencies/angular.js'></script>
+    <script src='/dependencies/angular-route.js'></script>
+    <script src="/dependencies/es6-module-loader-dev.js"></script>
+    <script>
+        System.paths.babel = '/dependencies/browser.js';
+        System.transpiler = 'babel';
+    </script>
+    <script type='module'>
+        class ivo {} console.log(ivo); import {sum as s} from "app/test.js"; alert("sum = " + s(2, 3));
+    </script>
+</body>
+
+</html>

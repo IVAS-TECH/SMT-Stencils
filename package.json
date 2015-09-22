@@ -1,0 +1,26 @@
+{
+  "name": "placeholder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoHomey/diplomna3.git"
+  },
+  "author": "NoHomey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoHomey/diplomna3/issues"
+  },
+  "homepage": "https://github.com/NoHomey/diplomna3#readme",
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "express": "~4.13.1",
+    "monk": "~1.0.1",
+    "babel-core": "~5.8.25",
+    "es6-module-loader": "~0.17.7"
+  }
+}
