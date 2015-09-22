@@ -15,9 +15,7 @@
         System.paths.babel = '/dependencies/browser.js';
         System.transpiler = 'babel';
     </script>
-    <script type='module'>
-        class ivo {} console.log(ivo); import {sum as s} from "app/test.js"; alert("sum = " + s(2, 3));
-    </script>
+    <script type='module' src = '/app/boot.js'>  import {ivo } from '/app/boot.js';   </script>
 </body>
 
 </html>
