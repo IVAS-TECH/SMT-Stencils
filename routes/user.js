@@ -1,8 +1,7 @@
-var html = require('../html');
-var router = (require('express')).Router();
+var router = require('express').Router();
 
 router.get('/', function(req, res, next) {
-  res.send(html.provide('index'));
+  res.send({mes : 'ivo'});
 });
 
 module.exports = router;

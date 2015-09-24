@@ -13,7 +13,15 @@ function config($routeProvider){
 
 config.$inject = ['$routeProvider'];
 
+function run($location) {
+  var login = false;
+  login ? $location.path('/') : $location.path('/login');
+}
+
+run.$inject = ['$location'];
+
 angular.module(moduleName, ['ngRoute', controllers.moduleName])
-  .config(config);
+  .config(config)
+  .run(run);
 
 export var app = moduleName;
