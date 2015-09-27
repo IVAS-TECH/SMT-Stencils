@@ -1,9 +1,18 @@
-class Controller {
-  constructor() {
-    var vm = this;
-    vm.data = [3, 2, 1, 4, 5];
+function Controller($location) {
+  var vm = this;
+  vm.login = login;
+  vm.register = register;
+
+  function login() {
+    console.log('login');
+  }
+
+  function register() {
+    $location.path('/register');
   }
 }
+
+Controller.$inject = ['$location'];
 
 var moduleName = 'loginController';
 
