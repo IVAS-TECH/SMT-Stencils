@@ -1,5 +1,8 @@
 function Controller($location) {
   var vm = this;
+  vm.email = 'email';
+  vm.password = 'password';
+  vm.repassword = 'password';
   vm.register = register;
   vm.back = back;
 
