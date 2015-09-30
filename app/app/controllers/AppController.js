@@ -1,9 +1,6 @@
-class Controller {
-  constructor() {
-    var vm = this;
-    vm.data = [3, 2, 1, 4, 5];
-    vm.ivo = 'ivo';
-  }
+function Controller() {
+  var vm = this;
+  vm.date;
 }
 
 var moduleName = 'appController';

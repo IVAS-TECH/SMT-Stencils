@@ -3,6 +3,7 @@ function Controller($location) {
   vm.email = 'email';
   vm.password = 'password';
   vm.repassword = 'password';
+  vm.unit = 'Pound';
   vm.register = register;
   vm.back = back;
 
