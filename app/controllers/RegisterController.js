@@ -1,3 +1,5 @@
+Controller.$inject = ['$location'];
+
 function Controller($location) {
   var vm = this;
   vm.email = 'email';
@@ -15,8 +17,6 @@ function Controller($location) {
     $location.path('/login');
   }
 }
-
-Controller.$inject = ['$location'];
 
 var moduleName = 'registerController';
 
