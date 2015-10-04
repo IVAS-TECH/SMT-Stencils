@@ -2,9 +2,9 @@ run.$inject = ['$location'];
 
 function run($location) {
   var login = false;
-  var path = location.pathname;
-  if((path == '/register' || path == '/login') || login) {
-    $location.path(path);
+  var register = '/register';
+  if(location.pathname == register || login) {
+    $location.path(register);
     return;
   }
     $location.path('/login');
