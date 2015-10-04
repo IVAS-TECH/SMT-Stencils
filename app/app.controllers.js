@@ -1,7 +1,7 @@
-import { appController } from '/app/controllers/AppController.js';
-import { loginController } from '/app/controllers/LoginController.js';
-import { registerController } from '/app/controllers/RegisterController.js';
-import { statsController } from '/app/controllers/StatsController.js';
+import { appController } from '/controllers/AppController.js';
+import { loginController } from '/controllers/LoginController.js';
+import { registerController } from '/controllers/RegisterController.js';
+import { statsController } from '/controllers/StatsController.js';
 
 var controllers = {
   moduleName : 'app.controllers',

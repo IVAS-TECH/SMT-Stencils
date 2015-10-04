@@ -1,6 +1,6 @@
 var express = require('express');
 var server = require('http');
-var html = require('./html-provider')('./app/views/');
+var html = require('./html-provider')('./app/');
 var app = express();
 app.use(express.static(require('path').join(__dirname, 'app')));
 app.use(require('body-parser').json());

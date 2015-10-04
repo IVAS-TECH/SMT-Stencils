@@ -1,4 +1,4 @@
-import {controllers } from '/app/controllers/app.controllers.js';
+import {controllers } from '/app.controllers.js';
 
 var moduleName = 'app';
 
