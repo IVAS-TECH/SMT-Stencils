@@ -6,7 +6,7 @@ function Controller() {
 }
 
 var moduleName = 'appController';
-var url = '/';
+var url = '/app';
 
 var resolve = {
   'reqLogin' : reqLogin
