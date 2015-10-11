@@ -5,7 +5,7 @@ function Controller($location) {
   vm.email = 'email';
   vm.password = 'password';
   vm.repassword = 'password';
-  vm.unit = 'Pound';
+  vm.repasswordBlur = true;
   vm.register = register;
   vm.back = back;
 
@@ -16,6 +16,7 @@ function Controller($location) {
   function back() {
     $location.path('/login');
   }
+
 }
 
 var moduleName = 'registerController';
