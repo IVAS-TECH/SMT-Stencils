@@ -1,21 +1,35 @@
 <form novalidate name = 'form'>
 	<input
+		required
 		type = 'email'
 		ng-model = 'vm.email'
 		name = 'email'>
 	</input><br>
 
 	<div
-		ng-if = 'form.email.$invalid'>
+		ng-if = 'form.email.$invalid && !form.email.$error.required'>
 			Wrong Email
 	</div>
 
-	<input
-		type = 'password'
-		ng-model = 'vm.password'>
-	</input><br>
+	<div
+		ng-if = 'form.email.$error.required'>
+			Email is req
+	</div>
 
 	<input
+		required
+		type = 'password'
+		ng-model = 'vm.password'
+		name = 'password'>
+	</input><br>
+
+	<div
+		ng-if = 'form.password.$error.required'>
+			Password is req
+	</div>
+
+	<input
+		required
 		type = 'password'
 		ng-model = 'vm.repassword'
 		ng-pattern = 'vm.password'
@@ -29,7 +43,13 @@
 			Wrong RePass
 	</div>
 
+	<div
+		ng-if = 'form.repassword.$error.required'>
+			Please re enter password
+	</div>
+
   <button
+		ng-disabled = 'form.$invalid'
 		ng-click = 'vm.register()'>
 			Register
 	</button><br>
