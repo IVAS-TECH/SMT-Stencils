@@ -11,7 +11,7 @@ var controllers = {
   statsController : statsController
 };
 
-angular.module(controllers.moduleName, ['ngCookies'])
+angular.module(controllers.moduleName, ['ngCookies', 'restangular'])
   .controller(appController.moduleName, appController.controller)
   .controller(loginController.moduleName, loginController.controller)
   .controller(registerController.moduleName, registerController.controller)

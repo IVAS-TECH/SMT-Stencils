@@ -1,6 +1,7 @@
-Controller.$inject = ['$location'];
+Controller.$inject = ['$location', 'Restangular'];
 
-function Controller($location) {
+function Controller($location, Restangular) {
+  var rest = Restangular.all('register');
   var vm = this;
   vm.email = 'email';
   vm.password = 'password';

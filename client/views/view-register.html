@@ -20,8 +20,20 @@
 		required
 		type = 'password'
 		ng-model = 'vm.password'
+		ng-minlength = '6'
+		ng-maxlength = '36'
 		name = 'password'>
 	</input><br>
+
+	<div
+		ng-if = 'form.password.$error.minlength'>
+			Password lenght must be greater than 6 symbols
+	</div>
+
+	<div
+		ng-if = 'form.password.$error.maxlength'>
+			Password lenght must be less than 36 symbols
+	</div>
 
 	<div
 		ng-if = 'form.password.$error.required'>

@@ -20,6 +20,8 @@
   "dependencies" : {
      "angular": "~1.4.6",
      "angular-route": "~1.4.6",
-     "angular-cookies": "~1.4.6"
+     "angular-cookies": "~1.4.6",
+     "restangular": "~1.5.1",
+     "lodash": "3.10.1"
    }
 }
