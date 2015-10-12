@@ -1,4 +1,4 @@
-all: clean unset setup
+all: clean unset setup mongo
 
 setup: install build
 
@@ -24,3 +24,7 @@ unset:
 clean:
 	rm -R ./bower_components
 	rm -R ./node_modules
+
+mongo:
+	mkdir ./server/data
+	mongod --dbpath ./server/data

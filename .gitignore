@@ -1,4 +1,4 @@
 node_modules/*
 bower_components/*
 client/dependencies/*
-data/*
+server/data/*

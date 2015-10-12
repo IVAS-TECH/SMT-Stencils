@@ -3,15 +3,16 @@ Controller.$inject = ['$location', 'Restangular'];
 function Controller($location, Restangular) {
   var rest = Restangular.all('register');
   var vm = this;
-  vm.email = 'email';
+  vm.email = 'email@a.a';
   vm.password = 'password';
   vm.repassword = 'password';
   vm.repasswordBlur = true;
   vm.register = register;
   vm.back = back;
+  vm.res = "res";
 
   function register() {
-    console.log('reg');
+    vm.res = rest.get(vm.email);//.then(function(r) {console.log(r);});
   }
 
   function back() {
