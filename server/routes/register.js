@@ -11,7 +11,7 @@ function get (req, res, next) {
   collection.findOne(user, find);
 
   function find (error, docs) {
-    var exist = !(docs === null);
+    var exist = docs !== null;
     res.send({user : exist});
   }
 }

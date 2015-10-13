@@ -19,7 +19,7 @@ app.use(request);
 app.use(error);
 
 server = server.createServer(app);
-server.listen(process.env.PORT || 3001);
+server.listen(process.env.PORT || 3000);
 
 function dbAccess (req,res,next) {
   req.db = db;

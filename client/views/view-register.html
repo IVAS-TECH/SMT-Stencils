@@ -1,70 +1,90 @@
-<form novalidate name = 'form'>
-	<input
-		required
-		type = 'email'
-		ng-model = 'vm.email'
-		name = 'email'>
-	</input><br>
+<form
+	novalidate
+	name = 'form'>
 
-	<div
-		ng-if = 'form.email.$invalid && !form.email.$error.required'>
-			Wrong Email
-	</div>
+		<input
+			required
+			type = 'email'
+			ng-model = 'vm.email'
+			name = 'email'>
+		</input><br>
 
-	<div
-		ng-if = 'form.email.$error.required'>
-			Email is req
-	</div>
+		<div
+			ng-messages = 'form.email.$error'>
 
-	<input
-		required
-		type = 'password'
-		ng-model = 'vm.password'
-		ng-minlength = '6'
-		ng-maxlength = '36'
-		name = 'password'>
-	</input><br>
+				<div
+					ng-message = 'email'>
+						Wrong Email
+				</div>
 
-	<div
-		ng-if = 'form.password.$error.minlength'>
-			Password lenght must be greater than 6 symbols
-	</div>
+				<div
+					ng-message = 'required'>
+						Email is req
+				</div>
 
-	<div
-		ng-if = 'form.password.$error.maxlength'>
-			Password lenght must be less than 36 symbols
-	</div>
+		</div>
 
-	<div
-		ng-if = 'form.password.$error.required'>
-			Password is req
-	</div>
+		<input
+			required
+			type = 'password'
+			ng-model = 'vm.password'
+			ng-minlength = '6'
+			ng-maxlength = '35'
+			name = 'password'>
+		</input><br>
 
-	<input
-		required
-		type = 'password'
-		ng-model = 'vm.repassword'
-		ng-pattern = 'vm.password'
-		name = 'repassword'
-		ng-focus = 'vm.repasswordBlur = false;'
-		ng-blur = 'vm.repasswordBlur = true;'>
-	</input><br>
+		<div
+			ng-messages = 'form.password.$error'>
 
-	<div
-		ng-if = 'form.repassword.$invalid && vm.repasswordBlur'>
-			Wrong RePass
-	</div>
+				<div
+					ng-message = 'minlength'>
+						Password lenght must be greater than 6 symbols
+				</div>
 
-	<div
-		ng-if = 'form.repassword.$error.required'>
-			Please re enter password
-	</div>
+				<div
+					ng-message = 'maxlength'>
+						Password lenght must be less than 36 symbols
+				</div>
 
-  <button
-		ng-disabled = 'form.$invalid'
-		ng-click = 'vm.register()'>
-			Register
-	</button><br>
+				<div
+					ng-message = 'required'>
+						Password is req
+				</div>
+
+		</div>
+
+		<input
+			required
+			type = 'password'
+			ng-model = 'vm.repassword'
+			ng-pattern = 'vm.password'
+			name = 'repassword'
+			ng-focus = 'vm.repasswordBlur = false;'
+			ng-blur = 'vm.repasswordBlur = true;'>
+		</input><br>
+
+		<div
+			ng-messages = 'form.repassword.$error'>
+
+				<div
+					ng-if = 'vm.repasswordBlur'
+					ng-message = 'pattern'>
+						Wrong rePass
+				</div>
+
+				<div
+					ng-message = 'required'>
+						Please re enter password
+				</div>
+
+		</div>
+
+	  <button
+			ng-disabled = 'form.$invalid'
+			ng-click = 'vm.register()'>
+				Register
+		</button><br>
+
 </form>
 
 <button
