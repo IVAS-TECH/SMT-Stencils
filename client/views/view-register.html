@@ -3,6 +3,7 @@
 	name = 'form'>
 
 		<input
+			app-async-validator = '{ exist : ["form.email.$valid", vm.exist] }'
 			required
 			type = 'email'
 			ng-model = 'vm.email'
@@ -20,6 +21,11 @@
 				<div
 					ng-message = 'required'>
 						Email is req
+				</div>
+
+				<div
+					ng-message = 'exist'>
+					Email already exists
 				</div>
 
 		</div>
@@ -91,5 +97,3 @@
 	ng-click = 'vm.back()'>
 		Go Back
 </button>
-
-{{vm.res.$object.user}}

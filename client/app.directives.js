@@ -1,14 +1,12 @@
-import { appAsyncValidatorDirective as $appAsyncValidatorDirective } from '/directives/appAsyncValidatorDirective.js';
+import { appAsyncValidatorDirective } from '/directives/appAsyncValidatorDirective.js';
+
+var moduleName = 'directives';
 
 var directives = {
-  moduleName : 'directives'
+  moduleName : moduleName
 };
 
-angular.module(directives.moduleName, [])
-  .directive($appAsyncValidatorDirective.directiveName, $appAsyncValidatorDirective.directive);
+angular.module(moduleName, [])
+  .directive(appAsyncValidatorDirective.directiveName, appAsyncValidatorDirective.directive);
 
 export var directives = directives;
-
-export var appAsyncValidatorDirective = {
-  directiveName : appAsyncValidatorDirective.directiveName
-};
