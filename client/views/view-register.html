@@ -86,7 +86,7 @@
 		</div>
 
 	  <button
-			ng-disabled = 'form.$invalid'
+			ng-disabled = 'form.$invalid || form.$pending'
 			ng-click = 'vm.register()'>
 				Register
 		</button><br>
