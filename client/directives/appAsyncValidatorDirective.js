@@ -1,4 +1,4 @@
-function Directive() {
+function Directiv () {
   return directive;
 
   var directive = {};
