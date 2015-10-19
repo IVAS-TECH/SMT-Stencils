@@ -12,7 +12,10 @@ function Controller($location, Restangular, $q) {
   vm.exist = exist;
 
   function register() {
-
+    var user = {};
+    user.email = vm.email;
+    user.password = vm.password;
+    rest.post(user);
   }
 
   function back() {

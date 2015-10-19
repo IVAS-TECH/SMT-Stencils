@@ -3,7 +3,9 @@ var router = express.Router();
 
 router.get('/:email', get);
 
-function get (req, res, next) {
+router.post('/', post);
+
+function get (req, res) {
   var db = req.db;
   var collection = db.get('users');
   var email = req.params.email;
@@ -13,6 +15,19 @@ function get (req, res, next) {
   function find (error, docs) {
     var exist = docs !== null;
     res.send({user : exist});
+  }
+}
+
+function post (req, res) {
+  var db = req.db;
+  var collection = db.get('users');
+  var user = req.body.user;
+  collection.insert(user, insert);
+
+  function insert (err, result) {
+    var msg = {};
+    msg.msg = err === null ? '' ? err;
+    res.send.(msg);
   }
 }
 
