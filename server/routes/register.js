@@ -26,8 +26,8 @@ function post (req, res) {
 
   function insert (err, result) {
     var msg = {};
-    msg.msg = err === null ? '' ? err;
-    res.send.(msg);
+    msg.msg = err === null ? '' : err;
+    res.send(msg);
   }
 }
 
