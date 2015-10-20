@@ -21,6 +21,7 @@
     "express": "~4.13.1",
     "monk": "~1.0.1",
     "babel-core": "~5.8.25",
-    "es6-module-loader": "~0.17.7"
+    "es6-module-loader": "~0.17.7",
+    "walk": "~2.3.9"
   }
 }

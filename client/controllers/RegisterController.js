@@ -1,10 +1,11 @@
-Controller.$inject = ['$location', 'Restangular', '$q'];
+Controller.$inject = ['$location', 'Restangular'];
 
 function Controller($location, Restangular, $q) {
   var rest = Restangular.all('register');
   var vm = this;
-  vm.email = 'email@a.a';
-  vm.password = 'password';
+  vm.user = {};
+  vm.user.email = 'email@a.a';
+  vm.user.password = 'password';
   vm.repassword = 'password';
   vm.repasswordBlur = true;
   vm.register = register;
@@ -13,8 +14,7 @@ function Controller($location, Restangular, $q) {
 
   function register() {
     var user = {};
-    user.email = vm.email;
-    user.password = vm.password;
+    user.user = vm.user;
     rest.post(user);
   }
 
@@ -23,17 +23,20 @@ function Controller($location, Restangular, $q) {
   }
 
   function exist (modelValue, viewValue) {
-    var deferred = $q.defer();
-    rest.get(modelValue).then(success);
+    var promise = new Promise(resolver);
 
-    function success (res) {
-      if (res.user)
-        deferred.reject();
-      else
-        deferred.resolve();
+    function resolver (resolve, reject) {
+      rest.get(modelValue).then(success);
+
+      function success (res) {
+        if (res.user)
+          reject();
+        else
+          resolve();
+      }
     }
 
-    return deferred.promise;
+    return promise;
   }
 
 }

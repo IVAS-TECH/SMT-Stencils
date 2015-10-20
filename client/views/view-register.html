@@ -6,7 +6,7 @@
 			app-async-validator = '{ exist : ["form.email.$valid", vm.exist] }'
 			required
 			type = 'email'
-			ng-model = 'vm.email'
+			ng-model = 'vm.user.email'
 			name = 'email'>
 		</input><br>
 
@@ -33,7 +33,7 @@
 		<input
 			required
 			type = 'password'
-			ng-model = 'vm.password'
+			ng-model = 'vm.user.password'
 			ng-minlength = '6'
 			ng-maxlength = '35'
 			name = 'password'>
@@ -63,7 +63,7 @@
 			required
 			type = 'password'
 			ng-model = 'vm.repassword'
-			ng-pattern = 'vm.password'
+			ng-pattern = 'vm.user.password'
 			name = 'repassword'
 			ng-focus = 'vm.repasswordBlur = false;'
 			ng-blur = 'vm.repasswordBlur = true;'>
