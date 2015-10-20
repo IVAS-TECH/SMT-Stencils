@@ -7,7 +7,7 @@ var register = require('./routes/register');
 var walk = require('walk');
 
 var db = monk('0.0.0.0:27017/app');
-var clientDir = '../client/';
+var clientDir = '../client';
 var clientDir = path.join(__dirname, clientDir);
 var walker = walk.walk(clientDir);
 var port = 3000;
@@ -42,6 +42,7 @@ function request (req, res, next) {
 }
 
 function addToPathJS (root, fileStats, next) {
-  console.log(fileStats.name);
+  var dir = root.replace(clientDir, '');
+  console.log(dir, fileStats.name);
   next();
 }
