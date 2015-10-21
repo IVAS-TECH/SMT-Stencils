@@ -13,23 +13,10 @@
 		</input><br>
 
 		<div
-			ng-messages = 'form.email.$error'>
-
-				<div
-					ng-message = 'email'>
-						Wrong Email
-				</div>
-
-				<div
-					ng-message = 'required'>
-						Email is req
-				</div>
-
-				<div
-					ng-message = 'exist'>
-					Email already exists
-				</div>
-
+			app-error-msg
+			use = 'form.email.$error as $e'
+			error = '[$e.email, $e.required, $e.exist]'
+			msg = '["Wrong Email", "Email is req", "Email already exists"]'>
 		</div>
 
 		<input
@@ -42,23 +29,10 @@
 		</input><br>
 
 		<div
-			ng-messages = 'form.password.$error'>
-
-				<div
-					ng-message = 'minlength'>
-						Password lenght must be greater than 6 symbols
-				</div>
-
-				<div
-					ng-message = 'maxlength'>
-						Password lenght must be less than 36 symbols
-				</div>
-
-				<div
-					ng-message = 'required'>
-						Password is req
-				</div>
-
+			app-error-msg
+			use = 'form.password.$error as $e'
+			error = '[$e.minlength, $e.maxlength, $e.required]'
+			msg = '["Password lenght must be greater than 6 symbols", "Password lenght must be greater than 6 symbols", "Password is req"]'>
 		</div>
 
 		<input
@@ -72,18 +46,12 @@
 		</input><br>
 
 		<div
-			ng-messages = 'form.repassword.$error'>
-				<div
-						ng-message = 'pattern'>
-						Wrong rePass
-				</div>
-
-				<div
-					ng-message = 'required'>
-						Please re enter password
-				</div>
-
+			app-error-msg
+			use = 'form.repassword.$error as $e'
+			error = '[$e.pattern && vm.repasswordBlur, $e.required]'
+			msg = '["Wrong rePass", "Please re enter password"]'>
 		</div>
+
 	  <button
 			ng-disabled = 'form.$invalid || form.$pending'
 			ng-click = 'vm.register()'>

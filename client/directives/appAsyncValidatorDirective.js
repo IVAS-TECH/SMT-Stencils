@@ -7,7 +7,7 @@ function Directive () {
 
   function link (scope, element, attributes, ngModel) {
     var asyncValidator = scope.$eval(attributes.for);
-    
+
     scope.$watchCollection(attributes.when, addAsyncValidator);
 
     function addAsyncValidator (newCollection) {
