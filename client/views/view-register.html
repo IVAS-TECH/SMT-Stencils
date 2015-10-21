@@ -3,7 +3,9 @@
 	name = 'form'>
 
 		<input
-			app-async-validator = '{ exist : ["form.email.$valid", vm.exist] }'
+			app-async-validator
+			when = '{ exist : form.email.$valid }'
+			for = '{ exist : vm.exist }'
 			required
 			type = 'email'
 			ng-model = 'vm.user.email'
@@ -71,10 +73,8 @@
 
 		<div
 			ng-messages = 'form.repassword.$error'>
-
 				<div
-					ng-if = 'vm.repasswordBlur'
-					ng-message = 'pattern'>
+						ng-message = 'pattern'>
 						Wrong rePass
 				</div>
 
@@ -84,7 +84,6 @@
 				</div>
 
 		</div>
-
 	  <button
 			ng-disabled = 'form.$invalid || form.$pending'
 			ng-click = 'vm.register()'>

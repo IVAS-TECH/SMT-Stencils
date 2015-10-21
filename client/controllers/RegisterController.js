@@ -1,12 +1,12 @@
 Controller.$inject = ['$location', 'Restangular'];
 
 function Controller($location, Restangular, $q) {
-  var rest = Restangular.all('register');
-  var vm = this;
+  var vm = this,
+    rest = Restangular.all('register');
   vm.user = {};
-  vm.user.email = 'email@a.a';
-  vm.user.password = 'password';
-  vm.repassword = 'password';
+  vm.user.email;
+  vm.user.password;
+  vm.repassword;
   vm.repasswordBlur = true;
   vm.register = register;
   vm.back = back;
@@ -41,20 +41,20 @@ function Controller($location, Restangular, $q) {
 
 }
 
-var moduleName = 'registerController';
-var url = '/register';
+var controllerName = 'registerController',
+  url = '/register',
+  tmpUrl = 'view-register',
+  ctrlAs = 'vm',
+  config = {},
+  registerController = {};
 
-var config = {
-  templateUrl : '/views/view-register.html',
-  controller : moduleName,
-  controllerAs : 'vm'
-};
+config.templateUrl = tmpUrl;
+config.controller = controllerName;
+config.controllerAs = ctrlAs;
 
-var registerController = {
-  url : url,
-  moduleName : moduleName,
-  config : config,
-  controller : Controller
-};
+registerController.url = url;
+registerController.controllerName = controllerName;
+registerController.config = config;
+registerController.controller = Controller;
 
 export var registerController = registerController;

@@ -6,6 +6,7 @@ var monk = require('monk');
 var register = require('./routes/register');
 var walk = require('walk');
 
+var fileMaper = {};
 var db = monk('0.0.0.0:27017/app');
 var clientDir = '../client';
 var clientDir = path.join(__dirname, clientDir);
@@ -13,15 +14,14 @@ var walker = walk.walk(clientDir);
 var port = 3000;
 var app = express();
 
-app.use(test);
+walker.on('file', addToFileMaper);
+
 app.use(dbAccess);
-app.use(express.static(clientDir));
 app.use(bodyParser.json());
 app.use('/register', register);
+app.use(serveMapedFile);
 app.use(request);
 app.use(error);
-
-walker.on('file', addToPathJS);
 
 server = server.createServer(app);
 server.listen(process.env.PORT || port);
@@ -42,14 +42,23 @@ function request (req, res, next) {
   next(err);
 }
 
-function addToPathJS (root, fileStats, next) {
-  var dir = root.replace(clientDir, '');
-  console.log(dir, fileStats.name);
+function addToFileMaper (root, fileStats, next) {
+  var name = fileStats.name;
+  var file = name.split('.');
+  var resource = path.join(root, name);
+  var mapped = '/' + file[0];
+  fileMaper[mapped] = resource;
   next();
 }
 
-function test (req, res, next) {
-  console.log(req);
+function serveMapedFile (req, res, next) {
+  if(req.url === '/') {
+    res.sendFile(fileMaper['/index']);
+    return;
+  }
+  
+  if((req.method  === 'GET') && fileMaper[req.url])
+    res.sendFile(fileMaper[req.url]);
+  else
     next();
-
 }

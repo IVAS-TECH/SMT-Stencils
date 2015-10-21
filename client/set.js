@@ -1,6 +1,2 @@
-System.paths.babel = '/dependencies/browser.js';
+System.paths.babel = 'browser';
 System.transpiler = 'babel';
-
-function require (file) {
-  return path[script];
-}

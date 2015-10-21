@@ -1,29 +1,28 @@
-import { default as reqLogin } from '/controllers/reqLogin.js'
+import { default as reqLogin } from 'reqLogin'
 
 function Controller() {
   var vm = this;
   vm.date;
 }
 
-var moduleName = 'appController';
-var url = '/app';
+var controllerName = 'appController',
+  url = '/app',
+  tmpUrl = 'view-app',
+  ctrlAs = 'vm',
+  resolve = {},
+  config = {},
+  appController = {};
 
-var resolve = {
-  'reqLogin' : reqLogin
-};
+resolve.reqLogin = reqLogin;
 
-var config = {
-  templateUrl : '/views/view-app.html',
-  controller : moduleName,
-  controllerAs : 'vm',
-  resolve : resolve
-};
+config.templateUrl = tmpUrl;
+config.controller = controllerName;
+config.controllerAs = ctrlAs;
+config.resolve = resolve;
 
-var appController = {
-  url : url,
-  moduleName : moduleName,
-  config : config,
-  controller : Controller
-};
+appController.url = url;
+appController.controllerName = controllerName;
+appController.config = config;
+appController.controller = Controller;
 
 export var appController = appController;

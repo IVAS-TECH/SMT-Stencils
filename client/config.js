@@ -1,4 +1,4 @@
-import { controllers as $controllers } from '/app.controllers.js';
+import { controllers as $controllers } from 'appControllers';
 
 config.$inject = ['$routeProvider'];
 
@@ -7,16 +7,16 @@ function config($routeProvider){
     .when($controllers.appController.url, $controllers.appController.config)
     .when($controllers.loginController.url, $controllers.loginController.config)
     .when($controllers.registerController.url, $controllers.registerController.config)
-    .when($controllers.statsController.url, $controllers.statsController.config)
+    .when($controllers.settingsController.url, $controllers.settingsController.config)
     .otherwise(root);
 }
 
-var root = {
-  redirectTo : $controllers.appController.url
-};
+var root = {},
+  controllers = {};
+
+root.redirectTo = $controllers.appController.url;
+controllers.moduleName = $controllers.moduleName;
 
 export var config = config;
 
-export var controllers  = {
-  moduleName : $controllers.moduleName
-};
+export var controllers = controllers;

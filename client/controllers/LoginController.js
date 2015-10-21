@@ -16,20 +16,20 @@ function Controller($location) {
   }
 }
 
-var moduleName = 'loginController';
-var url = '/login';
+var controllerName = 'loginController',
+  url = '/login',
+  tmpUrl = 'view-login',
+  ctrlAs = 'vm',
+  config = {},
+  loginController = {};
 
-var config = {
-  templateUrl : '/views/view-login.html',
-  controller : moduleName,
-  controllerAs: 'vm'
-};
+config.templateUrl = tmpUrl;
+config.controller = controllerName;
+config.controllerAs = ctrlAs;
 
-var loginController = {
-  url : url,
-  moduleName : moduleName,
-  config : config,
-  controller : Controller
-};
+loginController.url = url;
+loginController.controllerName = controllerName;
+loginController.config = config;
+loginController.controller = Controller;
 
 export var loginController = loginController;

@@ -1,2 +1,2 @@
-import { app } from '/app.module.js';
-export default angular.bootstrap(document.getElementById('appView'), [app]);
+import { app } from 'appModule';
+angular.bootstrap(document.getElementById('appView'), [app]);
