@@ -13,6 +13,7 @@ var walker = walk.walk(clientDir);
 var port = 3000;
 var app = express();
 
+app.use(test);
 app.use(dbAccess);
 app.use(express.static(clientDir));
 app.use(bodyParser.json());
@@ -45,4 +46,10 @@ function addToPathJS (root, fileStats, next) {
   var dir = root.replace(clientDir, '');
   console.log(dir, fileStats.name);
   next();
+}
+
+function test (req, res, next) {
+  console.log(req);
+    next();
+
 }
