@@ -27,5 +27,6 @@ clean:
 	rm -Rf ./node_modules
 
 mongo:
+	rm -Rf ./server/data
 	mkdir ./server/data
 	mongod --dbpath ./server/data

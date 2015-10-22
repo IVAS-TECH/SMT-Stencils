@@ -3,8 +3,9 @@ function Directive () {
   directive.restrict = 'A';
   directive.link = link;
   function link (scope, element, attributes) {
-    var messages = scope.$eval(attributes.msg);
-    var error = attributes[directiveName];
+    var messages = scope.$eval(attributes.msg),
+      error = attributes[directiveName];
+      
     if(error) {
       scope.$watchCollection(error, getKeys);
       function getKeys (newValue, oldValue) {

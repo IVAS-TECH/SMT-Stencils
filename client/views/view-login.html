@@ -1,6 +1,108 @@
-<form novalidate>
-	<input type = 'email' ng-model = 'vm.email'></input><br>
-	<input type = 'password' ng-model = 'vm.password'></input><br>
-    <button ng-click = 'vm.login()'>Login</button><br>
-    <button ng-click = 'vm.register()'>Register</button><br>
+<form
+	novalidate
+	name = 'login'>
+
+		<div
+			ng-if = 'vm.failed'
+			ng-bind = '"Something whent wrong"'>
+		</div>
+
+		<input
+			required
+			type = 'email'
+			ng-model = 'vm.login.email'
+			name = 'loginEmail'>
+		</input>
+
+		<div
+			app-error-msg = 'login.loginEmail.$error'
+			error = '[email, required && vm.reqCheckLogin]'
+			msg = '["Wrong Email", "Email is req"]'>
+		</div>
+
+		<input
+			required
+			type = 'password'
+			ng-model = 'vm.login.password'
+			ng-minlength = '6'
+			ng-maxlength = '35'
+			name = 'loginPass'>
+		</input>
+
+		<div
+			app-error-msg = 'login.loginPass.$error'
+			error = '[minlength, maxlength, required && vm.reqCheckLogin]'
+			msg = '["Password lenght must be greater than 6 symbols", "Password lenght must be greater than 6 symbols", "Password is req"]'>
+		</div>
+
+
+		<button
+			ng-click = 'vm.doLogin(login.$invalid)'
+			ng-bind = '"Login"'>
+		</button>
+
+</form>
+
+<form
+	novalidate
+	name = 'register'>
+
+		<div
+			app-error-msg
+			error = '[vm.registered, vm.failed]'
+			msg = '["You have beed registered please Login", "Something whent wrong"]'>
+		</div>
+
+		<input
+			app-async-validator
+			when = '{ exist : register.regEmail.$valid }'
+			for = '{ exist : vm.exist }'
+			required
+			type = 'email'
+			ng-model = 'vm.register.email'
+			name = 'regEmail'>
+		</input>
+
+		<div
+			app-error-msg = 'register.regEmail.$error'
+			error = '[email, required && vm.reqCheckReg, exist]'
+			msg = '["Wrong Email", "Email is req", "Email already exists"]'>
+		</div>
+
+		<input
+			required
+			type = 'password'
+			ng-model = 'vm.register.password'
+			ng-minlength = '6'
+			ng-maxlength = '35'
+			name = 'regPass'>
+		</input>
+
+		<div
+			app-error-msg = 'register.regPass.$error'
+			error = '[minlength, maxlength, required && vm.reqCheckReg]'
+			msg = '["Password lenght must be greater than 6 symbols", "Password lenght must be greater than 6 symbols", "Password is req"]'>
+		</div>
+
+		<input
+			required
+			type = 'password'
+			ng-model = 'vm.repassword'
+			ng-pattern = 'vm.register.password'
+			name = 'regRepass'
+			ng-focus = 'vm.repasswordBlur = false;'
+			ng-blur = 'vm.repasswordBlur = true;'>
+		</input>
+
+		<div
+			app-error-msg = 'register.regRepass.$error'
+			error = '[pattern && vm.repasswordBlur, required && vm.reqCheckReg]'
+			msg = '["Wrong rePass", "Please re enter password"]'>
+		</div>
+
+		<button
+			ng-click = 'vm.doRegister(register.$invalid || register.$pending)'
+			ng-bind = '"Register"'>
+		</button>
+
 </form>
