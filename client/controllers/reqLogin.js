@@ -5,13 +5,10 @@ function reqLogin($location, Restangular, $rootScope) {
 
     function success(res) {
       var path = '/login';
-      console.log(res);
       if(res.secret === '')
         $location.path(path);
-      else {
+      else
         $rootScope.secret = res.secret;
-        console.log($rootScope.secret);
-      }
     }
 }
 

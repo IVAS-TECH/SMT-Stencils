@@ -19,4 +19,3 @@ controllers.moduleName = $controllers.moduleName;
 export var config = config;
 
 export var controllers = controllers;
-    

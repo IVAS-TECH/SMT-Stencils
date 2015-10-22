@@ -14,7 +14,6 @@ build:
 	cp ./node_modules/es6-module-loader/dist/es6-module-loader-dev.js  ./client/dependencies/es6-module-loader-dev.js
 	cp ./bower_components/angular/angular.js -r ./client/dependencies/
 	cp ./bower_components/angular-route/angular-route.js ./client/dependencies/angular-route.js
-	cp ./bower_components/angular-cookies/angular-cookies.js ./client/dependencies/angular-cookies.js
 	cp ./bower_components/restangular/dist/restangular.js ./client/dependencies/restangular.js
 	cp ./bower_components/lodash/lodash.js ./client/dependencies/lodash.js
 

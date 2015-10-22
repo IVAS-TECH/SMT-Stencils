@@ -11,7 +11,7 @@ controllers.loginController = loginController;
 controllers.settingsController = settingsController;
 
 angular
-  .module(controllers.moduleName, ['ngCookies', 'restangular'])
+  .module(controllers.moduleName, ['restangular'])
     .controller(appController.controllerName, appController.controller)
     .controller(loginController.controllerName, loginController.controller)
     .controller(settingsController.controllerName, settingsController.controller);

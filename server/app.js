@@ -19,6 +19,8 @@ var express = require('express'),
 
 walker.on('file', addToFileMaper);
 
+db.options.safe = false;
+
 app.use(bodyParser.json());
 app.use(access);
 app.use(session.use());

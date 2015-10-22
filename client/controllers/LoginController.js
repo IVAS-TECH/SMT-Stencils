@@ -72,7 +72,7 @@ function Controller(Restangular, $location) {
       restReg.get(modelValue).then(success);
 
       function success(res) {
-        if (res.exist)
+        if(res.exist)
           reject();
         else
           resolve();
