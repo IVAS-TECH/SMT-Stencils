@@ -16,12 +16,12 @@ function Controller($location, Restangular, $q) {
   vm.exist = exist;
 
   function register(invalid) {
+    vm.registered = vm.failed = false;
     if(!vm.reqCheck)
       vm.reqCheck = true;
     if(!invalid) {
       var user = {};
       user.user = vm.user;
-      vm.registered = vm.failed = false;
       rest.post(user).then(success);
     }
 

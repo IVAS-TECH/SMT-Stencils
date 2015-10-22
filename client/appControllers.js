@@ -13,7 +13,7 @@ controllers.registerController = registerController;
 controllers.settingsController = settingsController;
 
 angular
-  .module(controllers.moduleName, ['ngCookies', 'ngMessages', 'restangular'])
+  .module(controllers.moduleName, ['ngCookies', 'restangular'])
     .controller(appController.controllerName, appController.controller)
     .controller(loginController.controllerName, loginController.controller)
     .controller(registerController.controllerName, registerController.controller)

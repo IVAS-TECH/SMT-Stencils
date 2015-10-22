@@ -2,67 +2,63 @@
 	novalidate
 	name = 'form'>
 
-	<div
-		app-error-msg
-		error = '[vm.registered, vm.failed]'
-		msg = '["You have beed registered please Login", "Something whent wrong"]'>
-	</div>
-
-
-		<input
-			app-async-validator
-			when = '{ exist : form.email.$valid }'
-			for = '{ exist : vm.exist }'
-			required
-			type = 'email'
-			ng-model = 'vm.user.email'
-			name = 'email'>
-		</input><br>
-
 		<div
 			app-error-msg
-			use = 'form.email.$error as $e'
-			error = '[$e.email, $e.required && vm.reqCheck, $e.exist]'
-			msg = '["Wrong Email", "Email is req", "Email already exists"]'>
+			error = '[vm.registered, vm.failed]'
+			msg = '["You have beed registered please Login", "Something whent wrong"]'>
 		</div>
 
-		<input
-			required
-			type = 'password'
-			ng-model = 'vm.user.password'
-			ng-minlength = '6'
-			ng-maxlength = '35'
-			name = 'password'>
-		</input><br>
+				<input
+					app-async-validator
+					when = '{ exist : form.email.$valid }'
+					for = '{ exist : vm.exist }'
+					required
+					type = 'email'
+					ng-model = 'vm.user.email'
+					name = 'email'>
+				</input>
 
-		<div
-			app-error-msg
-			use = 'form.password.$error as $e'
-			error = '[$e.minlength, $e.maxlength, $e.required && vm.reqCheck]'
-			msg = '["Password lenght must be greater than 6 symbols", "Password lenght must be greater than 6 symbols", "Password is req"]'>
-		</div>
+			<div
+				app-error-msg = 'form.email.$error'
+				error = '[email, required && vm.reqCheck, exist]'
+				msg = '["Wrong Email", "Email is req", "Email already exists"]'>
+			</div>
 
-		<input
-			required
-			type = 'password'
-			ng-model = 'vm.repassword'
-			ng-pattern = 'vm.user.password'
-			name = 'repassword'
-			ng-focus = 'vm.repasswordBlur = false;'
-			ng-blur = 'vm.repasswordBlur = true;'>
-		</input><br>
+			<input
+				required
+				type = 'password'
+				ng-model = 'vm.user.password'
+				ng-minlength = '6'
+				ng-maxlength = '35'
+				name = 'password'>
+			</input>
 
-		<div
-			app-error-msg
-			use = 'form.repassword.$error as $e'
-			error = '[$e.pattern && vm.repasswordBlur, $e.required && vm.reqCheck]'
-			msg = '["Wrong rePass", "Please re enter password"]'>
-		</div>
+			<div
+				app-error-msg = 'form.password.$error'
+				error = '[minlength, maxlength, required && vm.reqCheck]'
+				msg = '["Password lenght must be greater than 6 symbols", "Password lenght must be greater than 6 symbols", "Password is req"]'>
+			</div>
 
-	  <button
-			ng-click = 'vm.register(form.$invalid || form.$pending)'>
-				Register
-		</button><br>
+			<input
+				required
+				type = 'password'
+				ng-model = 'vm.repassword'
+				ng-pattern = 'vm.user.password'
+				name = 'repassword'
+				ng-focus = 'vm.repasswordBlur = false;'
+				ng-blur = 'vm.repasswordBlur = true;'>
+			</input>
+
+			<div
+				app-error-msg = 'form.repassword.$error'
+				error = '[pattern && vm.repasswordBlur, required && vm.reqCheck]'
+				msg = '["Wrong rePass", "Please re enter password"]'>
+			</div>
+
+		  <button
+				ng-click = 'vm.register(form.$invalid || form.$pending)'>
+					Register
+			</button>
 
 </form>
 

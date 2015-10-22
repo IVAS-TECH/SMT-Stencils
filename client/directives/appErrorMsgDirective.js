@@ -2,38 +2,30 @@ function Directive () {
   var directive = {};
   directive.restrict = 'A';
   directive.link = link;
-
-  function link (scope, element, attributes, ngModel) {
+  function link (scope, element, attributes) {
     var messages = scope.$eval(attributes.msg);
-
-    if(attributes.use) {
-      var expretion = attributes.use.split(' as '),
-        access = '.',
-        replaced = expretion[0] + access,
-        replacer = expretion[1] + access,
-        delimiter = ',',
-        items = attributes.error.split(delimiter),
-        done = items.map(replace);
-
-      attributes.error = done.join(delimiter);
-      
-      function replace (item) {
-        var newItem = item.replace(replacer, replaced);
-        return newItem;
+    var error = attributes[directiveName];
+    if(error) {
+      scope.$watchCollection(error, getKeys);
+      function getKeys (newValue, oldValue) {
+        var replace = Object.keys(newValue);
+        for(var i = 0;i < replace.length; ++i)
+          attributes.error = attributes.error.replace(replace[i], error + '.' + replace[i]);
+        scope.$watchCollection(attributes.error, showErrorMsg);
       }
     }
+    else
+      scope.$watchCollection(attributes.error, showErrorMsg);
 
-    scope.$watchCollection(attributes.error, showErrorMsg);
-
-    function showErrorMsg (newCollection) {
-      for(var i = 0;i < newCollection.length; ++i)
-        if(newCollection[i] === true) {
-          element.html(messages[i]);
-          return;
-        }
-        element.html('');
+     function showErrorMsg (newCollection) {
+       for(var i = 0;i < newCollection.length; ++i)
+          if(newCollection[i] === true) {
+            element.html(messages[i]);
+            return;
+          }
+          element.html('');
+      }
     }
-  }
 
   return directive;
 }
