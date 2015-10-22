@@ -5,6 +5,9 @@ var express = require('express'),
   monk = require('monk'),
   register = require('./routes/register'),
   walk = require('walk'),
+  login = require('./routes/login'),
+  session = require('./session'),
+  sessObj = session.create();
 
   fileMaper = {},
   db = monk('0.0.0.0:27017/app'),
@@ -16,8 +19,9 @@ var express = require('express'),
 
 walker.on('file', addToFileMaper);
 
-app.use(dbAccess);
 app.use(bodyParser.json());
+app.use(access);
+app.use(session.use());
 app.use('/register', register);
 app.use('/login', login);
 app.use(serveMapedFile);
@@ -27,8 +31,9 @@ app.use(error);
 server = server.createServer(app);
 server.listen(process.env.PORT || port);
 
-function dbAccess(req,res,next) {
+function access(req, res, next) {
   req.db = db;
+  req.session = sessObj;
   next();
 }
 
@@ -62,16 +67,4 @@ function serveMapedFile(req, res, next) {
     res.sendFile(fileMaper[req.url]);
   else
     next();
-}
-
-function login(req, res) {
-  var collection = db.get('users'),
-    user = req.body.user;
-  collection.findOne(user, found);
-
-  function found(err, result) {
-    var done = {};
-    done.success = result !== null;
-    res.send(done);
-  }
 }
