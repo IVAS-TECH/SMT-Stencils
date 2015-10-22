@@ -2,6 +2,13 @@
 	novalidate
 	name = 'form'>
 
+	<div
+		app-error-msg
+		error = '[vm.registered, vm.failed]'
+		msg = '["You have beed registered please Login", "Something whent wrong"]'>
+	</div>
+
+
 		<input
 			app-async-validator
 			when = '{ exist : form.email.$valid }'
@@ -15,7 +22,7 @@
 		<div
 			app-error-msg
 			use = 'form.email.$error as $e'
-			error = '[$e.email, $e.required, $e.exist]'
+			error = '[$e.email, $e.required && vm.reqCheck, $e.exist]'
 			msg = '["Wrong Email", "Email is req", "Email already exists"]'>
 		</div>
 
@@ -31,7 +38,7 @@
 		<div
 			app-error-msg
 			use = 'form.password.$error as $e'
-			error = '[$e.minlength, $e.maxlength, $e.required]'
+			error = '[$e.minlength, $e.maxlength, $e.required && vm.reqCheck]'
 			msg = '["Password lenght must be greater than 6 symbols", "Password lenght must be greater than 6 symbols", "Password is req"]'>
 		</div>
 
@@ -48,13 +55,12 @@
 		<div
 			app-error-msg
 			use = 'form.repassword.$error as $e'
-			error = '[$e.pattern && vm.repasswordBlur, $e.required]'
+			error = '[$e.pattern && vm.repasswordBlur, $e.required && vm.reqCheck]'
 			msg = '["Wrong rePass", "Please re enter password"]'>
 		</div>
 
 	  <button
-			ng-disabled = 'form.$invalid || form.$pending'
-			ng-click = 'vm.register()'>
+			ng-click = 'vm.register(form.$invalid || form.$pending)'>
 				Register
 		</button><br>
 

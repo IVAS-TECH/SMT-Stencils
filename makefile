@@ -20,11 +20,12 @@ build:
 	cp ./bower_components/lodash/lodash.js ./client/dependencies/lodash.js
 
 unset:
-	rm -R ./client/dependencies/*
+	rm -Rf ./client/dependencies
+	mkdir -p ./client/dependencies
 
 clean:
-	rm -R ./bower_components
-	rm -R ./node_modules
+	rm -Rf ./bower_components
+	rm -Rf ./node_modules
 
 mongo:
 	mkdir ./server/data

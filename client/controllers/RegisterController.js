@@ -8,27 +8,52 @@ function Controller($location, Restangular, $q) {
   vm.user.password;
   vm.repassword;
   vm.repasswordBlur = true;
+  vm.reqCheck = false;
+  vm.registered = false;
+  vm.failed = false;
   vm.register = register;
   vm.back = back;
   vm.exist = exist;
 
-  function register() {
-    var user = {};
-    user.user = vm.user;
-    rest.post(user);
+  function register(invalid) {
+    if(!vm.reqCheck)
+      vm.reqCheck = true;
+    if(!invalid) {
+      var user = {};
+      user.user = vm.user;
+      vm.registered = vm.failed = false;
+      rest.post(user).then(success);
+    }
+
+    function success(res) {
+      if(res.msg === '') {
+        vm.registered = true;
+        reset();
+      }
+      else
+        vm.failed = true;
+
+      function reset() {
+        var reseted = '';
+        vm.reqCheck = false;
+        vm.user.email = reseted;
+        vm.user.password = reseted;
+        vm.repassword = reseted;
+      }
+    }
   }
 
   function back() {
     $location.path('/login');
   }
 
-  function exist (modelValue, viewValue) {
+  function exist(modelValue, viewValue) {
     var promise = new Promise(resolver);
 
-    function resolver (resolve, reject) {
+    function resolver(resolve, reject) {
       rest.get(modelValue).then(success);
 
-      function success (res) {
+      function success(res) {
         if (res.user)
           reject();
         else
