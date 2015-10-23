@@ -1,11 +1,12 @@
+<div
+	app-error-msg
+	error = '[vm.failed, vm.logout]'
+	msg = '["Wrong Email", vm.logoutMsg]'>
+</div>
+
 <form
 	novalidate
 	name = 'login'>
-
-		<div
-			ng-if = 'vm.failed'
-			ng-bind = '"Something whent wrong"'>
-		</div>
 
 		<input
 			required
@@ -37,7 +38,7 @@
 
 
 		<button
-			ng-click = 'vm.doLogin(login.$invalid)'
+			ng-click = 'vm.doLogIn(login.$invalid)'
 			ng-bind = '"Login"'>
 		</button>
 
@@ -48,9 +49,8 @@
 	name = 'register'>
 
 		<div
-			app-error-msg
-			error = '[vm.registered, vm.failed]'
-			msg = '["You have beed registered please Login", "Something whent wrong"]'>
+			ng-if = 'vm.registered'
+			ng-bind = '"You have beed registered please Login"'>
 		</div>
 
 		<input

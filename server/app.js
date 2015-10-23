@@ -4,27 +4,24 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   monk = require('monk'),
   register = require('./routes/register'),
-  walk = require('walk'),
   login = require('./routes/login'),
-  session = require('./session');
+  logout = require('./routes/logout'),
+  session = require('./session'),
+  mapDir = require('./mapDir');
 
-  fileMaper = {},
   db = monk('0.0.0.0:27017/app'),
   clientDir = '../client',
   clientDir = path.join(__dirname, clientDir),
-  walker = walk.walk(clientDir),
   port = 3000,
-  app = express();
-
-walker.on('file', addToFileMaper);
-
-db.options.safe = false;
+  app = express(),
+  fileMaper = mapDir(clientDir);
 
 app.use(bodyParser.json());
 app.use(access);
 app.use(session.use());
 app.use('/register', register);
 app.use('/login', login);
+app.use('/logout', logout);
 app.use(serveMapedFile);
 app.use(request);
 app.use(error);
@@ -45,15 +42,6 @@ function request(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
-}
-
-function addToFileMaper(root, fileStats, next) {
-  var name = fileStats.name,
-    file = name.split('.'),
-    resource = path.join(root, name),
-    mapped = '/' + file[0];
-  fileMaper[mapped] = resource;
-  next();
 }
 
 function serveMapedFile(req, res, next) {

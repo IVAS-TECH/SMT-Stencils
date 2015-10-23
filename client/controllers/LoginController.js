@@ -15,9 +15,11 @@ function Controller(Restangular, $location, $rootScope) {
   vm.reqCheckLogin = false;
   vm.registered = false;
   vm.failed = false;
+  vm.logout = $rootScope.logout ? true : false;
+  vm.logoutMsg = $rootScope.logout ? $rootScope.logout : '';
   vm.exist = exist;
   vm.doRegister = doRegister;
-  vm.doLogin = doLogin;
+  vm.doLogIn = doLogIn;
 
   function doRegister(invalid) {
     vm.registered = vm.failed = false;
@@ -47,7 +49,7 @@ function Controller(Restangular, $location, $rootScope) {
     }
   }
 
-  function doLogin(invalid) {
+  function doLogIn(invalid) {
     if(!vm.reqCheckLogin)
       vm.reqCheckLogin = true;
     if(!invalid) {
