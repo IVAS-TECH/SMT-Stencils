@@ -38,8 +38,7 @@ function access(req, res, next) {
 }
 
 function error(err, req, res, next) {
-  var error = 'error.html';
-  res.sendFile(path.join(clientDir, error));
+  res.sendFile(fileMaper['/error']);
 }
 
 function request(req, res, next) {

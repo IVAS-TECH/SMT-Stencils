@@ -2,7 +2,7 @@ var express = require('express'),
   router = express.Router();
 
 router.post('/', login);
-router.get('/', logedin);
+router.get('/', loggedin);
 
 function login(req, res) {
   var collection = db.get('users'),
@@ -18,10 +18,10 @@ function login(req, res) {
   }
 }
 
-function logedin(req, res) {
+function loggedin(req, res) {
   var status = {};
   status.success = req.session.isMapedIp(req.ip);
-  if(status.success) 
+  if(status.success)
     status.user = req.session.find(req.ip);
   res.send(status);
 }
