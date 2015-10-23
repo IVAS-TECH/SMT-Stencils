@@ -1,6 +1,6 @@
-Controller.$inject = ['Restangular', '$location'];
+Controller.$inject = ['Restangular', '$location', '$rootScope'];
 
-function Controller(Restangular, $location) {
+function Controller(Restangular, $location, $rootScope) {
   var vm = this,
     restReg = Restangular.all('register');
   vm.register = {};
@@ -58,8 +58,10 @@ function Controller(Restangular, $location) {
     }
 
     function success(res) {
-      if(res.success)
+      if(res.success) {
+        $rootScope.user = login.user.email;
         $location.path('/app');
+      }
       else
         vm.failed = true;
     }

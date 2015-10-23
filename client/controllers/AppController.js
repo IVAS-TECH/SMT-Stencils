@@ -1,8 +1,10 @@
 import { default as reqLogin } from 'reqLogin'
 
-function Controller() {
+Controller.$inject = ['Restangular', '$rootScope']
+
+function Controller(Restangular, $rootScope) {
   var vm = this;
-  vm.date;
+  vm.user = $rootScope.user;
 }
 
 var controllerName = 'appController',

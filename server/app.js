@@ -6,8 +6,7 @@ var express = require('express'),
   register = require('./routes/register'),
   walk = require('walk'),
   login = require('./routes/login'),
-  session = require('./session'),
-  sessObj = session.create();
+  session = require('./session');
 
   fileMaper = {},
   db = monk('0.0.0.0:27017/app'),
@@ -35,7 +34,6 @@ server.listen(process.env.PORT || port);
 
 function access(req, res, next) {
   req.db = db;
-  req.session = sessObj;
   next();
 }
 

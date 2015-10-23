@@ -6,13 +6,8 @@ router.get('/', logedin);
 
 function login(req, res) {
   var collection = db.get('users'),
-    user = req.body.user,
-    email = user.email;
-
-  delete user.email;
-  user._id = email;
-  console.log(user);
-  collection.findById(user, found);
+    user = req.body.user;
+  collection.findOne(user, found);
 
   function found(err, result) {
     var done = {};
@@ -25,7 +20,9 @@ function login(req, res) {
 
 function logedin(req, res) {
   var status = {};
-  status.secret = req.session.findKey(req.ip);
+  status.success = req.session.isMapedIp(req.ip);
+  if(status.success) 
+    status.user = req.session.find(req.ip);
   res.send(status);
 }
 
