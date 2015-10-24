@@ -1,7 +1,4 @@
-<button
-  ng-bind = 'vm.user'>
-</button>
-<button
-  ng-click = 'vm.doLogOut()'
-  ng-bind = '"Log out"'>
-</button>
+  <div>
+    <md-button app-disabled>{{vm.user}}</md-button>
+    <md-button ng-click='vm.doLogOut()' class='md-warn md-raised'>Log Out</md-button>
+  </div>

@@ -1,6 +1,6 @@
-Controller.$inject = ['Restangular', '$location', '$rootScope'];
+Controller.$inject = ['Restangular', '$location', '$rootScope', '$mdToast'];
 
-function Controller(Restangular, $location, $rootScope) {
+function Controller(Restangular, $location, $rootScope, $mdToast) {
     var vm = this,
         restReg = Restangular.all('register');
     vm.register = {};
@@ -10,16 +10,33 @@ function Controller(Restangular, $location, $rootScope) {
     vm.login.email;
     vm.login.password;
     vm.repassword;
-    vm.repasswordBlur = true;
     vm.reqCheckReg = false;
     vm.reqCheckLogin = false;
     vm.registered = false;
     vm.failed = false;
     vm.logout = $rootScope.logout ? true : false;
-    vm.logoutMsg = $rootScope.logout ? $rootScope.logout : '';
     vm.exist = exist;
     vm.doRegister = doRegister;
     vm.doLogIn = doLogIn;
+    if(vm.logout)
+      showToast();
+
+    function showToast() {
+      var toast = $mdToast.simple(),
+        pos = 'top left fit';
+      toast.content($rootScope.logout);
+      toast.action('OK');
+      toast.highlightAction(true);
+      toast.hideDelay(30000);
+      toast.position(pos);
+      $mdToast.show(toast).then(isOk);
+      delete $rootScope.logout;
+
+      function isOk(res) {
+        if(res === 'ok')
+          $mdToast.hide(toast);
+      }
+    }
 
     function doRegister(invalid) {
         vm.registered = vm.failed = false;

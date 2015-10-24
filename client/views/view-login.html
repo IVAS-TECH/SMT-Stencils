@@ -1,4 +1,4 @@
-<div>
+<div ng-cloak>
     <form novalidate name='login'>
         <md-content layout-padding layout='row' layout-sm='column'>
             <md-input-container>
@@ -6,7 +6,7 @@
                 <input required type='email' ng-model='vm.login.email' name='loginEmail' />
                 <div ng-messages='login.loginEmail.$error'>
                     <div ng-message='email'>Wrong Email</div>
-                    <div ng-message='required' ng-show='vm.reqCheckLogin'>Email is req</div>
+                    <div ng-message='required' ng-if='vm.reqCheckLogin'>Email is req</div>
                 </div>
             </md-input-container>
             <md-input-container>
@@ -15,42 +15,42 @@
                 <div ng-messages='login.loginPass.$error'>
                     <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
                     <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
-                    <div ng-message='required' ng-show='vm.reqCheckLogin'>Password is req</div>
+                    <div ng-message='required' ng-if='vm.reqCheckLogin'>Password is req</div>
                 </div>
             </md-input-container>
             <md-button ng-click='vm.doLogIn(login.$invalid)' aria-label='Login' class='md-primary'>Login</md-button>
             <md-content>
     </form>
 </div>
-<md-content layout-padding>
-    <form novalidate name='register'>
-        <div layout='row'>
-            <md-input-container>
-                <label>Email</label>
-                <input app-async-validator when='{ exist : register.regEmail.$valid }' for='{ exist : vm.exist }' required type='email' ng-model='vm.register.email' name='regEmail' />
-								<div ng-messages='register.regEmail.$error'>
-                    <div ng-message='email'>Wrong Email</div>
-                    <div ng-message='required' ng-show='vm.reqCheckReg'>Email is req</div>
-                </div>
-            </md-input-contaner>
-            <md-input-container>
-                <label>Password</label>
-                <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='regPass' />
-								<div ng-messages='register.regPass.$error'>
-                    <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
-                    <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
-                    <div ng-message='required' ng-show='vm.reqCheckReg'>Password is req</div>
-                </div>
-            </md-input-contaner>
-            <md-input-container>
-                <label>Re enter Password</label>
-                <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='regRepass' ng-focus='vm.repasswordBlur = false;' ng-blur='vm.repasswordBlur = true;' />
-								<div ng-messages='register.regRepass.$error'>
-                    <div ng-message='pattern' ng-show='vm.repasswordBlur'>Wrong rePass</div>
-                    <div ng-message='required' ng-show='vm.reqCheckReg'>Please re enter password</div>
-                </div>
-            </md-input-contaner>
+<div layout='colum' ng-cloak>
+  <md-content layout-padding layout='row' layout-sm='column'>
+    <form novalidate name="register">
+      <md-input-container>
+        <label>Email</label>
+        <input required type='email' ng-model='vm.register.email' name='regEmail' app-async-validator when='{ exist : register.regEmail.$valid }' for='{ exist : vm.exist }' />
+				<div ng-messages='register.regEmail.$error'>
+            <div ng-message='email'>Wrong Email</div>
+            <div ng-message='required' ng-if='vm.reqCheckReg'>Email is req</div>
         </div>
-        <md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-primary'>Register</md-button>
+      </md-input-container>
+      <md-input-container>
+        <label>Password</label>
+        <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='regPass' />
+				<div ng-messages='register.regPass.$error'>
+            <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
+            <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
+            <div ng-message='required' ng-if='vm.reqCheckReg'>Password is req</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Re enter Password</label>
+        <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='regRepass' />
+				<div ng-messages='register.regRepass.$error'>
+            <div ng-message='pattern'>Wrong rePass</div>
+            <div ng-message='required' ng-if='vm.reqCheckReg'>Please re enter password</div>
+        </div>
+      </md-input-container>
+			<md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-primary'>Register</md-button>
     </form>
-</md-content>
+  </md-content>
+</div>

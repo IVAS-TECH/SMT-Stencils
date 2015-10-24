@@ -18,7 +18,7 @@ function Directive () {
     function doLogOut() {
       Restangular.one('logout');
       delete $rootScope.user;
-      $rootScope.logout = vm.user + ' You have beed logouted';
+      $rootScope.logout = vm.user + ' You have beed Log Outed!';
       $location.path('/login');
     }
   }
