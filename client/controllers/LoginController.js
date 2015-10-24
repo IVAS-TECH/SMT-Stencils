@@ -14,12 +14,11 @@ function Controller(Restangular, $location, $rootScope, $mdToast) {
     vm.exist = exist;
     vm.doRegister = doRegister;
     if(vm.logout)
-      showToast();
+      showToast($rootScope.logout, 'bottom right');
 
-    function showToast() {
-      var toast = $mdToast.simple(),
-        pos = 'top right fit';
-      toast.content($rootScope.logout);
+    function showToast(content, pos) {
+      var toast = $mdToast.simple();
+      toast.content(content);
       toast.action('OK');
       toast.highlightAction(true);
       toast.hideDelay(30000);
@@ -43,6 +42,8 @@ function Controller(Restangular, $location, $rootScope, $mdToast) {
             register.user = vm.register;
             restReg.post(register).then(success);
         }
+        else
+          showToast('Make sure all fields are valid', 'bottom right');
 
         function success(res) {
             if (!res.error) {
