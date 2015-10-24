@@ -24,6 +24,7 @@ function Controller(Restangular, $location, $rootScope, $mdToast) {
       toast.highlightAction(true);
       toast.hideDelay(30000);
       toast.position(pos);
+      toast.theme('appTheme');
       $mdToast.show(toast).then(isOk);
       delete $rootScope.logout;
 
