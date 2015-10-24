@@ -1,3 +1,5 @@
+import { Controller } from 'appLoggedInController';
+
 function Directive () {
   var directive = {},
     url = 'view-logged-in';
@@ -8,20 +10,6 @@ function Directive () {
   directive.controllerAs = 'vm';
   directive.bindToController = true;
   directive.scope = true;
-
-  Controller.$inject = ['$rootScope', 'Restangular', '$location'];
-  function Controller($rootScope, Restangular, $location) {
-    var vm = this;
-    vm.user = $rootScope.user;
-    vm.doLogOut = doLogOut;
-
-    function doLogOut() {
-      Restangular.one('logout');
-      delete $rootScope.user;
-      $rootScope.logout = vm.user + ' You have beed Log Outed!';
-      $location.path('/login');
-    }
-  }
 
   return directive;
 }

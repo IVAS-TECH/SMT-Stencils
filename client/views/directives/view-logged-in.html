@@ -1,4 +1,4 @@
-  <div>
-    <md-button app-disabled>{{vm.user}}</md-button>
+<div ng-show='vm.loggedIn' app-float-right>
+    <md-input app-disabled>{{vm.user}}</md-input>
     <md-button ng-click='vm.doLogOut()' class='md-warn md-raised'>Log Out</md-button>
-  </div>
+</div>

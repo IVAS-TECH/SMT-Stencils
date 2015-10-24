@@ -1,29 +1,5 @@
-<div ng-cloak>
-    <form novalidate name='login'>
-        <md-content layout-padding layout='row' layout-sm='column'>
-            <md-input-container>
-                <label>Email</label>
-                <input required type='email' ng-model='vm.login.email' name='loginEmail' />
-                <div ng-messages='login.loginEmail.$error'>
-                    <div ng-message='email'>Wrong Email</div>
-                    <div ng-message='required' ng-if='vm.reqCheckLogin'>Email is req</div>
-                </div>
-            </md-input-container>
-            <md-input-container>
-                <label>Password</label>
-                <input required type='password' ng-model='vm.login.password' ng-minlength='6' ng-maxlength='35' name='loginPass' />
-                <div ng-messages='login.loginPass.$error'>
-                    <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
-                    <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
-                    <div ng-message='required' ng-if='vm.reqCheckLogin'>Password is req</div>
-                </div>
-            </md-input-container>
-            <md-button ng-click='vm.doLogIn(login.$invalid)' aria-label='Login' class='md-primary'>Login</md-button>
-            <md-content>
-    </form>
-</div>
-<div layout='colum' ng-cloak>
-  <md-content layout-padding layout='row' layout-sm='column'>
+<div ng-cloak app-float-right>
+  <md-content>
     <form novalidate name="register">
       <md-input-container>
         <label>Email</label>
@@ -50,7 +26,7 @@
             <div ng-message='required' ng-if='vm.reqCheckReg'>Please re enter password</div>
         </div>
       </md-input-container>
-			<md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-primary'>Register</md-button>
+			<md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-warn md-raised'>Register</md-button>
     </form>
   </md-content>
 </div>

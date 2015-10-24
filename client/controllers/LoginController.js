@@ -6,24 +6,19 @@ function Controller(Restangular, $location, $rootScope, $mdToast) {
     vm.register = {};
     vm.register.email;
     vm.register.password;
-    vm.login = {};
-    vm.login.email;
-    vm.login.password;
     vm.repassword;
     vm.reqCheckReg = false;
-    vm.reqCheckLogin = false;
     vm.registered = false;
     vm.failed = false;
     vm.logout = $rootScope.logout ? true : false;
     vm.exist = exist;
     vm.doRegister = doRegister;
-    vm.doLogIn = doLogIn;
     if(vm.logout)
       showToast();
 
     function showToast() {
       var toast = $mdToast.simple(),
-        pos = 'top left fit';
+        pos = 'top right fit';
       toast.content($rootScope.logout);
       toast.action('OK');
       toast.highlightAction(true);
@@ -62,25 +57,6 @@ function Controller(Restangular, $location, $rootScope, $mdToast) {
                 vm.register.password = reseted;
                 vm.repassword = reseted;
             }
-        }
-    }
-
-    function doLogIn(invalid) {
-        if (!vm.reqCheckLogin)
-            vm.reqCheckLogin = true;
-        if (!invalid) {
-            var login = {},
-                restLogin = Restangular.all('login');
-            login.user = vm.login;
-            restLogin.post(login).then(success);
-        }
-
-        function success(res) {
-            if (res.success) {
-                $rootScope.user = login.user.email;
-                $location.path('/app');
-            } else
-                vm.failed = true;
         }
     }
 

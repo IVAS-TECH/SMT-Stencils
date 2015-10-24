@@ -7,6 +7,11 @@
 </head>
 
 <body>
+    <md-toolbar style='display:inline-table'>
+      <h1 app-float-left class='md-display-1'>Ivas-Tech</h1>
+      <app-log-in></app-log-in>
+      <app-logged-in></app-logged-in>
+    </md-toolbar>
     <div ng-view id='appView'></div>
 
     <script src='lodash'>
