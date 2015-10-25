@@ -1,22 +1,11 @@
 import { config, controllers } from 'config';
 import { directives } from 'appDirectives';
+import { services } from 'appServices';
 
 var moduleName = 'app';
 
-function configTheme ($mdThemingProvider) {
-  $mdThemingProvider
-    .theme('appTheme')
-      .primaryPalette('teal')
-      .accentPalette('indigo')
-      .warnPalette('red')
-      .backgroundPalette('blue-grey')
-      .dark()
-      .dark();
-}
-
 angular
-  .module(moduleName, ['ngRoute', 'ngMaterial', 'ngMessages', controllers.moduleName, directives.moduleName])
-    .config(config)
-    .config(configTheme);
-
+  .module(moduleName, ['ngRoute', 'ngMaterial', 'ngMessages', controllers.moduleName, directives.moduleName, services.moduleName])
+    .config(config);
+    
 export var app = moduleName;

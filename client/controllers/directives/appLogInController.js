@@ -7,15 +7,7 @@ function Controller(Restangular, $location, $rootScope) {
     vm.login.email;
     vm.login.password;
     vm.reqCheckLogin = false;
-    vm.notLoggedIn = !$rootScope.hasOwnProperty(prop);
     vm.doLogIn = doLogIn;
-
-    $rootScope.$watch(prop, logOuted);
-
-    function logOuted(newValue) {
-      if(!newValue)
-        vm.notLoggedIn = true;
-    }
 
     function doLogIn(invalid) {
         if (!vm.reqCheckLogin)
@@ -32,8 +24,7 @@ function Controller(Restangular, $location, $rootScope) {
                 vm.notLoggedIn = false;
                 $rootScope[prop] = login.user.email;
                 $location.path('/app');
-            } else
-                vm.failed = true;
+            } // else
         }
     }
 }
