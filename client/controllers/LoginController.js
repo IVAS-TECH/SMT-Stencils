@@ -24,6 +24,9 @@ function Controller(Restangular, $location, $rootScope, $mdToast) {
       toast.hideDelay(30000);
       toast.position(pos);
       toast.theme('appTheme');
+      delete toast._options.template;
+      toast._options.templateUrl = 'ToastTemplate';
+
       $mdToast.show(toast).then(isOk);
       delete $rootScope.logout;
 

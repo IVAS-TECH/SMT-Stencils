@@ -15,7 +15,6 @@ function Controller(Restangular, $location, $rootScope) {
     function logOuted(newValue) {
       if(!newValue)
         vm.notLoggedIn = true;
-
     }
 
     function doLogIn(invalid) {

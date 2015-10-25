@@ -1,33 +1,55 @@
-<div ng-cloak app-float-right class='md-display-1'>
-  <md-toolbar align='center' class='md-warn md-display-1'><p>Register</p></md-toolbar>
-  <md-content>
-    <form novalidate name="register">
-      <md-input-container>
-        <label>Email</label>
-        <input required type='email' ng-model='vm.register.email' name='regEmail' app-async-validator when='{ exist : register.regEmail.$valid }' for='{ exist : vm.exist }' />
-				<div ng-messages='register.regEmail.$error'>
-            <div ng-message='email'>Wrong Email</div>
-            <div ng-message='required' ng-if='vm.reqCheckReg'>Email is req</div>
-        </div>
-      </md-input-container>
-      <md-input-container>
-        <label>Password</label>
-        <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='regPass' />
-				<div ng-messages='register.regPass.$error'>
-            <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
-            <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
-            <div ng-message='required' ng-if='vm.reqCheckReg'>Password is req</div>
-        </div>
-      </md-input-container>
-      <md-input-container>
-        <label>Re enter Password</label>
-        <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='regRepass' />
-				<div ng-messages='register.regRepass.$error'>
-            <div ng-message='pattern'>Wrong rePass</div>
-            <div ng-message='required' ng-if='vm.reqCheckReg'>Please re enter password</div>
-        </div>
-      </md-input-container>
-			<md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-warn md-raised'>Register</md-button>
-    </form>
-  </md-content>
-</div>
+
+<md-content>
+  <div ng-cloak app-float-right class='md-display-1'>
+    <md-toolbar align='center' class='md-warn md-display-1'><p>Register</p></md-toolbar>
+    <md-content>
+      <form novalidate name="register">
+        <md-input-container>
+          <label>Email</label>
+          <input required type='email' ng-model='vm.register.email' name='regEmail' app-async-validator when='{ exist : register.regEmail.$valid }' for='{ exist : vm.exist }' />
+  				<div ng-messages='register.regEmail.$error'>
+              <div ng-message='email'>Wrong Email</div>
+              <div ng-message='required' ng-if='vm.reqCheckReg'>Email is req</div>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>Password</label>
+          <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='regPass' />
+  				<div ng-messages='register.regPass.$error'>
+              <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
+              <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
+              <div ng-message='required' ng-if='vm.reqCheckReg'>Password is req</div>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>Re enter Password</label>
+          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='regRepass' />
+  				<div ng-messages='register.regRepass.$error'>
+              <div ng-message='pattern'>Wrong rePass</div>
+              <div ng-message='required' ng-if='vm.reqCheckReg'>Please re enter password</div>
+          </div>
+        </md-input-container>
+  			<md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-warn md-raised'>Register</md-button>
+      </form>
+    </md-content>
+  </div>
+  <app-log-in></app-log-in>
+  <md-tabs class='md-accent' md-dynamic-height md-border-bottom md-border-top>
+    <md-tab md-on-select='$location.path("/login")'>
+      <md-tab-label>
+        <md-button class='md-primary md-raised'>About</md-button>
+      </md-tab-label>
+      <md-tab-body>
+        <br><br><br<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      </md-tab-body>
+    </md-tab>
+    <md-tab>
+      <md-tab-label>
+        <md-button class='md-primary md-raised'>Contact</md-button>
+      </md-tab-label>
+      <md-tab-body>
+        BBBBBB
+      </md-tab-body>
+    </md-tab>
+  </md-tabs>
+</md-content>
