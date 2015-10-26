@@ -1,12 +1,22 @@
 import { config } from 'config';
 import { run } from 'run';
 import { appDirectives } from 'appDirectives';
-import { appServices } from 'appServices'
+import { appServices } from 'appServices';
 
-var moduleName = 'app';
+var moduleName = 'app',
+  dependencies = [
+    'ui.router.stateHelper',
+    'ct.ui.router.extras',
+    'restangular',
+    'ui.router',
+    'ngMaterial',
+    'ngMessages',
+    appDirectives.moduleName,
+    appServices.moduleName
+  ];
 
 angular
-  .module(moduleName, ['restangular', 'ui.router', 'ngMaterial', 'ngMessages', appDirectives.moduleName, appServices.moduleName])
+  .module(moduleName, dependencies)
     .config(config)
     .run(run);
 
