@@ -2,7 +2,8 @@ Controller.$inject = ['Restangular', '$state', '$rootScope'];
 
 function Controller(Restangular, $state, $rootScope) {
     var vm = this,
-      prop = 'user';
+      prop = 'user',
+      state = 'user.home';
     vm.login = {};
     vm.login.email;
     vm.login.password;
@@ -23,7 +24,7 @@ function Controller(Restangular, $state, $rootScope) {
             if (res.success) {
                 vm.notLoggedIn = false;
                 $rootScope[prop] = login.user.email;
-                $state.go('user');
+                $state.go(state);
             } // else
         }
     }

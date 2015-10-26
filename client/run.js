@@ -5,12 +5,12 @@ function run($rootScope, $state, Restangular) {
   if($rootScope.user)
     $state.$go('user');
 
-  Restangular.all('login').get('').then(success);
+  Restangular.all('login.home').get('').then(success);
 
   function success(res) {
     if(res.success) {
         $rootScope.user = res.user;
-        $state.go('user');
+        $state.go('user.home');
     }
   }
   $state.go('login');

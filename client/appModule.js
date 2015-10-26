@@ -2,6 +2,7 @@ import { config } from 'config';
 import { run } from 'run';
 import { appDirectives } from 'appDirectives';
 import { appServices } from 'appServices';
+import { appControllers } from 'appControllers';
 
 var moduleName = 'app',
   dependencies = [
@@ -12,7 +13,8 @@ var moduleName = 'app',
     'ngMaterial',
     'ngMessages',
     appDirectives.moduleName,
-    appServices.moduleName
+    appServices.moduleName,
+    appControllers.moduleName
   ];
 
 angular

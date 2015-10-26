@@ -1,5 +1,12 @@
-var moduleName = 'appControllers';
+import { viewUserController } from 'viewUserController';
+
+var moduleName = 'appControllers',
+  appControllers = {};
+
+appControllers.moduleName = moduleName;
 
 angular
-  .module(moduleName, []);
-    //.controller(settingsController.controllerName, settingsController.controller);
+  .module(moduleName, [])
+    .controller(viewUserController.controllerName, viewUserController.controller);
+
+export var appControllers = appControllers;
