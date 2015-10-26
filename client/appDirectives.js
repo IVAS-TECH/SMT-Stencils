@@ -6,10 +6,10 @@ import { appRegisterDirective } from 'appRegisterDirective';
 import { appFloatRightDirective } from 'appFloatRightDirective';
 import { appFloatLeftDirective } from 'appFloatLeftDirective';
 
-var moduleName = 'directives',
-  directives = {};
+var moduleName = 'appDirectives',
+  appDirectives = {};
 
-directives.moduleName = moduleName;
+appDirectives.moduleName = moduleName;
 
 angular
   .module(moduleName, [])
@@ -21,4 +21,4 @@ angular
     .directive(appFloatRightDirective.directiveName, appFloatRightDirective.directive)
     .directive(appFloatLeftDirective.directiveName, appFloatLeftDirective.directive);
 
-export var directives = directives;
+export var appDirectives = appDirectives;

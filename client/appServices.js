@@ -1,12 +1,12 @@
 import { appShowToastService } from 'AppShowToastService';
 
-var moduleName = 'services',
-  services = {};
+var moduleName = 'appServices',
+  appServices = {};
 
-services.moduleName = moduleName;
+appServices.moduleName = moduleName;
 
 angular
   .module(moduleName, [])
     .factory(appShowToastService.serviceName, appShowToastService.service);
 
-export var services = services;
+export var appServices = appServices;
