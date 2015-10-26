@@ -3,19 +3,19 @@
         <md-content layout-padding layout='row'>
             <md-input-container>
                 <label>Email</label>
-                <input required type='email' ng-model='vm.login.email' name='loginEmail' />
-                <div ng-messages='login.loginEmail.$error'>
+                <input required type='email' ng-model='vm.login.email' name='email' />
+                <div ng-messages='login.email.$error'>
                     <div ng-message='email'>Wrong Email</div>
-                    <div ng-message='required' ng-if='vm.reqCheckLogin'>Email is req</div>
+                    <div ng-message='required' ng-if='vm.reqCheckLogin || login.email.$dirty'>Email is req</div>
                 </div>
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
-                <input required type='password' ng-model='vm.login.password' ng-minlength='6' ng-maxlength='35' name='loginPass' />
-                <div ng-messages='login.loginPass.$error'>
+                <input required type='password' ng-model='vm.login.password' ng-minlength='6' ng-maxlength='35' name='pass' />
+                <div ng-messages='login.pass.$error'>
                     <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
                     <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
-                    <div ng-message='required' ng-if='vm.reqCheckLogin'>Password is req</div>
+                    <div ng-message='required' ng-if='vm.reqCheckLogin || login.pass.$dirty'>Password is req</div>
                 </div>
             </md-input-container>
             <md-button ng-click='vm.doLogIn(login.$invalid)' aria-label='Login' class='md-accent md-raised'>Login</md-button>

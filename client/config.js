@@ -6,28 +6,41 @@ function config(stateHelperProvider, $mdThemingProvider) {
 }
 
 function configStates(stateHelperProvider) {
-  var loginState = {},
-    loginHomeState = {},
-    loginAboutState = {},
-    loginTechState = {},
-    loginContactState = {},
-    userState = {};
+  var loginHomeState = {},
+    userHomeState = {},
+    aboutState = {},
+    techState = {},
+    contactState = {},
+    loginState = {},
+    userState = {},
+    common = [aboutState, techState, contactState],
+    loginChild = [],
+    userChild = [];
 
+  loginHomeState.name = 'home';
+  loginHomeState.template = ' Login Home';
+  userHomeState.name = 'home';
+  userHomeState.template = 'User Home';
+  aboutState.name = 'about';
+  aboutState.template = "About";
+  techState.name = 'tech';
+  techState.template = "Tech";
+  contactState.name = 'contact';
+  contactState.template = "Contact";
+
+  loginChild = angular.copy(common);
+  loginChild.push(loginHomeState);
   loginState.name = 'login';
   loginState.templateUrl = 'view-login';
   loginState.deepStateRedirect = true;
-  loginState.children = [loginHomeState, loginAboutState, loginTechState, loginContactState];
-  loginHomeState.name = 'home';
-  loginHomeState.template = 'Home';
-  loginAboutState.name = 'about';
-  loginAboutState.template = "About";
-  loginTechState.name = 'tech';
-  loginTechState.template = "Tech";
-  loginContactState.name = 'contact';
-  loginContactState.template = "Contact";
+  loginState.children = loginChild;
 
+  userChild = angular.copy(common);
+  userChild.push(userHomeState);
   userState.name = 'user';
   userState.templateUrl = 'view-user';
+  userState.deepStateRedirect = true;
+  userState.children = userChild;
 
   stateHelperProvider
     .state(loginState)
@@ -36,7 +49,7 @@ function configStates(stateHelperProvider) {
 
 function configTheme($mdThemingProvider) {
   $mdThemingProvider
-    .theme('appTheme')
+    .theme('default')
       .primaryPalette('teal')
       .accentPalette('indigo')
       .warnPalette('red')

@@ -2,3 +2,10 @@
   <div app-float-left class='md-display-4'>IVAS-TECH</div>
   <app-logged-in app-float-right></app-log-in>
 </md-toolbar>
+<div>
+  <md-button ng-click='go("user.home")' class='md-accent md-raised'>Home</md-button>
+  <md-button ng-click='go("user.about")' class='md-accent md-raised'>About Us</md-button>
+  <md-button ng-click='go("user.tech")' class='md-accent md-raised'>Technologies</md-button>
+  <md-button ng-click='go("user.contact")' class='md-accent md-raised'>Contact Us</md-button>
+</div>
+<ui-view></ui-view>
