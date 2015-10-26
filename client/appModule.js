@@ -4,8 +4,13 @@ import { services } from 'appServices';
 
 var moduleName = 'app';
 
+function run($rootScope, $state) {
+  $rootScope.go = $state.go;
+}
+
 angular
-  .module(moduleName, ['ngRoute', 'ngMaterial', 'ngMessages', controllers.moduleName, directives.moduleName, services.moduleName])
-    .config(config);
-    
+  .module(moduleName, ['ui.router', 'ngMaterial', 'ngMessages', controllers.moduleName, directives.moduleName, services.moduleName])
+    .config(config)
+    .run(run);
+
 export var app = moduleName;

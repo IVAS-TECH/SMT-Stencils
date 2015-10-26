@@ -1,13 +1,24 @@
 import { controllers as $controllers } from 'appControllers';
 
-config.$inject = ['$routeProvider', '$mdThemingProvider'];
+config.$inject = ['$stateProvider', '$mdThemingProvider'];
 
-function config($routeProvider, $mdThemingProvider){
-  $routeProvider
+function config($stateProvider, $mdThemingProvider){
+/*  $routeProvider
     .when($controllers.appController.url, $controllers.appController.config)
     .when('/login', {templateUrl : 'view-login'})
     .when($controllers.settingsController.url, $controllers.settingsController.config)
-    .otherwise(root);
+    .otherwise(root);*/
+
+    $stateProvider
+      .state('login', {
+        templateUrl: 'view-login'
+      })
+      .state('user', {
+        templateUrl: 'view-user'
+      });
+
+
+      //$rootScope.go = $state.go;
 
     $mdThemingProvider
       .theme('appTheme')

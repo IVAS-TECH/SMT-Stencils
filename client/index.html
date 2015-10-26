@@ -7,16 +7,16 @@
 </head>
 
 <body md-theme='appTheme'>
-    <md-toolbar style='display:inline-table'>
-      <p app-float-left class='md-display-3'>IVAS-TECH</p>
-      <app-logged-in></app-logged-in>
-    </md-toolbar>
-    <ng-view></ng-view>
+    <md-button ng-click='go("login")'>Login</md-button>
+    <md-button ng-click='go("user")'>User</md-button>
+    <md-content>
+      <ui-view></ui-view>
+    </md-content>
     <script src='lodash'>
     </script>
     <script src='angular'>
     </script>
-    <script src='angular-route'>
+    <script src='angular-ui-router'>
     </script>
     <script src='angular-aria'>
     </script>

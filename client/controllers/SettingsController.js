@@ -1,5 +1,3 @@
-import { default as reqLogin } from 'reqLogin'
-
 function Controller() {
   var vm = this;
   vm.date;
@@ -12,8 +10,6 @@ var controllerName = 'settingsController',
   resolve = {},
   config = {},
   settingsController = {};
-
-resolve.reqLogin = reqLogin;
 
 config.templateUrl = tmpUrl;
 config.controller = controllerName;

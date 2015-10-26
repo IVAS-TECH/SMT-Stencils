@@ -1,4 +1,4 @@
-reqLogin.$inject = ['$location', 'Restangular', '$rootScope'];
+/*reqLogin.$inject = ['$location', 'Restangular', '$rootScope'];
 
 function reqLogin($location, Restangular, $rootScope) {
     if($rootScope.user)
@@ -16,4 +16,4 @@ function reqLogin($location, Restangular, $rootScope) {
     }
 }
 
-export default reqLogin;
+export default reqLogin;*/

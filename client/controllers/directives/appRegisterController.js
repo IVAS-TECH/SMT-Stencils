@@ -1,6 +1,6 @@
-Controller.$inject = ['Restangular', '$location', '$rootScope', 'AppShowToast', '$scope'];
+Controller.$inject = ['Restangular', '$rootScope', 'AppShowToast'];
 
-function Controller(Restangular, $location, $rootScope, AppShowToast) {
+function Controller(Restangular, $rootScope, AppShowToast) {
     var vm = this,
         restReg = Restangular.all('register'),
         pos = 'bottom right';

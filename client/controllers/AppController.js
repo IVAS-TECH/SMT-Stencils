@@ -1,5 +1,3 @@
-import { default as reqLogin } from 'reqLogin'
-
 Controller.$inject = ['Restangular', '$rootScope']
 
 function Controller(Restangular, $rootScope) {
@@ -15,7 +13,6 @@ var controllerName = 'appController',
   config = {},
   appController = {};
 
-resolve.reqLogin = reqLogin;
 
 config.templateUrl = tmpUrl;
 config.controller = controllerName;
