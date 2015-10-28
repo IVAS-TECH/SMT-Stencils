@@ -1,10 +1,7 @@
-Controller.$inject = ['Restangular', '$state', '$rootScope', 'AppShowDialog'];
+Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog'];
 
-function Controller(Restangular, $state, $rootScope, AppShowDialog) {
-    var vm = this,
-      prop = 'user',
-      state = 'user.home',
-      pos = 'top right';
+function Controller(Restangular, $rootScope, AppShowDialog) {
+    var vm = this;
     vm.login = {};
     vm.login.email;
     vm.login.password;
@@ -26,11 +23,10 @@ function Controller(Restangular, $state, $rootScope, AppShowDialog) {
         function success(res) {
             if (res.success) {
                 vm.notLoggedIn = false;
-                $rootScope[prop] = login.user.email;
-                $state.go(state);
+                $rootScope.user = login.user.email;
             }
             else
-              AppShowDialog('Wrong email or password', pos);
+              AppShowDialog('Wrong email or password!');
         }
     }
 }

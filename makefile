@@ -25,6 +25,7 @@ move:
 	cp ./bower_components/angular-material/angular-material.css ./client/dependencies/angular-material-css.css
 	cp ./bower_components/restangular/dist/restangular.js ./client/dependencies/restangular.js
 	cp ./bower_components/lodash/lodash.js ./client/dependencies/lodash.js
+	cp ./bower_components/jquery/dist/jquery.js ./client/dependencies/jquery.js
 
 unset:
 	rm -Rf ./client/dependencies

@@ -1,19 +1,20 @@
 run.$inject = ['$rootScope', '$state', 'Restangular'];
 
 function run($rootScope, $state, Restangular) {
-  $rootScope.go=$state.go;
   if($rootScope.user)
-    $state.$go('user');
+    $state.go('home');
 
-  Restangular.all('login.home').get('').then(success);
+  Restangular
+    .all('login')
+      .get('')
+        .then(success);
 
   function success(res) {
-    if(res.success) {
-        $rootScope.user = res.user;
-        $state.go('user.home');
-    }
+    if(res.success)
+      $rootScope.user = res.user;
   }
-  $state.go('login');
+  
+  $state.go('home');
 }
 
 export var run = run;

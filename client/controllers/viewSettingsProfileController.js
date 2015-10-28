@@ -1,7 +1,7 @@
 Controller.$inject = ['$mdDialog'];
 
-var controllerName = 'viewUserSettingsProfileController',
-  viewUserSettingsProfileController = {};
+var controllerName = 'viewSettingsProfileController',
+  viewSettingsProfileController = {};
 
 function Controller($mdDialog) {
   var vm = this;
@@ -34,7 +34,7 @@ function Controller($mdDialog) {
   }
 }
 
-viewUserSettingsProfileController.controllerName = controllerName;
-viewUserSettingsProfileController.controller = Controller;
+viewSettingsProfileController.controllerName = controllerName;
+viewSettingsProfileController.controller = Controller;
 
-export var viewUserSettingsProfileController = viewUserSettingsProfileController;
+export var viewSettingsProfileController = viewSettingsProfileController;

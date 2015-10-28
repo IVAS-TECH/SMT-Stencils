@@ -6,26 +6,20 @@ function config(stateHelperProvider, $mdThemingProvider) {
 }
 
 function configStates(stateHelperProvider) {
-  var loginHomeState = {},
-    userHomeState = {},
+  var homeState = {},
     aboutState = {},
     techState = {},
     contactState = {},
-    loginState = {},
-    userState = {},
-    userSettingsProfileState = {},
-    userSettingsConfigsState = {},
-    userSettingsDeliveryState = {},
-    userSettingsState = {},
-    common = [aboutState, techState, contactState],
-    loginChild = [],
-    userChild = [];
+    settingsState = {},
+    settingsProfileState = {},
+    settingsConfigsState = {},
+    settingsDeliveryState = {};
 
-  loginHomeState.name = 'home';
-  loginHomeState.template = ' Login Home';
-
-  userHomeState.name = 'home';
-  userHomeState.templateUrl = 'view-user-home';
+  homeState.name = 'home';
+  homeState.templateUrl = 'view-home';
+  homeState.controller = 'viewHomeController as vm';
+  homeState.children = [aboutState, techState, contactState, settingsState];
+  homeState.dsr = true;
 
   aboutState.name = 'about';
   aboutState.template = "About";
@@ -36,44 +30,25 @@ function configStates(stateHelperProvider) {
   contactState.name = 'contact';
   contactState.template = "Contact";
 
-  userSettingsProfileState.name = 'profile';
-  userSettingsProfileState.templateUrl = 'view-user-settings-profile';
-  userSettingsProfileState.controller = 'viewUserSettingsProfileController as vm';
+  settingsState.name = 'settings';
+  settingsState.templateUrl = 'view-settings';
+  settingsState.children = [settingsProfileState];//, SettingsConfigsState, SettingsDeliveryState];
+  settingsState.dsr = true;
 
-  userSettingsState.name = 'settings';
-  userSettingsState.templateUrl = 'view-user-settings';
-  userSettingsState.children = [userSettingsProfileState];//, userSettingsConfigsState, userSettingsDeliveryState];
-
-  loginChild = angular.copy(common);
-  loginChild.push(loginHomeState);
-
-  loginState.name = 'login';
-  loginState.templateUrl = 'view-login';
-  loginState.deepStateRedirect = true;
-  loginState.children = loginChild;
-
-  userChild = angular.copy(common);
-  userChild.push(userHomeState);
-  userChild.push(userSettingsState);
-
-  userState.name = 'user';
-  userState.templateUrl = 'view-user';
-  userState.deepStateRedirect = true;
-  userState.controller = 'viewUserController as vm';
-  userState.children = userChild;
-
+  settingsProfileState.name = 'profile';
+  settingsProfileState.templateUrl = 'view-settings-profile';
+  settingsProfileState.controller = 'viewSettingsProfileController as vm';
 
   stateHelperProvider
-    .state(loginState)
-    .state(userState);
+    .state(homeState);
 }
 
 function configTheme($mdThemingProvider) {
   $mdThemingProvider
     .theme('default')
       .primaryPalette('teal')
-      .accentPalette('indigo')
-      .warnPalette('red')
+      .accentPalette('deep-purple')
+      .warnPalette('yellow')
       .backgroundPalette('blue-grey')
       .dark()
       .dark();

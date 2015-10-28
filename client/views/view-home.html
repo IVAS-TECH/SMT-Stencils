@@ -1,0 +1,15 @@
+<md-toolbar style='display:inline-table' layout="row" layout-align="space-between center">
+  <div app-float-left class='md-display-4'>IVAS-TECH</div>
+  <md-button class='md-raised md-warn' md-no-ink app-disabled>Stencils</md-button>
+  <app-logged-in ng-if='user' app-float-right></app-logged-in>
+  <app-log-in ng-if='!user' app-float-right></app-log-in>
+</md-toolbar>
+<div>
+  <md-button ng-repeat='btn in vm.btns' ng-click='vm.goToState(vm.click[$index])' class='md-accent md-raised'>{{btn}}</md-button>
+</div>
+<md-divider></md-divider>
+<ui-view ng-if='user'></ui-view>
+<div ng-if='!user'>
+  <ui-view app-float-left></ui-view>
+  <app-register app-float-right></app-register>
+</div>

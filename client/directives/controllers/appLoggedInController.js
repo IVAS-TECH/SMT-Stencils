@@ -7,10 +7,12 @@ function Controller($rootScope, Restangular, $state, AppShowDialog) {
   function doLogOut() {
     var msg = ' You have beed Log Outed!',
       logouted = $rootScope.user + msg;
-    Restangular.one('logout');
+      Restangular
+        .all('logout')
+          .get('');
     delete $rootScope.user;
+    $state.go('home', {} , {reload : true, ignoreDsr : true});
     AppShowDialog(logouted);
-    $state.go('login');
   }
 }
 
