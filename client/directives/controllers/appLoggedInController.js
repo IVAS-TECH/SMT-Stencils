@@ -1,6 +1,6 @@
-Controller.$inject = ['$rootScope', 'Restangular', '$state', 'AppShowToast'];
+Controller.$inject = ['$rootScope', 'Restangular', '$state', 'AppShowDialog'];
 
-function Controller($rootScope, Restangular, $state, AppShowToast) {
+function Controller($rootScope, Restangular, $state, AppShowDialog) {
   var vm = this;
   vm.doLogOut = doLogOut;
 
@@ -9,7 +9,7 @@ function Controller($rootScope, Restangular, $state, AppShowToast) {
       logouted = $rootScope.user + msg;
     Restangular.one('logout');
     delete $rootScope.user;
-    AppShowToast(logouted, 'bottom right');
+    AppShowDialog(logouted);
     $state.go('login');
   }
 }

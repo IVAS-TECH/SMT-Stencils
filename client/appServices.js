@@ -1,4 +1,4 @@
-import { appShowToastService } from 'AppShowToastService';
+import { appShowDialogService } from 'AppShowDialogService';
 
 var moduleName = 'appServices',
   appServices = {};
@@ -7,6 +7,6 @@ appServices.moduleName = moduleName;
 
 angular
   .module(moduleName, [])
-    .factory(appShowToastService.serviceName, appShowToastService.service);
+    .factory(appShowDialogService.serviceName, appShowDialogService.service);
 
 export var appServices = appServices;

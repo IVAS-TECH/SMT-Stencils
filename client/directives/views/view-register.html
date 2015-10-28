@@ -1,6 +1,6 @@
 <div ng-cloak class='md-display-1'>
   <md-toolbar align='center' class='md-warn md-display-1'><p>Register</p></md-toolbar>
-  <md-content>
+  <div>
     <form novalidate name="register">
       <md-input-container>
         <label>Email</label>
@@ -30,5 +30,5 @@
       </md-input-container>
       <md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-warn md-raised'>Register</md-button>
     </form>
-  </md-content>
+  </div>
 </div>

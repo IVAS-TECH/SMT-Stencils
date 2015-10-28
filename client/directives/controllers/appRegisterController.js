@@ -1,9 +1,8 @@
-Controller.$inject = ['Restangular', '$rootScope', 'AppShowToast'];
+Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog'];
 
-function Controller(Restangular, $rootScope, AppShowToast) {
+function Controller(Restangular, $rootScope, AppShowDialog) {
     var vm = this,
-        restReg = Restangular.all('register'),
-        pos = 'bottom right';
+        restReg = Restangular.all('register');
     vm.register = {};
     vm.register.email;
     vm.register.password;
@@ -22,11 +21,11 @@ function Controller(Restangular, $rootScope, AppShowToast) {
             restReg.post(register).then(success);
         }
         else
-          AppShowToast('Make sure all fields are valid', pos);
+          AppShowDialog('Make sure all fields are valid');
 
         function success(res) {
             if (!res.error) {
-              AppShowToast('You have beed registered. Please Log In', pos);
+              AppShowDialog('You have beed registered. Please Log In');
               reset();
             } //else
 

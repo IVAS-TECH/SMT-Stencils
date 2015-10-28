@@ -12,7 +12,7 @@ var express = require('express'),
   db = monk('0.0.0.0:27017/app'),
   clientDir = '../client',
   clientDir = path.join(__dirname, clientDir),
-  port = 3001,
+  port = 3000,
   app = express(),
   fileMaper = mapDir(clientDir);
 

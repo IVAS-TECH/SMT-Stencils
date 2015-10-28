@@ -1,4 +1,4 @@
-<md-toolbar style='display:inline-table' layout-padding layout='column'>
+<md-toolbar style='display:inline-table' layout="row" layout-align="space-between center">
   <div app-float-left class='md-display-4'>IVAS-TECH</div>
   <app-log-in app-float-right></app-log-in>
 </md-toolbar>
@@ -8,5 +8,5 @@
   <md-button ng-click='go("login.tech")' class='md-accent md-raised'>Technologies</md-button>
   <md-button ng-click='go("login.contact")' class='md-accent md-raised'>Contact Us</md-button>
 </div>
-<ui-view></ui-view>
+<ui-view app-float-left></ui-view>
 <app-register app-float-right></app-register>

@@ -1,0 +1,34 @@
+<md-dialog ng-cloak>
+  <md-dialog-content class='md-display-1 md-dialog-content'>
+    <div class='md-actions'>
+      <md-button ng-click="dialog.abort()" class="md-primary">Close</md-button>
+    </div>
+    <h2 align='center' class='md-title'>
+      Confirm action
+    </h2>
+    <div class='md-dialog-content-body'>
+      <form novalidate name="confirm">
+        <md-input-container>
+          <label>Password</label>
+          <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='pass' />
+          <div ng-messages='register.pass.$error'>
+              <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
+              <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
+              <div ng-message='required' ng-if='vm.reqCheckReg || register.pass.$dirty'>Password is req</div>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>Re enter Password</label>
+          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='repass' />
+          <div ng-messages='register.repass.$error'>
+              <div ng-message='pattern'>Wrong rePass</div>
+              <div ng-message='required' ng-if='vm.reqCheckReg || register.pass.$dirty'>Please re enter password</div>
+          </div>
+        </md-input-container>
+        <div class='md-actions'>
+          <md-button ng-click='vm.doConfirm(confirm.$valid)' class='md-accent' md-autofocus='true'>Confirm</md-button>
+        </div>
+      </form>
+    </div>
+  </md-dialog-content>
+</md-dialog>

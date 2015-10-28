@@ -13,6 +13,9 @@ function configStates(stateHelperProvider) {
     contactState = {},
     loginState = {},
     userState = {},
+    userSettingsProfileState = {},
+    userSettingsConfigsState = {},
+    userSettingsDeliveryState = {},
     userSettingsState = {},
     common = [aboutState, techState, contactState],
     loginChild = [],
@@ -33,8 +36,13 @@ function configStates(stateHelperProvider) {
   contactState.name = 'contact';
   contactState.template = "Contact";
 
+  userSettingsProfileState.name = 'profile';
+  userSettingsProfileState.templateUrl = 'view-user-settings-profile';
+  userSettingsProfileState.controller = 'viewUserSettingsProfileController as vm';
+
   userSettingsState.name = 'settings';
   userSettingsState.templateUrl = 'view-user-settings';
+  userSettingsState.children = [userSettingsProfileState];//, userSettingsConfigsState, userSettingsDeliveryState];
 
   loginChild = angular.copy(common);
   loginChild.push(loginHomeState);
@@ -51,7 +59,7 @@ function configStates(stateHelperProvider) {
   userState.name = 'user';
   userState.templateUrl = 'view-user';
   userState.deepStateRedirect = true;
-  userState.controller = 'viewUserController';
+  userState.controller = 'viewUserController as vm';
   userState.children = userChild;
 
 

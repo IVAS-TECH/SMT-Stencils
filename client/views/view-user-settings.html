@@ -1,1 +1,21 @@
-Settingss
+<div app-float-right>
+  <md-toolbar>Settings</md-toolbar>
+  <md-list>
+    <md-divider></md-divider>
+    <md-list-item>
+      <md-button class='md-accent md-raised' ng-click='go("user.settings.profile")'>Profile</md-button>
+    </md-list-item>
+    <md-divider></md-divider>
+    <md-list-item>
+      <md-button class='md-accent md-raised'>Configurations</md-button>
+    </md-list-item>
+    <md-divider></md-divider>
+    <md-list-item>
+      <md-button class='md-accent md-raised'>Delivery</md-button>
+    </md-list-item>
+    <md-divider></md-divider>
+  </md-list>
+</div>
+<div layout='row' layout-align='center center'>
+  <ui-view></ui-view>
+</div>
