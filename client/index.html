@@ -1,46 +1,18 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <title>Ivo</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='stylesheet' href='angular-material-css' />
-</head>
-
-<body>
-    <md-content height='device-height'>
-      <ui-view></ui-view>
-    </md-content>
-    <script src='jquery'>
-    </script>
-    <script src='lodash'>
-    </script>
-    <script src='angular'>
-    </script>
-    <script src='angular-ui-router'>
-    </script>
-    <script src='ct-ui-router-extras'>
-    </script>
-    <script src='statehelper'>
-    </script>
-    <script src='angular-aria'>
-    </script>
-    <script src='angular-animate'>
-    </script>
-    <script src='angular-messages'>
-    </script>
-    <script src='angular-material'>
-    </script>
-    <script src='restangular'>
-    </script>
-    <script src='es6-module-loader-dev'>
-    </script>
-    <script src='set'>
-    </script>
-    <script type='module'>
-        import { } from 'boot'
-    </script>
-
-</body>
-
+  <head>
+      <title>Ivo</title>
+      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+      <link rel='stylesheet' href='angular-material-css' />
+  </head>
+  <body>
+      <md-content height='device-height'>
+        <ui-view></ui-view>
+      </md-content>
+      <script src='dependencies'></script>
+      <script src='set'></script>
+      <script type='module'>
+          import { } from 'boot'
+      </script>
+  </body>
 </html>

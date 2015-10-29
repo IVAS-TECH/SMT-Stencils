@@ -48,7 +48,7 @@ function configTheme($mdThemingProvider) {
     .theme('default')
       .primaryPalette('teal')
       .accentPalette('deep-purple')
-      .warnPalette('yellow')
+      .warnPalette('amber')
       .backgroundPalette('blue-grey')
       .dark()
       .dark();

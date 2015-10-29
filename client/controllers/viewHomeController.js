@@ -6,7 +6,7 @@ var controllerName = 'viewHomeController',
 function Controller($state, $rootScope, AppShowDialog) {
   var vm = this,
     common = ['about', 'tech', 'contact'],
-    loggedIn = ['settings'],
+    loggedIn = ['settings.profile'],
     notLogged = [''];
   vm.btns = ['About Us', 'Technologies', 'Contact Us', 'Settings'];
   vm.click = [];

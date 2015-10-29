@@ -11,9 +11,9 @@ function login(req, res) {
 
   function found(err, result) {
     var done = {};
-    if(result !== null)
-      req.session.mapIp(req.ip, user.email);
     done.success = result !== null;
+    if(done.success)
+      req.session.mapIp(req.ip, result._id);
     res.send(done);
   }
 }
@@ -21,9 +21,17 @@ function login(req, res) {
 function loggedin(req, res) {
   var status = {};
   status.success = req.session.isMapedIp(req.ip);
-  if(status.success)
-    status.user = req.session.find(req.ip);
-  res.send(status);
+  if(status.success) {
+    status.user = {};
+    var collection = db.get('users');
+    collection.findById(req.session.find(req.ip), found);
+
+    function found(err, result) {
+      status.user.email = result.email;
+      status.user.password = result.password;
+      res.send(status);
+    }
+  }
 }
 
 module.exports = router;

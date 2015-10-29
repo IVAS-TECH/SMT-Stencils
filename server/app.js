@@ -6,6 +6,7 @@ var express = require('express'),
   register = require('./routes/register'),
   login = require('./routes/login'),
   logout = require('./routes/logout'),
+  profile = require('./routes/profile'),
   session = require('./session'),
   mapDir = require('./mapDir');
 
@@ -22,6 +23,7 @@ app.use(session.use());
 app.use('/register', register);
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/profile', profile);
 app.use(serveMapedFile);
 app.use(request);
 app.use(error);

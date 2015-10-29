@@ -23,7 +23,7 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
         function success(res) {
             if (res.success) {
                 vm.notLoggedIn = false;
-                $rootScope.user = login.user.email;
+                $rootScope.user = login.user;
             }
             else
               AppShowDialog('Wrong email or password!');

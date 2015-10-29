@@ -1,21 +1,21 @@
-Controller.$inject = ['$mdDialog', 'AppShowDialog'];
-//Controller.$inject.push('AppShowDialog');
+Controller.$inject = ['$mdDialog', 'Restangular'];
 
 var controllerName = 'templateConfirmAccessController',
   templateConfirmAccessController = {};
 
-function Controller($mdDialog, AppShowDialog) {
+function Controller($mdDialog, Restangular) {
   var vm = this;
-
-
   vm.doConfirm = doConfirm;
-  function doConfirm(valid) {
-    console.log(vm.data);
-    $mdDialog.hide("bot");
-    if(valid)
-      AppShowDialog("Bot");
 
+  function doConfirm(valid) {
+    var rest = Restangular.all('profile');
+    rest.post(vm.data).then(success);
+
+    function success(res) {
+      console.log(res.success);
+    }
   }
+
 }
 
 templateConfirmAccessController.controllerName = controllerName;
