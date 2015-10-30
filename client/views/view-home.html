@@ -1,5 +1,5 @@
-<md-toolbar style='display:inline-table' layout="row" layout-align="space-between center">
-  <div app-float-left class='md-display-4'>IVAS-TECH</div>
+<md-toolbar style='display:inline-table' layout='row' layout-align='space-between center'>
+  <h1 app-float-left>IVAS-TECH</h1>
   <md-button class='md-raised md-warn' md-no-ink app-disabled>Stencils</md-button>
   <app-log-out ng-if='user' app-float-right></app-log-out>
   <app-log-in ng-if='!user' app-float-right></app-log-in>
@@ -11,5 +11,5 @@
 <ui-view ng-if='user'></ui-view>
 <div ng-if='!user'>
   <ui-view app-float-left></ui-view>
-  <app-register app-float-right></app-register>
+  <app-register app-float-right layout-margin></app-register>
 </div>
