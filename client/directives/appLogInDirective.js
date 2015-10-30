@@ -1,8 +1,8 @@
-import { Controller } from 'appLogInController';
+import { Controller } from 'directiveAppLogInController';
 
 function Directive () {
   var directive = {},
-    url = 'view-log-in';
+    url = 'directive-app-log-in';
 
   directive.restrict = 'E';
   directive.templateUrl = url;

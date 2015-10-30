@@ -1,6 +1,6 @@
 import { appAsyncValidatorDirective } from 'appAsyncValidatorDirective';
 import { appDisabledDirective } from 'appDisabledDirective';
-import { appLoggedInDirective } from 'appLoggedInDirective';
+import { appLogOutDirective } from 'appLogOutDirective';
 import { appLogInDirective } from 'appLogInDirective';
 import { appRegisterDirective } from 'appRegisterDirective';
 import { appFloatRightDirective } from 'appFloatRightDirective';
@@ -15,7 +15,7 @@ angular
   .module(moduleName, [])
     .directive(appAsyncValidatorDirective.directiveName, appAsyncValidatorDirective.directive)
     .directive(appDisabledDirective.directiveName, appDisabledDirective.directive)
-    .directive(appLoggedInDirective.directiveName, appLoggedInDirective.directive)
+    .directive(appLogOutDirective.directiveName, appLogOutDirective.directive)
     .directive(appLogInDirective.directiveName, appLogInDirective.directive)
     .directive(appRegisterDirective.directiveName, appRegisterDirective.directive)
     .directive(appFloatRightDirective.directiveName, appFloatRightDirective.directive)

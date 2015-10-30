@@ -1,7 +1,7 @@
 <md-toolbar style='display:inline-table' layout="row" layout-align="space-between center">
   <div app-float-left class='md-display-4'>IVAS-TECH</div>
   <md-button class='md-raised md-warn' md-no-ink app-disabled>Stencils</md-button>
-  <app-logged-in ng-if='user' app-float-right></app-logged-in>
+  <app-log-out ng-if='user' app-float-right></app-log-out>
   <app-log-in ng-if='!user' app-float-right></app-log-in>
 </md-toolbar>
 <div>

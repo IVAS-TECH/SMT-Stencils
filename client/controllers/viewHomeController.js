@@ -6,14 +6,13 @@ var controllerName = 'viewHomeController',
 function Controller($state, $rootScope, AppShowDialog) {
   var vm = this,
     common = ['about', 'tech', 'contact'],
-    loggedIn = ['settings.profile'],
-    notLogged = [''];
+    rest = ['settings.profile'];
   vm.btns = ['About Us', 'Technologies', 'Contact Us', 'Settings'];
   vm.click = [];
   vm.goToState = goToState;
-  init($rootScope.user);
+  setOnclick($rootScope.user);
 
-  $rootScope.$watch('user', init);
+  $rootScope.$watch('user', setOnclick);
 
   function goToState(state) {
     if(!state) {
@@ -23,20 +22,16 @@ function Controller($state, $rootScope, AppShowDialog) {
     $state.go(state);
   }
 
-  function init(check) {
-    if(check)
-      setOnclick(loggedIn);
-    else
-      setOnclick(notLogged);
-  }
-
-  function setOnclick(clicks) {
+  function setOnclick(isLogIn) {
     var res = angular.copy(common);
-    clicks.forEach(add);
+    rest.forEach(add);
     vm.click = res.map(makeState);
 
     function add(item) {
-        res.push(item);
+        if(isLogIn)
+          res.push(item);
+        else
+          res.push('');
     }
 
     function makeState(item) {

@@ -1,8 +1,8 @@
-import { Controller } from 'appRegisterController';
+import { Controller } from 'directiveAppRegisterController';
 
 function Directive () {
   var directive = {},
-    url = 'view-register';
+    url = 'directive-app-register';
 
   directive.restrict = 'E';
   directive.templateUrl = url;
