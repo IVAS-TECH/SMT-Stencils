@@ -12,7 +12,7 @@ function login(req, res) {
   function found(err, result) {
     var done = {};
     done.success = result !== null;
-    if(done.success)
+    if(done.success && req.body.session)
       req.session.mapIp(req.ip, result._id);
     res.send(done);
   }

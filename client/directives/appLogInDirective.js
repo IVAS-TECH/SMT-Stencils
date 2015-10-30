@@ -1,12 +1,9 @@
-import { Controller } from 'directiveAppLogInController';
-
 function Directive () {
   var directive = {},
     url = 'directive-app-log-in';
-
   directive.restrict = 'E';
   directive.templateUrl = url;
-  directive.controller = Controller;
+  directive.controller = 'directiveAppLogInController';
   directive.controllerAs = 'vm';
   directive.bindToController = true;
   directive.scope = true;

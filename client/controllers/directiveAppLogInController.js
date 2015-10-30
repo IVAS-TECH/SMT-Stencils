@@ -1,10 +1,14 @@
 Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog'];
 
+var controllerName = 'directiveAppLogInController',
+  directiveAppLogInController = {};
+
 function Controller(Restangular, $rootScope, AppShowDialog) {
     var vm = this;
     vm.login = {};
     vm.login.email;
     vm.login.password;
+    vm.session = true;
     vm.reqCheckLogin = false;
     vm.doLogIn = doLogIn;
 
@@ -15,6 +19,7 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
             var login = {},
                 restLogin = Restangular.all('login');
             login.user = vm.login;
+            login.session = vm.session;
             restLogin.post(login).then(success);
         }
         else
@@ -31,4 +36,7 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
     }
 }
 
-export var Controller = Controller;
+directiveAppLogInController.controllerName = controllerName;
+directiveAppLogInController.controller = Controller;
+
+export var directiveAppLogInController = directiveAppLogInController

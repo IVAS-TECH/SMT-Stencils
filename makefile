@@ -38,7 +38,6 @@ dependencies:
 clear:
 	rm -Rf ./bower_componentss
 	rm -Rf ./node_modules
-	rm -Rf ./client/dependencies
 
 clean:
 	rm -Rf ./bower_components

@@ -19,6 +19,16 @@
                 </div>
             </md-input-container>
             <md-button ng-click='vm.doLogIn(login.$valid)' aria-label='Login' class='md-accent md-raised'>Login</md-button>
-            <md-content>
+        </md-content>
+        <div layout='row' layout-align='space-between center'>
+          <md-switch class='md-accent' ng-model='vm.session'>
+            <md-button app-disabled>
+              Stay logged in
+            </md-button>
+          </md-switch>
+          <md-button class='md-warn md-hue-1'>
+            forgot password
+          <md-button>
+        </div>
     </form>
 </div>

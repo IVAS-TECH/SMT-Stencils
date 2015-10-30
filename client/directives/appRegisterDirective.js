@@ -1,21 +1,18 @@
-import { Controller } from 'directiveAppRegisterController';
+var directiveName = 'appRegister',
+  appRegisterDirective = {};
 
 function Directive () {
   var directive = {},
     url = 'directive-app-register';
-
   directive.restrict = 'E';
   directive.templateUrl = url;
-  directive.controller = Controller;
+  directive.controller = 'directiveAppRegisterController';
   directive.controllerAs = 'vm';
   directive.bindToController = true;
   directive.scope = true;
 
   return directive;
 }
-
-var directiveName = 'appRegister',
-  appRegisterDirective = {};
 
 appRegisterDirective.directiveName = directiveName;
 appRegisterDirective.directive = Directive;

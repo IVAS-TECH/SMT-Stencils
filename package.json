@@ -17,11 +17,12 @@
   },
   "homepage": "https://github.com/NoHomey/diplomna3#readme",
   "dependencies": {
-    "body-parser": "~1.13.2",
-    "express": "~4.13.1",
-    "monk": "~1.0.1",
-    "babel-core": "~5.8.25",
-    "es6-module-loader": "~0.17.7",
-    "walk": "~2.3.9"
+    "body-parser": "1.13.2",
+    "express": "4.13.1",
+    "monk": "1.0.1",
+    "babel-core": "5.8.25",
+    "es6-module-loader": "0.17.7",
+    "walk": "2.3.9",
+    "fs-extra": "0.26.0"
   }
 }

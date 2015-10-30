@@ -1,5 +1,8 @@
 Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog'];
 
+var controllerName = 'directiveAppRegisterController',
+  directiveAppRegisterController = {};
+
 function Controller(Restangular, $rootScope, AppShowDialog) {
     var vm = this,
         restReg = Restangular.all('register');
@@ -63,4 +66,7 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
     }
 }
 
-export var Controller = Controller;
+directiveAppRegisterController.controllerName = controllerName;
+directiveAppRegisterController.controller = Controller;
+
+export var directiveAppRegisterController = directiveAppRegisterController;
