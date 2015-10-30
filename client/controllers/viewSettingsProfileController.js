@@ -1,15 +1,30 @@
-Controller.$inject = ['$mdDialog'];
+Controller.$inject = ['$mdDialog', 'AppShowDialog'];
 
 var controllerName = 'viewSettingsProfileController',
   viewSettingsProfileController = {};
 
-function Controller($mdDialog) {
+function Controller($mdDialog, AppShowDialog) {
   var vm = this;
   vm.email;
   vm.password;
+  vm.reqCheckPass = false;
+  vm.reqCheckEmail = false;
+
   vm.lunchConfirm = lunchConfirm;
 
-  function lunchConfirm(event, change, value) {
+  function lunchConfirm(event, valid, change, value) {
+    if(!valid) {
+      if((change === 'password') && !vm.reqCheckPass) {
+        vm.reqCheckPass = true;
+        return;
+      }
+      if((change === 'email') && !vm.reqCheckEmail) {
+        vm.reqCheckEmail = true;
+        return;
+      }
+      AppShowDialog('Please make sure that the new ' + change + 'is valid!');
+      return;
+    }
     var dialog = {},
       locals = {};
     locals.data = {};
@@ -23,14 +38,7 @@ function Controller($mdDialog) {
     dialog.locals = locals;
     dialog.bindToController = true;
 
-    $mdDialog
-      .show(dialog)
-        .then(ans);
-
-    function ans(a) {
-      console.log(a);
-    }
-
+    $mdDialog.show(dialog);
   }
 }
 

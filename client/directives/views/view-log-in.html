@@ -18,7 +18,7 @@
                     <div ng-message='required' ng-if='vm.reqCheckLogin || login.pass.$dirty'>Password is req</div>
                 </div>
             </md-input-container>
-            <md-button ng-click='vm.doLogIn(login.$invalid)' aria-label='Login' class='md-accent md-raised'>Login</md-button>
+            <md-button ng-click='vm.doLogIn(login.$valid)' aria-label='Login' class='md-accent md-raised'>Login</md-button>
             <md-content>
     </form>
 </div>

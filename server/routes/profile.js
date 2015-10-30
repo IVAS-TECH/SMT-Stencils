@@ -9,17 +9,13 @@ function profile(req, res) {
     change = {},
     set = {};
   find = req.session.find(req.ip);
-  console.log("find", find);
   change[req.body.type] = req.body.value;
   set.$set = change;
-  console.log("set", set);
   collection.updateById(find, set, found);
-  collection.find({}, function(e, d) {console.log(d);});
 
   function found(err, result) {
-    console.log(err, result);
     var done = {};
-    done.success = result !== null;
+    done.success = ((result !== null) && (err === null));
     res.send(done);
   }
 }

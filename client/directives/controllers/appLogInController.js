@@ -8,10 +8,10 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
     vm.reqCheckLogin = false;
     vm.doLogIn = doLogIn;
 
-    function doLogIn(invalid) {
-        if (!vm.reqCheckLogin)
+    function doLogIn(valid) {
+        if(!vm.reqCheckLogin)
             vm.reqCheckLogin = true;
-        if (!invalid) {
+        if(valid) {
             var login = {},
                 restLogin = Restangular.all('login');
             login.user = vm.login;

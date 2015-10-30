@@ -6,7 +6,7 @@ function Controller($rootScope, Restangular, $state, AppShowDialog) {
 
   function doLogOut() {
     var msg = ' You have beed Log Outed!',
-      logouted = $rootScope.user + msg;
+      logouted = $rootScope.user.email + msg;
       Restangular
         .all('logout')
           .get('');
