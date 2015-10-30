@@ -5,13 +5,14 @@ router.post('/', login);
 router.get('/', loggedin);
 
 function login(req, res) {
-  var collection = db.get('users'),
-    user = req.body.user;
+  var db = req.db;
+  var collection = db.get('users');
+  var user = req.body.user;
   collection.findOne(user, found);
 
   function found(err, result) {
     var done = {};
-    done.success = result !== null;
+    done.success = ((result !== null) && (err === null));
     if(done.success && req.body.session)
       req.session.mapIp(req.ip, result._id);
     res.send(done);
@@ -20,11 +21,13 @@ function login(req, res) {
 
 function loggedin(req, res) {
   var status = {};
-  status.success = req.session.isMapedIp(req.ip);
+  var session = req.session;
+  status.success = session.isMapedIp(req.ip);
   if(status.success) {
     status.user = {};
+    var db = req.db
     var collection = db.get('users');
-    collection.findById(req.session.find(req.ip), found);
+    collection.findById(session.find(req.ip), found);
 
     function found(err, result) {
       status.user.email = result.email;

@@ -4,7 +4,7 @@ var express = require('express'),
 router.post('/', profile);
 
 function profile(req, res) {
-  var collection = db.get('users'),
+  var collection = req.db.get('users'),
     find = '',
     change = {},
     set = {};

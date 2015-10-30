@@ -1,7 +1,7 @@
 var child_process = require('child_process');
 var spawn = child_process.spawnSync;
-//var npm = spawn('npm', ['install']);
-//var bower = spawn('bower', ['install']);
+var npm = spawn('npm', ['install']);
+var bower = spawn('bower', ['install']);
 var fs = require('fs-extra');
 var dir = __dirname;
 var dependenciesDir = dir + '/client/dependencies';
@@ -23,15 +23,12 @@ var dependecies = [
 ];
 
 fs.emptyDirSync(dependenciesDir);
-fs.copy(dir + css[0], dependenciesDir + '/angular-material.css', callback);
-fs.copy(dir + transpiler, dependenciesDir + '/browser.js', callback);
+fs.copySync(dir + css[0], dependenciesDir + '/angular-material.css');
+fs.copySync(dir + transpiler, dependenciesDir + '/browser.js');
 concatFiles(dependecies, dependenciesDir + '/dependencies.js');
-//fs.removeSync(dir + '/bower_components');
-
-function callback(err) {
-    if (err)
-        throw err;
-}
+fs.removeSync(dir + '/bower_components');
+if(process.argv[2] === 'start')
+  server = spawn(process.argv[0], [dir + '/server/app.js']);
 
 function concatFiles(files, out) {
     var result = '';
