@@ -7,7 +7,7 @@ function Controller($state, $rootScope, AppShowDialog) {
   var vm = this,
     common = ['about', 'tech', 'contact'],
     rest = ['settings.profile'];
-  vm.btns = ['About Us', 'Technologies', 'Contact Us', 'Settings'];
+  vm.btns = ['About Us', 'Technologies', 'Contacts', 'Settings'];
   vm.click = [];
   vm.goToState = goToState;
   setOnclick($rootScope.user);

@@ -4,7 +4,12 @@
   <app-log-out ng-if='user' app-float-right></app-log-out>
   <app-log-in ng-if='!user' app-float-right></app-log-in>
 </md-toolbar>
-<div>
+
+<div show-sm layout='column' hide-lg hide-gt-lg hide-gt-sm hide-md hide-gt-md>
+  <md-button class='md-warn md-raised' ng-click='menu = !menu'>Menu</md-button>
+  <md-button ng-show='menu' ng-repeat='btn in vm.btns' ng-click='vm.goToState(vm.click[$index]);' class='md-accent md-raised'>{{btn}}</md-button>
+</div>
+<div hide-sm layout='row'>
   <md-button ng-repeat='btn in vm.btns' ng-click='vm.goToState(vm.click[$index])' class='md-accent md-raised'>{{btn}}</md-button>
 </div>
 <md-divider></md-divider>

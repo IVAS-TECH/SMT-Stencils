@@ -4,9 +4,11 @@ function Directive () {
   directive.link = link;
 
   function link (scope, element, attributes) {
-      var color = element.css('background-color');
+      var bgColor = element.css('background-color');
+      var color =  element.css('color');
       element.attr('disabled', 'disabled');
-      element.css('background-color', color);
+      element.css('color', color);
+      element.css('background-color', bgColor);
       element.css('cursor', 'auto');
   }
 
