@@ -13,8 +13,8 @@
   <md-button ng-repeat='btn in vm.btns' ng-click='vm.goToState(vm.click[$index])' class='md-accent md-raised'>{{btn}}</md-button>
 </div>
 <md-divider></md-divider>
-<ui-view ng-if='user'></ui-view>
+<ui-view ng-if='user' layout-fill></ui-view>
 <div ng-if='!user'>
-  <ui-view app-float-left></ui-view>
+  <ui-view app-float-left layout-fill></ui-view>
   <app-register app-float-right layout-margin></app-register>
 </div>
