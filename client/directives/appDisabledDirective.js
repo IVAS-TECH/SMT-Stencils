@@ -4,12 +4,16 @@ function Directive () {
   directive.link = link;
 
   function link (scope, element, attributes) {
-      var bgColor = element.css('background-color');
-      var color =  element.css('color');
-      element.attr('disabled', 'disabled');
-      element.css('color', color);
-      element.css('background-color', bgColor);
-      element.css('cursor', 'auto');
+      element.find('*').each(disable);
+
+      function disable() {
+        var bgColor = $(this).css('background-color');
+        var color =  $(this).css('color');
+        $(this).attr('disabled', 'disabled');
+        $(this).css('color', color);
+        $(this).css('background-color', bgColor);
+        $(this).css('cursor', 'auto');
+      }
   }
 
   return directive;
