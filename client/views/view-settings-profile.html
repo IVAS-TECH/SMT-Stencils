@@ -9,7 +9,7 @@
               <div ng-message='required' ng-if='vm.reqCheckEmail || newEmail.email.$dirty'>Email is req</div>
           </div>
       </md-input-container>
-        <md-button ng-click='vm.lunchConfirm($event, newEmail.email.$valid, "email", vm.email)' aria-label='Change email' class='md-warn md-raised'>Change email</md-button>
+        <md-button ng-click='vm.lunchConfirm($event, newEmail.email.$valid, "email", vm.email)' aria-label='Change email' class='md-warn'>Change email</md-button>
     </form>
   </div>
   <div>
@@ -23,7 +23,7 @@
             <div ng-message='required' ng-if='vm.reqCheckPass || newPass.pass.$dirty'>Password is req</div>
         </div>
       </md-input-container>
-      <md-button ng-click='vm.lunchConfirm($event, newPass.pass.$valid, "password", vm.password)' aria-label='Change password' class='md-warn md-raised'>Change password</md-button>
+      <md-button ng-click='vm.lunchConfirm($event, newPass.pass.$valid, "password", vm.password)' aria-label='Change password' class='md-warn'>Change password</md-button>
     </form>
   </div>
 </div>
