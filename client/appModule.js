@@ -12,6 +12,7 @@ var moduleName = 'app',
     'ui.router',
     'ngMaterial',
     'ngMessages',
+    'ngFileUpload',
     appDirectives.moduleName,
     appServices.moduleName,
     appControllers.moduleName

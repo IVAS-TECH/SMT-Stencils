@@ -5,6 +5,8 @@ import { directiveAppLogInController } from 'directiveAppLogInController';
 import { directiveAppLogOutController } from 'directiveAppLogOutController';
 import { directiveAppRegisterController } from 'directiveAppRegisterController';
 
+import { fileUploadCtrl } from 'fileUploadCtrl';
+
 var moduleName = 'appControllers',
   appControllers = {};
 
@@ -15,7 +17,8 @@ angular
     .controller(templateConfirmAccessController.controllerName, templateConfirmAccessController.controller)
     .controller(directiveAppLogInController.controllerName, directiveAppLogInController.controller)
     .controller(directiveAppLogOutController.controllerName, directiveAppLogOutController.controller)
-    .controller(directiveAppRegisterController.controllerName, directiveAppRegisterController.controller);
+    .controller(directiveAppRegisterController.controllerName, directiveAppRegisterController.controller)
+    .controller(fileUploadCtrl.controllerName, fileUploadCtrl.controller);
 
 appControllers.moduleName = moduleName;
 

@@ -19,7 +19,8 @@ var dependecies = [
     '/bower_components/angular-messages/angular-messages.js',
     '/bower_components/angular-material/angular-material.js',
     '/bower_components/restangular/dist/restangular.js',
-    '/node_modules/es6-module-loader/dist/es6-module-loader-dev.js'
+    '/node_modules/es6-module-loader/dist/es6-module-loader-dev.js',
+    '/bower_components/ng-file-upload/ng-file-upload.min.js'
 ];
 
 fs.emptyDirSync(dependenciesDir);

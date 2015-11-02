@@ -25,7 +25,8 @@ function configStates(stateHelperProvider) {
   aboutState.templateUrl = 'stencil';
 
   techState.name = 'tech';
-  techState.template = "Tech";
+  techState.templateUrl = 'file-upload';
+  techState.controller = 'fileUploadCtrl as vm';
 
   contactState.name = 'contact';
   contactState.template = "Contact";
