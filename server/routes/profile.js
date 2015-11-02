@@ -13,9 +13,9 @@ function profile(req, res) {
   set.$set = change;
   collection.updateById(find, set, found);
 
-  function found(err, result) {
+  function found(err, doc) {
     var done = {};
-    done.success = ((result !== null) && (err === null));
+    done.success = (doc && (err === null));
     res.send(done);
   }
 }

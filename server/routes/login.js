@@ -10,9 +10,9 @@ function login(req, res) {
   var user = req.body.user;
   collection.findOne(user, found);
 
-  function found(err, result) {
+  function found(err, doc) {
     var done = {};
-    done.success = ((result !== null) && (err === null));
+    done.success = (doc && (err === null));
     if(done.success && req.body.session)
       req.session.mapIp(req.ip, result._id);
     res.send(done);

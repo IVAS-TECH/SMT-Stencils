@@ -13,9 +13,9 @@ function exist(req, res) {
   user.email = email;
   collection.findOne(user, found);
 
-  function found(error, doc) {
+  function found(err, doc) {
     var exist = {};
-    exist.exist =  doc !== null;
+    exist.exist =  (doc && (err === null));
     res.send(exist);
   }
 }
@@ -28,7 +28,7 @@ function register(req, res) {
 
   function inserted(err, doc) {
     var done = {};
-    done.error = err !== null;
+    done.error = (err !== null);
     res.send(done);
   }
 }

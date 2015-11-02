@@ -23,7 +23,7 @@ var mul = multipart({
 
 app.use(bodyParser.json());
 app.use(access);
-app.use(session.use());
+app.use(session.use(db.get('session')));
 app.use('/files', mul, files);
 app.use('/register', register);
 app.use('/login', login);
