@@ -9,7 +9,7 @@ var logout = require('./routes/logout');
 var profile = require('./routes/profile');
 var session = require('./session');
 var mapDir = require('./mapDir');
-var multipart = require('connect-multiparty');
+var multer = require('multer');
 
 var db = monk('0.0.0.0:27017/app');
 var clientDir = '../client';
@@ -17,14 +17,13 @@ var clientDir = path.join(__dirname, clientDir);
 var port = 3000;
 var app = express();
 var fileMaper = mapDir(clientDir);
-var mul = multipart({
-    uploadDir: clientDir + '/files'
-});
+var storage = multer.memoryStorage()
+var mul = multer({ storage: storage, limits : {fileSize : 3432, files : 10}})
 
 app.use(bodyParser.json());
 app.use(access);
 app.use(session.use(db.get('session')));
-app.use('/files', mul, files);
+app.post('/files', mul.any(),files);
 app.use('/register', register);
 app.use('/login', login);
 app.use('/logout', logout);
@@ -42,7 +41,7 @@ function access(req, res, next) {
 }
 
 function files (req, res) {
-  console.log(req.files);
+  console.log("files", req.files[0].size);
 }
 
 function error(err, req, res, next) {
