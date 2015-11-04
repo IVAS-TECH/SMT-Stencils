@@ -17,7 +17,7 @@ var clientDir = path.join(__dirname, clientDir);
 var port = 3000;
 var app = express();
 var fileMaper = mapDir(clientDir);
-var storage = multer.memoryStorage()
+var storage = multer.memoryStorage();
 var mul = multer({ storage: storage, limits : {fileSize : 3432, files : 10}})
 
 app.use(bodyParser.json());
@@ -41,7 +41,7 @@ function access(req, res, next) {
 }
 
 function files (req, res) {
-  console.log("files", req.files[0].size);
+  console.log("files", req.files[0] );
 }
 
 function error(err, req, res, next) {

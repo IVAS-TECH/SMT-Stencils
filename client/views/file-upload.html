@@ -1,8 +1,17 @@
 <ngf-select ng-model='vm.files' ngf-multiple='true'>
   <md-button class='md-warn'>Choose files</md-button>
 </ngf-select>
-<ngf-drop ng-model='vm.files' ngf-multiple='true'>
-  Drag and Drop
-</ngf-drop>
-
+      	<style>
+    			.body {
+            width : 300px;
+    			  height : 200px;
+            border : solid;
+    			  border-style: dashed;
+    			  border-color : white;
+    			  border-width: 3px;
+    			}
+      	</style>
+        <ngf-drop ng-model='vm.files' ngf-multiple='true' class='body'  layout='row' layout-margin layout-padding>
+          Drag and Drop
+        </ngf-drop>
 <md-button ng-click='vm.view()'>View</md-button>
