@@ -39,4 +39,4 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
 directiveAppLogInController.controllerName = controllerName;
 directiveAppLogInController.controller = Controller;
 
-export var directiveAppLogInController = directiveAppLogInController
+export var directiveAppLogInController = directiveAppLogInController;

@@ -4,11 +4,10 @@ import { templateConfirmAccessController } from 'templateConfirmAccessController
 import { directiveAppLogInController } from 'directiveAppLogInController';
 import { directiveAppLogOutController } from 'directiveAppLogOutController';
 import { directiveAppRegisterController } from 'directiveAppRegisterController';
+import { directiveAppFileUploadController } from 'directiveAppFileUploadController';
 
-import { fileUploadCtrl } from 'fileUploadCtrl';
-
-var moduleName = 'appControllers',
-  appControllers = {};
+var moduleName = 'appControllers';
+var appControllers = {};
 
 angular
   .module(moduleName, [])
@@ -18,7 +17,7 @@ angular
     .controller(directiveAppLogInController.controllerName, directiveAppLogInController.controller)
     .controller(directiveAppLogOutController.controllerName, directiveAppLogOutController.controller)
     .controller(directiveAppRegisterController.controllerName, directiveAppRegisterController.controller)
-    .controller(fileUploadCtrl.controllerName, fileUploadCtrl.controller);
+    .controller(directiveAppFileUploadController.controllerName, directiveAppFileUploadController.controller);
 
 appControllers.moduleName = moduleName;
 
