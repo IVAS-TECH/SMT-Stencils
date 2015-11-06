@@ -14,7 +14,7 @@ function Controller(Upload, AppShowDialog, $scope) {
     if(files === null)
       return;
 
-    var extention = 'Supported file formats are: .html';
+    var extention = 'Supported file formats are: .GKO, .GTL, .GTS, .GBL, .apr';
     var size = 'Maximum single file size allowed is 1GB';
     var number = 'Maximum number of files allowed is 6';
     var msg = '';
@@ -24,11 +24,11 @@ function Controller(Upload, AppShowDialog, $scope) {
       return;
 
     if(!isValidNumber(newFiles))
-      msg += number;
+      msg += number + ' ';
     if(!areValidExtenctions(newFiles))
-      msg += extention;
+      msg += extention + ' ';
     if(!areValidSizes(newFiles))
-      msg += size;
+      msg += size + ' ';
 
     if(msg)
       AppShowDialog(msg);
@@ -66,7 +66,7 @@ function Controller(Upload, AppShowDialog, $scope) {
 
       function isValid(item) {
         var fileName = item.name;
-        var validExtention = ['html', 'js'];
+        var validExtention = ['GKO', 'GTL', 'GTS', 'GBL', 'apr'];
         var file = fileName.split('.');
         var fileExtention = file[1];
         var valid = _.includes(validExtention, fileExtention);
@@ -80,7 +80,7 @@ function Controller(Upload, AppShowDialog, $scope) {
 
       function isValid(item) {
         var fileSize = item.size;
-        var maxSize = 100000;
+        var maxSize = 4000000000;
         var valid = fileSize < maxSize;
         return valid;
       }
@@ -96,7 +96,7 @@ function Controller(Upload, AppShowDialog, $scope) {
     upload.url = '/files';
     upload.data = {};
     upload.data.file = vm.files;
-    //Upload.upload(upload);
+      Upload.upload(upload);
   }
 }
 

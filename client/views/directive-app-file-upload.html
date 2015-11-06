@@ -1,5 +1,4 @@
 <div>
-    <md-button class='md-warn' ngf-multiple='true' ngf-select='vm.fileUpload($files)'>Select files</md-button>
     <style>
         .dashed-border {
             border: solid;
@@ -12,18 +11,19 @@
             height: 300px;
         }
     </style>
-    <div ngf-drop='vm.fileUpload($files)' ngf-multiple='true' class='body dashed-border' layout='column' layout-padding layout-align="space-around center">
-        <div>Or Drag and Drop Files</div>
+    <div ngf-select ngf-drop ngf-change='vm.fileUpload($files)' ngf-multiple='true' class='body dashed-border' layout='column' layout-padding layout-align="space-around center">
+        <div>Click to Select File/s</div>
+        <div>Or Drag and Drop File/s</div>
         <div ng-hide='vm.files.length > 0' layout='column' layout-padding layout-align="space-around center" class='dashed-border'>
             <div>Supported File formats are:</div>
             <div>Maximum number of files allowed is 6</div>
             <div>Maximum single file size allowed is 1GB</div>
         </div>
         <div ng-show='vm.files.length > 0'>
-            <div>Selected files</div>
+            <div>Selected File/s:</div>
             <div>(Click a file to remove it)</div>
             <div class='dashed-border' layout='row' layout-wrap layout-padding layout-align="space-between center">
-                <app-file ng-repeat='file in vm.files' name='{{file.name}}' ng-click='vm.removeFile($index)'></app-file>
+                <app-file ng-repeat='file in vm.files' name='{{file.name}}' ng-click='vm.removeFile($index); $event.stopPropagation();'></app-file>
             </div>
         </div>
     </div>

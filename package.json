@@ -24,6 +24,7 @@
     "es6-module-loader": "0.17.7",
     "walk": "2.3.9",
     "fs-extra": "0.26.0",
-    "connect-multiparty": "2.0.0"
+    "multer": "1.1.0",
+    "gerber-parser": "0.1.2"
   }
 }
