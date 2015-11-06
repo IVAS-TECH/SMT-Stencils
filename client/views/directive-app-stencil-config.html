@@ -1,0 +1,19 @@
+<form name='config'>
+  <md-input-container>
+    <label>Configuration name</label>
+    <input name='name' ng-model='vm.stencil.name' type='text'></input>
+  </md-input-container>
+  <md-input-container>
+    <label>Stencil type</label>
+    <md-select ng-model='vm.stencil.type'>
+      <md-option>SMD stencil</md-option>
+      <md-option>Adhesive stencil</md-option>
+    </md-select>
+  </md-input-container>
+  <md-input-container>
+    <label>Text Position</label>
+    <md-select ng-model='vm.stencil.text.position'>
+      <md-option ng-repeat='option in vm.options.textPosition'>{{option}}</md-option>
+    </md-select>
+  </md-input-container>
+</form>

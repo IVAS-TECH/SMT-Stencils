@@ -8,6 +8,7 @@ import { appFloatLeftDirective } from 'appFloatLeftDirective';
 import { appFileDirective } from 'appFileDirective';
 import { appFileUploadDirective } from 'appFileUploadDirective';
 import { appStencilPreviewDirective } from 'appStencilPreviewDirective';
+import { appStencilConfigDirective } from 'appStencilConfigDirective';
 
 var moduleName = 'appDirectives';
 var appDirectives = {};
@@ -25,6 +26,7 @@ angular
     .directive(appFloatLeftDirective.directiveName, appFloatLeftDirective.directive)
     .directive(appFileDirective.directiveName, appFileDirective.directive)
     .directive(appFileUploadDirective.directiveName, appFileUploadDirective.directive)
-    .directive(appStencilPreviewDirective.directiveName, appStencilPreviewDirective.directive);
+    .directive(appStencilPreviewDirective.directiveName, appStencilPreviewDirective.directive)
+    .directive(appStencilConfigDirective.directiveName, appStencilConfigDirective.directive);
 
 export var appDirectives = appDirectives;
