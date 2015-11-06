@@ -30,7 +30,8 @@ function Directive () {
       function disable(index, element) {
         var current = !element ? index : $(this);
         var bgColor = current.css('background-color');
-        var color =  toDisable ? (element ? childColor[index] : elmColor) : 'white';
+        var white = 'rgb(255, 255, 255)';
+        var color =  toDisable ? (element ? childColor[index] : elmColor) : white;
         current.attr('disabled', 'disabled');
         current.css('color', color);
         current.css('background-color', bgColor);
