@@ -22,7 +22,7 @@ function configStates(stateHelperProvider) {
   homeState.dsr = true;
 
   aboutState.name = 'about';
-  aboutState.templateUrl = 'stencil';
+  aboutState.template = '<app-stencil-preview></app-stencil-preview>';
 
   techState.name = 'tech';
   techState.template = '<app-file-upload></app-file-upload>';
