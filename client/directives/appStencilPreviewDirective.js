@@ -1,29 +1,43 @@
-function Directive () {
+Directive.$inject = ['Restangular'];
+
+function Directive (Restangular) {
   var directive = {};
-  var url = 'directive-app-stencil-preview';
-  directive.restrict = 'E';
-  directive.templateUrl = url;
-  //directive.require = '?directive'
-  directive.link = link;
+  directive.restrict = 'A';
+  directive.require = '?appStencilConfig';
+  directive.compile = compile;
+  directive.priority = 1;
 
-  function link(scope, element, attrs, controller) {
-      var div = element.find('div');
-      var body = jQuery(div[1]);
-      var text = jQuery(div[2]);
-      var stencil = element.find('img');
+  function compile(elmnt, attrs) {
+    /*  var url = 'directive-app-stencil-preview';
+      Restangular.all(url).get('').then(handle);
 
-      body.css('width', '150px');
-      body.css('height', '200px');
+      function handle(response) {
+        var template = jQuery(response);
+        var div = template.find('div');
+        var body = jQuery(div[0]);
+        var text = jQuery(div[1]);
+        var stencil = template.find('img');
 
-      text.css('top', '15%');
-      text.css('left', '30%');
-      text.css('right', '30%');
-      text.css('color', 'white');
-      text.css('transform', 'rotate(90deg)');
+        body.css('width', '150px');
+        body.css('height', '200px');
 
-      stencil.css('bottom', '3%');
-      stencil.css('right', '10%');
+        text.css('top', '15%');
+        text.css('left', '30%');
+        text.css('right', '30%');
+        text.css('color', 'white');
+        text.css('transform', 'rotate(90deg)');
 
+        stencil.css('bottom', '3%');
+        stencil.css('right', '10%');
+
+        elmnt.prepend(template);
+      }*/
+
+      function link(scope, element, attributes, controller) {
+        //console.log(element[0]);
+      }
+
+      return link;
   }
 
   return directive;

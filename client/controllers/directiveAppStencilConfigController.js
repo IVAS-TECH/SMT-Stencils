@@ -13,16 +13,12 @@ function Controller() {
 
   function textPosition() {
     var options = [];
-    var directionsY = ['top', 'bottom'];
-    var directionsX = ['left', 'center', 'right'];
-    for(var i = 0; i < 2; ++i) {
-      options.push(directionsX[i]);
-      options.push(directionsY[i]);
-    }
-    options.push(directionsX[i]);
-    for(var i = 0; i < 2; ++i)
+    var directionsY = ['top', 'bottom', 'center'];
+    var directionsX = ['left', 'right', 'center'];
+    for(var i = 0; i < 3; ++i)
       for(var j = 0; j < 3; ++j)
         options.push(directionsY[i] + ' ' + directionsX[j]);
+    options.pop();
     return options;
   }
 }
