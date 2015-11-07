@@ -16,4 +16,13 @@
       <md-option ng-repeat='option in vm.options.textPosition'>{{option}}</md-option>
     </md-select>
   </md-input-container>
+  <md-input-container>
+    <label>Text view angle</label>
+    <md-select ng-model='vm.stencil.text.angle'>
+      <md-option value='0deg'>bottom</md-option>
+      <md-option value='90deg'>right</md-option>
+      <md-option value='180deg'>top</md-option>
+      <md-option value='270deg'>left</md-option>
+    </md-select>
+  </md-input-container>
 </form>

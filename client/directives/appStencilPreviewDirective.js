@@ -17,9 +17,14 @@ function Directive (Restangular) {
       if(n.text) {
         var text = n.text;
         scope.$watch('vm.stencil.text.position', changeTextPosition);
+        scope.$watch('vm.stencil.text.angle', changeTextAngle);
+
+        function changeTextAngle(newVal, oldVal) {
+            text.css('transform', `rotate(${newVal})`);
+        }
+
         function changeTextPosition(newVal, oldVal) {
           if(newVal !== oldVal) {
-            console.log(newVal);
             if(newVal === 'top center') {
               text.css('top', '0%');
               text.css('left', '45%');

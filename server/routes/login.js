@@ -14,7 +14,7 @@ function login(req, res) {
     var done = {};
     done.success = (doc && (err === null));
     if(done.success && req.body.session)
-      req.session.mapIp(req.ip, result._id);
+      req.session.mapIp(req.ip, doc._id);
     res.send(done);
   }
 }

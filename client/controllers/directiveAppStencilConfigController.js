@@ -10,6 +10,7 @@ function Controller() {
   vm.stencil.type = '';
   vm.stencil.text = {};
   vm.stencil.text.position = '';
+  vm.stencil.text.angle = '';
   vm.options = {};
   vm.options.textPosition = textPosition();
 
