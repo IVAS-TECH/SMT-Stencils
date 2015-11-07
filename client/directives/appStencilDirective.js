@@ -3,10 +3,12 @@ Directive.$inject = ['Restangular', '$compile'];
 function Directive (Restangular, $compile) {
   var directive = {};
   directive.restrict = 'A';
-  directive.link = link;
-  directive.priority = 9999;
+  directive.link = {pre: link};
+  directive.priority = 100;
+  directive.controller = 'directiveAppStencilController';
+  directive.controllerAs = 'stencil';
 
-  function link(scope, elmnt, attrs) {
+  function link(scope, elmnt, attrs, controller) {
     var url1 = 'directive-app-stencil-preview';
     Restangular.all(url1).get('').then(build1);
 
@@ -15,44 +17,38 @@ function Directive (Restangular, $compile) {
 
     function build2(response) {
       var template = jQuery(response);
-      elmnt.append(template);
       $compile(template)(scope);
+      elmnt.append(template);
     }
-
 
     function build1(response) {
       var template = jQuery(response);
       var div = template.find('div');
       var body = jQuery(div[0]);
       var text = jQuery(div[1]);
-      var stencil = template.find('img');
+      var img = template.find('img');
+      controller.previewElement.body = body;
+      controller.previewElement.text = text;
+      controller.previewElement.img = img;
 
       body.css('width', '150px');
       body.css('height', '200px');
 
-      text.css('top', '15%');
-      text.css('left', '30%');
-      text.css('right', '30%');
-      text.css('color', 'white');
-      text.css('transform', 'rotate(90deg)');
+      //img.css('bottom', '3%');
+      //img.css('right', '10%');
 
-      stencil.css('bottom', '3%');
-      stencil.css('right', '10%');
-
-      elmnt.append(template);
       $compile(template)(scope);
+      elmnt.append(template);
     }
-
-    elmnt.removeAttr('app-compile');
   }
 
   return directive;
 }
 
-var directiveName = 'appCompile';
-var appCompileDirective = {};
+var directiveName = 'appStencil';
+var appStencilDirective = {};
 
-appCompileDirective.directiveName = directiveName;
-appCompileDirective.directive = Directive;
+appStencilDirective.directiveName = directiveName;
+appStencilDirective.directive = Directive;
 
-export var appCompileDirective = appCompileDirective;
+export var appStencilDirective = appStencilDirective;

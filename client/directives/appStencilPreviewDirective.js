@@ -3,41 +3,75 @@ Directive.$inject = ['Restangular'];
 function Directive (Restangular) {
   var directive = {};
   directive.restrict = 'A';
-  directive.require = '?appStencilConfig';
-  directive.compile = compile;
-  directive.priority = 1;
+  directive.require = ['?appStencil', '?appStencilConfig'];
+  directive.link = {post : link};
+  directive.terminal = true;
 
-  function compile(elmnt, attrs) {
-    /*  var url = 'directive-app-stencil-preview';
-      Restangular.all(url).get('').then(handle);
+  function link(scope, element, attributes, controllers) {
+    var appStencilConfig = controllers[1];
+    var appStencil = controllers[0];
+    var text = appStencil.previewElement.text;
+    scope.$watchCollection('stencil.previewElement', run);
 
-      function handle(response) {
-        var template = jQuery(response);
-        var div = template.find('div');
-        var body = jQuery(div[0]);
-        var text = jQuery(div[1]);
-        var stencil = template.find('img');
-
-        body.css('width', '150px');
-        body.css('height', '200px');
-
-        text.css('top', '15%');
-        text.css('left', '30%');
-        text.css('right', '30%');
-        text.css('color', 'white');
-        text.css('transform', 'rotate(90deg)');
-
-        stencil.css('bottom', '3%');
-        stencil.css('right', '10%');
-
-        elmnt.prepend(template);
-      }*/
-
-      function link(scope, element, attributes, controller) {
-        //console.log(element[0]);
+    function run(n) {
+      if(n.text) {
+        var text = n.text;
+        scope.$watch('vm.stencil.text.position', changeTextPosition);
+        function changeTextPosition(newVal, oldVal) {
+          if(newVal !== oldVal) {
+            console.log(newVal);
+            if(newVal === 'top center') {
+              text.css('top', '0%');
+              text.css('left', '45%');
+              text.css('right', '');
+              text.css('bottom', '');
+            }
+            if(newVal === 'bottom center') {
+              text.css('bottom', '0%');
+              text.css('left', '43%');
+              text.css('right', '0%');
+              text.css('top', '');
+            }
+            if(newVal === 'top right') {
+              text.css('top', '0%');
+              text.css('right', '3%');
+              text.css('left', '');
+              text.css('bottom', '');
+            }
+            if(newVal === 'top left') {
+              text.css('top', '0%');
+              text.css('left', '0%');
+              text.css('right', '');
+              text.css('bottom', '');
+            }
+            if(newVal === 'bottom right') {
+              text.css('bottom', '1%');
+              text.css('right', '4%');
+              text.css('left', '');
+              text.css('top', '');
+            }
+            if(newVal === 'bottom left') {
+              text.css('bottom', '0%');
+              text.css('left', '0%');
+              text.css('right', '');
+              text.css('top', '');
+            }
+            if(newVal === 'center left') {
+              text.css('top', '45%');
+              text.css('left', '0%');
+              text.css('right', '');
+              text.css('bottom', '0%');
+            }
+            if(newVal === 'center right') {
+              text.css('top', '43%');
+              text.css('right', '3%');
+              text.css('left', '');
+              text.css('bottom', '0%');
+            }
+          }
+        }
       }
-
-      return link;
+    }
   }
 
   return directive;

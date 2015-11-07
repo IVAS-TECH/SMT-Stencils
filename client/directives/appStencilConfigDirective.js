@@ -5,22 +5,9 @@ function Directive (Restangular, $compile) {
   directive.restrict = 'A';
   directive.controller = 'directiveAppStencilConfigController';
   directive.controllerAs = 'vm';
-  directive.compile = compile;
-  directive.priority = 2;
+  directive.link = link;
 
-  function compile(elmnt, attrs) {
-      /*var url = 'directive-app-stencil-config';
-      Restangular.all(url).get('').then(handle);
-
-      function handle(response) {
-        var template = jQuery(response);
-        elmnt.prepend(template);
-      }*/
-
-      function link(scope, element, attributes, controller) {
-      }
-
-      return link;
+  function link(scope, element, attributes, controller) {
   }
 
   return directive;

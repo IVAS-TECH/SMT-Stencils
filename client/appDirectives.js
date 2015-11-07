@@ -9,7 +9,7 @@ import { appFileDirective } from 'appFileDirective';
 import { appFileUploadDirective } from 'appFileUploadDirective';
 import { appStencilPreviewDirective } from 'appStencilPreviewDirective';
 import { appStencilConfigDirective } from 'appStencilConfigDirective';
-import { appCompileDirective } from 'appCompileDirective';
+import { appStencilDirective } from 'appStencilDirective';
 
 var moduleName = 'appDirectives';
 var appDirectives = {};
@@ -29,6 +29,6 @@ angular
     .directive(appFileUploadDirective.directiveName, appFileUploadDirective.directive)
     .directive(appStencilPreviewDirective.directiveName, appStencilPreviewDirective.directive)
     .directive(appStencilConfigDirective.directiveName, appStencilConfigDirective.directive)
-    .directive(appCompileDirective.directiveName, appCompileDirective.directive);
+    .directive(appStencilDirective.directiveName, appStencilDirective.directive);
 
 export var appDirectives = appDirectives;

@@ -1,13 +1,15 @@
 Controller.$inject = [];
 
-var controllerName = 'directiveAppStencilConfigController',
-  directiveAppStencilConfigController = {};
+var controllerName = 'directiveAppStencilConfigController';
+var directiveAppStencilConfigController = {};
 
 function Controller() {
   var vm = this;
   vm.stencil = {};
-  vm.stencil.name;
-  vm.stencil.type;
+  vm.stencil.name = '';
+  vm.stencil.type = '';
+  vm.stencil.text = {};
+  vm.stencil.text.position = '';
   vm.options = {};
   vm.options.textPosition = textPosition();
 
