@@ -1,28 +1,36 @@
-<form name='config'>
-  <md-input-container>
-    <label>Configuration name</label>
-    <input name='name' ng-model='vm.stencil.name' type='text'></input>
-  </md-input-container>
-  <md-input-container>
-    <label>Stencil type</label>
-    <md-select ng-model='vm.stencil.type'>
-      <md-option>SMD stencil</md-option>
-      <md-option>Adhesive stencil</md-option>
-    </md-select>
-  </md-input-container>
-  <md-input-container>
-    <label>Text Position</label>
-    <md-select ng-model='vm.stencil.text.position'>
-      <md-option ng-repeat='option in vm.options.textPosition'>{{option}}</md-option>
-    </md-select>
-  </md-input-container>
-  <md-input-container>
-    <label>Text view angle</label>
-    <md-select ng-model='vm.stencil.text.angle'>
-      <md-option value='0deg'>bottom</md-option>
-      <md-option value='90deg'>right</md-option>
-      <md-option value='180deg'>top</md-option>
-      <md-option value='270deg'>left</md-option>
-    </md-select>
-  </md-input-container>
-</form>
+<div layout='column' layout-align='center center'>
+  <div layout='column'>
+    <div layout='column' layout-margin layout-padding>
+        <md-toolbar layout-margin>Stencil preveiw:</md-toolbar>
+        <div id='stencil' flex-offset='10' style='border: solid; border-style: ridge; border-color: white; border-width: 3px; -webkit-transform: rotate(-30deg)skewX(20deg); transform: rotate(-30deg)skewX(20deg); position: relative;'>
+            <span style='position: absolute; font-size: 50%;'>Text</span>
+            <img src='svg' style="width: 80%; height: 90%; position: absolute;"></img>
+        </div>
+    </div>
+    <form name='config' layout='column'>
+      <md-input-container>
+        <label>Configuration name</label>
+        <input name='name' ng-model='vm.stencil.name' type='text'></input>
+      </md-input-container>
+      <md-input-container>
+        <label>Stencil type</label>
+        <md-select ng-model='vm.stencil.type'>
+          <md-option>SMD stencil</md-option>
+          <md-option>Adhesive stencil</md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <label>Text Position</label>
+        <md-select ng-model='vm.stencil.text.position' ng-change='vm.changeTextPosition()'>
+          <md-option ng-repeat='option in vm.options.textPosition'>{{option}}</md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <label>Text view angle</label>
+        <md-select ng-model='vm.stencil.text.angle' ng-change='vm.changeTextAngle()'>
+          <md-option ng-repeat='option in vm.options.textAngle' ng-value='option.value'>{{option.text}}</md-option>
+        </md-select>
+      </md-input-container>
+    </form>
+  </div>
+</div>
