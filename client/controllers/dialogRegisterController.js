@@ -67,8 +67,8 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
         }
     }
 
-    function close() {
-      $mdDialog.hide();
+    function close(val) {
+      $mdDialog.hide(val);
     }
 }
 

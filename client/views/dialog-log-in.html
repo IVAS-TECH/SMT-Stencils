@@ -1,7 +1,7 @@
 <md-dialog ng-cloak>
   <md-dialog-content class='md-dialog-content'>
     <div class='md-actions'>
-      <md-button ng-click='vm.close()' class="md-primary" app-float-right>X</md-button>
+      <md-button ng-click='vm.close()' class="md-warn" app-float-right>Close</md-button>
     </div>
     <p align='center' class='md-title'>Login</p>
     <div class='md-dialog-content-body'>
@@ -24,7 +24,7 @@
               </md-input-container>
               <md-switch class='md-primary' ng-model='vm.session'>
                 <md-button app-disabled='true'>Stay logged in</md-button>
-              </md-switch>  
+              </md-switch>
           </div>
           <div>
             <md-button ng-click='vm.doLogIn(login.$valid)' class='md-primary' aria-label='Login'>Login</md-button>

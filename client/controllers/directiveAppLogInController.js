@@ -15,7 +15,12 @@ function Controller($mdDialog) {
       dialog.controller = action === 'login' ? 'dialogLogInController' : 'dialogRegisterController';
       dialog.controllerAs = 'vm';
 
-      $mdDialog.show(dialog);
+      $mdDialog.show(dialog).then(close);
+
+      function close(val) {
+        if(val === 'login')
+          show(event, val);
+      }
     }
 }
 

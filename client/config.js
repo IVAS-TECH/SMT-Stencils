@@ -2,7 +2,7 @@ config.$inject = ['stateHelperProvider', '$mdThemingProvider'];
 
 function config(stateHelperProvider, $mdThemingProvider) {
     configStates(stateHelperProvider);
-    configTheme($mdThemingProvider);
+    //configTheme($mdThemingProvider);
 
     function configStates(stateHelperProvider) {
       var homeState = {};

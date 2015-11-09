@@ -1,7 +1,7 @@
 <md-dialog ng-cloak>
   <md-dialog-content class='md-dialog-content'>
     <div class='md-actions'>
-      <md-button ng-click='vm.close()' class="md-primary" app-float-right>X</md-button>
+      <md-button ng-click='vm.close()' class="md-warn" app-float-right>Close</md-button>
     </div>
     <p align='center' class='md-title'>Register</p>
     <form novalidate name="register">
@@ -29,6 +29,7 @@
           </div>
         </md-input-container>
         <md-button ng-click='vm.doRegister(register.$invalid || register.$pending)' aria-label='Register' class='md-warn'>Register</md-button>
+        <md-button ng-click='vm.close("login")' aria-label='Login' class='md-primary'>Login</md-button>
       </form>
     </md-dialog-content>
 </md-dialog>
