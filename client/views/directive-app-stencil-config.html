@@ -1,7 +1,7 @@
 <div layout='column' layout-align='center center'>
   <div layout='column'>
     <div layout='column' layout-margin layout-padding>
-        <md-toolbar layout-margin>Stencil preveiw:</md-toolbar>
+        <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
         <div id='stencil' flex-offset='10' style='border: solid; border-style: ridge; border-color: white; border-width: 3px; -webkit-transform: rotate(-30deg)skewX(20deg); transform: rotate(-30deg)skewX(20deg); position: relative;'>
             <span style='position: absolute; font-size: 50%;'>Text</span>
             <img src='svg' style="width: 80%; height: 90%; position: absolute;"></img>
@@ -9,25 +9,21 @@
     </div>
     <form name='config' layout='column'>
       <md-input-container>
-        <label>Configuration name</label>
-        <input name='name' ng-model='vm.stencil.name' type='text'></input>
+        <input name='name' ng-model='vm.stencil.name' type='text' placeholder="Configuration name"></input>
       </md-input-container>
       <md-input-container>
-        <label>Stencil type</label>
-        <md-select ng-model='vm.stencil.type'>
+        <md-select ng-model='vm.stencil.type' placeholder='Stencil type'>
           <md-option>SMD stencil</md-option>
           <md-option>Adhesive stencil</md-option>
         </md-select>
       </md-input-container>
       <md-input-container>
-        <label>Text Position</label>
-        <md-select ng-model='vm.stencil.text.position' ng-change='vm.changeTextPosition()'>
+        <md-select ng-model='vm.stencil.text.position' ng-change='vm.changeTextPosition()' placeholder='Text Position'>
           <md-option ng-repeat='option in vm.options.textPosition'>{{option}}</md-option>
         </md-select>
       </md-input-container>
       <md-input-container>
-        <label>Text view angle</label>
-        <md-select ng-model='vm.stencil.text.angle' ng-change='vm.changeTextAngle()'>
+        <md-select ng-model='vm.stencil.text.angle' ng-change='vm.changeTextAngle()' placeholder='Text view angle'>
           <md-option ng-repeat='option in vm.options.textAngle' ng-value='option.value'>{{option.text}}</md-option>
         </md-select>
       </md-input-container>

@@ -56,6 +56,43 @@ function Controller() {
   function changeTextAngle() {
       var newVal = vm.stencil.text.angle;
       var text = vm.view.text;
+      var position = vm.stencil.text.position;
+      if(position === 'top left') {
+        if((newVal === '270deg' || newVal === '90deg'))
+          text.css('top', '2%');
+        else
+          text.css('top', '0%');
+      }
+      if(position === 'top right') {
+        if((newVal === '180deg' || newVal === '0deg')) {
+          text.css('top', '1%');
+          text.css('right', '-1%');
+        }
+        else {
+          text.css('top', '3%');
+          text.css('right', '-3%');
+        }
+      }
+      if(position === 'bottom left') {
+        if((newVal === '270deg' || newVal === '90deg')) {
+          text.css('left', '0%');
+          text.css('bottom', '2%');
+        }
+        else {
+          text.css('left', '2%');
+          text.css('bottom', '0%');
+        }
+      }
+      if(position === 'bottom right') {
+        if((newVal === '270deg' || newVal === '90deg')) {
+          text.css('right', '-2%');
+          text.css('bottom', '2%');
+        }
+        else {
+          text.css('right', '2%');
+          text.css('bottom', '0%');
+        }
+      }
       text.css('transform', `rotate(${newVal})`);
   }
 
@@ -76,8 +113,8 @@ function Controller() {
         text.css('top', '');
       }
       if(newVal === 'top right') {
-        text.css('top', '0%');
-        text.css('right', '3%');
+        text.css('top', '3%');
+        text.css('right', '-3%');
         text.css('left', '');
         text.css('bottom', '');
       }
@@ -88,14 +125,14 @@ function Controller() {
         text.css('bottom', '');
       }
       if(newVal === 'bottom right') {
-        text.css('bottom', '1%');
-        text.css('right', '4%');
+        text.css('bottom', '2%');
+        text.css('right', '2%');
         text.css('left', '');
         text.css('top', '');
       }
       if(newVal === 'bottom left') {
-        text.css('bottom', '0%');
-        text.css('left', '0%');
+        text.css('bottom', '2%');
+        text.css('left', '2%');
         text.css('right', '');
         text.css('top', '');
       }
@@ -107,7 +144,7 @@ function Controller() {
       }
       if(newVal === 'center right') {
         text.css('top', '43%');
-        text.css('right', '3%');
+        text.css('right', '0%');
         text.css('left', '');
         text.css('bottom', '');
       }

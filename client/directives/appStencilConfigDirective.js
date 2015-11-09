@@ -14,8 +14,8 @@ function Directive (Restangular, $compile) {
     var stencil = body.find('img');
     controller.view.text = text;
     controller.view.stencil = stencil;
-    body.css('width', '150px');
-    body.css('height', '200px');
+    body.css('width', '100px');
+    body.css('height', '150px');
   }
 
   return directive;

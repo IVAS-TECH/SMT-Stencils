@@ -45,10 +45,9 @@ function config(stateHelperProvider, $mdThemingProvider) {
     function configTheme($mdThemingProvider) {
       $mdThemingProvider
         .theme('default')
-          .primaryPalette('light-green')
-          .accentPalette('blue')
-          .warnPalette('deep-orange')
-          .dark();
+          .primaryPalette('blue')
+          .accentPalette('orange')
+          .warnPalette('red');
     }
 }
 
