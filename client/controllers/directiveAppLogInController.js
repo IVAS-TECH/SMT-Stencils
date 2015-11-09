@@ -18,7 +18,7 @@ function Controller($mdDialog) {
       $mdDialog.show(dialog).then(close);
 
       function close(val) {
-        if(val === 'login')
+        if(val)
           show(event, val);
       }
     }

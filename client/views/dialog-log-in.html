@@ -1,7 +1,9 @@
 <md-dialog ng-cloak>
   <md-dialog-content class='md-dialog-content'>
     <div class='md-actions'>
-      <md-button ng-click='vm.close()' class="md-warn" app-float-right>Close</md-button>
+      <md-button ng-click='vm.close("register")' class="md-primary">Register</md-button>
+      <md-button app-disabled='true'></md-button>
+      <md-button ng-click='vm.close()' class="md-warn">Close</md-button>
     </div>
     <p align='center' class='md-title'>Login</p>
     <div class='md-dialog-content-body'>
