@@ -3,9 +3,7 @@
     <div class='md-actions'>
       <md-button ng-click='vm.close()' class="md-primary" app-float-right>X</md-button>
     </div>
-    <h2 align='center' class='md-title'>
-      Login
-    </h2>
+    <p align='center' class='md-title'>Login</p>
     <div class='md-dialog-content-body'>
       <form novalidate name='login'>
           <div layout-padding layout='column'>
@@ -24,13 +22,13 @@
                       <div ng-message='required' ng-if='vm.reqCheckLogin || login.pass.$dirty'>Password is req</div>
                   </div>
               </md-input-container>
-              <md-switch class='md-accent' ng-model='vm.session'>
-                <md-button class='md-accent md-hue-2' app-disabled='true' app-color='vm.session'>Stay logged in</md-button>
+              <md-switch class='md-primary' ng-model='vm.session'>
+                <md-button app-disabled='true'>Stay logged in</md-button>
               </md-switch>
           </div>
           <div>
-            <md-button ng-click='vm.doLogIn(login.$valid)' class='md-accent md-hue-3' aria-label='Login'>Login</md-button>
-            <md-button class='md-warn md-hue-2' aria-label='Forgot password'>forgot password</md-button>
+            <md-button ng-click='vm.doLogIn(login.$valid)' class='md-primary' aria-label='Login'>Login</md-button>
+            <md-button class='md-warn' aria-label='Forgot password'>forgot password</md-button>
           </div>
       </form>
     </div>

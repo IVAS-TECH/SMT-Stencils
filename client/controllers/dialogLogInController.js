@@ -11,13 +11,14 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
     vm.session = true;
     vm.reqCheckLogin = false;
     vm.doLogIn = doLogIn;
+    vm.close = close;
 
     function doLogIn(valid) {
         if(!vm.reqCheckLogin)
             vm.reqCheckLogin = true;
         if(valid) {
-            var login = {},
-                restLogin = Restangular.all('login');
+            var login = {};
+            var restLogin = Restangular.all('login');
             login.user = vm.login;
             login.session = vm.session;
             restLogin.post(login).then(success);
@@ -29,10 +30,15 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
             if (res.success) {
                 vm.notLoggedIn = false;
                 $rootScope.user = login.user;
+                close();
             }
             else
               AppShowDialog('Wrong email or password!');
         }
+    }
+
+    function close() {
+      $mdDialog.hide();
     }
 }
 

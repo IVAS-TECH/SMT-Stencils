@@ -5,21 +5,17 @@ var directiveAppLogInController = {};
 
 function Controller($mdDialog) {
     var vm = this;
-    vm.showLogIn = showLogIn;
+    vm.show = show;
 
-    function showLogIn(event) {
+    function show(event, action) {
       var dialog = {};
-      dialog.templateUrl = 'dialog-app-log-in';
+      dialog.templateUrl = action === 'login' ? 'dialog-log-in' : 'dialog-register';
       dialog.targetEvent = event;
       dialog.clickOutsideToClose = true;
-      //dialog.controller = 'templateConfirmAccessController';
-      //dialog.controllerAs = 'vm';
+      dialog.controller = action === 'login' ? 'dialogLogInController' : 'dialogRegisterController';
+      dialog.controllerAs = 'vm';
 
       $mdDialog.show(dialog);
-    }
-
-    function showRegister() {
-
     }
 }
 

@@ -1,11 +1,11 @@
-Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog'];
+Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog', '$mdDialog'];
 
-var controllerName = 'directiveAppRegisterController',
-  directiveAppRegisterController = {};
+var controllerName = 'dialogRegisterController',
+  dialogRegisterController = {};
 
-function Controller(Restangular, $rootScope, AppShowDialog) {
-    var vm = this,
-        restReg = Restangular.all('register');
+function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
+    var vm = this;
+    var restReg = Restangular.all('register');
     vm.register = {};
     vm.register.email;
     vm.register.password;
@@ -13,6 +13,7 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
     vm.reqCheckReg = false;
     vm.exist = exist;
     vm.doRegister = doRegister;
+    vm.close = close;
 
     function doRegister(invalid) {
         vm.registered = vm.failed = false;
@@ -30,6 +31,7 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
             if (!res.error) {
               AppShowDialog('You have beed registered. Please Log In');
               reset();
+              close();
             } //else
 
             function reset() {
@@ -64,9 +66,13 @@ function Controller(Restangular, $rootScope, AppShowDialog) {
           return promise;
         }
     }
+
+    function close() {
+      $mdDialog.hide();
+    }
 }
 
-directiveAppRegisterController.controllerName = controllerName;
-directiveAppRegisterController.controller = Controller;
+dialogRegisterController.controllerName = controllerName;
+dialogRegisterController.controller = Controller;
 
-export var directiveAppRegisterController = directiveAppRegisterController;
+export var dialogRegisterController = dialogRegisterController;

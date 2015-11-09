@@ -3,7 +3,7 @@ import { viewSettingsProfileController } from 'viewSettingsProfileController';
 import { templateConfirmAccessController } from 'templateConfirmAccessController';
 import { directiveAppLogInController } from 'directiveAppLogInController';
 import { directiveAppLogOutController } from 'directiveAppLogOutController';
-import { directiveAppRegisterController } from 'directiveAppRegisterController';
+import { dialogRegisterController } from 'dialogRegisterController';
 import { directiveAppFileUploadController } from 'directiveAppFileUploadController';
 import { directiveAppStencilConfigController } from 'directiveAppStencilConfigController';
 import { dialogLogInController } from 'dialogLogInController';
@@ -18,7 +18,7 @@ angular
     .controller(templateConfirmAccessController.controllerName, templateConfirmAccessController.controller)
     .controller(directiveAppLogInController.controllerName, directiveAppLogInController.controller)
     .controller(directiveAppLogOutController.controllerName, directiveAppLogOutController.controller)
-    .controller(directiveAppRegisterController.controllerName, directiveAppRegisterController.controller)
+    .controller(dialogRegisterController.controllerName, dialogRegisterController.controller)
     .controller(directiveAppFileUploadController.controllerName, directiveAppFileUploadController.controller)
     .controller(directiveAppStencilConfigController.controllerName, directiveAppStencilConfigController.controller)
     .controller(dialogLogInController.controllerName, dialogLogInController.controller);
