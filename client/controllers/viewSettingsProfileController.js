@@ -25,8 +25,8 @@ function Controller($mdDialog, AppShowDialog) {
       AppShowDialog('Please make sure that the new ' + change + 'is valid!');
       return;
     }
-    var dialog = {},
-      locals = {};
+    var dialog = {};
+    var locals = {};
     locals.data = {};
     locals.data.type = change;
     locals.data.value = value;

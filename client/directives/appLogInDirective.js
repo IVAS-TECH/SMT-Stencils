@@ -1,6 +1,6 @@
 function Directive () {
-  var directive = {},
-    url = 'directive-app-log-in';
+  var directive = {};
+  var url = 'directive-app-log-in';
   directive.restrict = 'E';
   directive.templateUrl = url;
   directive.controller = 'directiveAppLogInController';
@@ -11,8 +11,8 @@ function Directive () {
   return directive;
 }
 
-var directiveName = 'appLogIn',
-  appLogInDirective = {};
+var directiveName = 'appLogIn';
+var appLogInDirective = {};
 
 appLogInDirective.directiveName = directiveName;
 appLogInDirective.directive = Directive;

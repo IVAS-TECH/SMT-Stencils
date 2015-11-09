@@ -1,38 +1,25 @@
-Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog'];
+Controller.$inject = ['$mdDialog'];
 
-var controllerName = 'directiveAppLogInController',
-  directiveAppLogInController = {};
+var controllerName = 'directiveAppLogInController';
+var directiveAppLogInController = {};
 
-function Controller(Restangular, $rootScope, AppShowDialog) {
+function Controller($mdDialog) {
     var vm = this;
-    vm.login = {};
-    vm.login.email;
-    vm.login.password;
-    vm.session = true;
-    vm.reqCheckLogin = false;
-    vm.doLogIn = doLogIn;
+    vm.showLogIn = showLogIn;
 
-    function doLogIn(valid) {
-        if(!vm.reqCheckLogin)
-            vm.reqCheckLogin = true;
-        if(valid) {
-            var login = {},
-                restLogin = Restangular.all('login');
-            login.user = vm.login;
-            login.session = vm.session;
-            restLogin.post(login).then(success);
-        }
-        else
-          AppShowDialog('Please make sure all fields are valid!');
+    function showLogIn(event) {
+      var dialog = {};
+      dialog.templateUrl = 'dialog-app-log-in';
+      dialog.targetEvent = event;
+      dialog.clickOutsideToClose = true;
+      //dialog.controller = 'templateConfirmAccessController';
+      //dialog.controllerAs = 'vm';
 
-        function success(res) {
-            if (res.success) {
-                vm.notLoggedIn = false;
-                $rootScope.user = login.user;
-            }
-            else
-              AppShowDialog('Wrong email or password!');
-        }
+      $mdDialog.show(dialog);
+    }
+
+    function showRegister() {
+
     }
 }
 
