@@ -2,8 +2,7 @@
   <div>
     <form novalidate name="newEmail">
       <md-input-container>
-          <label>New Email</label>
-          <input required type='email' ng-model='vm.email' name='email' />
+          <input required type='email' ng-model='vm.email' name='email' placeholder='New Email'/>
           <div ng-messages='newEmail.email.$error'>
               <div ng-message='email'>Wrong Email</div>
               <div ng-message='required' ng-if='vm.reqCheckEmail || newEmail.email.$dirty'>Email is req</div>
@@ -15,8 +14,7 @@
   <div>
     <form novalidate name="newPass">
       <md-input-container>
-        <label>New Password</label>
-        <input required type='password' ng-model='vm.password' ng-minlength='6' ng-maxlength='35' name='pass' />
+        <input required type='password' ng-model='vm.password' ng-minlength='6' ng-maxlength='35' name='pass' placeholder='New Password'/>
         <div ng-messages='newPass.pass.$error'>
             <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
             <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>

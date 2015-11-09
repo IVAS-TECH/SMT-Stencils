@@ -7,8 +7,7 @@
     <div class='md-dialog-content-body'>
       <form ng-hide='vm.error || vm.success' novalidate name="confirm">
         <md-input-container>
-          <label>Password</label>
-          <input required type='password' ng-model='vm.password' ng-minlength='6' ng-maxlength='35' name='pass' />
+          <input required type='password' ng-model='vm.password' ng-minlength='6' ng-maxlength='35' name='pass' placeholder='Password'/>
           <div ng-messages='confirm.pass.$error'>
               <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
               <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
@@ -16,8 +15,7 @@
           </div>
         </md-input-container>
         <md-input-container>
-          <label>Re enter Password</label>
-          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.password' name='repass' />
+          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.password' name='repass' placeholder='Re enter Password'/>
           <div ng-messages='confirm.repass.$error'>
               <div ng-message='pattern'>Wrong rePass</div>
               <div ng-message='required' ng-if='vm.reqCheck || confirm.repass.$dirty'>Please re enter password</div>

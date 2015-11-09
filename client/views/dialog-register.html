@@ -6,8 +6,7 @@
     <p align='center' class='md-title'>Register</p>
     <form novalidate name="register">
         <md-input-container>
-          <label>Email</label>
-          <input required type='email' ng-model='vm.register.email' name='email' app-async-validator='{ exist : vm.exist }' />
+          <input required type='email' ng-model='vm.register.email' name='email' app-async-validator='{ exist : vm.exist }' placeholder='Email'/>
           <div ng-messages='register.email.$error'>
               <div ng-message='email'>Wrong Email</div>
               <div ng-message='required' ng-if='vm.reqCheckReg || register.email.$dirty'>Email is req</div>
@@ -15,8 +14,7 @@
           </div>
         </md-input-container>
         <md-input-container>
-          <label>Password</label>
-          <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='pass' />
+          <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='pass' placeholder='Password'/>
           <div ng-messages='register.pass.$error'>
               <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
               <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
@@ -24,8 +22,7 @@
           </div>
         </md-input-container>
         <md-input-container>
-          <label>Re enter Password</label>
-          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='repass' />
+          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='repass' placeholder='Re enter Password'/>
           <div ng-messages='register.repass.$error'>
               <div ng-message='pattern'>Wrong rePass</div>
               <div ng-message='required' ng-if='vm.reqCheckReg || register.repass.$dirty'>Please re enter password</div>
