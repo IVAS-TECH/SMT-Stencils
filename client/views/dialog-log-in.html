@@ -1,13 +1,13 @@
 <md-dialog ng-cloak>
   <md-dialog-content class='md-dialog-content'>
-    <div class='md-actions'>
+    <div class='md-actions' ng-hide='vm.error'>
       <md-button ng-click='vm.close("register")' class="md-primary">Register</md-button>
       <md-button app-disabled='true'></md-button>
       <md-button ng-click='vm.close()' class="md-warn">Close</md-button>
     </div>
     <p align='center' class='md-title'>Login</p>
     <div class='md-dialog-content-body'>
-      <form novalidate name='login'>
+      <form novalidate name='login' ng-hide='vm.error'>
           <div layout-padding layout='column'>
               <md-input-container>
                   <input required type='email' ng-model='vm.login.email' name='email' placeholder='Email'/>
@@ -33,6 +33,13 @@
             <md-button class='md-warn' aria-label='Forgot password'>forgot password</md-button>
           </div>
       </form>
+      <div ng-show='vm.error'>
+        <p>{{vm.msg}}</p>
+        <div class='md-actions'>
+          <md-button ng-click='vm.close()' class='md-warn'>Cancel</md-button>
+          <md-button ng-click='vm.error = false' class='md-primary' md-autofocus='true'>Try Again</md-button>
+        </div>
+      </div>
     </div>
   </md-dialog-content>
 </md-dialog>

@@ -1,9 +1,9 @@
-Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog', '$mdDialog'];
+Controller.$inject = ['Restangular', '$rootScope', '$mdDialog'];
 
 var controllerName = 'dialogRegisterController',
   dialogRegisterController = {};
 
-function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
+function Controller(Restangular, $rootScope, $mdDialog) {
     var vm = this;
     var restReg = Restangular.all('register');
     vm.register = {};
@@ -14,6 +14,8 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
     vm.exist = exist;
     vm.doRegister = doRegister;
     vm.close = close;
+    vm.error = false;
+    vm.sucess = false;
 
     function doRegister(invalid) {
         vm.registered = vm.failed = false;
@@ -25,14 +27,13 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
             restReg.post(register).then(success);
         }
         else
-          AppShowDialog('Make sure all fields are valid');
+          showError('Make sure all fields are valid');
 
         function success(res) {
-            if (!res.error) {
-              AppShowDialog('You have beed registered. Please Log In');
-              reset();
-              close();
-            } //else
+            if (!res.error)
+              vm.sucess = true;
+             else
+              showError('Error!');
 
             function reset() {
                 var reseted = '';
@@ -69,6 +70,11 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
 
     function close(val) {
       $mdDialog.hide(val);
+    }
+
+    function showError(msg) {
+      vm.error = true;
+      vm.msg = msg
     }
 }
 

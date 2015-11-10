@@ -1,9 +1,9 @@
-Controller.$inject = ['Restangular', '$rootScope', 'AppShowDialog', '$mdDialog'];
+Controller.$inject = ['Restangular', '$rootScope', '$mdDialog'];
 
 var controllerName = 'dialogLogInController';
 var dialogLogInController = {};
 
-function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
+function Controller(Restangular, $rootScope, $mdDialog) {
     var vm = this;
     vm.login = {};
     vm.login.email;
@@ -12,6 +12,7 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
     vm.reqCheckLogin = false;
     vm.doLogIn = doLogIn;
     vm.close = close;
+    vm.error = false;
 
     function doLogIn(valid) {
         if(!vm.reqCheckLogin)
@@ -24,7 +25,7 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
             restLogin.post(login).then(success);
         }
         else
-          AppShowDialog('Please make sure all fields are valid!');
+          showError("Please make sure all fields are valid!");
 
         function success(res) {
             if (res.success) {
@@ -33,12 +34,17 @@ function Controller(Restangular, $rootScope, AppShowDialog, $mdDialog) {
                 close();
             }
             else
-              AppShowDialog('Wrong email or password!');
+              showError("Wrong Email or Password!");
         }
     }
 
     function close(val) {
       $mdDialog.hide(val);
+    }
+
+    function showError(msg) {
+      vm.error = true;
+      vm.msg = msg
     }
 }
 
