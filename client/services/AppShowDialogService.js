@@ -2,7 +2,7 @@ Service.$inject = ['$mdDialog'];
 
 function Service ($mdDialog) {
   function showDialog(content) {
-    var Dialog = $mdDialog.confirm();
+    var Dialog = $mdDialog.alert();
     Dialog.content(content);
     Dialog.ok('OK');
 
