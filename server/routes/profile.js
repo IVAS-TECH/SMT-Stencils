@@ -1,8 +1,3 @@
-var express = require('express'),
-  router = express.Router();
-
-router.post('/', profile);
-
 function profile(req, res) {
   var collection = req.db.get('users'),
     find = '',
@@ -20,4 +15,4 @@ function profile(req, res) {
   }
 }
 
-module.exports = router;
+module.exports = profile;

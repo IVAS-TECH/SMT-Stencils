@@ -2,7 +2,7 @@ var express = require('express'),
   router = express.Router();
 
 router.post('/', login);
-router.get('/', loggedin);
+router.get('/', logged);
 
 function login(req, res) {
   var db = req.db;
@@ -19,7 +19,7 @@ function login(req, res) {
   }
 }
 
-function loggedin(req, res) {
+function logged(req, res) {
   var status = {};
   var session = req.session;
   status.success = session.isMapedIp(req.ip);

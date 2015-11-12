@@ -1,6 +1,8 @@
-config.$inject = ['stateHelperProvider', '$mdThemingProvider'];
+config.$inject = ['stateHelperProvider', '$mdThemingProvider', '$locationProvider'];
 
-function config(stateHelperProvider, $mdThemingProvider) {
+function config(stateHelperProvider, $mdThemingProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
+
     configStates(stateHelperProvider);
     //configTheme($mdThemingProvider);
 
@@ -20,11 +22,13 @@ function config(stateHelperProvider, $mdThemingProvider) {
       homeState.children = [aboutState, techState, contactState, settingsState];
       homeState.dsr = true;
 
+      aboutState.url = '/about';
       aboutState.name = 'about';
       aboutState.templateUrl = 'test';
 
+      techState.url = '/tech';
       techState.name = 'tech';
-      techState.template = '<app-file-upload></app-file-upload>';
+      techState.template = '<app-file-upload/>';
 
       contactState.name = 'contact';
       contactState.template = "Contact";
