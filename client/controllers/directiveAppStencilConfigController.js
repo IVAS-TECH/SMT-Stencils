@@ -1,16 +1,25 @@
-Controller.$inject = [];
+Controller.$inject = ['Restangular'];
 
 var controllerName = 'directiveAppStencilConfigController';
 var directiveAppStencilConfigController = {};
 
-function Controller() {
+function Controller(Restangular) {
   var vm = this;
   vm.stencil = {};
   vm.stencil.name = '';
   vm.stencil.type = '';
+  vm.stencil.tick = '';
+  vm.stencil.fudical = {};
+  vm.stencil.fudical.marks = '';
+  vm.stencil.fudical.side = '';
   vm.stencil.text = {};
   vm.stencil.text.position = '';
   vm.stencil.text.angle = '';
+  vm.stencil.text.side = '';
+  vm.stencil.position = {};
+  vm.stencil.position.position = '';
+  vm.stencil.position.align = '';
+  vm.stencil.position.side = '';
   vm.view = {};
   vm.view.text = [];
   vm.view.stencil = [];
@@ -19,6 +28,21 @@ function Controller() {
   vm.options.textAngle = textAngle();
   vm.changeTextAngle = changeTextAngle;
   vm.changeTextPosition = changeTextPosition;
+  vm.doCreate = doCreate;
+
+  function doCreate(valid) {
+    if(valid) {
+      var rest = Restangular.all('config');
+      var config = {};
+      config.config = vm.stencil;
+      rest.post(config).then(success);
+
+      function success(res) {
+        console.log("res",res);
+      }
+
+    }
+  }
 
   function textPosition() {
     var options = [];

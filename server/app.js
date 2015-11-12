@@ -7,6 +7,7 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var profile = require('./routes/profile');
 var files = require('./routes/files');
+var config = require('./routes/config');
 var session = require('./session');
 var mapDir = require('./mapDir');
 var multerConfig = require('./multerConfig');
@@ -27,6 +28,7 @@ app.use('/register', register);
 app.use('/login', login);
 app.get('/logout', logout);
 app.post('/profile', profile);
+app.use('/config', config);
 app.use(serveMapedFile);
 app.listen(port);
 
