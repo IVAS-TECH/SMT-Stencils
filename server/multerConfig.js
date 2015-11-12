@@ -15,7 +15,6 @@ function config(dir) {
 
   function filename(req, file, cb) {
     var uid = req.session.find(req.ip);
-    uid = 'a';
     var name = uid + '_' + file.originalname;
     cb(null, name);
   }

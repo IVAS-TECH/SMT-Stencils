@@ -2,7 +2,6 @@ config.$inject = ['stateHelperProvider', '$mdThemingProvider', '$locationProvide
 
 function config(stateHelperProvider, $mdThemingProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
-
     configStates(stateHelperProvider);
     //configTheme($mdThemingProvider);
 
@@ -30,8 +29,9 @@ function config(stateHelperProvider, $mdThemingProvider, $locationProvider) {
       techState.name = 'tech';
       techState.template = '<app-file-upload/>';
 
+      contactState.url = '/contact'
       contactState.name = 'contact';
-      contactState.template = "Contact";
+      contactState.templateUrl = "pcb";
 
       settingsState.name = 'settings';
       settingsState.templateUrl = 'view-settings';
@@ -42,8 +42,7 @@ function config(stateHelperProvider, $mdThemingProvider, $locationProvider) {
       settingsProfileState.templateUrl = 'view-settings-profile';
       settingsProfileState.controller = 'viewSettingsProfileController as vm';
 
-      stateHelperProvider
-        .state(homeState);
+      stateHelperProvider.state(homeState);
     }
 
     function configTheme($mdThemingProvider) {

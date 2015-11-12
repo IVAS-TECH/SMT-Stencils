@@ -2,33 +2,80 @@
   <div layout='column'>
     <div layout='column' layout-margin layout-padding>
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
-        <div id='stencil' flex-offset='25' style='border: solid; border-style: ridge; border-color: white; border-width: 3px; -webkit-transform: rotate(-30deg)skewX(20deg); transform: rotate(-30deg)skewX(20deg); position: relative;'>
-            <span style='position: absolute; font-size: 50%;'>Text</span>
-            <ng-include src='"svg"' style="position: absolute; top : 30%; left : 20%;"></ng-include>
+        <div id='stencil' flex-offset='15' style='border: solid; border-style: ridge; background-color:silver; border-color: black; border-width: 1px; -webkit-transform: rotate(-30deg)skewX(20deg); transform: rotate(-30deg)skewX(20deg); position: relative;'>
+            <span style='position: absolute; font-size: 50%; color: white;'>Text</span>
+            <ng-include src='"svg"' style="position: absolute; top:30%; left:10%; transform: rotate(0deg)"/>
         </div>
     </div>
     <form name='config' layout='column'>
-      <md-input-container>
-        <md-select ng-model='vm.stencil.type' placeholder='Stencil type'>
-          <md-option>SMD stencil</md-option>
-          <md-option>Adhesive stencil</md-option>
-        </md-select>
-      </md-input-container>
-      <md-button app-disabled='true'>Legend</md-button>
-      <div layout='row'>
+      <md-button app-disabled='true'>Stencil</md-button>
+      <div layout='row' layout-align='center center'>
         <md-input-container>
-          <md-select ng-model='vm.stencil.text.position' ng-change='vm.changeTextPosition()' placeholder='Text Position'>
+          <label>Stencil type</label>
+          <md-select ng-model='vm.stencil.type'>
+            <md-option>SMD stencil</md-option>
+            <md-option>Adhesive stencil</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Stencil tickness</label>
+          <md-select ng-model='vm.stencil.tick'>
+            <md-option ng-repeat='t in [100, 120, 127, 150, 180, 200]'>{{t + ' μm'}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <md-button app-disabled='true'>Fudicals</md-button>
+      <div layout='row' layout-align='center center'>
+        <md-input-container>
+          <label>Fiducial marks</label>
+          <md-select ng-model='vm.stencil.fudical.marks'>
+            <md-option>Engraved</md-option>
+            <md-option>Cut trough</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Fiducial marks side</label>
+          <md-select ng-model='vm.stencil.fudical.side'>
+            <md-option>PCB side</md-option>
+            <md-option>Squeegee side</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <md-button app-disabled='true'>Text</md-button>
+      <div layout='row' layout-align='center center'>
+        <md-input-container>
+          <label>Text Position</label>
+          <md-select ng-model='vm.stencil.text.position' ng-change='vm.changeTextPosition()'>
             <md-option ng-repeat='option in vm.options.textPosition'>{{option}}</md-option>
           </md-select>
         </md-input-container>
         <md-input-container>
-          <md-select ng-model='vm.stencil.text.angle' ng-change='vm.changeTextAngle()' placeholder='Text view angle'>
+          <label>Text view from</label>
+          <md-select ng-model='vm.stencil.text.angle' ng-change='vm.changeTextAngle()'>
             <md-option ng-repeat='option in vm.options.textAngle' ng-value='option.value'>{{option.text}}</md-option>
           </md-select>
         </md-input-container>
       </div>
+      <md-button app-disabled='true'>Position</md-button>
+      <div layout='row' layout-align='center center'>
+        <md-input-container>
+          <label>Aligment</label>
+          <md-select ng-model='vm.stencil.fudical.marks'>
+            <md-option>Portrait</md-option>
+            <md-option>Landscape</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Positioning</label>
+          <md-select ng-model='vm.stencil.fudical.side'>
+            <md-option>Layout centered</md-option>
+            <md-option>PCB centered</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
       <md-input-container>
-        <input name='name' ng-model='vm.stencil.name' type='text' placeholder="Configuration name"></input>
+        <label>Configuration name</label>
+        <input name='name' ng-model='vm.stencil.name' type='text'></input>
       </md-input-container>
       <md-button class='md-primary'>Create</md-button>
     </form>

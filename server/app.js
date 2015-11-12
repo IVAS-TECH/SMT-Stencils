@@ -39,10 +39,10 @@ function serveMapedFile(req, res, next) {
     if(req.method === 'GET') {
       if(fileMaper[req.url]) {
         res.sendFile(fileMaper[req.url]);
-        return;    
+        return;
       }
       else {
-        var index = ['/', '/about', '/tech'];
+        var index = ['/', '/about', '/tech', '/contact'];
         var found = index.indexOf(req.url);
         if(found > -1) {
           res.sendFile(fileMaper['/index']);

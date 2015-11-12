@@ -11,11 +11,10 @@ function Directive (Restangular, $compile) {
   function link(scope, element, attributes, controller) {
     var body = element.find('#stencil');
     var text = body.find('span');
-    var stencil = body.find('img');
     controller.view.text = text;
     controller.view.stencil = stencil;
-    body.css('width', '100px');
-    body.css('height', '150px');
+    body.css('width', '160px');
+    body.css('height', '220px');
   }
 
   return directive;
