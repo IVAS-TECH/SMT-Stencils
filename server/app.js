@@ -40,8 +40,18 @@ function accessDB(req, res, next) {
 }
 
 function serveMapedFile(req, res, next) {
-    if((req.method === 'GET') && fileMaper[req.url])
+    if(req.method === 'GET') {
+      if(fileMaper[req.url])
         res.sendFile(fileMaper[req.url]);
+      else {
+        var index = ['/', '/about', '/tech'];
+        var found = index.indexOf(req.url);
+        if(found > -1)
+          res.sendFile(fileMaper['/index']);
+        else
+          res.sendFile(fileMaper['/error']);
+      }
+    }
     else
-        res.sendFile(fileMaper['/index']);
+      res.sendFile(fileMaper['/error']); 
 }
