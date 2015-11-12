@@ -1,8 +1,10 @@
-<md-toolbar style='display:inline-table' layout='row' layout-align='space-between center'>
-  <h1 app-float-left>IVAS-TECH</h1>
-  <md-button class='md-raised md-warn' md-no-ink app-disabled='false'>Stencils</md-button>
-  <app-log-out ng-if='user' app-float-right></app-log-out>
-  <app-log-in ng-if='!user' app-float-right></app-log-in>
+<md-toolbar layout='row' layout-align='space-around center'>
+  <div>
+    <h1 app-float-left>IVAS-TECH</h1>
+    <md-button class='md-raised md-warn' md-no-ink app-disabled='false'>Stencils</md-button>
+  </div>
+  <app-log-out ng-if='user' ></app-log-out>
+  <app-log-in ng-if='!user'></app-log-in>
 </md-toolbar>
 
 <div layout='row' show-sm hide>

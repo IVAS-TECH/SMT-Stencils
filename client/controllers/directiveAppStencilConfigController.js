@@ -28,6 +28,9 @@ function Controller(Restangular) {
   vm.options.textAngle = textAngle();
   vm.changeTextAngle = changeTextAngle;
   vm.changeTextPosition = changeTextPosition;
+  vm.changeTextSide = changeTextSide;
+  vm.changeStencilSide = changeStencilSide;
+  vm.changeStencilPosition = changeStencilPosition;
   vm.doCreate = doCreate;
 
   function doCreate(valid) {
@@ -75,6 +78,39 @@ function Controller(Restangular) {
       return [left, right];
     if(position.includes(' center'))
       return [top, bottom];
+  }
+
+  function changeTextSide() {
+    var newVal = vm.stencil.text.side;
+    var text = vm.view.text;
+    if(newVal === 'PCB side')
+      text.css('color', 'white');
+    else
+      text.css('color', 'black');
+  }
+
+  function changeStencilSide() {
+    var newVal = vm.stencil.position.side;
+    var e = $('#stencilView');
+    var selectors = ['.mb_board-out', '.mb_board-sp', '.mb_board-ss', '.mb_board-cf', '.mb_board-cu'];
+    selectors.forEach(change);
+
+    function change(selector) {
+      var e = $(selector);
+      if(newVal === 'PCB side')
+        e.css('color', 'white');
+      else
+        e.css('color', 'black');
+    }
+  }
+
+  function changeStencilPosition() {
+    var newVal = vm.stencil.position.position;
+    var gerber = $('#gerber');
+    if(newVal === 'PCB centered')
+      gerber.css('top', '30%');
+    else
+      gerber.css('top', '20%');
   }
 
   function changeTextAngle() {

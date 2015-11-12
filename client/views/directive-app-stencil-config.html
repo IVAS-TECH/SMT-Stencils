@@ -4,7 +4,7 @@
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
         <div id='stencil' flex-offset='25' style='border: solid; border-style: ridge; background-color:silver; border-color: black; border-width: 1px; -webkit-transform: rotate(-30deg)skewX(20deg); transform: rotate(-30deg)skewX(20deg); position: relative;'>
             <span style='position: absolute; font-size: 50%; color: white;'>Text</span>
-            <ng-include src='"svg"' style="position: absolute; top:30%; left:10%; transform: rotate(0deg)"/>
+            <ng-include src='"svg"' id='gerber' style="position: absolute; top:30%; left:10%; transform: rotate(0deg)"/>
         </div>
     </div>
     <form name='config' layout='column'>
@@ -58,7 +58,7 @@
         </md-input-container>
         <md-input-container>
           <label>Side</label>
-          <md-select ng-model='vm.stencil.text.side'>
+          <md-select ng-model='vm.stencil.text.side' ng-change='vm.changeTextSide()'>
             <md-option>PCB side</md-option>
             <md-option>Squeegee side</md-option>
           </md-select>
@@ -75,14 +75,14 @@
         </md-input-container>
         <md-input-container>
           <label>Positioning</label>
-          <md-select ng-model='vm.stencil.position.position'>
+          <md-select ng-model='vm.stencil.position.position' ng-change='vm.changeStencilPosition()'>
             <md-option>Layout centered</md-option>
             <md-option>PCB centered</md-option>
           </md-select>
         </md-input-container>
         <md-input-container>
           <label>Side</label>
-          <md-select ng-model='vm.stencil.position.side'>
+          <md-select ng-model='vm.stencil.position.side' ng-change='vm.changeStencilSide()'>
             <md-option>PCB side</md-option>
             <md-option>Squeegee side</md-option>
           </md-select>
