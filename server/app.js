@@ -1,5 +1,4 @@
 var express = require('express');
-var server = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
 var monk = require('monk');
@@ -13,9 +12,8 @@ var mapDir = require('./mapDir');
 var multerConfig = require('./multerConfig');
 
 var db = monk('0.0.0.0:27017/app');
-var clientDir = '../client';
-var clientDir = path.join(__dirname, clientDir);
-var port = 3000;
+var clientDir = path.join(__dirname, '../client');
+var port = process.env.PORT || 3000;
 var app = express();
 var fileMaper = mapDir(clientDir);
 var multerConfigObj = multerConfig(clientDir);
@@ -30,9 +28,7 @@ app.use('/login', login);
 app.get('/logout', logout);
 app.post('/profile', profile);
 app.use(serveMapedFile);
-
-server = server.createServer(app);
-server.listen(process.env.PORT || port);
+app.listen(port);
 
 function accessDB(req, res, next) {
     req.db = db;
@@ -41,17 +37,18 @@ function accessDB(req, res, next) {
 
 function serveMapedFile(req, res, next) {
     if(req.method === 'GET') {
-      if(fileMaper[req.url])
+      if(fileMaper[req.url]) {
         res.sendFile(fileMaper[req.url]);
+        return;    
+      }
       else {
         var index = ['/', '/about', '/tech'];
         var found = index.indexOf(req.url);
-        if(found > -1)
+        if(found > -1) {
           res.sendFile(fileMaper['/index']);
-        else
-          res.sendFile(fileMaper['/error']);
+          return;
+        }
       }
     }
-    else
-      res.sendFile(fileMaper['/error']); 
+    res.sendFile(fileMaper['/error']);
 }
