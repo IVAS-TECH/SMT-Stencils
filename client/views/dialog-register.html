@@ -1,12 +1,13 @@
 <md-dialog ng-cloak>
-  <md-dialog-content class='md-dialog-content'>
-    <div class='md-actions' ng-hide='vm.error || vm.sucess'>
+  <md-dialog-content class='md-dialog-content' style='padding-top:0'>
+    <div class='md-actions' ng-hide='vm.error || vm.success'>
       <md-button ng-click='vm.close()' class="md-warn" app-float-right>Close</md-button>
     </div>
     <p align='center' class='md-title'>Register</p>
-    <form novalidate name="register" ng-hide='vm.error || vm.sucess'>
+    <form novalidate name="register" ng-hide='vm.error || vm.success' layout='column' layout-align='center center'>
         <md-input-container>
-          <input required type='email' ng-model='vm.register.email' name='email' app-async-validator='{ exist : vm.exist }' placeholder='Email'/>
+          <label>Email</label>
+          <input required type='email' ng-model='vm.register.email' name='email' app-async-validator='{ exist : vm.exist }'/>
           <div ng-messages='register.email.$error'>
               <div ng-message='email'>Wrong Email</div>
               <div ng-message='required' ng-if='vm.reqCheckReg || register.email.$dirty'>Email is req</div>
@@ -14,7 +15,8 @@
           </div>
         </md-input-container>
         <md-input-container>
-          <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='pass' placeholder='Password'/>
+          <label>Password</label>
+          <input required type='password' ng-model='vm.register.password' ng-minlength='6' ng-maxlength='35' name='pass'/>
           <div ng-messages='register.pass.$error'>
               <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
               <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>
@@ -22,7 +24,8 @@
           </div>
         </md-input-container>
         <md-input-container>
-          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='repass' placeholder='Re enter Password'/>
+          <label>Re-enter Password</label>
+          <input required type='password' ng-model='vm.repassword' ng-pattern='vm.register.password' name='repass'/>
           <div ng-messages='register.repass.$error'>
               <div ng-message='pattern'>Wrong rePass</div>
               <div ng-message='required' ng-if='vm.reqCheckReg || register.repass.$dirty'>Please re enter password</div>
@@ -40,7 +43,7 @@
           <md-button ng-click='vm.error = false' class='md-primary' md-autofocus='true'>Try Again</md-button>
         </div>
       </div>
-      <div ng-show='vm.sucess'>
+      <div ng-show='vm.success'>
         <div>You have beed registered. Please Log In</div>
         <div class='md-actions'>
           <md-button ng-click='vm.close("login")' aria-label='Login' class='md-primary'>Login</md-button>

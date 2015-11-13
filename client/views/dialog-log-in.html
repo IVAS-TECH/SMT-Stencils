@@ -1,23 +1,23 @@
 <md-dialog ng-cloak>
-  <md-dialog-content class='md-dialog-content'>
+  <md-dialog-content class='md-dialog-content' style='padding-top: 0' layout-align='center center'>
     <div class='md-actions' ng-hide='vm.error'>
-      <md-button ng-click='vm.close("register")' class="md-primary">Register</md-button>
-      <md-button app-disabled='true'></md-button>
       <md-button ng-click='vm.close()' class="md-warn">Close</md-button>
     </div>
     <p align='center' class='md-title'>Login</p>
     <div class='md-dialog-content-body'>
       <form novalidate name='login' ng-hide='vm.error'>
-          <div layout-padding layout='column'>
+          <div layout-padding layout='column' layout-align='center center'>
               <md-input-container>
-                  <input required type='email' ng-model='vm.login.email' name='email' placeholder='Email'/>
+                  <label>Email</label>
+                  <input required type='email' ng-model='vm.login.email' name='email'/>
                   <div ng-messages='login.email.$error'>
                       <div ng-message='email'>Wrong Email</div>
                       <div ng-message='required' ng-if='vm.reqCheckLogin || login.email.$dirty'>Email is req</div>
                   </div>
               </md-input-container>
               <md-input-container>
-                  <input required type='password' ng-model='vm.login.password' ng-minlength='6' ng-maxlength='35' name='pass' placeholder='Password'/>
+                  <label>Password</label>
+                  <input required type='password' ng-model='vm.login.password' ng-minlength='6' ng-maxlength='35' name='pass'/>
                   <div ng-messages='login.pass.$error'>
                       <div ng-message='minlength'>Password lenght must be greater than 6 symbols</div>
                       <div ng-message='maxlength'>Password lenght must be less than 36 symbols</div>

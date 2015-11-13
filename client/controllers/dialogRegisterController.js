@@ -15,7 +15,7 @@ function Controller(Restangular, $rootScope, $mdDialog) {
     vm.doRegister = doRegister;
     vm.close = close;
     vm.error = false;
-    vm.sucess = false;
+    vm.success = false;
 
     function doRegister(invalid) {
         vm.registered = vm.failed = false;
@@ -31,7 +31,7 @@ function Controller(Restangular, $rootScope, $mdDialog) {
 
         function success(res) {
             if (!res.error)
-              vm.sucess = true;
+              vm.success = true;
              else
               showError('Error!');
 

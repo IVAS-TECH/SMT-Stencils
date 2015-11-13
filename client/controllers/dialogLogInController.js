@@ -38,8 +38,8 @@ function Controller(Restangular, $rootScope, $mdDialog) {
         }
     }
 
-    function close(val) {
-      $mdDialog.hide(val);
+    function close() {
+      $mdDialog.hide();
     }
 
     function showError(msg) {
