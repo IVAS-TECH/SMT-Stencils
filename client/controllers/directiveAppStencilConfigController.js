@@ -1,9 +1,9 @@
-Controller.$inject = ['Restangular'];
+Controller.$inject = ['Restangular', '$scope'];
 
 var controllerName = 'directiveAppStencilConfigController';
 var directiveAppStencilConfigController = {};
 
-function Controller(Restangular) {
+function Controller(Restangular, $scope) {
   var vm = this;
   vm.stencil = {};
   vm.stencil.name = '';
@@ -43,7 +43,6 @@ function Controller(Restangular) {
       function success(res) {
         console.log("res",res);
       }
-
     }
   }
 

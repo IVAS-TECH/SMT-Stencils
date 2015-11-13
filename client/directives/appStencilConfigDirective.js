@@ -7,6 +7,7 @@ function Directive (Restangular, $compile) {
   directive.controllerAs = 'vm';
   directive.templateUrl = 'directive-app-stencil-config';
   directive.link = link;
+  directive.scope = false;
 
   function link(scope, element, attributes, controller) {
     var body = element.find('#stencil');

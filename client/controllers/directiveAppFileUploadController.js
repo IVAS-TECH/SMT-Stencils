@@ -65,7 +65,6 @@ function Controller(Upload, AppShowDialog, $scope) {
       return valid;
 
       function isValid(item) {
-        return true;
         var fileName = item.name;
         var validExtention = ['GKO', 'GTL', 'GTS', 'GBL', 'apr'];
         var file = fileName.split('.');

@@ -5,14 +5,13 @@ function Directive () {
   directive.templateUrl = url;
   directive.controller = 'directiveAppFileUploadController';
   directive.controllerAs = 'vm';
-  directive.bindToController = true;
-  directive.scope = true;
+  directive.scope = false;
 
   return directive;
 }
 
-var directiveName = 'appFileUpload',
-  appFileUploadDirective = {};
+var directiveName = 'appFileUpload';
+var appFileUploadDirective = {};
 
 appFileUploadDirective.directiveName = directiveName;
 appFileUploadDirective.directive = Directive;
