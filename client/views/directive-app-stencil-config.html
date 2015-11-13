@@ -22,6 +22,20 @@
             <md-option ng-repeat='t in [100, 120, 127, 150, 180, 200]'>{{t + ' μm'}}</md-option>
           </md-select>
         </md-input-container>
+        <md-input-container>
+          <label>Stencil transitioning</label>
+          <md-select ng-model='vm.stencil.trans'>
+            <md-option>Self-transitionig system</md-option>
+            <md-option>Glued in frame</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container ng-show='vm.stencil.trans === "Glued in frame"'>
+          <label>Stencil Frame size</label>
+          <md-select ng-model='vm.stencil.size'>
+            <md-option>750 x 750</md-option>
+            <md-option>Custom</md-option>
+          </md-select>
+        </md-input-container>
       </div>
       <div layout='row' layout-align='center center'>
         <md-input-container>
@@ -54,6 +68,13 @@
           </md-select>
         </md-input-container>
         <md-input-container>
+          <label>Text type</label>
+          <md-select ng-model='vm.stencil.text.type'>
+            <md-option>Engraved</md-option>
+            <md-option>Drilled</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container ng-show='vm.stencil.text.type === "Engraved"'>
           <label>Text side</label>
           <md-select ng-model='vm.stencil.text.side' ng-change='vm.changeTextSide()'>
             <md-option>PCB side</md-option>
