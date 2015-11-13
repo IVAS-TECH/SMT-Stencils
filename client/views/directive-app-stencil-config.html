@@ -1,4 +1,4 @@
-<div layout='column' layout-align='center center'>
+<div>
   <div layout='column'>
     <div layout='column' layout-margin layout-padding>
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
@@ -8,7 +8,6 @@
         </div>
     </div>
     <form name='config' layout='column'>
-      <md-button app-disabled='true'>Stencil</md-button>
       <div layout='row' layout-align='center center'>
         <md-input-container>
           <label>Stencil type</label>
@@ -24,7 +23,6 @@
           </md-select>
         </md-input-container>
       </div>
-      <md-button app-disabled='true'>Fudicals</md-button>
       <div layout='row' layout-align='center center'>
         <md-input-container>
           <label>Fiducial marks</label>
@@ -42,7 +40,6 @@
           </md-select>
         </md-input-container>
       </div>
-      <md-button app-disabled='true'>Text</md-button>
       <div layout='row' layout-align='center center'>
         <md-input-container>
           <label>Text Position</label>
@@ -57,14 +54,13 @@
           </md-select>
         </md-input-container>
         <md-input-container>
-          <label>Side</label>
+          <label>Text side</label>
           <md-select ng-model='vm.stencil.text.side' ng-change='vm.changeTextSide()'>
             <md-option>PCB side</md-option>
             <md-option>Squeegee side</md-option>
           </md-select>
         </md-input-container>
       </div>
-      <md-button app-disabled='true'>Position</md-button>
       <div layout='row' layout-align='center center'>
         <md-input-container>
           <label>Aligment</label>

@@ -86,7 +86,7 @@ function Controller(Restangular) {
     if(newVal === 'PCB side')
       text.css('color', 'white');
     else
-      text.css('color', 'black');
+      text.css('color', 'dimgrey');
   }
 
   function changeStencilSide() {
@@ -100,7 +100,7 @@ function Controller(Restangular) {
       if(newVal === 'PCB side')
         e.css('color', 'white');
       else
-        e.css('color', 'black');
+        e.css('color', 'dimgrey');
     }
   }
 

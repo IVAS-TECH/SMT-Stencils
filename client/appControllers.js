@@ -7,6 +7,7 @@ import { dialogRegisterController } from 'dialogRegisterController';
 import { directiveAppFileUploadController } from 'directiveAppFileUploadController';
 import { directiveAppStencilConfigController } from 'directiveAppStencilConfigController';
 import { dialogLogInController } from 'dialogLogInController';
+import { viewOrderController } from 'viewOrderController';
 
 var moduleName = 'appControllers';
 var appControllers = {};
@@ -21,7 +22,8 @@ angular
     .controller(dialogRegisterController.controllerName, dialogRegisterController.controller)
     .controller(directiveAppFileUploadController.controllerName, directiveAppFileUploadController.controller)
     .controller(directiveAppStencilConfigController.controllerName, directiveAppStencilConfigController.controller)
-    .controller(dialogLogInController.controllerName, dialogLogInController.controller);
+    .controller(dialogLogInController.controllerName, dialogLogInController.controller)
+    .controller(viewOrderController.controllerName, viewOrderController.controller);
 
 appControllers.moduleName = moduleName;
 

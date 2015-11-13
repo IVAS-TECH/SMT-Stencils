@@ -9,6 +9,7 @@ function config(stateHelperProvider, $mdThemingProvider, $locationProvider) {
       var homeState = {};
       var aboutState = {};
       var techState = {};
+      var orderState = {};
       var contactState = {};
       var settingsState = {};
       var settingsProfileState = {};
@@ -18,16 +19,21 @@ function config(stateHelperProvider, $mdThemingProvider, $locationProvider) {
       homeState.name = 'home';
       homeState.templateUrl = 'view-home';
       homeState.controller = 'viewHomeController as vm';
-      homeState.children = [aboutState, techState, contactState, settingsState];
+      homeState.children = [aboutState, techState, orderState, contactState, settingsState];
       homeState.dsr = true;
 
       aboutState.url = '/about';
       aboutState.name = 'about';
-      aboutState.templateUrl = 'test';
+      aboutState.template = 'about';
 
       techState.url = '/tech';
       techState.name = 'tech';
       techState.template = '<app-file-upload/>';
+
+      orderState.url = '/order';
+      orderState.name = 'order';
+      orderState.templateUrl = 'view-order';
+      orderState.controller = 'viewOrderController as vm';
 
       contactState.url = '/contact'
       contactState.name = 'contact';

@@ -44,7 +44,7 @@ function serveMapedFile(req, res, next) {
         return;
       }
       else {
-        var index = ['/', '/about', '/tech', '/contact'];
+        var index = ['/', '/about', '/tech', '/order', '/contact'];
         var found = index.indexOf(req.url);
         if(found > -1) {
           res.sendFile(fileMaper['/index']);

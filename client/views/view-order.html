@@ -1,0 +1,10 @@
+<div>
+  <div layout='row' layout-align='center center'>
+    <md-button ng-click='vm.change()'>Choose Configuration</md-button>
+    <md-button ng-click='vm.change()'>Files and Text</md-button>
+  </div>
+  <div layout='column' layout-align='center center'>
+    <app-stencil-config ng-if='vm.step'></app-stencil-config>
+    <app-file-upload ng-if='!vm.step'></app-file-upload>
+  </div>
+</div>
