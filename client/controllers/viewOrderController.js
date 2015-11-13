@@ -6,7 +6,9 @@ var viewOrderController = {};
 function Controller() {
     var vm = this;
     vm.step = true;
+    vm.stencil = {};
     vm.change = change;
+    
     function change() {
       vm.step = !vm.step;
     }
