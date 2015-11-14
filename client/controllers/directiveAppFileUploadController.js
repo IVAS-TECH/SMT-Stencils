@@ -3,13 +3,12 @@ var directiveAppFileUploadController = {};
 
 Controller.$inject = ['Upload', 'AppShowDialog', '$scope'];
 
-function Controller(Upload, AppShowDialog, ctrl) {
+function Controller(Upload, AppShowDialog, $scope) {
   var vm = this;
   vm.files = [];
   vm.fileUpload = fileUpload;
   vm.view = view;
   vm.removeFile = removeFile;
-  
 
   function fileUpload(files) {
     if(files === null)

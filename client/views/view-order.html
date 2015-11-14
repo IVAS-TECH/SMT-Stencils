@@ -5,7 +5,7 @@
     {{vm.stencil | json}}
   </div>
   <div layout='column' layout-align='center center'>
-    <app-stencil-config config='vm.stencil' ng-if='vm.step'></app-stencil-config>
+    <app-stencil-config ng-if='vm.step'></app-stencil-config>
     <app-file-upload ng-if='!vm.step'></app-file-upload>
   </div>
 </div>

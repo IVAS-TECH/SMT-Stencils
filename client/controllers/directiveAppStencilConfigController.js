@@ -5,7 +5,7 @@ var directiveAppStencilConfigController = {};
 
 function Controller(Restangular, $scope) {
   var vm = this;
-  vm.stencil = $scope.$parent.vm.stencil;
+  vm.stencil = {};
   vm.stencil.name = '';
   vm.stencil.type = '';
   vm.stencil.tick = '';
