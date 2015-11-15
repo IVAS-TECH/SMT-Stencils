@@ -1,26 +1,20 @@
-.stencil-view {
-  background-color: #E5E4E2;
-  border: solid;
-  border-color: black;
-  border-width: 1px;
-  -webkit-transform: rotate(-30deg)skewX(20deg);
-  transform: rotate(-30deg)skewX(20deg);
-  position: relative;
-}
-
-.stencil-text {
-  position: absolute;
-  font-size: 50%;
-}
-
 .pcb-side {
-  color: #FEFCFF;
+  color: #848482;
 }
-
 .sque-side {
   color: #848482;
 }
-
-.stencil {
-  color: #BCC6CC;
+.stencil-text {
+  font-size: 50%;
+}
+.stencil-view {
+  background-color: #bcc6cc;
+  border: solid;
+  border-color: #000;
+  border-width: 1px;
+  -webkit-transform: rotate(-30deg) skewX(20deg);
+  -moz-transform: rotate(-30deg) skewX(20deg);
+  -o-transform: rotate(-30deg) skewX(20deg);
+  -ms-transform: rotate(-30deg) skewX(20deg);
+  transform: rotate(-30deg) skewX(20deg);
 }

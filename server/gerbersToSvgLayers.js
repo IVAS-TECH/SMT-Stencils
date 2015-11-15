@@ -8,6 +8,8 @@ function gerbersToSvgLayers(files) {
   files.forEach(parse)
   top.svg["ng-class"] = 'ivo'
   top.svg.viewBox = out.svg.viewBox
+  top.svg.width = '90%'
+  top.svg.height = '100%'
   var outline = out.svg._[0].g._[0]
   var figs = top.svg._[1].g._
   outline.path['ng-class'] = 'ivo'

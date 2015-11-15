@@ -3,12 +3,15 @@ var spawn = child_process.spawnSync;
 var npm = spawn('npm', ['install']);
 var bower = spawn('bower', ['install']);
 var fs = require('fs-extra');
-var dir = __dirname;
 var path = require('path')
 var walk = require('walk')
+var stylus = require('stylus')
+var nib = require('nib')
 var gerbersToSvgLayers = require('./server/gerbersToSvgLayers')
+var dir = __dirname;
 var walker = walk.walk(path.join(dir, 'client/resources/samples'))
 var files = []
+var styl = path.join(dir, 'client/styles/styl-style.styl')
 var dependenciesDir = dir + '/client/dependencies';
 var transpiler = '/node_modules/babel-core/browser.js';
 var css = ['/bower_components/angular-material/angular-material.css'];
@@ -27,7 +30,9 @@ var dependecies = [
     '/node_modules/es6-module-loader/dist/es6-module-loader-dev.js',
     '/bower_components/ng-file-upload/ng-file-upload.min.js'
 ];
-
+styleIt(fs.readFileSync(styl, 'utf8'))
+if(process.argv[2] === 'stylus')
+  return
 fs.emptyDirSync(dependenciesDir);
 fs.copySync(dir + css[0], dependenciesDir + '/angular-material.css');
 fs.copySync(dir + transpiler, dependenciesDir + '/browser.js');
@@ -37,6 +42,17 @@ walker.on('file', add)
 walker.on('end', svg)
 if(process.argv[2] === 'start')
   server = spawn(process.argv[0], [dir + '/server/app.js']);
+
+function styleIt(data) {
+  stylus(data)
+    .use(nib())
+    .render(compile)
+
+    function compile(cssErr, css) {
+      var style = path.join(dir, 'client/styles/style.css')
+      fs.writeFileSync(style, css, 'utf8')
+    }
+}
 
 function concatFiles(files, out) {
     var result = '';

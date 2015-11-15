@@ -1,0 +1,26 @@
+@import 'nib'
+
+clr-pcb-side = #848482
+clr-sque-side = #848482
+clr-stencil = #BCC6CC
+
+border(type, color, width)
+  border type
+  border-color color
+  border-width width
+
+.pcb-side
+  color clr-pcb-side
+
+.sque-side
+  color clr-sque-side
+
+.stencil-text
+  absolute
+  font-size 50%
+
+.stencil-view
+  background-color clr-stencil
+  border solid black 1px
+  relative
+  transform rotate(-30deg) skewX(20deg)
