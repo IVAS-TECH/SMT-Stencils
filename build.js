@@ -4,6 +4,11 @@ var npm = spawn('npm', ['install']);
 var bower = spawn('bower', ['install']);
 var fs = require('fs-extra');
 var dir = __dirname;
+var path = require('path')
+var walk = require('walk')
+var gerbersToSvgLayers = require('./server/gerbersToSvgLayers')
+var walker = walk.walk(path.join(dir, 'client/resources/samples'))
+var files = []
 var dependenciesDir = dir + '/client/dependencies';
 var transpiler = '/node_modules/babel-core/browser.js';
 var css = ['/bower_components/angular-material/angular-material.css'];
@@ -28,6 +33,8 @@ fs.copySync(dir + css[0], dependenciesDir + '/angular-material.css');
 fs.copySync(dir + transpiler, dependenciesDir + '/browser.js');
 concatFiles(dependecies, dependenciesDir + '/dependencies.js');
 fs.removeSync(dir + '/bower_components');
+walker.on('file', add)
+walker.on('end', svg)
 if(process.argv[2] === 'start')
   server = spawn(process.argv[0], [dir + '/server/app.js']);
 
@@ -39,4 +46,19 @@ function concatFiles(files, out) {
     }
     fs.createFileSync(out);
     fs.writeFileSync(out, result, 'utf8');
+}
+
+function add(root, file, next) {
+  var pathTo = path.join(root, file.name)
+  var item = {}
+  item.content = fs.readFileSync(pathTo, 'utf-8')
+  item.name = pathTo
+  files.push(item)
+  next()
+}
+
+function svg() {
+  var svgs = (gerbersToSvgLayers(files))
+  var top = path.join(dir, 'client/resources/top.svg')
+  fs.writeFileSync(top, svgs.top, 'utf8');
 }

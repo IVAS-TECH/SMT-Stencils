@@ -20,6 +20,9 @@ function Controller(Restangular, $scope) {
   vm.stencil.position.position = '';
   vm.stencil.position.align = '';
   vm.stencil.position.side = '';
+  vm.style = {};
+  vm.style.text = {};
+  vm.style.text.color = 'pcb-side';
   vm.view = {};
   vm.view.text = [];
   vm.view.stencil = [];

@@ -1,25 +1,26 @@
-.mb_board-fr4 {
-   color: silver;
-}
-.mb_board-cu {
-  color: white;
-}
-.mb_board-cf {
-  color: white;
-}
-.mb_board-sm {
-  color: silver;
+.stencil-view {
+  background-color: #E5E4E2;
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  -webkit-transform: rotate(-30deg)skewX(20deg);
+  transform: rotate(-30deg)skewX(20deg);
+  position: relative;
 }
 
-.mb_board-ss {
-  color: white;
+.stencil-text {
+  position: absolute;
+  font-size: 50%;
 }
 
-.mb_board-sp {
-  color: white;
+.pcb-side {
+  color: #FEFCFF;
 }
 
-.mb_board-out path {
-  stroke: white;
-  stroke-width:3%;
+.sque-side {
+  color: #848482;
+}
+
+.stencil {
+  color: #BCC6CC;
 }

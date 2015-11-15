@@ -2,8 +2,8 @@
   <div layout='column'>
     <div layout='column' layout-margin layout-padding>
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
-        <div id='stencil' flex-offset='25' style='border: solid; border-style: ridge; background-color:silver; border-color: black; border-width: 1px; -webkit-transform: rotate(-30deg)skewX(20deg); transform: rotate(-30deg)skewX(20deg); position: relative;'>
-            <span style='position: absolute; font-size: 50%; color: white;'>Text</span>
+        <div id='stencil' flex-offset='25' class='stencil-view'>
+            <span ng-class='["stencil-text", vm.style.text.color, vm.style.text.position, vm.style.text.angle]'>Text</span>
             <ng-include src='"top"' id='gerber' style="position: absolute; top:30%; left:10%; transform: rotate(0deg)"/>
         </div>
     </div>

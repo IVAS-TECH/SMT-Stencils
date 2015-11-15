@@ -25,6 +25,10 @@
     "walk": "2.3.9",
     "fs-extra": "0.26.0",
     "multer": "1.1.0",
-    "gerber-parser": "0.1.2"
+    "stylus": "0.52.4",
+    "nib": "1.1.0",
+    "gerber-parser": "0.1.2",
+    "gerber-to-svg": "0.4.2",
+    "pcb-stackup": "0.0.3"
   }
 }
