@@ -4,7 +4,7 @@
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
         <div id='stencil' flex-offset='25' class='stencil-view'>
             <span ng-class='["stencil-text", vm.style.text.color, vm.style.text.position, vm.style.text.angle]'>Text</span>
-            <ng-include src='"top"' id='gerber' style="position: absolute; top:30%; left:10%; transform: rotate(0deg)"/>
+            <ng-include src='"top"' id='gerber' class='stencil-include'/>
         </div>
     </div>
     <form name='config' layout='column'>

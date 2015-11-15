@@ -22,7 +22,11 @@ function Controller(Restangular, $scope) {
   vm.stencil.position.side = '';
   vm.style = {};
   vm.style.text = {};
-  vm.style.text.color = 'pcb-side';
+  vm.style.text.color = 'sque-side';
+  vm.style.stencil = {};
+  vm.style.stencil.out = false;
+  vm.style.stencil.lay = true;
+  vm.style.stencil.color = false;
   vm.view = {};
   vm.view.text = [];
   vm.view.stencil = [];

@@ -11,7 +11,8 @@ var gerbersToSvgLayers = require('./server/gerbersToSvgLayers')
 var dir = __dirname;
 var walker = walk.walk(path.join(dir, 'client/resources/samples'))
 var files = []
-var styl = path.join(dir, 'client/styles/styl-style.styl')
+var styles = path.join(dir, 'client/styles')
+var styl = path.join(styles, 'styl-style.styl')
 var dependenciesDir = dir + '/client/dependencies';
 var transpiler = '/node_modules/babel-core/browser.js';
 var css = ['/bower_components/angular-material/angular-material.css'];
@@ -45,11 +46,13 @@ if(process.argv[2] === 'start')
 
 function styleIt(data) {
   stylus(data)
+    .include(styles)
     .use(nib())
     .render(compile)
 
     function compile(cssErr, css) {
-      var style = path.join(dir, 'client/styles/style.css')
+      console.log(cssErr)
+      var style = path.join(styles, 'style.css')
       fs.writeFileSync(style, css, 'utf8')
     }
 }

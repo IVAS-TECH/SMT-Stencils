@@ -1,13 +1,6 @@
 @import 'nib'
-
-clr-pcb-side = #848482
-clr-sque-side = #848482
-clr-stencil = #BCC6CC
-
-border(type, color, width)
-  border type
-  border-color color
-  border-width width
+@require 'colors'
+@require 'mixins'
 
 .pcb-side
   color clr-pcb-side
@@ -21,6 +14,19 @@ border(type, color, width)
 
 .stencil-view
   background-color clr-stencil
-  border solid black 1px
+  border solid 1px black
   relative
   transform rotate(-30deg) skewX(20deg)
+
+.stencil-outline
+  stroke-width 3%
+
+.stencil-no-outline
+  stroke-width 0
+
+.stencil-layout
+  border solid 5px
+
+.stencil-include
+  absolute top 20% left 5% //30% for layout 20% for centered
+  transform rotate(0deg)

@@ -1,5 +1,5 @@
 .pcb-side {
-  color: #848482;
+  color: #fefcff;
 }
 .sque-side {
   color: #848482;
@@ -10,11 +10,31 @@
 .stencil-view {
   background-color: #bcc6cc;
   border: solid;
-  border-color: #000;
   border-width: 1px;
+  border-color: #000;
   -webkit-transform: rotate(-30deg) skewX(20deg);
   -moz-transform: rotate(-30deg) skewX(20deg);
   -o-transform: rotate(-30deg) skewX(20deg);
   -ms-transform: rotate(-30deg) skewX(20deg);
   transform: rotate(-30deg) skewX(20deg);
+}
+.stencil-outline {
+  stroke-width: 3%;
+}
+.stencil-no-outline {
+  stroke-width: 0;
+}
+.stencil-layout {
+  border: solid;
+  border-width: 5px;
+}
+.stencil-include {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
 }
