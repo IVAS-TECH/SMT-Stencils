@@ -1,9 +1,9 @@
-Controller.$inject = ['Restangular', '$scope'];
+Controller.$inject = ['Restangular'];
 
 var controllerName = 'directiveAppStencilConfigController';
 var directiveAppStencilConfigController = {};
 
-function Controller(Restangular, $scope) {
+function Controller(Restangular) {
   var vm = this;
   vm.stencil = {};
   vm.stencil.name = '';
@@ -20,12 +20,10 @@ function Controller(Restangular, $scope) {
   vm.stencil.position.position = '';
   vm.stencil.position.align = '';
   vm.stencil.position.side = '';
-  vm.style = {};
-  vm.style.text = {};
-  vm.style.text.color = 'sque-side';
-  vm.style.stencil = {};
-  vm.style.stencil.out = false;
-  vm.style.stencil.lay = true;
+  vm.stencil.style = {}
+  vm.stencil.style.out = false
+  vm.stencil.style.lay = true
+  vm.stencil.style.mode = ''
   vm.view = {};
   vm.view.text = [];
   vm.view.stencil = [];
@@ -63,7 +61,7 @@ function Controller(Restangular, $scope) {
 
   function textAngle() {
     var position = vm.stencil.text.position;
-    if(!position.includes('center'))
+    if(!position || !position.includes('center'))
       return ['left', 'right', 'bottom', 'top'];
     if(position.includes('center '))
       return ['left', 'right'];
@@ -73,13 +71,19 @@ function Controller(Restangular, $scope) {
 
   function changeStencilPosition() {
     var newVal = vm.stencil.position.position;
+    var mode  = vm.stencil.position.align.toLowerCase()
     if(!newVal.includes('PCB')) {
-      vm.style.stencil.out = false
-      vm.style.stencil.lay = newVal.includes('Lay')
+      vm.stencil.style.out = false
+      vm.stencil.style.lay = newVal.includes('Lay')
+      if(vm.stencil.style.lay)
+        vm.stencil.style.mode = [mode, 'centered'].join('-')
+      else
+        vm.stencil.style.mode = [mode, 'no'].join('-')
       return;
     }
-    vm.style.stencil.lay = false
-    vm.style.stencil.out = true
+    vm.stencil.style.lay = false
+    vm.stencil.style.out = true
+    vm.stencil.style.mode = [mode, 'centered'].join('-')
   }
 
   function changeText(text) {

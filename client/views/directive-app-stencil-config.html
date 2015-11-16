@@ -2,9 +2,9 @@
   <div layout='column'>
     <div layout='column' layout-margin layout-padding>
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
-        <div id='stencil' flex-offset='25' class='stencil-view'>
+        <div flex-offset='25' class='stencil-view'>
             <span class='stencil-text' ng-class='vm.changeText(vm.stencil.text)'>Text</span>
-            <ng-include src='"top"' id='gerber' class='stencil-include'/>
+            <ng-include src='"top"' ng-class='vm.stencil.style.mode || "portrait-centered"'/>
         </div>
     </div>
     <form name='config' layout='column'>
@@ -85,7 +85,7 @@
       <div layout='row' layout-align='center center'>
         <md-input-container>
           <label>Aligment</label>
-          <md-select ng-model='vm.stencil.position.align'>
+          <md-select ng-model='vm.stencil.position.align' ng-change='vm.changeStencilPosition()'>
             <md-option>Portrait</md-option>
             <md-option>Landscape</md-option>
           </md-select>

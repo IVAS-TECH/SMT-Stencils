@@ -6,13 +6,13 @@ function gerbersToSvgLayers(files) {
   var bot = {}
   var out = {}
   files.forEach(parse)
-  top.svg["ng-class"] = "[(vm.stencil.position.side.toLowerCase().replace(' ', '-') || 'pcb-side'), (vm.style.stencil.lay ? 'stencil-layout' : 'stencil-centered')]"
+  top.svg["ng-class"] = "[(vm.stencil.position.side.toLowerCase().replace(' ', '-') || 'pcb-side'), (vm.stencil.style.lay ? 'stencil-layout' : 'stencil-centered')]"
   top.svg.viewBox = out.svg.viewBox
-  top.svg.width = '90%'
-  top.svg.height = '100%'
+  top.svg.width = '80%'
+  top.svg.height = '90%'
   var outline = out.svg._[0].g._[0]
   var figs = top.svg._[1].g._
-  outline.path['ng-class'] = "vm.style.stencil.out ? 'stencil-outline' : 'stencil-no-outline'"
+  outline.path['ng-class'] = "vm.stencil.style.out ? 'stencil-outline' : 'stencil-no-outline'"
   figs.push(outline)
   result = {}
   result.top = gerberToSvg(top)
