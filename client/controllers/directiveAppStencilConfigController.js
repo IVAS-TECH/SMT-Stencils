@@ -26,8 +26,6 @@ function Controller(Restangular, $scope) {
   vm.style.stencil = {};
   vm.style.stencil.out = false;
   vm.style.stencil.lay = true;
-  vm.style.stencil.color = false;
-  vm.style.stencil.view = ''
   vm.view = {};
   vm.view.text = [];
   vm.view.stencil = [];
@@ -37,6 +35,7 @@ function Controller(Restangular, $scope) {
   vm.textAngle = textAngle
   vm.changeStencilPosition = changeStencilPosition;
   vm.doCreate = doCreate;
+  vm.changeText = changeText
 
   function doCreate(valid) {
     if(valid) {
@@ -77,20 +76,41 @@ function Controller(Restangular, $scope) {
     bottom.value = '0deg';
     var position = vm.stencil.text.position;
     if(!position.includes('center'))
-      return [left, right, top, bottom];
+      return [left, right, bottom, top];
     if(position.includes('center-'))
       return [left, right];
     if(position.includes('-center'))
-      return [top, bottom];
+      return [bottom, top];
   }
 
   function changeStencilPosition() {
     var newVal = vm.stencil.position.position;
-    var gerber = $('#gerber');
-    if(newVal === 'PCB centered')
-      gerber.css('top', '30%');
+    if(newVal !== 'out') {
+      vm.style.stencil.out = false
+      vm.style.stencil.lay = newVal === 'lay'
+      return;
+    }
     else
-      gerber.css('top', '20%');
+      vm.style.stencil.lay = false
+      vm.style.stencil.out = true
+  }
+
+  function changeText(text) {
+    var pos = text.position
+    var angle = text.angle
+    var angles = vm.options.textAngle
+    if(!vm.stencil.text.position)
+      return "text-top-left-90deg"
+    if(!includes(angles, angle))
+      return ("text-" + text.position + "-" + angles[0].value)
+    return ("text-" + text.position + "-" + text.angle)
+
+    function includes(angls, angl) {
+      for(var i = 0;i < angles.length;++i)
+        if(angl === angles[i].value)
+          return true
+      return false
+    }
   }
 }
 

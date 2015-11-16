@@ -6,7 +6,7 @@ function gerbersToSvgLayers(files) {
   var bot = {}
   var out = {}
   files.forEach(parse)
-  top.svg["ng-class"] = "[(vm.style.stencil.color ? 'pcb-side' : 'sque-side'), (vm.style.stencil.lay ? 'stencil-layout' : 'stencil-normal')]"
+  top.svg["ng-class"] = "[(!vm.stencil.position.side ? 'pcb-side' : vm.stencil.position.side), (vm.style.stencil.lay ? 'stencil-layout' : 'stencil-centered')]"
   top.svg.viewBox = out.svg.viewBox
   top.svg.width = '90%'
   top.svg.height = '100%'
