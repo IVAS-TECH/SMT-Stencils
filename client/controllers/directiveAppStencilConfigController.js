@@ -73,9 +73,9 @@ function Controller(Restangular, $scope) {
 
   function changeStencilPosition() {
     var newVal = vm.stencil.position.position;
-    if(newVal !== 'out') {
+    if(!newVal.includes('PCB')) {
       vm.style.stencil.out = false
-      vm.style.stencil.lay = newVal === 'lay'
+      vm.style.stencil.lay = newVal.includes('Lay')
       return;
     }
     vm.style.stencil.lay = false
@@ -83,14 +83,19 @@ function Controller(Restangular, $scope) {
   }
 
   function changeText(text) {
+    var color = 'pcb-side'
+    if(text.type === 'Engraved' && text.side)
+      color = text.side.toLowerCase().replace(' ', '-')
+    if(text.type === 'Drilled')
+      color = 'drilled'
     var pos = text.position.replace(' ', '-')
     var angle = text.angle
     var angles = vm.options.textAngle
     if(!vm.stencil.text.position)
-      return "text-top-left-left"
+      return [color, "text-top-left-left"]
     if(!_.includes(angles, angle))
-      return ["text", pos, angles[0]].join('-')
-    return ["text", pos, angle].join('-')
+      return [color, ["text", pos, angles[0]].join('-')]
+    return [color, ["text", pos, angle].join('-')]
   }
 }
 

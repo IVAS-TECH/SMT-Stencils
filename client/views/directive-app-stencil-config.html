@@ -3,7 +3,7 @@
     <div layout='column' layout-margin layout-padding>
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
         <div id='stencil' flex-offset='25' class='stencil-view'>
-            <span ng-class='["stencil-text", (vm.style.text.color ? "pcb-side" : "sque-side"), vm.changeText(vm.stencil.text)]'>Text</span>
+            <span class='stencil-text' ng-class='vm.changeText(vm.stencil.text)'>Text</span>
             <ng-include src='"top"' id='gerber' class='stencil-include'/>
         </div>
     </div>
@@ -93,16 +93,16 @@
         <md-input-container>
           <label>Positioning</label>
           <md-select ng-model='vm.stencil.position.position' ng-change='vm.changeStencilPosition()'>
-            <md-option ng-value='"lay"'>Layout centered</md-option>
-            <md-option ng-value='"out"'>PCB centered</md-option>
-            <md-option ng-value='"no"'>Like layout file</md-option>
+            <md-option>Layout centered</md-option>
+            <md-option>PCB centered</md-option>
+            <md-option>Like layout file</md-option>
           </md-select>
         </md-input-container>
         <md-input-container>
           <label>Side</label>
           <md-select ng-model='vm.stencil.position.side'>
-            <md-option ng-value='"pcb-side"'>PCB side</md-option>
-            <md-option ng-value='"sque-side"'>Squeegee side</md-option>
+            <md-option>PCB side</md-option>
+            <md-option>Squeegee side</md-option>
           </md-select>
         </md-input-container>
       </div>
