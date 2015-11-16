@@ -12,7 +12,7 @@
     <md-button class='md-warn' ng-click='$mdOpenMenu($event)'>Menu</md-button>
     <md-menu-content>
       <md-menu-item ng-repeat='btn in vm.btns'>
-        <md-button ng-click='vm.goToState(vm.click[$index]);' class='md-accent'>{{btn}}</md-button>
+        <md-button ng-click='vm.goToState(vm.click[$index])' class='md-primary'>{{btn}}</md-button>
       </md-menu-item>
     </md-menu-content>
   </md-menu>

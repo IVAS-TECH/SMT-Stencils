@@ -56,31 +56,19 @@ function Controller(Restangular, $scope) {
     var directionsX = ['left', 'right', 'center'];
     for(var i = 0; i < 3; ++i)
       for(var j = 0; j < 3; ++j)
-        options.push(directionsY[i] + '-' + directionsX[j]);
+        options.push(directionsY[i] + ' ' + directionsX[j]);
     options.pop();
     return options;
   }
 
   function textAngle() {
-    var left = {};
-    left.text = 'left';
-    left.value = '270deg';
-    var right = {};
-    right.text = 'right';
-    right.value = '90deg';
-    var top = {};
-    top.text = 'top';
-    top.value = '180deg';
-    var bottom = {};
-    bottom.text = 'bottom';
-    bottom.value = '0deg';
     var position = vm.stencil.text.position;
     if(!position.includes('center'))
-      return [left, right, bottom, top];
-    if(position.includes('center-'))
-      return [left, right];
-    if(position.includes('-center'))
-      return [bottom, top];
+      return ['left', 'right', 'bottom', 'top'];
+    if(position.includes('center '))
+      return ['left', 'right'];
+    if(position.includes(' center'))
+      return ['bottom', 'top'];
   }
 
   function changeStencilPosition() {
@@ -90,27 +78,19 @@ function Controller(Restangular, $scope) {
       vm.style.stencil.lay = newVal === 'lay'
       return;
     }
-    else
-      vm.style.stencil.lay = false
-      vm.style.stencil.out = true
+    vm.style.stencil.lay = false
+    vm.style.stencil.out = true
   }
 
   function changeText(text) {
-    var pos = text.position
+    var pos = text.position.replace(' ', '-')
     var angle = text.angle
     var angles = vm.options.textAngle
     if(!vm.stencil.text.position)
-      return "text-top-left-90deg"
-    if(!includes(angles, angle))
-      return ("text-" + text.position + "-" + angles[0].value)
-    return ("text-" + text.position + "-" + text.angle)
-
-    function includes(angls, angl) {
-      for(var i = 0;i < angles.length;++i)
-        if(angl === angles[i].value)
-          return true
-      return false
-    }
+      return "text-top-left-left"
+    if(!_.includes(angles, angle))
+      return ["text", pos, angles[0]].join('-')
+    return ["text", pos, angle].join('-')
   }
 }
 
