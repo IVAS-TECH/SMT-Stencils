@@ -5,6 +5,7 @@ var directiveAppStencilConfigController = {};
 
 function Controller(Restangular) {
   var vm = this;
+  vm.frame = false
   vm.stencil = {};
   vm.stencil.name = '';
   vm.stencil.type = '';
@@ -34,6 +35,7 @@ function Controller(Restangular) {
   vm.changeStencilPosition = changeStencilPosition;
   vm.doCreate = doCreate;
   vm.changeText = changeText
+  vm.changeStencilTrans = changeStencilTrans
 
   function doCreate(valid) {
     if(valid) {
@@ -100,6 +102,11 @@ function Controller(Restangular) {
     if(!_.includes(angles, angle))
       return [color, ["text", pos, angles[0]].join('-')]
     return [color, ["text", pos, angle].join('-')]
+  }
+
+  function changeStencilTrans() {
+    var newVal = vm.stencil.trans
+    vm.frame = newVal.includes('frame')
   }
 }
 

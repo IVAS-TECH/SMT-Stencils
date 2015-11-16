@@ -1,10 +1,20 @@
 <div>
   <div layout='column'>
-    <div layout='column' layout-margin layout-padding>
+    <div layout='column' layout-margin layout-padding layout-fill layout>
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
-        <div flex-offset='25' class='stencil-view'>
-            <span class='stencil-text' ng-class='vm.changeText(vm.stencil.text)'>Text</span>
-            <ng-include src='"top"' ng-class='vm.stencil.style.mode || "portrait-centered"'/>
+        <div ng-class='vm.frame ? "stencil-box-framed" : "stencil-box-simple"' layout-fill layout>
+          <div ng-class='vm.frame ? "stencil-outer-shadow" : "stencil"' layout-fill layout>
+            <div ng-class='vm.frame ? "stencil-frame" : "stencil"' layout-fill layout>
+              <div ng-class='vm.frame ? "stencil-inner-shadow" : "stencil"' layout-fill layout>
+                <div ng-class='vm.frame ? "stencil-glued" : "stencil"' layout-fill layout>
+                  <div class='stencil-view' layout-fill layout>
+                      <span class='stencil-text' ng-class='vm.changeText(vm.stencil.text)'>Text</span>
+                      <ng-include src='"top"' ng-class='vm.stencil.style.mode || "portrait-centered"'/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
     <form name='config' layout='column'>
@@ -24,7 +34,7 @@
         </md-input-container>
         <md-input-container>
           <label>Stencil transitioning</label>
-          <md-select ng-model='vm.stencil.trans'>
+          <md-select ng-model='vm.stencil.trans' ng-change='vm.changeStencilTrans()'>
             <md-option>Self-transitionig system</md-option>
             <md-option>Glued in frame</md-option>
           </md-select>
