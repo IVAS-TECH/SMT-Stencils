@@ -4,4 +4,4 @@ client/dependencies/*
 server/data/*
 client/resources/*
 client/files/*
-client/styles/style.css
+client/styles/*.css

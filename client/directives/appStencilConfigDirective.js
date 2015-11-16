@@ -14,8 +14,6 @@ function Directive (Restangular, $compile) {
     var text = body.find('span');
     controller.view.text = text;
     controller.view.stencil = stencil;
-    body.css('width', '160px');
-    body.css('height', '220px');
   }
 
   return directive;

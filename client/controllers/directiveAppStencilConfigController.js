@@ -27,16 +27,14 @@ function Controller(Restangular, $scope) {
   vm.style.stencil.out = false;
   vm.style.stencil.lay = true;
   vm.style.stencil.color = false;
+  vm.style.stencil.view = ''
   vm.view = {};
   vm.view.text = [];
   vm.view.stencil = [];
   vm.options = {};
   vm.options.textPosition = textPosition();
   vm.options.textAngle = textAngle();
-  vm.changeTextAngle = changeTextAngle;
-  vm.changeTextPosition = changeTextPosition;
-  vm.changeTextSide = changeTextSide;
-  vm.changeStencilSide = changeStencilSide;
+  vm.textAngle = textAngle
   vm.changeStencilPosition = changeStencilPosition;
   vm.doCreate = doCreate;
 
@@ -59,7 +57,7 @@ function Controller(Restangular, $scope) {
     var directionsX = ['left', 'right', 'center'];
     for(var i = 0; i < 3; ++i)
       for(var j = 0; j < 3; ++j)
-        options.push(directionsY[i] + ' ' + directionsX[j]);
+        options.push(directionsY[i] + '-' + directionsX[j]);
     options.pop();
     return options;
   }
@@ -80,34 +78,10 @@ function Controller(Restangular, $scope) {
     var position = vm.stencil.text.position;
     if(!position.includes('center'))
       return [left, right, top, bottom];
-    if(position.includes('center '))
+    if(position.includes('center-'))
       return [left, right];
-    if(position.includes(' center'))
+    if(position.includes('-center'))
       return [top, bottom];
-  }
-
-  function changeTextSide() {
-    var newVal = vm.stencil.text.side;
-    var text = vm.view.text;
-    if(newVal === 'PCB side')
-      text.css('color', 'white');
-    else
-      text.css('color', 'dimgrey');
-  }
-
-  function changeStencilSide() {
-    var newVal = vm.stencil.position.side;
-    var e = $('#stencilView');
-    var selectors = ['.mb_board-out', '.mb_board-sp', '.mb_board-ss', '.mb_board-cf', '.mb_board-cu'];
-    selectors.forEach(change);
-
-    function change(selector) {
-      var e = $(selector);
-      if(newVal === 'PCB side')
-        e.css('color', 'white');
-      else
-        e.css('color', 'dimgrey');
-    }
   }
 
   function changeStencilPosition() {
@@ -121,7 +95,7 @@ function Controller(Restangular, $scope) {
 
   function changeTextAngle() {
       var newVal = vm.stencil.text.angle;
-      var text = vm.view.text;
+      /*var text = vm.view.text;
       var position = vm.stencil.text.position;
       if(position === 'top left') {
         if((newVal === '270deg' || newVal === '90deg'))
@@ -159,12 +133,15 @@ function Controller(Restangular, $scope) {
           text.css('bottom', '0%');
         }
       }
-      text.css('transform', `rotate(${newVal})`);
+      text.css('transform', `rotate(${newVal})`);*/
   }
 
   function changeTextPosition() {
       var newVal = vm.stencil.text.position;
-      var text = vm.view.text;
+      var angle = vm.stencil.text.angle
+      vm.style.text.position = 'text-' + newVal
+      vm.style.text.angle = 'text-'+ angle
+      /*var text = vm.view.text;
       vm.options.textAngle = textAngle();
       if(newVal === 'top center') {
         text.css('top', '0%');
@@ -213,7 +190,7 @@ function Controller(Restangular, $scope) {
         text.css('right', '0%');
         text.css('left', '');
         text.css('bottom', '');
-      }
+      }*/
     }
 }
 

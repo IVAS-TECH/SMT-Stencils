@@ -3,7 +3,7 @@
     <div layout='column' layout-margin layout-padding>
         <md-button class='md-primary' app-disabled='true'>Stencil preveiw:</md-button>
         <div id='stencil' flex-offset='25' class='stencil-view'>
-            <span ng-class='["stencil-text", vm.style.text.color, vm.style.text.position, vm.style.text.angle]'>Text</span>
+            <span ng-class='["stencil-text", (vm.style.text.color ? "pcb-side" : "sque-side"), ("text-" + vm.stencil.text.position + "-" + vm.stencil.text.angle)]'>Text</span>
             <ng-include src='"top"' id='gerber' class='stencil-include'/>
         </div>
     </div>
@@ -57,13 +57,13 @@
       <div layout='row' layout-align='center center'>
         <md-input-container>
           <label>Text Position</label>
-          <md-select ng-model='vm.stencil.text.position' ng-change='vm.changeTextPosition()'>
+          <md-select ng-model='vm.stencil.text.position' ng-change='vm.options.textAngle = vm.textAngle()'>
             <md-option ng-repeat='option in vm.options.textPosition'>{{option}}</md-option>
           </md-select>
         </md-input-container>
         <md-input-container>
           <label>Text readable from</label>
-          <md-select ng-model='vm.stencil.text.angle' ng-change='vm.changeTextAngle()'>
+          <md-select ng-model='vm.stencil.text.angle'>
             <md-option ng-repeat='option in vm.options.textAngle' ng-value='option.value'>{{option.text}}</md-option>
           </md-select>
         </md-input-container>

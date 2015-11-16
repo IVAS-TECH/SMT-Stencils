@@ -1,6 +1,7 @@
 @import 'nib'
 @require 'colors'
 @require 'mixins'
+@require 'stencil-text'
 
 .pcb-side
   color clr-pcb-side
@@ -17,6 +18,8 @@
   border solid 1px black
   relative
   transform rotate(-30deg) skewX(20deg)
+  width 160px
+  height 220px
 
 .stencil-outline
   stroke-width 3%
@@ -30,25 +33,3 @@
 .stencil-include
   absolute top 20% left 5% //30% for layout 20% for centered
   rotateIt 0deg
-
-.text-top-left-x
-  absolute top 0% left 0%
-
-.text-top-left-y
-  absolute top 2% left 0%
-
-.text-top-left-0
-  @extend .text-top-left-x
-  rotateIt 0deg
-
-.text-top-left-90
-  @extend .text-top-left-y
-  rotateIt 90deg
-
-.text-top-left-180
-  @extend .text-top-left-x
-  rotateIt 180deg
-
-.text-top-left-270
-  @extend .text-top-left-y
-  rotateIt 270deg
