@@ -19,6 +19,7 @@
   "dependencies": {
     "body-parser": "1.13.2",
     "express": "4.13.1",
+    "mongodb": "2.0.48",
     "monk": "1.0.1",
     "babel-core": "5.8.25",
     "es6-module-loader": "0.17.7",

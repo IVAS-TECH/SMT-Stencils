@@ -1,7 +1,9 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var monk = require('monk');
+var mongo = require('mongodb');
+console.log("mongo")
+//var monk = require('monk');
 var register = require('./routes/register');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
@@ -12,7 +14,7 @@ var session = require('./session');
 var mapDir = require('./mapDir');
 var multerConfig = require('./multerConfig');
 
-var db = monk('0.0.0.0:27017/app');
+//var db = monk('0.0.0.0:27017/app');
 var clientDir = path.join(__dirname, '../client');
 var port = process.env.PORT || 3000;
 var app = express();
@@ -21,8 +23,8 @@ var multerConfigObj = multerConfig(clientDir);
 var multerMiddleware = multerConfigObj.any();
 
 app.use(bodyParser.json());
-app.use(accessDB);
-app.use(session.use(db.get('session')));
+//app.use(accessDB);
+//app.use(session.use(db.get('session')));
 app.post('/files', multerMiddleware, files);
 app.use('/register', register);
 app.use('/login', login);
@@ -32,10 +34,10 @@ app.use('/config', config);
 app.use(serveMapedFile);
 app.listen(port);
 
-function accessDB(req, res, next) {
+/*function accessDB(req, res, next) {
     req.db = db;
     next();
-}
+}*/
 
 function serveMapedFile(req, res, next) {
     if(req.method === 'GET') {
