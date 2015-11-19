@@ -20,7 +20,7 @@ function gerbersToSvgLayers(files) {
   return result
 
   function parse(file) {
-      var type = idLayer(file.name)
+      var type = idLayer(file.path)
       var opts = {}
       opts.object = true
       opts.drill = type === 'drl'
