@@ -18,6 +18,7 @@ task "install", "Installs all required packages", () ->
   walk = require "walk"
 
 task "style", "Compiles all Stylus files into single CSS3 file", () ->
+  if not fs? then invoke "install"
   console.log "Compiling all Stylus files into single CSS3 file..."
   stylus = require "stylus"
   nib = require "nib"
@@ -34,6 +35,7 @@ task "style", "Compiles all Stylus files into single CSS3 file", () ->
   console.log "Compiling all Stylus files into single CSS3 file    done"
 
 task "dependencies", "Builds all Client app dependencies", () ->
+  if not fs? then invoke "install"
   transpiler = join __dirname, "/node_modules/babel-core/browser.js" #remove it tommorow
   dependenciesDir = join __dirname, "/client/dependencies"
   material = join __dirname, "bower_components/angular-material/angular-material.css"
@@ -75,6 +77,7 @@ task "dependencies", "Builds all Client app dependencies", () ->
   console.log "Removing ./bower_components    done"
 
 task "stencil", "Generates default stencil SVG", () ->
+  if not fs? then invoke "install"
   gerbersToSvgLayers = require "./server/gerbersToSvgLayers"
   console.log "Generating default stencil SVG..."
   files = []
@@ -92,7 +95,7 @@ task "stencil", "Generates default stencil SVG", () ->
   walker.on "end", generateSvg
   console.log "Generating default stencil SVG    done"
 
-task "build", "Wraps up th building proccess", () ->
+task "build", "Wraps up the building proccess", () ->
   invoke "install"
   invoke "style"
   invoke "dependencies"
