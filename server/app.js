@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
-console.log("mongo")
 //var monk = require('monk');
 var register = require('./routes/register');
 var login = require('./routes/login');
@@ -32,7 +31,7 @@ app.get('/logout', logout);
 app.post('/profile', profile);
 app.use('/config', config);
 app.use(serveMapedFile);
-app.listen(port);
+app.listen(port, function() {console.log('Server started at port:' + port)});
 
 /*function accessDB(req, res, next) {
     req.db = db;

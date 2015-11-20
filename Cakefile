@@ -1,41 +1,19 @@
-fs = null
-path = null
-join = null
-walk = null
+{join} = require "path" ? null
+fs = require "fs-extra" ? null
+walk = require "walk" ? null
+server = null
 
-task "install", "Installs all required packages", () ->
-  process = require "child_process"
-  spawn = process.spawnSync
+task "dependencies", "Builds all package dependencies", () ->
+  {spawnSync} = require "child_process"
   console.log "Installing node packages..."
-  spawn "npm", ["install"]
+  spawnSync "npm", ["install"]
   console.log "Installing node packages    done"
   console.log "Installing bower packages..."
-  spawn "bower", ["install"]
+  spawnSync "bower", ["install"]
   console.log "Installing bower packages    done"
+  {join} = require "path"
   fs = require "fs-extra"
-  path = require "path"
-  join = path.join
   walk = require "walk"
-
-task "style", "Compiles all Stylus files into single CSS3 file", () ->
-  if not fs? then invoke "install"
-  console.log "Compiling all Stylus files into single CSS3 file..."
-  stylus = require "stylus"
-  nib = require "nib"
-  styles = join __dirname, "client/styles"
-  styl = join styles, "styl-style.styl"
-  stylContent = fs.readFileSync styl, "utf8"
-  compiler = stylus stylContent
-  compiler.include styles
-  compiler.use nib()
-  compiler.render (cssErr, css) ->
-    if cssErr then console.log cssErr
-    fs.writeFileSync (join styles, "style.css"), css, "utf8"
-    return
-  console.log "Compiling all Stylus files into single CSS3 file    done"
-
-task "dependencies", "Builds all Client app dependencies", () ->
-  if not fs? then invoke "install"
   transpiler = join __dirname, "/node_modules/babel-core/browser.js" #remove it tommorow
   dependenciesDir = join __dirname, "/client/dependencies"
   material = join __dirname, "bower_components/angular-material/angular-material.css"
@@ -60,7 +38,6 @@ task "dependencies", "Builds all Client app dependencies", () ->
       pathToFile = join __dirname, single
       fs.readFileSync pathToFile, "utf8"
     result += concat file for file in files
-    fs.createFileSync out
     fs.writeFileSync out, result, "utf8"
   console.log "Creating/Clearing dependencies Dir..."
   fs.emptyDirSync dependenciesDir
@@ -76,8 +53,25 @@ task "dependencies", "Builds all Client app dependencies", () ->
   fs.removeSync join __dirname,  "bower_components"
   console.log "Removing ./bower_components    done"
 
+task "style", "Compiles all Stylus files into single CSS3 file", () ->
+  if not join? then invoke "dependencies"
+  console.log "Compiling all Stylus files into single CSS3 file..."
+  stylus = require "stylus"
+  nib = require "nib"
+  styles = join __dirname, "client/styles"
+  styl = join styles, "styl-style.styl"
+  stylContent = fs.readFileSync styl, "utf8"
+  stylus stylContent
+    .include styles
+    .use nib()
+    .render (cssErr, css) ->
+      if cssErr then console.log cssErr
+      fs.writeFileSync (join styles, "style.css"), css, "utf8"
+  console.log "Compiling all Stylus files into single CSS3 file    done"
+
+
 task "stencil", "Generates default stencil SVG", () ->
-  if not fs? then invoke "install"
+  if not join? then invoke "dependencies"
   gerbersToSvgLayers = require "./server/gerbersToSvgLayers"
   console.log "Generating default stencil SVG..."
   files = []
@@ -96,7 +90,24 @@ task "stencil", "Generates default stencil SVG", () ->
   console.log "Generating default stencil SVG    done"
 
 task "build", "Wraps up the building proccess", () ->
-  invoke "install"
-  invoke "style"
   invoke "dependencies"
+  invoke "style"
   invoke "stencil"
+
+task "start", "Starts the server and stops it on entering 'stop'", () ->
+  console.log "Starting server..."
+  {spawn} = require "child_process"
+  server = spawn "node", ["server/app.js"], {stdio : "pipe"}
+  server.on "exit", (code, signal) ->
+    console.log "Stoping server    done"
+    console.log "Goodbye :)"
+    process.exit 0
+  console.log "Starting server    done"
+  server.stdout.setEncoding 'utf8'
+  process.stdin.setEncoding 'utf8'
+  server.stdout.on 'data', (data) -> console.log data
+  process.stdin.on "data", (data) ->
+    if data.includes "stop"
+      server.kill "SIGINT"
+      console.log(  )
+      console.log "Stoping server..."
