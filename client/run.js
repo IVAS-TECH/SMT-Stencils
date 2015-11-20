@@ -5,15 +5,15 @@ function run($rootScope, $state, Restangular) {
     $state.go('home');
 
   Restangular
-    .all('login')
-      .get('')
-        .then(success);
+    .oneUrl('login')
+    .get()
+    .then(success);
 
   function success(res) {
     if(res.success)
       $rootScope.user = res.user;
   }
-  
+
   $state.go('home');
 }
 
