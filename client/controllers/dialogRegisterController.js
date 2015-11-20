@@ -30,7 +30,7 @@ function Controller(Restangular, $rootScope, $mdDialog) {
           showError('Make sure all fields are valid');
 
         function success(res) {
-            if (!res.error)
+            if (res.success)
               vm.success = true;
              else
               showError('Error!');
@@ -54,7 +54,8 @@ function Controller(Restangular, $rootScope, $mdDialog) {
           var promise = new Promise(resolver);
 
           function resolver(resolve, reject) {
-              restReg.get(modelValue).then(success);
+            console.log(modelValue)
+              Restangular.all("email").get(modelValue).then(success);
 
               function success(res) {
                   if (res.exist)

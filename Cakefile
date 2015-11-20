@@ -113,8 +113,7 @@ task "build", "Wraps up the building proccess", ->
 task "start", "Starts the server and stops it on entering 'stop'", ->
   console.log "Starting server..."
   {spawn, spawnSync} = require "child_process"
-  compiled = spawnSync "coffee", ["-c", "-b", "server/server.coffee"]
-  compiled = spawnSync "coffee", ["-c", "-b", "server/lib"]
+  compiled = spawnSync "coffee", ["-c", "-b", "server"]
   server = spawn "node", ["server/server.js"], stdio : "pipe"
   console.log "Starting server    done"
   server.stdout.setEncoding 'utf8'
