@@ -1,6 +1,5 @@
 {join} = require "path" ? null
 fs = require "fs-extra" ? null
-walk = require "walk" ? null
 server = null
 
 task "dependencies", "Builds all package dependencies", ->
@@ -13,7 +12,6 @@ task "dependencies", "Builds all package dependencies", ->
   console.log "Installing bower packages    done"
   {join} = require "path"
   fs = require "fs-extra"
-  walk = require "walk"
   transpiler = join __dirname, "/node_modules/babel-core/browser.js" #remove it tommorow
   dependenciesDir = join __dirname, "/client/dependencies"
   material = join __dirname, "bower_components/angular-material/angular-material.css"
@@ -66,19 +64,29 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
     .use nib()
     .render (cssErr, css) ->
       if cssErr then console.log cssErr
-      fs.writeFileSync (join styles, "style.css"), css, "utf8"
+      cssFile = join styles, "style.css"
+      fs.writeFileSync cssFile, css, "utf8"
   console.log "Compiling all Stylus files into single CSS3 file    done"
+
+task "resources", "Gets the resource files", ->
+  # add nodegit to package.json
+  # {Clone} = require "nodegit"
+  #Clone.clone "https://github.com/NoHomey/diplomna_resources", "client/resources"
+  #  .then (repo) -> console.log repo
+
 
 task "stencil", "Generates default stencil SVG", ->
   if not join? then invoke "dependencies"
-  gerbersToSvgLayers = require "./server/gerbersToSvgLayers"
+  invoke "resources"
+  walk = require "walk"
+  gerbersToSvgLayers = require "./server/lib/gerbersToSvgLayers"
   console.log "Generating default stencil SVG..."
   files = []
   walker = walk.walk join __dirname, "client/resources/samples"
   walker.on "file", (root, file, next) ->
     pathToFile = join root, file.name
     content = fs.readFileSync pathToFile, "utf8"
-    files.push {content : content, path : pathToFile}
+    files.push content: content, path: pathToFile
     next()
   walker.on "end", ->
     svgs = gerbersToSvgLayers files
@@ -94,7 +102,7 @@ task "build", "Wraps up the building proccess", ->
 task "start", "Starts the server and stops it on entering 'stop'", ->
   console.log "Starting server..."
   {spawn} = require "child_process"
-  server = spawn "node", ["server/app.js"], {stdio : "pipe"}
+  server = spawn "node", ["server/app.js"], stdio : "pipe"
   server.on "exit", (code, signal) ->
     console.log "Stoping server    done"
     console.log "Goodbye :)"

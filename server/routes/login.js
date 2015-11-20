@@ -1,7 +1,7 @@
 var express = require('express'),
   router = express.Router();
 
-router.post('/', login);
+//router.post('/', login);
 router.get('/', logged);
 
 function login(req, res) {
@@ -21,6 +21,12 @@ function login(req, res) {
 
 function logged(req, res) {
   var status = {};
+  status.user = {}
+  status.success = true//session.isMapedIp(req.ip);
+  status.user.email = 'ivo' //result.email;
+  status.user.password = 'ivo'//result.password;
+  res.send(status);
+  return
   var session = req.session;
   status.success = session.isMapedIp(req.ip);
   if(status.success) {
