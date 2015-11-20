@@ -4,7 +4,7 @@ server = null
 
 task "dependencies", "Builds all package dependencies", ->
   {spawnSync} = require "child_process"
-  console.log "Installing node packages..."
+  console.log "Installing node packages... (Please wait this can take more than 5 mins)"
   spawnSync "npm", ["install"]
   console.log "Installing node packages    done"
   console.log "Installing bower packages..."
@@ -52,7 +52,7 @@ task "dependencies", "Builds all package dependencies", ->
   console.log "Removing ./bower_components    done"
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
-  if not join? then invoke "dependencies"
+  if not fs then invoke "dependencies"
   console.log "Compiling all Stylus files into single CSS3 file..."
   stylus = require "stylus"
   nib = require "nib"
@@ -68,36 +68,43 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
       fs.writeFileSync cssFile, css, "utf8"
   console.log "Compiling all Stylus files into single CSS3 file    done"
 
-task "resources", "Gets the resource files", ->
-  # add nodegit to package.json
-  # {Clone} = require "nodegit"
-  #Clone.clone "https://github.com/NoHomey/diplomna_resources", "client/resources"
-  #  .then (repo) -> console.log repo
-
-
-task "stencil", "Generates default stencil SVG", ->
-  if not join? then invoke "dependencies"
-  invoke "resources"
+task "resources", "Pulls all resource files & Generates default stencil SVG", ->
+  if not fs then invoke "dependencies"
   walk = require "walk"
   gerbersToSvgLayers = require "./server/lib/gerbersToSvgLayers"
-  console.log "Generating default stencil SVG..."
-  files = []
-  walker = walk.walk join __dirname, "client/resources/samples"
-  walker.on "file", (root, file, next) ->
-    pathToFile = join root, file.name
-    content = fs.readFileSync pathToFile, "utf8"
-    files.push content: content, path: pathToFile
-    next()
-  walker.on "end", ->
-    svgs = gerbersToSvgLayers files
-    top = join __dirname, "client/resources/top.svg"
-    fs.writeFileSync top, svgs.top, "utf8"
-  console.log "Generating default stencil SVG    done"
+  {Clone} = require "nodegit"
+  resources = join __dirname, "client/resources"
+  fs.removeSync resources
+  clone = Clone.clone "https://github.com/NoHomey/diplomna_resources", resources
+  clone.then (repo) ->
+    fs.removeSync join resources, ".git"
+    console.log "Generating default stencil SVG..."
+    files = []
+    walker = walk.walk join resources, "samples"
+    walker.on "file", (root, file, next) ->
+      pathToFile = join root, file.name
+      content = fs.readFileSync pathToFile, "utf8"
+      files.push content: content, path: pathToFile
+      next()
+    walker.on "end", ->
+      svgs = gerbersToSvgLayers files
+      top = join resources, "top.svg"
+      fs.writeFileSync top, svgs.top, "utf8"
+    console.log "Generating default stencil SVG    done"
+
+task "clean", "Returns repo as it was pulled", ->
+  if not fs then invoke "dependencies"
+  client = join __dirname, "client"
+  fs.removeSync join __dirname, "node_modules"
+  fs.removeSync join client, "resources"
+  fs.removeSync join client, "dependencies"
+  fs.removeSync join client, "styles/style.css"
 
 task "build", "Wraps up the building proccess", ->
+  invoke "clean"
   invoke "dependencies"
   invoke "style"
-  invoke "stencil"
+  invoke "resources"
 
 task "start", "Starts the server and stops it on entering 'stop'", ->
   console.log "Starting server..."

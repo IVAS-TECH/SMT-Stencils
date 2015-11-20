@@ -4,6 +4,8 @@
 
 install mongodb
 
+make sure you have installed libgit2, libssl, libssl-dev & libgcrypt wich are required by nodegit package
+
 install node and npm
 
 run npm install -g bower
