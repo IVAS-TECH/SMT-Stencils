@@ -3,7 +3,7 @@ fs = require "fs-extra" ? null
 walk = require "walk" ? null
 server = null
 
-task "dependencies", "Builds all package dependencies", () ->
+task "dependencies", "Builds all package dependencies", ->
   {spawnSync} = require "child_process"
   console.log "Installing node packages..."
   spawnSync "npm", ["install"]
@@ -53,7 +53,7 @@ task "dependencies", "Builds all package dependencies", () ->
   fs.removeSync join __dirname,  "bower_components"
   console.log "Removing ./bower_components    done"
 
-task "style", "Compiles all Stylus files into single CSS3 file", () ->
+task "style", "Compiles all Stylus files into single CSS3 file", ->
   if not join? then invoke "dependencies"
   console.log "Compiling all Stylus files into single CSS3 file..."
   stylus = require "stylus"
@@ -69,7 +69,7 @@ task "style", "Compiles all Stylus files into single CSS3 file", () ->
       fs.writeFileSync (join styles, "style.css"), css, "utf8"
   console.log "Compiling all Stylus files into single CSS3 file    done"
 
-task "stencil", "Generates default stencil SVG", () ->
+task "stencil", "Generates default stencil SVG", ->
   if not join? then invoke "dependencies"
   gerbersToSvgLayers = require "./server/gerbersToSvgLayers"
   console.log "Generating default stencil SVG..."
@@ -80,18 +80,18 @@ task "stencil", "Generates default stencil SVG", () ->
     content = fs.readFileSync pathToFile, "utf8"
     files.push {content : content, path : pathToFile}
     next()
-  walker.on "end", () ->
+  walker.on "end", ->
     svgs = gerbersToSvgLayers files
     top = join __dirname, "client/resources/top.svg"
     fs.writeFileSync top, svgs.top, "utf8"
   console.log "Generating default stencil SVG    done"
 
-task "build", "Wraps up the building proccess", () ->
+task "build", "Wraps up the building proccess", ->
   invoke "dependencies"
   invoke "style"
   invoke "stencil"
 
-task "start", "Starts the server and stops it on entering 'stop'", () ->
+task "start", "Starts the server and stops it on entering 'stop'", ->
   console.log "Starting server..."
   {spawn} = require "child_process"
   server = spawn "node", ["server/app.js"], {stdio : "pipe"}
