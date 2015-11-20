@@ -70,17 +70,19 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   if not fs then invoke "dependencies"
-  walk = require "walk"
+  {walk} = require "walk"
   gerbersToSvgLayers = require "./server/lib/gerbersToSvgLayers"
   {Clone} = require "nodegit"
   resources = join __dirname, "client/resources"
+  console.log "Pulling resources..."
   fs.removeSync resources
   clone = Clone.clone "https://github.com/NoHomey/diplomna_resources", resources
   clone.then (repo) ->
     fs.removeSync join resources, ".git"
+    console.log "Pulling resources    done"
     console.log "Generating default stencil SVG..."
     files = []
-    walker = walk.walk join resources, "samples"
+    walker = walk join resources, "samples"
     walker.on "file", (root, file, next) ->
       pathToFile = join root, file.name
       content = fs.readFileSync pathToFile, "utf8"
@@ -95,10 +97,12 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
 task "clean", "Returns repo as it was pulled", ->
   if not fs then invoke "dependencies"
   client = join __dirname, "client"
+  console.log "Restoring repository state..."
   fs.removeSync join __dirname, "node_modules"
   fs.removeSync join client, "resources"
   fs.removeSync join client, "dependencies"
   fs.removeSync join client, "styles/style.css"
+  console.log "Restoring repository state    dome"
 
 task "build", "Wraps up the building proccess", ->
   invoke "clean"
@@ -108,16 +112,20 @@ task "build", "Wraps up the building proccess", ->
 
 task "start", "Starts the server and stops it on entering 'stop'", ->
   console.log "Starting server..."
-  {spawn} = require "child_process"
-  server = spawn "node", ["server/app.js"], stdio : "pipe"
+  {spawn, spawnSync} = require "child_process"
+  compiled = spawnSync "coffee", ["-c", "-b", "server/server.coffee"]
+  compiled = spawnSync "coffee", ["-c", "-b", "server/lib"]
+  server = spawn "node", ["server/server.js"], stdio : "pipe"
+  console.log "Starting server    done"
+  server.stdout.setEncoding 'utf8'
+  server.stderr.setEncoding 'utf8'
+  process.stdin.setEncoding 'utf8'
+  server.stdout.on 'data', (data) -> console.log data
+  server.stderr.on 'data', (data) -> console.log data
   server.on "exit", (code, signal) ->
     console.log "Stoping server    done"
     console.log "Goodbye :)"
     process.exit 0
-  console.log "Starting server    done"
-  server.stdout.setEncoding 'utf8'
-  process.stdin.setEncoding 'utf8'
-  server.stdout.on 'data', (data) -> console.log data
   process.stdin.on "data", (data) ->
     if data.includes "stop"
       server.kill "SIGINT"
