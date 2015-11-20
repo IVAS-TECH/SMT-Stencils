@@ -12,4 +12,6 @@ run npm install -g coffee-script
 
 run mongod --dbpath ./server/data
 
-run cake build
+run cake build to build the project
+
+run cake start to start the server enter "stop" to stop it

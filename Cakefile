@@ -69,24 +69,21 @@ task "style", "Compiles all Stylus files into single CSS3 file", () ->
       fs.writeFileSync (join styles, "style.css"), css, "utf8"
   console.log "Compiling all Stylus files into single CSS3 file    done"
 
-
 task "stencil", "Generates default stencil SVG", () ->
   if not join? then invoke "dependencies"
   gerbersToSvgLayers = require "./server/gerbersToSvgLayers"
   console.log "Generating default stencil SVG..."
   files = []
   walker = walk.walk join __dirname, "client/resources/samples"
-  addToGerberStack = (root, file, next) ->
+  walker.on "file", (root, file, next) ->
     pathToFile = join root, file.name
     content = fs.readFileSync pathToFile, "utf8"
     files.push {content : content, path : pathToFile}
     next()
-  generateSvg = () ->
+  walker.on "end", () ->
     svgs = gerbersToSvgLayers files
     top = join __dirname, "client/resources/top.svg"
     fs.writeFileSync top, svgs.top, "utf8"
-  walker.on "file", addToGerberStack
-  walker.on "end", generateSvg
   console.log "Generating default stencil SVG    done"
 
 task "build", "Wraps up the building proccess", () ->
@@ -109,5 +106,5 @@ task "start", "Starts the server and stops it on entering 'stop'", () ->
   process.stdin.on "data", (data) ->
     if data.includes "stop"
       server.kill "SIGINT"
-      console.log(  )
+      console.log()
       console.log "Stoping server..."
