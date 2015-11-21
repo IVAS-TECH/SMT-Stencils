@@ -12,6 +12,10 @@ run npm install -g bower
 
 run npm install -g coffee-script
 
+run npm install -g jade
+
+run npm install -g browserify
+
 run mongod --dbpath ./server/data
 
 run cake build to build the project

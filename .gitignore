@@ -5,3 +5,4 @@ server/data/*
 client/resources/*
 client/files/*
 client/styles/*.css
+*js

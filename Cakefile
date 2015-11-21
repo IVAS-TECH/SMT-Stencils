@@ -1,34 +1,20 @@
-{join} = require "path" ? null
+{join} = require "path"
 fs = require "fs-extra" ? null
-server = null
+clientDir = join __dirname, "./client"
 
 task "dependencies", "Builds all package dependencies", ->
   {spawnSync} = require "child_process"
   console.log "Installing node packages... (Please wait this can take more than 5 mins)"
-  spawnSync "npm", ["install"]
-  console.log "Installing node packages    done"
+  spawnSync "npm", ["install"], stdio: "inherit"
+  ###console.log "Installing node packages    done"
   console.log "Installing bower packages..."
   spawnSync "bower", ["install"]
   console.log "Installing bower packages    done"
-  {join} = require "path"
   fs = require "fs-extra"
-  transpiler = join __dirname, "/node_modules/babel-core/browser.js" #remove it tommorow
-  dependenciesDir = join __dirname, "/client/dependencies"
   material = join __dirname, "bower_components/angular-material/angular-material.css"
   dependencies = [
-      "/bower_components/jquery/dist/jquery.js"
-      "/bower_components/lodash/lodash.js"
-      "/bower_components/angular/angular.js"
-      "/bower_components/angular-ui-router/release/angular-ui-router.js"
       "/bower_components/ui-router-extras/release/ct-ui-router-extras.js"
       "/bower_components/angular-ui-router.stateHelper/statehelper.js"
-      "/bower_components/angular-aria/angular-aria.js"
-      "/bower_components/angular-animate/angular-animate.js"
-      "/bower_components/angular-messages/angular-messages.js"
-      "/bower_components/angular-material/angular-material.js"
-      "/bower_components/restangular/dist/restangular.js"
-      "/node_modules/es6-module-loader/dist/es6-module-loader-dev.js"
-      "/bower_components/ng-file-upload/ng-file-upload.min.js"
   ]
   concatFiles = (files, out) ->
     result = ""
@@ -37,19 +23,37 @@ task "dependencies", "Builds all package dependencies", ->
       fs.readFileSync pathToFile, "utf8"
     result += concat file for file in files
     fs.writeFileSync out, result, "utf8"
-  console.log "Creating/Clearing dependencies Dir..."
-  fs.emptyDirSync dependenciesDir
-  console.log "Creating/Clearing dependencies Dir    done"
-  console.log "Coping <angular-material.css> to <dependencies/>..."
+  console.log "Coping <angular-material.css> to client"
   fs.copySync material, join dependenciesDir, "angular-material.css"
-  console.log "Coping <angular-material.css> to <dependencies/>    done"
-  fs.copySync transpiler, join dependenciesDir, "browser.js" #also needs to be remove it
-  console.log "Building dependencies.js..." # repalce with compiling coffee to single file
-  concatFiles dependencies, join dependenciesDir, "dependencies.js"
-  console.log "Building dependencies.js done" #remove it
+  console.log "Coping <angular-material.css> to to client    done"
+  console.log "Building dependencies.js..."
+  concatFiles dependencies, join clientDir, "dependencies.js"
+  console.log "Building dependencies.js done"
   console.log "Removing ./bower_components..."
   fs.removeSync join __dirname,  "bower_components"
-  console.log "Removing ./bower_components    done"
+  console.log "Removing ./bower_components    done" ###
+
+task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
+  if not fs then invoke "dependencies"
+  {spawnSync} = require "child_process"
+  spawnSync "jade", ["./client"], stdio: "inherit"
+  {walk} = require "walk"
+  {join} = require "path"
+  fs = require "fs"
+  client = join __dirname, "./client"
+  walker = walk client
+  map = {}
+  walker.on "file", (root, file, next) ->
+    info = file.name.split "."
+    if info[1] is "html" and info[0] not in ["index", "error"]
+      path = join root, file.name
+      map[info[0]] = fs.readFileSync path, "utf8"
+    next()
+  walker.on "end", ->
+    file = join client, "template.coffee"
+    fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
+    spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
+    spawnSync "browserify", ["./client/main.js", "-o", "./client/bundle.js"]
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
   if not fs then invoke "dependencies"
@@ -113,14 +117,10 @@ task "build", "Wraps up the building proccess", ->
 task "start", "Starts the server and stops it on entering 'stop'", ->
   console.log "Starting server..."
   {spawn, spawnSync} = require "child_process"
-  compiled = spawnSync "coffee", ["-c", "-b", "server"]
-  server = spawn "node", ["server/server.js"], stdio : "pipe"
+  spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"
+  server = spawn "node", ["server/server.js"], stdio: "inherit"
   console.log "Starting server    done"
-  server.stdout.setEncoding 'utf8'
-  server.stderr.setEncoding 'utf8'
   process.stdin.setEncoding 'utf8'
-  server.stdout.on 'data', (data) -> console.log data
-  server.stderr.on 'data', (data) -> console.log data
   server.on "exit", (code, signal) ->
     console.log "Stoping server    done"
     console.log "Goodbye :)"
