@@ -2,6 +2,7 @@ angular = require "angular"
 moduleName = "main"
 
 dependencies = [
+  require "template-provider"
   require "angular-animate"
   require "angular-aria"
   require "angular-material"

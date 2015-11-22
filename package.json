@@ -43,6 +43,7 @@
     "angular-material": "0.11.4"
   },
   "browser": {
-    "template": "./client/template.js"
+    "template": "./client/template.js",
+    "template-provider": "./client/templateProvider.js"
   }
 }

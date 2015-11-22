@@ -1,7 +1,5 @@
-template = require "template"
-
-module.exports = ($stateProvider) ->
+module.exports = ($stateProvider, templateProvider) ->
   config = @
-  config.$inject = ["$stateProvider"]
+  config.$inject = ["$stateProvider", "templateProvider"]
   $stateProvider
-    .state "root", template: (template "rootView"), controller: "rootCntrl as root"
+    .state "root", template: (templateProvider.provide "rootView"), controller: "rootCntrl as root"
