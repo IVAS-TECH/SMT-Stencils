@@ -1,47 +1,22 @@
 {join} = require "path"
+{walk} = require "walk" ? null
 fs = require "fs-extra" ? null
 clientDir = join __dirname, "./client"
+appDir = join clientDir, "app"
 
-task "dependencies", "Builds all package dependencies", ->
+task "install", "Builds all package install", ->
   {spawnSync} = require "child_process"
   console.log "Installing node packages... (Please wait this can take more than 5 mins)"
   spawnSync "npm", ["install"], stdio: "inherit"
-  ###console.log "Installing node packages    done"
-  console.log "Installing bower packages..."
-  spawnSync "bower", ["install"]
-  console.log "Installing bower packages    done"
+  console.log "Installing node packages    done"
   fs = require "fs-extra"
-  material = join __dirname, "bower_components/angular-material/angular-material.css"
-  dependencies = [
-      "/bower_components/ui-router-extras/release/ct-ui-router-extras.js"
-      "/bower_components/angular-ui-router.stateHelper/statehelper.js"
-  ]
-  concatFiles = (files, out) ->
-    result = ""
-    concat = (single) ->
-      pathToFile = join __dirname, single
-      fs.readFileSync pathToFile, "utf8"
-    result += concat file for file in files
-    fs.writeFileSync out, result, "utf8"
-  console.log "Coping <angular-material.css> to client"
-  fs.copySync material, join dependenciesDir, "angular-material.css"
-  console.log "Coping <angular-material.css> to to client    done"
-  console.log "Building dependencies.js..."
-  concatFiles dependencies, join clientDir, "dependencies.js"
-  console.log "Building dependencies.js done"
-  console.log "Removing ./bower_components..."
-  fs.removeSync join __dirname,  "bower_components"
-  console.log "Removing ./bower_components    done" ###
+  {walk} = require "walk"
 
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
-  if not fs then invoke "dependencies"
+  #invoke "style"
   {spawnSync} = require "child_process"
   spawnSync "jade", ["./client"], stdio: "inherit"
-  {walk} = require "walk"
-  {join} = require "path"
-  fs = require "fs"
-  client = join __dirname, "./client"
-  walker = walk client
+  walker = walk clientDir
   map = {}
   walker.on "file", (root, file, next) ->
     info = file.name.split "."
@@ -50,31 +25,34 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
       map[info[0]] = fs.readFileSync path, "utf8"
     next()
   walker.on "end", ->
-    file = join client, "template.coffee"
+    file = join clientDir, "template.coffee"
     fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
     spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
-    spawnSync "browserify", ["./client/main.js", "-o", "./client/bundle.js"]
+    spawnSync "browserify", ["#{clientDir}/main.js", "-o", "#{appDir}/bundle.js"], stdio: "inherit"
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
-  if not fs then invoke "dependencies"
-  console.log "Compiling all Stylus files into single CSS3 file..."
+  if not fs then invoke "install"
+  console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file..."
   stylus = require "stylus"
   nib = require "nib"
-  styles = join __dirname, "client/styles"
+  styles = join clientDir, "styles"
   styl = join styles, "styl-style.styl"
   stylContent = fs.readFileSync styl, "utf8"
+  material = join __dirname, "node_modules/angular-material/angular-material.css"
+  materialContent = fs.readFileSync material, "utf8"
   stylus stylContent
     .include styles
     .use nib()
     .render (cssErr, css) ->
       if cssErr then console.log cssErr
-      cssFile = join styles, "style.css"
-      fs.writeFileSync cssFile, css, "utf8"
-  console.log "Compiling all Stylus files into single CSS3 file    done"
+      cssFile = join appDir, "style.css"
+      cssContent = "#{materialContent}\n#{css}"
+      fs.ensureFileSync cssFile
+      fs.writeFileSync cssFile, cssContent, "utf8"
+  console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
-  if not fs then invoke "dependencies"
-  {walk} = require "walk"
+  if not fs then invoke "install"
   gerbersToSvgLayers = require "./server/lib/gerbersToSvgLayers"
   {Clone} = require "nodegit"
   resources = join __dirname, "client/resources"
@@ -99,22 +77,23 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
     console.log "Generating default stencil SVG    done"
 
 task "clean", "Returns repo as it was pulled", ->
-  if not fs then invoke "dependencies"
+  if not fs then invoke "install"
   client = join __dirname, "client"
   console.log "Restoring repository state..."
   fs.removeSync join __dirname, "node_modules"
   fs.removeSync join client, "resources"
-  fs.removeSync join client, "dependencies"
+  fs.removeSync join client, "install"
   fs.removeSync join client, "styles/style.css"
   console.log "Restoring repository state    dome"
 
 task "build", "Wraps up the building proccess", ->
-  invoke "clean"
-  invoke "dependencies"
-  invoke "style"
+  #invoke "clean"
+  invoke "install"
   invoke "resources"
+  invoke "bundle"
 
 task "start", "Starts the server and stops it on entering 'stop'", ->
+  invoke "bundle" #testing only
   console.log "Starting server..."
   {spawn, spawnSync} = require "child_process"
   spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"

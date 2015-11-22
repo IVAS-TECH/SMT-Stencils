@@ -5,4 +5,8 @@ server/data/*
 client/resources/*
 client/files/*
 client/styles/*.css
-*js
+old_client/*
+*.js
+*.css
+*.html
+template.coffee
