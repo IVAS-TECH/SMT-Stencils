@@ -1,4 +1,4 @@
-template = require "template"
+template = require "./template"
 angular = require "angular"
 moduleName = "template"
 
