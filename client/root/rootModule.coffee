@@ -1,4 +1,4 @@
-angular = require "angular"
+{angular} = require "dependencies"
 moduleName = "rootModule"
 
 angular

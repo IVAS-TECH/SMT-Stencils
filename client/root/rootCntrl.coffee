@@ -9,3 +9,4 @@ module.exports = ($state) ->
     root.selected = [false, false, false, false, false]
     root.selected[index] = true
     $state.go states[index]
+  root

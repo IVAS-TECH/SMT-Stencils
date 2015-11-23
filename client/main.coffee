@@ -1,18 +1,26 @@
-angular = require "angular"
+dependencies = require "dependencies"
+angular = dependencies.angular
 moduleName = "main"
 
 dependencies = [
-  require "angular-animate"
-  require "angular-aria"
-  require "angular-material"
-  require "angular-messages"
+  dependencies["angular-animate"]
+  dependencies["angular-aria"]
+  dependencies["angular-messages"]
+  dependencies["angular-material"]
   require "ui-router"
-  require "ng-file-upload"
+  #require "safe-ng-file-upload"
   require "./templateProvider"
   require "./root/rootModule"
 ]
 
 angular
   .module moduleName, dependencies
+  .config ($mdThemingProvider) ->
+    @$inject = ["$mdThemingProvider"]
+    $mdThemingProvider.theme "main-theme"
+      .primaryPalette "teal"
+      .accentPalette "brown"
 
-angular.bootstrap document.body, [moduleName]
+angular
+  .element document
+    .ready -> angular.bootstrap document, [moduleName]

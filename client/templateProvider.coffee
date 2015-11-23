@@ -1,5 +1,5 @@
 template = require "./template"
-angular = require "angular"
+{angular} = require "dependencies"
 moduleName = "template"
 
 angular

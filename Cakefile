@@ -51,6 +51,18 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
       fs.writeFileSync cssFile, cssContent, "utf8"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
+task "wrap", "Wraps all in to single index.html", ->
+  invoke "bundle"
+  style = join appDir, "style.css"
+  bundle = join appDir, "bundle.js"
+  index = join appDir, "index.html"
+  styleContent = fs.readFileSync style, "utf8"
+  bundleContent = fs.readFileSync bundle, "utf8"
+  indexContent = fs.readFileSync index, "utf8"
+  styled = indexContent.replace "@@@", styleContent#wroks for styles
+  bundled = styled.replace "!!!", bundleContent
+  fs.writeFileSync index, bundled, "utf8"
+
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   if not fs then invoke "install"
   gerbersToSvgLayers = require "./server/lib/gerbersToSvgLayers"
@@ -93,7 +105,7 @@ task "build", "Wraps up the building proccess", ->
   invoke "bundle"
 
 task "start", "Starts the server and stops it on entering 'stop'", ->
-  invoke "bundle" #testing only
+  invoke "wrap" #testing only
   console.log "Starting server..."
   {spawn, spawnSync} = require "child_process"
   spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"
