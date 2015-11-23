@@ -40,7 +40,7 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
   styles = join clientDir, "styles"
   styl = join styles, "styl-style.styl"
   stylContent = fs.readFileSync styl, "utf8"
-  material = join __dirname, "node_modules/angular-material/angular-material.css"
+  material = join __dirname, "node_modules/angular-material/angular-material.min.css"
   materialContent = fs.readFileSync material, "utf8"
   stylus stylContent
     .include styles
@@ -62,7 +62,7 @@ task "wrap", "Wraps all in to single index.html", ->
   styleContent = fs.readFileSync style, "utf8"
   bundleContent = fs.readFileSync bundle, "utf8"
   indexContent = fs.readFileSync index, "utf8"
-  styled = indexContent.replace "@@@", styleContent#wroks for styles
+  styled = indexContent.replace "@@@", styleContent
   bundled = styled.replace "!!!", bundleContent
   fs.writeFileSync index, bundled, "utf8"
 
