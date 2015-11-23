@@ -3,8 +3,8 @@ moduleName = "rootModule"
 
 angular
     .module moduleName, []
-      .controller "rootCntrl", require "./rootCntrl"
       .config require "./rootConfig"
       .run require "./rootRun"
+      .controller "rootController", require "./rootController"
 
 module.exports = moduleName

@@ -3,5 +3,5 @@ md-toolbar(layout="row" layout-align="space-between center")
     h1 IVAS-TECH
     md-button(class="md-raised md-warn") Stencils
 div(layout="row")
-  md-button(ng-repeat="button in root.buttons" ng-click="root.switchState(button)" class="md-primary" ng-class="root.selected[$index] ? 'md-raised' : ''") {{button}}
+  md-button(ng-repeat="state in root.states" ng-click="root.switchState(state)" class="md-primary" ng-class="root.selected[$index] ? 'md-raised' : ''") {{state}}
 ui-view(layout-fill)

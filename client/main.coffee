@@ -9,12 +9,19 @@ dependencies = [
   dependencies["angular-material"]
   require "ui-router"
   #require "safe-ng-file-upload"
-  require "./templateProvider"
+  require "./helper/helperModule"
   require "./root/rootModule"
 ]
 
 angular
   .module moduleName, dependencies
+    .config ($mdThemingProvider) ->
+      config = @
+      config.$inject = ["$mdThemingProvider"]
+      $mdThemingProvider
+        .theme "style"
+          .primaryPalette "indigo"
+          .accentPalette "orange"
 
 angular
   .element document

@@ -25,11 +25,20 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
       map[info[0]] = fs.readFileSync path, "utf8"
     next()
   walker.on "end", ->
-    file = join clientDir, "template.coffee"
+    file = join clientDir, "helper/template.coffee"
     fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
     spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
     spawnSync "browserify", ["#{clientDir}/main.js", "-o", "#{appDir}/bundle.js"], stdio: "inherit"
     spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"]
+    style = join appDir, "style.css"
+    bundle = join appDir, "final.js"
+    index = join appDir, "index.html"
+    styleContent = fs.readFileSync style, "utf8"
+    bundleContent = fs.readFileSync bundle, "utf8"
+    indexContent = fs.readFileSync index, "utf8"
+    styled = indexContent.replace "@@@", styleContent
+    bundled = styled.replace "!!!", bundleContent
+    fs.writeFileSync index, bundled, "utf8"
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
   if not fs then invoke "install"
@@ -54,17 +63,6 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
       fs.writeFileSync cssFile, uglified, "utf8"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
-task "wrap", "Wraps all in to single index.html", ->
-  invoke "bundle"
-  style = join appDir, "style.css"
-  bundle = join appDir, "final.js"
-  index = join appDir, "index.html"
-  styleContent = fs.readFileSync style, "utf8"
-  bundleContent = fs.readFileSync bundle, "utf8"
-  indexContent = fs.readFileSync index, "utf8"
-  styled = indexContent.replace "@@@", styleContent
-  bundled = styled.replace "!!!", bundleContent
-  fs.writeFileSync index, bundled, "utf8"
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   if not fs then invoke "install"
@@ -108,7 +106,7 @@ task "build", "Wraps up the building proccess", ->
   invoke "bundle"
 
 task "start", "Starts the server and stops it on entering 'stop'", ->
-  invoke "wrap" #testing only
+  invoke "bundle" #testing only
   console.log "Starting server..."
   {spawn, spawnSync} = require "child_process"
   spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"
