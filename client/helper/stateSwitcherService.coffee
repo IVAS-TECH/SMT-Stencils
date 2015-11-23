@@ -8,11 +8,10 @@ module.exports = ($state) ->
     current = state.current.name
     allStates = state.get()
     children = []
-    addIfChild = (s) ->
+    addIfDirectChild = (s) ->
       if not s.abstract and s.name isnt current
         name = s.name.replace "#{current}.", ""
-        final = name.split "."
-        if final.length is 1 then children.push final[0]
-    addIfChild state for state in allStates
+        if not name.match /\./ then children.push name
+    addIfDirectChild state for state in allStates
     closureStateSwitcher current, children
   -> newStateSwitcher $state

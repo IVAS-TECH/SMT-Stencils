@@ -20,7 +20,7 @@
     "body-parser": "1.13.2",
     "express": "4.13.1",
     "mongoose": "4.2.6",
-    "babel-core": "5.8.25",
+    "promise" : "7.0.4",
     "uglify-js": "2.6.1",
     "uglifycss": "0.0.18",
     "browserify": "12.0.1",
