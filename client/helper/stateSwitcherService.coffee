@@ -1,14 +1,9 @@
-class StateSwitcher
-  constructor: (@parent, @child) ->
-  switch: (child) -> $state.go "#{@parent}.#{child}"
-  select: (i = 0) ->
-    select = (false for [0..@child.length])
-    select[i] = true
-    select
+StateSwitcher = require "./StateSwitcher"
 
 module.exports = ($state) ->
   service = @
   service.$inject = ["$state"]
+  closureStateSwitcher = StateSwitcher $state.go
   newStateSwitcher = (state) ->
     current = state.current.name
     allStates = state.get()
@@ -19,5 +14,5 @@ module.exports = ($state) ->
         final = name.split "."
         if final.length is 1 then children.push final[0]
     addIfChild state for state in allStates
-    new StateSwitcher current, children
+    closureStateSwitcher current, children
   -> newStateSwitcher $state
