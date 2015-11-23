@@ -21,6 +21,8 @@
     "express": "4.13.1",
     "mongoose": "4.2.6",
     "babel-core": "5.8.25",
+    "uglify-js": "2.6.1",
+    "uglifycss": "0.0.18",
     "browserify": "12.0.1",
     "walk": "2.3.9",
     "fs-extra": "0.26.0",

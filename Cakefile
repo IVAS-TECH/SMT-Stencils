@@ -13,7 +13,7 @@ task "install", "Builds all package install", ->
   {walk} = require "walk"
 
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
-  #invoke "style"
+  invoke "style"
   {spawnSync} = require "child_process"
   spawnSync "jade", ["./client"], stdio: "inherit"
   walker = walk clientDir
@@ -29,12 +29,14 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
     fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
     spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
     spawnSync "browserify", ["#{clientDir}/main.js", "-o", "#{appDir}/bundle.js"], stdio: "inherit"
+    spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"]
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
   if not fs then invoke "install"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file..."
   stylus = require "stylus"
   nib = require "nib"
+  uglify = require "uglifycss"
   styles = join clientDir, "styles"
   styl = join styles, "styl-style.styl"
   stylContent = fs.readFileSync styl, "utf8"
@@ -47,14 +49,15 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
       if cssErr then console.log cssErr
       cssFile = join appDir, "style.css"
       cssContent = "#{materialContent}\n#{css}"
+      uglified = uglify.processString cssContent, maxLineLen: 0, expandVars: false, uglyComments:true, cuteComments: false
       fs.ensureFileSync cssFile
-      fs.writeFileSync cssFile, cssContent, "utf8"
+      fs.writeFileSync cssFile, uglified, "utf8"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
 task "wrap", "Wraps all in to single index.html", ->
   invoke "bundle"
   style = join appDir, "style.css"
-  bundle = join appDir, "bundle.js"
+  bundle = join appDir, "final.js"
   index = join appDir, "index.html"
   styleContent = fs.readFileSync style, "utf8"
   bundleContent = fs.readFileSync bundle, "utf8"

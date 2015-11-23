@@ -16,6 +16,8 @@ run npm install -g jade
 
 run npm install -g browserify
 
+run npm install -g uglify-js
+
 run mongod --dbpath ./server/data
 
 run cake build to build the project

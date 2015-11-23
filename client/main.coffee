@@ -15,11 +15,6 @@ dependencies = [
 
 angular
   .module moduleName, dependencies
-  .config ($mdThemingProvider) ->
-    @$inject = ["$mdThemingProvider"]
-    $mdThemingProvider.theme "main-theme"
-      .primaryPalette "teal"
-      .accentPalette "brown"
 
 angular
   .element document
