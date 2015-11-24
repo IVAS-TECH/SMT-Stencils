@@ -8,9 +8,11 @@ dependencies = [
   dependencies["angular-messages"]
   dependencies["angular-material"]
   require "ui-router"
+  require "angular-translate"
   #require "safe-ng-file-upload"
+  require "./translate/translateModule"
   require "./helper/helperModule"
-  require "./root/rootModule"
+  require "./home/homeModule"
 ]
 
 angular
