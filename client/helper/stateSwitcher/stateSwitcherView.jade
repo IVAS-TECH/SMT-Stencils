@@ -1,2 +1,2 @@
-div(layout="row")
+div(layout="{{controller.lay}}")
   md-button(ng-repeat="state in stateSwitcherCtrl.states" ng-click="stateSwitcherCtrl.switchState(state)" class="md-primary" ng-class="stateSwitcherCtrl.selected[$index] ? 'md-raised' : ''") {{"button-" + state | translate}}
