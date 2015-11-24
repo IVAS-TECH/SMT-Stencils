@@ -4,11 +4,9 @@ router = new Router()
 
 successful = (err, doc) -> doc? and not err?
 
-router.get "/email/:email", (req, res) ->
-  userModel.findOne email: req.params.email, (err, doc) -> res.send exist: successful err, doc
+router.get "/email/:email", (req, res) -> userModel.findOne email: req.params.email, (err, doc) -> res.send exist: successful err, doc
 
-router.post "/register", (req, res) ->
-  userModel.create req.body.user, (err, doc) -> res.send success: successful err, doc
+router.post "/register", (req, res) -> userModel.create req.body.user, (err, doc) -> res.send success: successful err, doc
 
 router.get "/login", (req, res) ->
   status = req.session.isMapedIp req.ip
@@ -23,8 +21,7 @@ router.post "/login", (req, res) ->
     if success and req.body.session then req.session.mapIp req.ip, doc._id
     res.send success: success
 
-router.get "/logout", (req, res) ->
-  req.session.unMapIp req.ip
+router.get "/logout", (req, res) -> req.session.unMapIp req.ip
 
 router.post "/profile", (req, res) ->
   update = {}
