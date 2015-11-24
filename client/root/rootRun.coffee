@@ -1,6 +1,5 @@
-module.exports = ($state, $rootScope) ->
+module.exports = (stateSwitcherService) ->
   run = @
-  run.$inject = ["$state"]
-  $rootScope.$state = $state
-  $state.go "root"
-  run
+  run.$inject = ["stateSwitcherService"]
+  stateSwitcher = stateSwitcherService()
+  stateSwitcher.switchState stateSwitcher.child[0]

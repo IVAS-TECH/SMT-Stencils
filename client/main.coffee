@@ -15,9 +15,10 @@ dependencies = [
 
 angular
   .module moduleName, dependencies
-    .config ($mdThemingProvider) ->
+    .config ($mdThemingProvider, RESTProvider) ->
       config = @
-      config.$inject = ["$mdThemingProvider"]
+      config.$inject = ["$mdThemingProvider", "RESTProvider"]
+      RESTProvider.setBase "client"
       $mdThemingProvider
         .theme "style"
           .primaryPalette "indigo"

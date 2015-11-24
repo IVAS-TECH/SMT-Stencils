@@ -8,8 +8,6 @@ make sure you have installed libgit2, libssl, libssl-dev & libgcrypt wich are re
 
 install node and npm
 
-run npm install -g bower
-
 run npm install -g coffee-script
 
 run npm install -g jade
