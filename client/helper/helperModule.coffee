@@ -1,10 +1,14 @@
 {angular} = require "dependencies"
 moduleName = "helperModule"
 
+dependencies = [
+  require "./REST/RESTModule"
+  require "./stateSwitcher/stateSwitcherModule"
+]
+
 angular
-  .module moduleName, [require "./REST/RESTModule"]
+  .module moduleName, dependencies
     .provider "template", require "./templateProvider"
-    .service "stateSwitcherService", require "./stateSwitcherService"
     .factory "RESTHelperService", require "./RESTHelperService"
 
 module.exports = moduleName

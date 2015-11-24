@@ -2,9 +2,9 @@ module.exports = ($stateProvider, templateProvider) ->
   config = @
   config.$inject = ["$stateProvider", "templateProvider"]
   $stateProvider
-    .state "home", template: (templateProvider.provide "homeView"), controller: "homeController as homeCtrl"
-    .state "home.about", template: "About"
-    .state "home.technologies", template: "Tech"
-    .state "home.order", template: "Order"
-    .state "home.contacts", template: "contact"
-    .state "home.settings", template: "Settings"
+    .state "home", template: templateProvider.provide "homeView"
+    .state "home.about", template: templateProvider.provide "testView"
+    .state "home.technologies", template: templateProvider.provide "testView"
+    .state "home.order", template: templateProvider.provide "testView"
+    .state "home.contacts", template: templateProvider.provide "testView"
+    .state "home.settings", template: templateProvider.provide "testView"

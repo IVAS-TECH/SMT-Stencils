@@ -1,7 +1,7 @@
-module.exports = (stateSwitcherService) ->
+module.exports = ($state) ->
   stateSwitcher = stateSwitcherService()
   controller = @
-  controller.$inject = ["stateSwitcherService"]
+  controller.$inject = ["$state"]
   controller.states = stateSwitcher.child
   controller.selected = stateSwitcher.select()
   controller.switchState = (state) ->
