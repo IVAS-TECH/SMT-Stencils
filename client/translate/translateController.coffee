@@ -1,6 +1,7 @@
 module.exports = ($translate) ->
-  translate = @
-  translate.$inject = ["$translate"]
-  translate.lenguages = ["bg", "en"]
-  translate.change = (len) -> $translate.use len
-  translate
+  controller = @
+  controller.$inject = ["$translate"]
+  controller.lenguages = ["bg", "en"]
+  controller.current = $translate.use()
+  controller.change = (len) -> $translate.use len
+  controller

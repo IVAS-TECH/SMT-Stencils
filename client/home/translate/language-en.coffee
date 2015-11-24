@@ -5,4 +5,6 @@ module.exports = ($translateProvider) ->
     "button-order": "Order"
     "button-contacts": "Contact Us"
     "button-settings": "Settings"
+    "button-login": "Log In"
+    "button-register": "Register"
   }

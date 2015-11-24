@@ -1,11 +1,11 @@
 module.exports = (stateSwitcherService) ->
   stateSwitcher = stateSwitcherService()
-  home = @
-  home.$inject = ["stateSwitcherService"]
-  home.states = stateSwitcher.child
-  home.selected = stateSwitcher.select()
-  home.switchState = (state) ->
-    index = home.states.indexOf state
-    home.selected = stateSwitcher.select(index)
-    stateSwitcher.switchState home.states[index]
-  home
+  controller = @
+  controller.$inject = ["stateSwitcherService"]
+  controller.states = stateSwitcher.child
+  controller.selected = stateSwitcher.select()
+  controller.switchState = (state) ->
+    index = controller.states.indexOf state
+    controller.selected = stateSwitcher.select(index)
+    stateSwitcher.switchState controller.states[index]
+  controller

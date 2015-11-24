@@ -6,7 +6,7 @@ en = require "./lenguage-en"
 angular
   .module moduleName, [require "../home/translate/homeTranslateModule"]
     .controller "translateController", require "./translateController"
-    .directive "tTranslate", require "./translateDirective"
+    .directive "ivoTranslate", require "./translateDirective"
     .config ($translateProvider) ->
       config = @
       config.$inject = ["$translateProvider"]
