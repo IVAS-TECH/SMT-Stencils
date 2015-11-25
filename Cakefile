@@ -29,7 +29,7 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
     fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
     spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
     spawnSync "browserify", ["#{clientDir}/main.js", "-o", "#{appDir}/bundle.js"], stdio: "inherit"
-    spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"]
+    spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
     style = join appDir, "style.css"
     bundle = join appDir, "final.js"
     index = join appDir, "index.html"

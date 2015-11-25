@@ -51,7 +51,7 @@
     "safe-angular-aria": "./node_modules/angular-aria/angular-aria.min.js",
     "safe-angular-messages": "./node_modules/angular-messages/angular-messages.min.js",
     "safe-angular-material": "./node_modules/angular-material/angular-material.min.js",
-    "ui-router": "./node_modules/ui-router/release/angular-ui-router.js",
+    "ui-router": "./node_modules/ui-router/release/angular-ui-router.min.js",
     "angular-translate": "./node_modules/angular-translate/dist/angular-translate.min.js",
     "dependencies": "./client/dependencies.js"
   }

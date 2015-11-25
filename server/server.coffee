@@ -13,6 +13,6 @@ app = express()
 app.use bodyParser.json()
 app.use session()
 app.use "/client", routes
-app.get "/bundle.js", (req, res) -> res.sendFile join __dirname, "../client/app/final.js"
+app.get "/final.js", (req, res) -> res.sendFile join appDir , "final.js"
 app.use (req, res) -> if req.url is "/" then res.sendFile index else res.sendFile error
 app.listen port, -> console.log "Server started at port : #{port}"
