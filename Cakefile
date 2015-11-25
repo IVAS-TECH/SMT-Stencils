@@ -37,7 +37,7 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
     bundleContent = fs.readFileSync bundle, "utf8"
     indexContent = fs.readFileSync index, "utf8"
     styled = indexContent.replace "@@@", styleContent
-    bundled = styled.replace "!!!", bundleContent
+    bundled = styled.replace "!!!", JSON.stringify bundleContent
     fs.writeFileSync index, bundled, "utf8"
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
