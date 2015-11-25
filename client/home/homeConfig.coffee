@@ -7,4 +7,7 @@ module.exports = ($stateProvider, templateProvider) ->
     .state "home.technologies", template: "T"
     .state "home.order", template: "O"
     .state "home.contacts", template: "C"
-    .state "home.settings", template: "S"
+    .state "home.settings", template: templateProvider.provide "settingsView"
+    .state "home.settings.profile", template: "P"
+    .state "home.settings.configurations", template: "C"
+    .state "home.settings.orders", template: "O"

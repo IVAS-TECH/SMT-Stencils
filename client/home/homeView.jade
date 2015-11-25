@@ -1,8 +1,9 @@
-md-toolbar(layout="row" layout-align="space-around center")
-  div(layout="row" layout-align="space-between center")
-    h1 IVAS-TECH
-    md-button(class="md-raised md-warn") Stencils
-    ivo-translate
-  ivo-user
-ivo-state-switcher(state="home" lay="column")
-ui-view
+div(layout="column" layout-align="space-between center")
+  md-toolbar(layout="row" layout-align="space-around center")
+    div(layout="row" layout-align="space-between center")
+      h1 IVAS-TECH
+      md-button(class="md-raised md-warn") Stencils
+      ivo-translate
+    ivo-user
+  ivo-state-switcher(state="home" lay="row")
+  ui-view(layout-fill)
