@@ -10,6 +10,6 @@ angular
   .module moduleName, dependencies
     .provider "template", require "./templateProvider"
     .factory "RESTHelperService", require "./RESTHelperService"
-    #.provider "translate", require "./translateProvider"
+    .provider "translate", require "./translateProvider"
 
 module.exports = moduleName

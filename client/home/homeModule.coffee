@@ -2,9 +2,8 @@
 moduleName = "homeModule"
 
 angular
-    .module moduleName, []
+    .module moduleName, [require './user/userModule']
       .config require "./homeConfig"
-      .directive "ivoUser", require "./user/userDirective"
       .run require "./homeRun"
 
 module.exports = moduleName

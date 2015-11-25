@@ -2,7 +2,7 @@ module.exports = ($translateProvider) ->
   provider = @
   provider.$inject = ["$translateProvider"]
   provider.add = (en, bg) ->
-    en $translateProvider
-    bg $translateProvider
+    $translateProvider.translations "en", en
+    $translateProvider.translations "bg", bg
   provider.$get = -> $translateProvider
   provider

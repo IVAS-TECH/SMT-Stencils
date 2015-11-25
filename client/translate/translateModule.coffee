@@ -1,17 +1,17 @@
 {angular} = require "dependencies"
 moduleName = "translateModule"
-bg = require "./lenguage-bg"
-en = require "./lenguage-en"
+en = require "./language-en"
+bg = require "./language-bg"
 
 angular
-  .module moduleName, [require "../home/translate/homeTranslateModule"]
+  .module moduleName, []
     .controller "translateController", require "./translateController"
     .directive "ivoTranslate", require "./translateDirective"
-    .config ($translateProvider) ->
+    .config (translateProvider) ->
       config = @
-      config.$inject = ["$translateProvider"]
-      bg $translateProvider
-      en $translateProvider
+      config.$inject = ["translateProvider"]
+      translateProvider.add en, bg
+      $translateProvider = translateProvider.$get()
       $translateProvider.use "bg"
       $translateProvider.useSanitizeValueStrategy "escape"
 

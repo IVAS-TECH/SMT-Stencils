@@ -10,16 +10,16 @@ dependencies = [
   require "ui-router"
   require "angular-translate"
   #require "safe-ng-file-upload"
-  require "./translate/translateModule"
   require "./helper/helperModule"
+  require "./translate/translateModule"
   require "./home/homeModule"
+  require "./settings/settingsModule"
 ]
 
 angular
   .module moduleName, dependencies
     .config (RESTProvider) ->
-      config = @
-      config.$inject = ["RESTProvider"]
+      @$inject = ["RESTProvider"]
       RESTProvider.setBase "client"
 
 angular
