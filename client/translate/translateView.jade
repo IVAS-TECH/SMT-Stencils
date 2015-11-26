@@ -1,4 +1,4 @@
 md-input-container
-  label {{"label-change-language" | translate}}
+  label(translate="label-change-language")
   md-select(ng-model="translateCtrl.current" ng-change="translateCtrl.change(translateCtrl.current)")
-    md-option(ng-repeat="language in translateCtrl.languages" ng-value="language") {{"option-language-" + language | translate}}
+    md-option(ng-repeat="language in translateCtrl.languages" ng-value="language" translate!="{{'option-language-' + language}}")
