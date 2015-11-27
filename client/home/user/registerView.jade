@@ -6,3 +6,12 @@ md-dialog
       md-input-container
         label(translate="label-email")
         input(ng-model="registerCtrl.user.email" name="email" type="email" required)
+      md-input-container
+        label(translate="label-password")
+        input(ng-model="registerCtrl.user.password" name="password" type="password" required)
+      md-input-container
+        label(translate="label-repassword")
+        input(ng-model="registerCtrl.repassword" name="repassword" type="password" ng-pattern="registerCtrl.user.password" required)
+      div(class="md-actions" layout="row" layout-align="end start")
+        md-button(ng-click="registerCtrl.hide('cancel')" aria-label="cancel" translate="button-cansel")
+        md-button(ng-click="registerCtrl.register()" aria-label="cancel" translate="button-cansel")

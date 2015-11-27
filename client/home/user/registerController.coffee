@@ -1,5 +1,6 @@
-module.exports = ($mdDialog) ->
+module.exports = ($mdDialog, RESTHelperService) ->
   controller = @
-  controller.$inject = ["$mdDialog"]
+  controller.$inject = ["$mdDialog", "RESTHelperService"]
   controller.hide = $mdDialog.hide
+  controller.register = ->
   controller
