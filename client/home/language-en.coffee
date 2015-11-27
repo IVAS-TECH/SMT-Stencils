@@ -4,4 +4,7 @@ module.exports = {
   "button-order": "Order"
   "button-contacts": "Contact Us"
   "button-settings": "Settings"
+  "button-menu-menu": "Menu"
+  "firm-name": "IVAS-TECH"
+  "web-page": "Stencils"
 }

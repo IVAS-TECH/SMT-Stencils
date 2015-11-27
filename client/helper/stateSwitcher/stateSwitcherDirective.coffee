@@ -2,8 +2,6 @@ module.exports = (template, $state, $location) ->
   directive = @
   directive.$inject = ["template", "$state", "$location"]
   link = (scope, element, attrs, controller) ->
-    controller.lay = attrs.lay
-    controller.state = attrs.state
     controller.states = []
     allStates = $state.get()
     test = new RegExp controller.state
@@ -24,4 +22,9 @@ module.exports = (template, $state, $location) ->
   template: template "stateSwitcherView"
   controller: "stateSwitcherController"
   controllerAs: "stateSwitcherCtrl"
+  bindToController: {
+    state: "@"
+    lay: "@"
+    menu: "@"
+  }
   link: link
