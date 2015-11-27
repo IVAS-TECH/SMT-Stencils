@@ -1,0 +1,8 @@
+md-dialog
+  md-dialog-content(class="md-dialog-content")
+    div(class="md-actions" layout="row" layout-align="end start")
+      md-button(ng-click="registerCtrl.hide('close')" aria-label="close" translate="button-close")
+    form(name="register" novalidate)
+      md-input-container
+        label(translate="label-email")
+        input(ng-model="registerCtrl.user.email" name="email" type="email" required)

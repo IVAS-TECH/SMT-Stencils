@@ -5,8 +5,8 @@ bg = require "./language-bg"
 
 angular
     .module moduleName, []
-      .factory "showDialogService", require "./showDialogService"
       .factory "registerService", require "./registerService"
+      .controller "registerController", require "./registerController"
       .controller "userController", require "./userController"
       .directive "ivoUser", require "./userDirective"
       .config (translateProvider) ->

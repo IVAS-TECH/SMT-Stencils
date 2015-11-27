@@ -11,5 +11,6 @@ angular
     .provider "template", require "./templateProvider"
     .factory "RESTHelperService", require "./RESTHelperService"
     .provider "translate", require "./translateProvider"
+    .factory "showDialogService", require "./showDialogService"
 
 module.exports = moduleName

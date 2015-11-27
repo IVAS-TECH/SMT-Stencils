@@ -1,3 +1,3 @@
 module.exports = (showDialogService) ->
-  service = @
-  service.$inject = ["showDialogService"]
+  @$inject = ["showDialogService"]
+  (event, handle) -> showDialogService event, "register", handle
