@@ -1,7 +1,14 @@
 module.exports = (template, $state, $location) ->
-  directive = @
-  directive.$inject = ["template", "$state", "$location"]
-  link = (scope, element, attrs, controller) ->
+  @$inject = ["template", "$state", "$location"]
+  template: template "stateSwitcherView"
+  controller: "stateSwitcherController"
+  controllerAs: "stateSwitcherCtrl"
+  bindToController: {
+    state: "@"
+    lay: "@"
+    menu: "@"
+  }
+  link: (scope, element, attrs, controller) ->
     controller.states = []
     allStates = $state.get()
     test = new RegExp controller.state
@@ -19,12 +26,3 @@ module.exports = (template, $state, $location) ->
       controller.selected = controller.select(index)
       $location.path controller.states[index]
       $state.go "#{controller.state}.#{controller.states[index]}"
-  template: template "stateSwitcherView"
-  controller: "stateSwitcherController"
-  controllerAs: "stateSwitcherCtrl"
-  bindToController: {
-    state: "@"
-    lay: "@"
-    menu: "@"
-  }
-  link: link

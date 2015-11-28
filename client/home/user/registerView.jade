@@ -6,13 +6,14 @@ md-dialog
     form(name="register" novalidate)
       md-input-container
         label(translate="label-email")
-        input(ng-model="registerCtrl.user.email" name="email" type="email" required)
+        input(ng-model="registerCtrl.user.email" name="email" type="email" ivo-email-taken required)
         div(ng-messages="register.email.$error")
           div(ng-message="email")
             span(translate="error-email-email")
+          div(ng-message="email-taken")
+            span(translate="error-email-taken")
           div(ng-message="required")
             span(translate="error-email-required")
-          //div(ng-message="email" translate="error-email-email")
       md-input-container
         label(translate="label-password")
         input(ng-model="registerCtrl.user.password" name="password" type="password" ng-minlength="6" ng-maxlength="35" required)

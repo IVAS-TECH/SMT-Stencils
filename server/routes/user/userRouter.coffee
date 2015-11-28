@@ -4,9 +4,13 @@ router = new Router()
 
 successful = (err, doc) -> doc? and not err?
 
-router.get "/user/:email", (req, res) -> userModel.findOne email: req.params.email, (err, doc) -> res.send exist: successful err, doc
+router.get "/user/:email", (req, res) ->
+  userModel.findOne email: req.params.email, (err, doc) ->
+    res.send taken: successful err, doc
 
-router.post "/user", (req, res) -> userModel.create req.body.user, (err, doc) -> res.send success: successful err, doc
+router.post "/user", (req, res) ->
+  userModel.create req.body.user, (err, doc) ->
+    res.send success: successful err, doc
 
 router.patch "/user", (req, res) ->
   update = {}

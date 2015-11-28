@@ -8,6 +8,7 @@ angular
       .factory "registerService", require "./registerService"
       .controller "registerController", require "./registerController"
       .controller "userController", require "./userController"
+      .directive "ivoEmailTaken", require "./emailTakenDirective"
       .directive "ivoUser", require "./userDirective"
       .config (translateProvider) ->
         @$inject = ["translateProvider"]

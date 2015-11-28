@@ -9,6 +9,7 @@ module.exports = {
   "button-register": "Register"
   "title-register": "Register"
   "error-email-email": "Invalid Email"
+  "error-email-taken": "This email is taken"
   "error-email-required": "Email is required"
   "error-password-minlength": "Password must be atleast 6 symbols "
   "error-password-maxlength": "Password must be less than 36 symbols"
