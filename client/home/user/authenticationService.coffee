@@ -13,7 +13,6 @@ module.exports = (RESTHelperService, $rootScope) ->
       if user? then auth user
       else
         RESTHelperService.logged (res) ->
-          console.log res
           if res.success then auth res.user else auth()
     unauthenticate: ->
       @authenticated = false
