@@ -7,6 +7,9 @@ module.exports = ($mdDialog, template) ->
       controller: "#{action}Controller"
       controllerAs: "#{action}Ctrl"
       clickOutsideToClose: true
-  showDialog = (event, action, handle) ->
+  showDialog: (event, action, handle) ->
     openDialog event, action
-      .then (val) -> if handle["val"]? then handle["val"]()
+      .then (val) -> if handle[val]? then handle[val]()
+  extendHandle: (extend, handle) ->
+    if extend then handle[key] = value for key, value of extend
+    handle
