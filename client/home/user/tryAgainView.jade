@@ -1,0 +1,8 @@
+md-dialog
+  md-dialog-content(class="md-dialog-content")
+    div(class="md-actions" layout="row" layout-align="end start")
+      md-button(ng-click="tryAgainCtrl.hide('close')" class="md-warn" aria-label="close" translate="button-close")
+    p(align="center" class="md-title" translate="button-tryAgain")
+      div(class="md-actions" layout="row" layout-sm="column" layout-align="center center")
+        md-button(ng-click="tryAgainCtrl.hide('ok')" class="md-primary" aria-label="login" md-autofocus="true" translate="button-tryAgain")
+        md-button(ng-click="tryAgainCtrl.hide('cancel')" class="md-warn" aria-label="login" translate="button-cancel")

@@ -2,11 +2,16 @@
 moduleName = "userModule"
 en = require "./language-en"
 bg = require "./language-bg"
+dialogController = require "./dialogController"
 
 angular
     .module moduleName, []
+      .factory "tryAgainService", require "./tryAgainService"
+      .factory "loginService", require "./loginService"
       .factory "registerService", require "./registerService"
-      .controller "registerController", require "./registerController"
+      .controller "registerController", dialogController "register"
+      .controller "loginController", dialogController "login"
+      .controller "tryAgainController", dialogController()
       .controller "userController", require "./userController"
       .directive "ivoEmailTaken", require "./emailTakenDirective"
       .directive "ivoUser", require "./userDirective"

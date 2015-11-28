@@ -2,7 +2,7 @@ md-dialog
   md-dialog-content(class="md-dialog-content")
     div(class="md-actions" layout="row" layout-align="end start")
       md-button(ng-click="registerCtrl.hide('close')" class="md-warn" aria-label="close" translate="button-close")
-    p(align="center" class="md-title" translate="title-register")
+    p(align="center" class="md-title" translate="button-register")
     form(name="register" novalidate)
       md-input-container
         label(translate="label-email")
@@ -33,5 +33,5 @@ md-dialog
           div(ng-message="required" ng-if="registerCtrl.error")
             span(translate="error-repassword-required")
       div(class="md-actions" layout="row" layout-sm="column" layout-align="center center")
-        md-button(ng-click="registerCtrl.register(register.$invalid || register.$pending)" class="md-primary" aria-label="register" md-autofocus="true" translate="button-register")
-        md-button(ng-click="registerCtrl.hide('cancel')" class="md-warn" aria-label="cancel" translate="button-cancel")
+        md-button(ng-click="registerCtrl.register(register.$invalid || register.$pending)" class="md-warn" aria-label="register" md-autofocus="true" translate="button-register")
+        md-button(ng-click="registerCtrl.hide('success')" class="md-primary" aria-label="login" translate="button-login")
