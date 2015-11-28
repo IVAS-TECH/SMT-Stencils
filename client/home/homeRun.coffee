@@ -3,4 +3,7 @@ module.exports = (stateSwitcherService, authenticationService, $rootScope) ->
   run.$inject = ["stateSwitcherService", "authenticationService", "$rootScope"]
   stateSwitcher = stateSwitcherService()
   authenticationService.authenticate()
-  $rootScope.$on "authentication", -> stateSwitcher.switchState stateSwitcher.child[0]
+  stop = $rootScope.$on "authentication", (event) ->
+    event.preventDefault()
+    stateSwitcher.switchState stateSwitcher.child[0]
+    stop()

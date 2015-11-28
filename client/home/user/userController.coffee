@@ -10,4 +10,7 @@ module.exports = (registerService, loginService, authenticationService, $rootSco
     controller.authenticated = authenticationService.authenticated
   authenticate()
   if not controller.authenticated then $rootScope.$on "authentication", authenticate
+  controller.logout = ->
+    authenticationService.unauthenticate()
+    authenticate()
   controller

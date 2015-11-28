@@ -19,8 +19,8 @@ class Session
   isMapedIp: (ip) -> @map[ip]?
 
   mapIp: (ip, map) ->
-    store.create {ip: ip, map: map}, (err, doc) ->
     @map[ip] = map
+    store.create {ip: ip, map: map}, (err, doc) -> console.log err, doc
 
   unMapIp: (ip) ->
     store.remove ip: ip, (err, doc) ->

@@ -22,9 +22,10 @@ router.patch "/user", (req, res) ->
 router.get "/login", (req, res) ->
   status = req.session.isMapedIp req.ip
   id = req.session.find req.ip
-  if status
-    userModel.findById id, (err, doc) ->
-      res.send user: {email: doc.email, password: doc.password}, success: status
+  userModel.findById id, (err, doc) ->
+    user = {}
+    if status then user = email: doc.email, password: doc.password
+    res.send user: user, success: status
 
 router.post "/login", (req, res) ->
   userModel.findOne req.body.user, (err, doc) ->

@@ -6,11 +6,18 @@ module.exports = (RESTHelperService, $rootScope) ->
     constructor: (@user = null, @authenticated = false) ->
     authenticate: (user) ->
       auth = angular.bind @, (user) ->
-        @authenticated = true
-        @user = user
+        if user
+          @authenticated = true
+          @user = user
         $rootScope.$broadcast "authentication"
       if user? then auth user
       else
-        RESTHelperService.logged (res) -> if res.success then auth res.user
+        RESTHelperService.logged (res) ->
+          console.log res
+          if res.success then auth res.user else auth()
+    unauthenticate: ->
+      @authenticated = false
+      @user = null
+      RESTHelperService.logout ->
   auth = new Auth()
   return auth

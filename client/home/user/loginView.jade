@@ -22,5 +22,7 @@ md-dialog
             span(translate="error-password-maxlength")
           div(ng-message="required" ng-if="loginCtrl.error")
             span(translate="error-password-required")
+      md-switch(ng-model="loginCtrl.session" class="md-primary")
+        md-button(translate="switch-stay-login")
       div(class="md-actions" layout="row" layout-sm="column" layout-align="center center")
         md-button(ng-click="loginCtrl.login(login.$invalid)" class="md-primary" aria-label="login" md-autofocus="true" translate="button-login")
