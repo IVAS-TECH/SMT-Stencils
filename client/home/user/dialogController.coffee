@@ -8,6 +8,7 @@ module.exports = (action) ->
       controller[action] = (invalid) ->
         if not invalid
           RESTHelperService[action] user: controller.user, (res) ->
-            if res.success then controller.hide "success" else controller.hide "fail"
+            success = if action is "login" then success: controller.user else "success"
+            if res.success then controller.hide success else controller.hide "fail"
         else controller.error = true
     controller

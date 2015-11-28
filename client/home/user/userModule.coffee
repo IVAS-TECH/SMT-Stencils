@@ -6,6 +6,7 @@ dialogController = require "./dialogController"
 
 angular
     .module moduleName, []
+      .factory "authenticationService", require "./authenticationService"
       .factory "tryAgainService", require "./tryAgainService"
       .factory "loginService", require "./loginService"
       .factory "registerService", require "./registerService"

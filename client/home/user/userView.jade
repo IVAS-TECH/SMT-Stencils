@@ -1,3 +1,7 @@
 div(layout="row" layout-align="center center")
-  md-button(ng-click="userCtrl.login($event)" aria-label="login" translate="button-login")
-  md-button(ng-click="userCtrl.register($event)" aria-label="register" translate="button-register")
+  div(ng-if="!userCtrl.authenticated" layout="row" layout-align="center center")
+    md-button(ng-click="userCtrl.login($event)" aria-label="login" translate="button-login")
+    md-button(ng-click="userCtrl.register($event)" aria-label="register" translate="button-register")
+  div(ng-if="userCtrl.authenticated" layout="row" layout-align="center center")
+    p {{userCtrl.user.email}}
+    md-button(class="md-raised md-warn") Logout

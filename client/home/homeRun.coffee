@@ -1,5 +1,6 @@
-module.exports = (stateSwitcherService) ->
+module.exports = (stateSwitcherService, authenticationService, $rootScope) ->
   run = @
-  run.$inject = ["stateSwitcherService"]
+  run.$inject = ["stateSwitcherService", "authenticationService", "$rootScope"]
   stateSwitcher = stateSwitcherService()
-  stateSwitcher.switchState stateSwitcher.child[0]
+  authenticationService.authenticate()
+  $rootScope.$on "authentication", -> stateSwitcher.switchState stateSwitcher.child[0]
