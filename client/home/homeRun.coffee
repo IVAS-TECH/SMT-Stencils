@@ -1,5 +1,4 @@
-module.exports = (stateSwitcherService, authenticationService) ->
+module.exports = ($state, authenticationService) ->
   run = @
-  run.$inject = ["stateSwitcherService", "authenticationService"]
-  stateSwitcher = stateSwitcherService()
-  authenticationService.authenticate().then -> stateSwitcher.switchState stateSwitcher.child[0]
+  run.$inject = ["$state", "authenticationService"]
+  authenticationService.authenticate().then -> $state.go "home.about"

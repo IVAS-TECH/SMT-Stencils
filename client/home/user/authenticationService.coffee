@@ -21,5 +21,5 @@ module.exports = (RESTHelperService, $rootScope) ->
     unauthenticate: ->
       @authenticated = false
       @user = null
-      RESTHelperService.logout() 
+      RESTHelperService.logout()
   new Auth()

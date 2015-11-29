@@ -15,5 +15,6 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
       $window.onbeforeunload = (event) ->
         event.preventDefault()
         authenticationService.unauthenticate()
+        return
   authenticateUser()
   controller
