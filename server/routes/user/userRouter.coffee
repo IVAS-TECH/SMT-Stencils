@@ -30,9 +30,11 @@ router.get "/login", (req, res) ->
 router.post "/login", (req, res) ->
   userModel.findOne req.body.user, (err, doc) ->
     success = successful err, doc
-    if success and req.body.session then req.session.mapIp req.ip, doc._id
+    if success then req.session.mapIp req.ip, doc._id
     res.send success: success
 
-router.delete "/login", (req, res) -> req.session.unMapIp req.ip
+router.delete "/login", (req, res) ->
+  req.session.unMapIp req.ip
+  res.send success: true
 
 module.exports = router

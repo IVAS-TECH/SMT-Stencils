@@ -23,8 +23,8 @@ class Session
     store.create {ip: ip, map: map}, (err, doc) -> console.log err, doc
 
   unMapIp: (ip) ->
-    store.remove ip: ip, (err, doc) ->
     delete @map[ip]
+    store.remove ip: ip
 
 module.exports = ->
   sessionObj = new Session()
