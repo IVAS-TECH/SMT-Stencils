@@ -6,6 +6,6 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
   translateProvider.add en, bg
   $stateProvider
     .state "home.settings", template: templateProvider.provide "settingsView"
-    .state "home.settings.profile", template: "P"
+    .state "home.settings.profile", controller: "profileController as profileCtrl", template: templateProvider.provide "profileView"
     .state "home.settings.configurations", template: "C"
     .state "home.settings.orders", template: "O"

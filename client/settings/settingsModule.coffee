@@ -2,7 +2,7 @@
 moduleName = "settingsModule"
 
 angular
-    .module moduleName, []
+    .module moduleName, [require "./profile/profileModule"]
       .config require "./settingsConfig"
 
 module.exports = moduleName
