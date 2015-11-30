@@ -5,6 +5,7 @@ module.exports =  {
   "button-cancel": "Отказ"
   "button-logout": "Изход"
   "button-tryAgain": "Опитай отново"
+  "button-ok": "Добре"
   "checkbox-stay-login": "Запомни ме"
   "label-email": "Имейл адрес"
   "label-password": "Парола"

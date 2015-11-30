@@ -1,4 +1,4 @@
-div(layout="row" layout-align="center center")
+div(layout="row" layout-align="center center" flex-offset="30" flex-offset-sm="0")
   div(ng-if="!userCtrl.authenticated" layout="row" layout-align="center center")
     md-button(ng-click="userCtrl.login($event)" aria-label="login" translate="button-login")
     md-button(ng-click="userCtrl.register($event)" aria-label="register" translate="button-register")

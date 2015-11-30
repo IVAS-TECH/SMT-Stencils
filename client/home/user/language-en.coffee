@@ -5,6 +5,7 @@ module.exports = {
   "button-cancel": "Cancel"
   "button-tryAgain": "Try again"
   "button-logout": "Logout"
+  "button-ok": "Ok"
   "checkbox-stay-login": "Keep me logged in"
   "label-email": "Email"
   "label-password": "Password"
