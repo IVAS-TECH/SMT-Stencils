@@ -4,11 +4,13 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   authenticateUser = ->
     controller.user = authenticationService.user
     controller.authenticated = authenticationService.authenticated
+  home = -> $state.go "home.about"
   controller.register = (event) -> registerService event
   controller.login = (event) -> loginService event
   controller.logout = (event) ->
     authenticationService.unauthenticate()
     authenticateUser()
+    home()
   $scope.$on "authentication", ->
     authenticateUser()
     if not authenticationService.session
@@ -19,8 +21,7 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   authenticationService.authenticate().then ->
     authenticateUser()
     $scope.$digest()
-    if $location.path() not in ["/", "/about", "/technologies", "/contacts"]
-      home = -> $state.go "home.about"
-      loginService {}, fail: home, close: home, cancel: home
+    if $location.path() not in ["/about", "/technologies", "/contacts"]
+      loginService {}, close: home, cancel: home
 
   controller
