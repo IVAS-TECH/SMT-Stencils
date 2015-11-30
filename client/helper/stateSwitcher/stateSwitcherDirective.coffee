@@ -1,7 +1,7 @@
 module.exports = (template, $state) ->
   @$inject = ["template", "$state", "$location"]
   template: template "stateSwitcherView"
-  controller: "stateSwitcherController"
+  controller: ->
   controllerAs: "stateSwitcherCtrl"
   bindToController: {
     state: "@"
