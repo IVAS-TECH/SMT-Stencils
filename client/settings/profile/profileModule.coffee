@@ -5,8 +5,8 @@ bg = require "./language-bg"
 
 angular
     .module moduleName, []
-      #.factory "registerService", require "./registerService"
-      #.controller "registerController", require "./registerController"
+      .factory "confirmService", require "./confirmService"
+      .controller "confirmController", require "./confirmController"
       .controller "profileController", require "./profileController"
       .config (translateProvider) ->
         @$inject = ["translateProvider"]
