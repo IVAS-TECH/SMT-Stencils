@@ -9,6 +9,7 @@ module.exports = {
   "label-email": "Email"
   "label-password": "Password"
   "label-repassword": "Re-Password"
+  "title-wrong-login": "Wrong Email or Password"
   "error-email-email": "Invalid Email"
   "error-email-taken": "This email is taken"
   "error-email-required": "Email is required"

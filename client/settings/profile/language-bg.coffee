@@ -4,4 +4,5 @@ module.exports = {
   "button-confirm": "Потвърди действието"
   "label-new-email": "Нов имейл адрес"
   "label-new-password": "Нова парола"
+  "title-wrong-password": "Грешна парола"
 }

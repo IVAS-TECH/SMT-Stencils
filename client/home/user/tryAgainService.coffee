@@ -1,7 +1,7 @@
 module.exports = (showDialogService) ->
   @$inject = ["showDialogService"]
-  (event, handle) -> showDialogService.showDialog event, "tryAgain", showDialogService.extendHandle handle, {
-    "ok": ->
+  (event, handle, title) -> showDialogService.showDialog event, "tryAgain", (showDialogService.extendHandle handle, {
+    "success": ->
     "cancel": -> alert "errorService event"
     "close": -> alert "We hope to see you again..."
-  }
+  }), title: title

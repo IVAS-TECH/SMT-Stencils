@@ -4,4 +4,5 @@ module.exports = {
   "button-confirm": "Confirm action"
   "label-new-email": "New Email"
   "label-new-password": "New Password"
+  "title-wrong-password": "Wrong Password"
 }

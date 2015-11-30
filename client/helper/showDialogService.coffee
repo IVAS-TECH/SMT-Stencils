@@ -1,14 +1,16 @@
 module.exports = ($mdDialog, template) ->
   @$inject = ["$mdDialog", "template"]
-  openDialog = (event, action) ->
+  openDialog = (event, action, locals = {}) ->
     $mdDialog.show
       template: template "#{action}View"
       targetEvent: event
       controller: "#{action}Controller"
       controllerAs: "#{action}Ctrl"
       clickOutsideToClose: true
-  showDialog: (event, action, handle) ->
-    openDialog event, action
+      bindToController: true
+      locals: locals
+  showDialog: (event, action, handle, locals) ->
+    openDialog event, action, locals
       .then (val) ->
         if typeof val is "object"
           for key, value of val
