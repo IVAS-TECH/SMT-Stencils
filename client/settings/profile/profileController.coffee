@@ -6,7 +6,7 @@ module.exports = (confirmService, RESTHelperService, simpleDialogService) ->
     if not invalid
       confirmService event, success: ->
         RESTHelperService.profile type: type, value: controller.user[type], (res) ->
-          if res.success then simpleDialogService event, {}, "title-changed-#{type}"
+          if res.success then simpleDialogService event, "title-changed-#{type}"
           else simpleDialogService "Error!"
     else controller.error[type] = true
   controller

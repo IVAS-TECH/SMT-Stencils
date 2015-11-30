@@ -1,4 +1,4 @@
-module.exports = (template, $state, $location) ->
+module.exports = (template, $state) ->
   @$inject = ["template", "$state", "$location"]
   template: template "stateSwitcherView"
   controller: "stateSwitcherController"
@@ -24,5 +24,4 @@ module.exports = (template, $state, $location) ->
     controller.switchState = (state) ->
       index = controller.states.indexOf state
       controller.selected = controller.select(index)
-      $location.path controller.states[index]
       $state.go "#{controller.state}.#{controller.states[index]}"

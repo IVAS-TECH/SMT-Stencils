@@ -5,8 +5,8 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
   config.$inject = ["$stateProvider", "templateProvider", "translateProvider"]
   translateProvider.add en, bg
   $stateProvider
-    .state "home", template: templateProvider.provide "homeView"
-    .state "home.about", template: "A"
-    .state "home.technologies", template: "T"
-    .state "home.order", template: "O"
-    .state "home.contacts", template: "C"
+    .state "home", url: "", template: templateProvider.provide "homeView"
+    .state "home.about", url: "/about", template: "A"
+    .state "home.technologies", url: "/technologies", template: "T"
+    .state "home.order", url: "/order", template: "O"
+    .state "home.contacts", url: "/contacts", template: "C"
