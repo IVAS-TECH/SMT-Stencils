@@ -4,8 +4,8 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   authenticateUser = ->
     controller.user = authenticationService.user
     controller.authenticated = authenticationService.authenticated
+  goHome = -> $state.go "home.about"
   init = ->
-    goHome = -> $state.go "home.about"
     if $location.path() is "" then goHome()
     $scope.$on "authentication", ->
       authenticateUser()

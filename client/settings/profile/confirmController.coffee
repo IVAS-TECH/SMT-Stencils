@@ -1,7 +1,6 @@
-module.exports = ($mdDialog, authenticationService) ->
+module.exports = (authenticationService) ->
   controller = @
-  controller.$inject = ["$mdDialog", "authenticationService"]
-  controller.hide = $mdDialog.hide
+  controller.$inject = ["authenticationService"]
   controller.error = false
   controller.key = authenticationService.user.password
   controller.confirm = (invalid) ->

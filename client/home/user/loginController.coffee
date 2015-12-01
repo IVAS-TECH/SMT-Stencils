@@ -1,7 +1,6 @@
-module.exports = ($mdDialog, RESTHelperService) ->
+module.exports = (RESTHelperService) ->
   controller = @
-  controller.$inject = ["$mdDialog", "RESTHelperService"]
-  controller.hide = $mdDialog.hide
+  controller.$inject = ["RESTHelperService"]
   controller.error = false
   controller.session = true
   controller.login = (invalid) ->

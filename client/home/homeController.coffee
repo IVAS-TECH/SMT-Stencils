@@ -6,7 +6,8 @@ module.exports = (authenticationService, loginService) ->
   controller.switchState = (state) ->
     new Promise (resolve, reject) ->
       if state not in ["about", "technologies", "contacts"] and not authenticationService.authenticated
-        loginService()
+        goHome = -> $state.go "home.about"
+        loginService {}, close: goHome, cancel: goHome
         if authenticationService.authenticated then resolve()
         else reject()
       else resolve()

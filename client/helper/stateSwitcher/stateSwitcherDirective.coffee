@@ -9,6 +9,10 @@ module.exports = (template, $state) ->
     menu: "@"
   }
   link: (scope, element, attrs, controller) ->
+    highlight = (state) ->
+      index = controller.states.indexOf state
+      controller.selected = controller.select(index)
+      index
     init = ->
       controller.states = []
       allStates = $state.get()
@@ -19,25 +23,20 @@ module.exports = (template, $state) ->
           if not name.match /\./ then controller.states.push name
       addIfDirectChild state for state in allStates
       checkStates = (current) ->
-        console.log current
         name = current.name
-        highlight = (state) ->
-          index = controller.states.indexOf state
-          controller.selected = controller.select(index)
         isState = (state) ->
           test = new RegExp state
           if name.match test then highlight state
         isState state for state in controller.states
       checkStates  $state.current
-      scope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) -> checkStates toState
+      scope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) -> checkStates toState
     controller.select = (i = 0) ->
         select = (false for [1..controller.states.length])
         select[i] = true
         select
     controller.switchState = (state) ->
       switchIt = ->
-        index = controller.states.indexOf state
-        controller.selected = controller.select(index)
+        index = highlight state
         $state.go "#{controller.state}.#{controller.states[index]}"
       if not attrs.switch? then switchIt()
       else
