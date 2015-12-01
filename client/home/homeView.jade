@@ -6,5 +6,6 @@ div(layout="column" layout-align="space-between center")
     div(layout="row" layout-align="space-around center" layout-sm="column" layout-align-sm="center center")
       ivo-translate
       ivo-user
-  ivo-state-switcher(state="home" lay="row" menu="menu" switch="homeCtrl.switchState" flex-offset-sm="66")
-  ui-view(layout-fill)
+  div(layout="column" layout-align="center center" layout-margin layout-padding)
+    ivo-state-switcher(state="home" lay="row" menu="menu" switch="homeCtrl.switchState" flex-offset-sm="66")
+    ui-view(layout-fill layout-margin layout-padding) 
