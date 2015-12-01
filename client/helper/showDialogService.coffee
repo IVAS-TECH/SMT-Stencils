@@ -7,7 +7,6 @@ module.exports = ($mdDialog, template) ->
       targetEvent: event
       controller: "#{action}Controller"
       controllerAs: "#{action}Ctrl"
-      clickOutsideToClose: true
       bindToController: true
       locals: locals
       openFrom: "body"

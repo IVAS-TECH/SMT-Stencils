@@ -1,12 +1,11 @@
-module.exports = (registerService, loginService, authenticationService, $scope, $window, $location, $state) ->
+module.exports = (registerService, loginService, authenticationService, $scope, $window, $location, goHomeService) ->
   controller = @
-  controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "$location", "$state"]
+  controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "$location", "goHomeService"]
   authenticateUser = ->
     controller.user = authenticationService.user
     controller.authenticated = authenticationService.authenticated
-  goHome = -> $state.go "home.about"
   init = ->
-    if $location.path() is "" then goHome()
+    if $location.path() is "" then goHomeService()
     $scope.$on "authentication", ->
       authenticateUser()
       if not authenticationService.session
@@ -18,12 +17,12 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
       authenticateUser()
       $scope.$digest()
       if $location.path() not in ["/about", "/technologies", "/contacts"] and not controller.authenticated
-        loginService {}, close: goHome, cancel: goHome
+        loginService {}, close: goHomeService, cancel: goHomeService
   controller.register = (event) -> registerService event
   controller.login = (event) -> loginService event
   controller.logout = (event) ->
     authenticationService.unauthenticate()
     authenticateUser()
-    goHome()
+    goHomeService()
   init()
   controller
