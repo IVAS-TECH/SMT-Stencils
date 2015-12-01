@@ -5,7 +5,6 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
     controller.user = authenticationService.user
     controller.authenticated = authenticationService.authenticated
   init = ->
-    if $location.path() is "" then goHomeService()
     $scope.$on "authentication", ->
       authenticateUser()
       if not authenticationService.session
@@ -13,11 +12,6 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
           event.preventDefault()
           authenticationService.unauthenticate()
           return
-    authenticationService.authenticate().then ->
-      authenticateUser()
-      $scope.$digest()
-      if $location.path() not in ["/about", "/technologies", "/contacts"] and not controller.authenticated
-        loginService {}, close: goHomeService, cancel: goHomeService
   controller.register = (event) -> registerService event
   controller.login = (event) -> loginService event
   controller.logout = (event) ->
