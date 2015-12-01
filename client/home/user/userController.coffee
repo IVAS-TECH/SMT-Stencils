@@ -1,6 +1,6 @@
-module.exports = (registerService, loginService, authenticationService, $scope, $window, $location, goHomeService) ->
+module.exports = (registerService, loginService, authenticationService, $scope, $window, goHomeService) ->
   controller = @
-  controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "$location", "goHomeService"]
+  controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "goHomeService"]
   authenticateUser = ->
     controller.user = authenticationService.user
     controller.authenticated = authenticationService.authenticated
