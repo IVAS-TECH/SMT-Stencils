@@ -22,6 +22,11 @@ module.exports = (template, $state) ->
         select[i] = true
         select
     controller.switchState = (state) ->
-      index = controller.states.indexOf state
-      controller.selected = controller.select(index)
-      $state.go "#{controller.state}.#{controller.states[index]}"
+      switchIt = ->
+        index = controller.states.indexOf state
+        controller.selected = controller.select(index)
+        $state.go "#{controller.state}.#{controller.states[index]}"
+      if not attrs.switch? then switchIt()
+      else
+        runable = scope.$eval attrs.switch
+        runable(state).then switchIt()

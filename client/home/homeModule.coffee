@@ -3,7 +3,7 @@ moduleName = "homeModule"
 
 angular
     .module moduleName, [require './user/userModule']
+      .controller "homeController", require "./homeController"
       .config require "./homeConfig"
-      #.run require "./homeRun"
 
 module.exports = moduleName

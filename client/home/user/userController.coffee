@@ -21,7 +21,7 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   authenticationService.authenticate().then ->
     authenticateUser()
     $scope.$digest()
-    if $location.path() not in ["/about", "/technologies", "/contacts"]
+    if $location.path() not in ["/about", "/technologies", "/contacts"] and not controller.authenticated
       loginService {}, close: home, cancel: home
 
   controller
