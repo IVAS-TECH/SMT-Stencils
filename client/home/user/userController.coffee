@@ -4,24 +4,26 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   authenticateUser = ->
     controller.user = authenticationService.user
     controller.authenticated = authenticationService.authenticated
-  home = -> $state.go "home.about"
+  init = ->
+    goHome = -> $state.go "home.about"
+    if $location.path() is "" then goHome()
+    $scope.$on "authentication", ->
+      authenticateUser()
+      if not authenticationService.session
+        $window.onbeforeunload = (event) ->
+          event.preventDefault()
+          authenticationService.unauthenticate()
+          return
+    authenticationService.authenticate().then ->
+      authenticateUser()
+      $scope.$digest()
+      if $location.path() not in ["/about", "/technologies", "/contacts"] and not controller.authenticated
+        loginService {}, close: goHome, cancel: goHome
   controller.register = (event) -> registerService event
   controller.login = (event) -> loginService event
   controller.logout = (event) ->
     authenticationService.unauthenticate()
     authenticateUser()
-    home()
-  $scope.$on "authentication", ->
-    authenticateUser()
-    if not authenticationService.session
-      $window.onbeforeunload = (event) ->
-        event.preventDefault()
-        authenticationService.unauthenticate()
-        return
-  authenticationService.authenticate().then ->
-    authenticateUser()
-    $scope.$digest()
-    if $location.path() not in ["/about", "/technologies", "/contacts"] and not controller.authenticated
-      loginService {}, close: home, cancel: home
-
+    goHome()
+  init()
   controller

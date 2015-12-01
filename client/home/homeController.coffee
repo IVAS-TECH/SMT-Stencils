@@ -1,7 +1,7 @@
 Promise = require "promise"
-module.exports = (authenticationService, $location, $state, $scope, loginService) ->
+module.exports = (authenticationService, loginService) ->
   controller = @
-  controller.$inject = ["authenticationService", "$location", "$state", $scope, "loginService"]
+  controller.$inject = ["authenticationService", "loginService"]
   home = -> $state.go "home.about"
   controller.switchState = (state) ->
     new Promise (resolve, reject) ->
