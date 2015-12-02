@@ -2,12 +2,15 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   controller = @
   controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "goHomeService"]
   authenticateUser = ->
-    controller.user = authenticationService.user
-    controller.authenticated = authenticationService.authenticated
+    controller.user = authenticationService.getUser()
+    controller.authenticated = authenticationService.isAuthenticated()
   init = ->
+    authenticationService.authenticate().then ->
+      authenticateUser()
+      $scope.$digest()
     $scope.$on "authentication", ->
       authenticateUser()
-      if not authenticationService.session
+      if not authenticationService.isSession()
         $window.onbeforeunload = (event) ->
           event.preventDefault()
           authenticationService.unauthenticate()

@@ -4,11 +4,13 @@ module.exports = (authenticationService, loginService, goHomeService, $location,
   controller.$inject = ["authenticationService", "loginService", "goHomeService", "$scope"]
   init = ->
     restrict = ->
-      authenticationService.authenticate().then ->
-        if $location.path() not in ["/about", "/technologies", "/contacts"] and not authenticationService.authenticated
-          loginService {}, close: goHomeService, cancel: goHomeService
+      if not authenticationService.isAuthenticated()
+        authenticationService.authenticate().then ->
+          if $location.path() not in ["/about", "/technologies", "/contacts"] and not authenticationService.isAuthenticated()
+            loginService {}, close: goHomeService, cancel: goHomeService
     if $location.path() is "" then goHomeService()
     restrict()
     $scope.$on "$locationChangeSuccess", restrict
+    $scope.$on "unauthentication", -> authenticationService.sync()
   init()
   controller
