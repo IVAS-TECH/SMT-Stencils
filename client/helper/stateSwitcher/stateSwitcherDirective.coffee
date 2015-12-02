@@ -12,7 +12,6 @@ module.exports = (template, $state) ->
     highlight = (state) ->
       index = controller.states.indexOf state
       controller.selected = controller.select(index)
-      index
     init = ->
       controller.states = []
       allStates = $state.get()
@@ -35,6 +34,5 @@ module.exports = (template, $state) ->
         select[i] = true
         select
     controller.switchState = (state) ->
-      index = highlight state
-      $state.go "#{controller.state}.#{controller.states[index]}"
+      $state.go "#{controller.state}.#{state}"
     init()
