@@ -1,0 +1,9 @@
+div(layout-margin layout-padding layout-fill layout="column")
+  div(ng-class="x.frame ? 'stencil-box-framed' : 'stencil-box-simple'" layout-fill layout="column")
+    div(ng-class="x.frame ? 'stencil-outer-shadow' : 'stencil'" layout-fill layout="column")
+      div(ng-class="x.frame ? 'stencil-frame' : 'stencil'" layout-fill layout="column")
+        div(ng-class="x.frame ? 'stencil-inner-shadow' : 'stencil'" layout-fill layout="column")
+          div(ng-class="x.frame ? 'stencil-glued' : 'stencil'" layout-fill layout="column")
+            div(class="stencil-view" layout-fill layout="column")
+              span(class="stencil-text" ng-class="x.changeText(x.stencil.text)") Text
+              div(ivo-include="'top'" ng-class="x.stencil.style.mode || 'portrait-centered'")

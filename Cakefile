@@ -85,7 +85,7 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
       next()
     walker.on "end", ->
       svgs = gerbersToSvgLayers files
-      top = join resources, "top.svg"
+      top = join resources, "top.html"
       fs.writeFileSync top, svgs.top, "utf8"
     console.log "Generating default stencil SVG    done"
 

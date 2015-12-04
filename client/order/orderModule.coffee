@@ -8,6 +8,6 @@ angular
     .directive "ivoInclude", require "./includeDirective"
     .run ($state) ->
       @$inject = ["$state"]
-      #$state.go "home.order.configuration"
+      $state.go "home.order.configuration"
 
 module.exports = moduleName
