@@ -16,6 +16,8 @@ module.exports = ->
       return ["bottom", "top"]
   controller = @
   controller.$inject = []
+  controller.text = "Text"
+  controller.view = "'top'"
   controller.stencil = {style: {}}
   controller.options = {
     side: ["pcb-side", "squeegee-side"]
