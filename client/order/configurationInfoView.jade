@@ -45,7 +45,7 @@ div(layout="column" layout-align="center center" layout-fill layout-margin layou
         md-select(ng-model="x.stencil.text.type")
           md-option(ng-value="'engraved'" translate="option-engraved")
           md-option(ng-value="'drilled'" translate="option-drilled")
-      md-input-container(flex="auto")
+      md-input-container(ng-show="x.stencil.text.type === 'engraved'" flex="auto")
         label(translate="label-text-side")
         md-select(ng-model="x.stencil.text.side")
           md-option(ng-repeat="o in x.options.side" ng-value="o" translate="{{'option-' + o}}")

@@ -7,34 +7,34 @@ module.exports = ->
       for j in [0..2]
         options.push "#{directionY[i]}-#{directionX[j]}"
     options
-  textAngle = (pos) ->
-    if not pos or not pos.match /center/
+  textAngle = (position = "") ->
+    if not position or not position.match /center/
       return ["left", "right", "bottom", "top"]
-    if pos.match /center-/
+    if position.match /center-/
       return ["left", "right"]
-    if pos.match /-center/
+    if position.match /-center/
       return ["bottom", "top"]
   controller = @
   controller.$inject = []
   controller.stencil = {style: {}}
   controller.options = {
     side: ["pcb-side", "squeegee-side"]
-    textAngle: textAngle ""
+    textAngle: textAngle()
     textPosition: textPosition()
   }
   controller.textAngle = textAngle
   controller.changeText = (text) ->
     color = "pcb-side"
     angle = ""
-    def = [color, "text-top-left-left"]
+    def = "text-top-left-left"
     if not text?
-      return def
+      return [color, def]
     if text.type is "engraved" and text.side
       color = text.side
     if text.type is "drilled"
       color = text.type
     if not text.position
-      return def
+      return [color, def]
     if not text.angle? or not text.angle in controller.options.textAngle
       angle = controller.options.textAngle[0]
     else angle = text.angle
