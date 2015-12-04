@@ -26,15 +26,15 @@ module.exports = ->
   controller.changeText = (text) ->
     color = "pcb-side"
     angle = ""
-    ret = []
+    def = [color, "text-top-left-left"]
     if not text?
-      return [color, "text-top-left-left"]
+      return def
     if text.type is "engraved" and text.side
       color = text.side
     if text.type is "drilled"
       color = text.type
     if not text.position
-      return [color, "text-top-left-left"]
+      return def
     if not text.angle? or not text.angle in controller.options.textAngle
       angle = controller.options.textAngle[0]
     else angle = text.angle
@@ -42,6 +42,7 @@ module.exports = ->
   controller.changeStencilTransitioning = ->
     controller.frame = controller.stencil.transitioning.match /frame/
   controller.changeStencilPosition = ->
+    aligment = controller.stencil.position.aligment ? "portrait"
     position = controller.stencil.position.position
     mode = ""
     if position isnt "pcb-centered"
@@ -50,9 +51,9 @@ module.exports = ->
       if controller.stencil.style.lay
         mode = "centered"
       else mode = "no"
-      controller.stencil.style.mode = [controller.stencil.position.aligment, mode].join "-"
+      controller.stencil.style.mode = [aligment, mode].join "-"
       return
     controller.stencil.style.out = true
     controller.stencil.style.lay = false
-    controller.stencil.style.mode = [controller.stencil.position.aligment, "centered"].join "-"
+    controller.stencil.style.mode = [aligment, "centered"].join "-"
   controller
