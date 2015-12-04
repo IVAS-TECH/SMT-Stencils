@@ -2,6 +2,7 @@ mongoose = require "mongoose"
 
 schema = new mongoose.Schema
   name: String
+  user: mongoose.Schema.Types.ObjectId
   fudical:
     marks: String
     side: String
@@ -21,4 +22,5 @@ schema = new mongoose.Schema
     side: String
     type:
       type: String
+
 module.exports = mongoose.model "Config", schema

@@ -14,15 +14,13 @@ router.post "/user", (req, res) ->
 
 router.patch "/user", (req, res) ->
   update = {}
-  id = req.session.find req.ip
   update[req.body.type] = req.body.value
-  userModel.findByIdAndUpdate id, $set: update, (err, doc) ->
+  userModel.findByIdAndUpdate req.session.find req.ip, $set: update, (err, doc) ->
     res.send success: successful err, doc
 
 router.get "/login", (req, res) ->
   status = req.session.isMapedIp req.ip
-  id = req.session.find req.ip
-  userModel.findById id, (err, doc) ->
+  userModel.findById req.session.find req.ip, (err, doc) ->
     user = {}
     if status then user = email: doc.email, password: doc.password
     res.send user: user, success: status

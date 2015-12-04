@@ -3,7 +3,9 @@ configModel = require "./configModel"
 router = new Router()
 
 router.post "/config", (req, res) ->
-  configModel.create req.body.config, (err, doc) ->
+  config = req.body.config
+  config.user = req.session.find req.ip
+  configModel.create config, (err, doc) ->
     res.send success: doc? and not err?
 
 module.exports = router

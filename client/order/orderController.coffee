@@ -1,4 +1,5 @@
 module.exports = (RESTHelperService, simpleDialogService) ->
+  
   textPosition = ->
     options = []
     directionX = ["left", "right", "center"]
@@ -7,6 +8,7 @@ module.exports = (RESTHelperService, simpleDialogService) ->
       for j in [0..2]
         options.push "#{directionY[i]}-#{directionX[j]}"
     options
+
   textAngle = (position = "") ->
     if not position or not position.match /center/
       return ["left", "right", "bottom", "top"]
@@ -14,18 +16,20 @@ module.exports = (RESTHelperService, simpleDialogService) ->
       return ["left", "right"]
     if position.match /-center/
       return ["bottom", "top"]
+
   controller = @
   controller.$inject = ["RESTHelperService", "simpleDialogService"]
   controller.text = "Text"
   controller.view = "'top'"
   controller.action = "new"
-  controller.stencil = {style: {}}
+  controller.stencil = { style: {} }
   controller.options = {
     side: ["pcb-side", "squeegee-side"]
     textAngle: textAngle()
     textPosition: textPosition()
   }
   controller.textAngle = textAngle
+
   controller.changeText = (text) ->
     color = "pcb-side"
     angle = ""
@@ -42,8 +46,10 @@ module.exports = (RESTHelperService, simpleDialogService) ->
       angle = controller.options.textAngle[0]
     else angle = text.angle
     return [color, ["text", text.position, angle].join "-"]
+
   controller.changeStencilTransitioning = ->
     controller.frame = controller.stencil.stencil.transitioning.match /frame/
+
   controller.changeStencilPosition = ->
     aligment = controller.stencil.position.aligment ? "portrait"
     position = controller.stencil.position.position
@@ -59,13 +65,16 @@ module.exports = (RESTHelperService, simpleDialogService) ->
     controller.stencil.style.out = true
     controller.stencil.style.lay = false
     controller.stencil.style.mode = [aligment, "centered"].join "-"
+
   controller.configurationAction = (event, invalid) ->
     create = ->
       delete controller.stencil.style
       controller.stencil.stencil.size = controller.stencil.stencil.size ? "default"
       controller.stencil.text.side = controller.stencil.text.side ? "default"
       RESTHelperService.config.create config: controller.stencil, (res) -> console.log res
+
     if not invalid
       if controller.action is "new"  then create()
     else simpleDialogService event, "required-fields"
+
   controller
