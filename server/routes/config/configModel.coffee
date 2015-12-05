@@ -2,7 +2,9 @@ mongoose = require "mongoose"
 
 schema = new mongoose.Schema
   name: String
-  user: mongoose.Schema.Types.ObjectId
+  user:
+    type: mongoose.Schema.Types.ObjectId
+    ref: "User"
   fudical:
     marks: String
     side: String

@@ -10,20 +10,26 @@ router.get "/user/:email", (req, res) ->
 
 router.post "/user", (req, res) ->
   userModel.create req.body.user, (err, doc) ->
+    console.log err, doc
     res.send success: successful err, doc
 
 router.patch "/user", (req, res) ->
   update = {}
   update[req.body.type] = req.body.value
-  userModel.findByIdAndUpdate req.session.find req.ip, $set: update, (err, doc) ->
+  id = req.session.find req.ip
+  userModel.findByIdAndUpdate id, $set: update, (err, doc) ->
     res.send success: successful err, doc
 
 router.get "/login", (req, res) ->
   status = req.session.isMapedIp req.ip
-  userModel.findById req.session.find req.ip, (err, doc) ->
-    user = {}
-    if status then user = email: doc.email, password: doc.password
-    res.send user: user, success: status
+  id = req.session.find req.ip
+  if status
+    userModel.findById id, (err, doc) ->
+      user = {}
+      success = status and successful err, doc
+      if success then user = email: doc.email, password: doc.password
+      res.send user: user, success: success
+  else res.send success: status
 
 router.post "/login", (req, res) ->
   userModel.findOne req.body.user, (err, doc) ->

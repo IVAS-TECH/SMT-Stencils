@@ -1,2 +1,7 @@
+md-input-container
+  label Choose
+  md-select(ng-model="x.config" ng-change="x.log()")
+    md-option(ng-repeat="c in x.configs" ng-value="c.name") {{c.name}}
+
 ivo-stencil-preview(text="x.text" view="x.view")
 div(ivo-include="'configurationInfoView'")

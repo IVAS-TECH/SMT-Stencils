@@ -14,5 +14,6 @@ module.exports = (REST) ->
   factory.profile = (change, resolver) -> userREST.patch(change).then resolve resolver
   factory.config = {
     create: (config, resolver) -> configREST.post(config).then resolve resolver
+    find: (resolver) -> configREST.get().then resolve resolver
   }
   factory

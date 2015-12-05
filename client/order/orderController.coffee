@@ -1,5 +1,22 @@
-module.exports = (RESTHelperService, simpleDialogService) ->
-  
+{angular} = require "dependencies"
+
+module.exports = (RESTHelperService, simpleDialogService, $scope) ->
+
+  listConfigs = ->
+    RESTHelperService.config.find (res) ->
+      if res.success
+        controller.configs = res.configs
+
+  reset = (stencil) ->
+      controller.text = "Text"
+      controller.view = "'top'"
+      controller.action = "new"
+      controller.stencil = stencil
+      controller.options =
+        side: ["pcb-side", "squeegee-side"]
+        textAngle: textAngle()
+        textPosition: textPosition()
+
   textPosition = ->
     options = []
     directionX = ["left", "right", "center"]
@@ -18,16 +35,12 @@ module.exports = (RESTHelperService, simpleDialogService) ->
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService"]
-  controller.text = "Text"
-  controller.view = "'top'"
-  controller.action = "new"
-  controller.stencil = { style: {} }
-  controller.options = {
-    side: ["pcb-side", "squeegee-side"]
-    textAngle: textAngle()
-    textPosition: textPosition()
-  }
+  controller.$inject = ["RESTHelperService", "simpleDialogService", "$scope"]
+  listConfigs()
+
+  reset style: {}
+  controller.log = -> console.log controller.configs[1]
+
   controller.textAngle = textAngle
 
   controller.changeText = (text) ->
@@ -68,10 +81,12 @@ module.exports = (RESTHelperService, simpleDialogService) ->
 
   controller.configurationAction = (event, invalid) ->
     create = ->
-      delete controller.stencil.style
       controller.stencil.stencil.size = controller.stencil.stencil.size ? "default"
       controller.stencil.text.side = controller.stencil.text.side ? "default"
-      RESTHelperService.config.create config: controller.stencil, (res) -> console.log res
+      config = angular.copy controller.stencil
+      delete config.style
+      RESTHelperService.config.create config: config, (res) ->
+        if res.success then controller.stencil._id = res._id
 
     if not invalid
       if controller.action is "new"  then create()
