@@ -6,4 +6,4 @@ module.exports = (template) ->
     text: "="
     view: "="
   }
-  link: (scope) -> scope.x = scope.$parent.$parent.x
+  link: (scope) -> scope.x = scope.$parent.$parent.x ? scope.$parent.x

@@ -1,6 +1,11 @@
 {join} = require "path"
-{walk} = require "walk" ? null
-fs = require "fs-extra" ? null
+walk = null
+try
+  fs = require "fs-extra"
+catch error
+  fs = null
+if fs isnt null
+  {walk} = require "walk"
 clientDir = join __dirname, "./client"
 appDir = join clientDir, "app"
 

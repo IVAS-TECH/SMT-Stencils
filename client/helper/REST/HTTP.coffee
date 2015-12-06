@@ -9,7 +9,7 @@ class HTTP
     @base += "/#{extend}"
     @
   make: (method, send) ->
-    path = if method is "GET" and send isnt "" then "#{@base}/#{send}" else @base
+    path = if method in ["GET", "DELETE"] and send isnt "" then "#{@base}/#{send}" else @base
     promise = new Promise (resolve, reject) ->
       req = http.request path: path, method: method, responseType: json, (res) ->
         response = ""
@@ -25,7 +25,7 @@ class HTTP
   get: (send = "") -> @make "GET", send
   post: (send = {}) -> @make "POST", send
   put: (send = {}) -> @make "PUT", send
-  delete: (send = {}) -> @make "DELETE", send
+  delete: (send = "") -> @make "DELETE", send
   patch: (send = {}) -> @make "PATCH", send
 
 module.exports = HTTP

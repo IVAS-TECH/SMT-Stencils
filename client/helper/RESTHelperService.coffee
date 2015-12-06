@@ -12,8 +12,9 @@ module.exports = (REST) ->
   factory.login = (user, resolver) -> loginREST.post(user).then resolve resolver
   factory.logout = (resolver) -> loginREST.delete().then resolve resolver
   factory.profile = (change, resolver) -> userREST.patch(change).then resolve resolver
-  factory.config = {
+  factory.config =
     create: (config, resolver) -> configREST.post(config).then resolve resolver
     find: (resolver) -> configREST.get().then resolve resolver
-  }
+    delete: (config, resolver) -> configREST.delete(config).then resolve resolver
+    update: (config, resolver) -> configREST.patch(config).then resolve resolver
   factory

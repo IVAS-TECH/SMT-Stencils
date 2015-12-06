@@ -54,6 +54,14 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
     controller.configuration = controller.configs[controller.config]
     controller.change()
 
+  controller.delete = ->
+      #confirmService
+      RESTHelperService.config.delete controller.configuration._id, (res) ->
+        #remove()
+        reset()
+
+  controller.edit = -> controller.disabled = false
+
   controller.textAngle = textAngle
 
   controller.changeText = (text) ->
@@ -108,18 +116,15 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
       RESTHelperService.config.create config: controller.configuration, (res) ->
         if res.success then controller.configuration._id = res._id
 
-    remove = ->
-      RESTHelperService.config.delete controller.configuration._id, (res) ->
-        console.log res.success
-
+    edit = ->
+      RESTHelperService.config.update config: controller.configuration, (res) ->
+        console.log res
 
     if not invalid
-      if controller.action is "new"
+      if controller.action is "new" or "preview"
         if controller.save then create()
+        if controller.settings then edit()
         $state.go "home.order.spesific"
-      if controller.action is "preview" and not controller.settings
-        $state.go "home.order.spesific"
-      if controller.action is "delete" then remove()
     else simpleDialogService event, "required-fields"
 
   controller

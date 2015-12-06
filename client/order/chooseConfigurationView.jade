@@ -6,8 +6,8 @@ div(layout="column" layout-align="center center" layout-fill)
       md-select(ng-model="x.config" ng-change="x.choose()")
         md-option(ng-repeat="c in x.configs" ng-value="$index") {{c.name}}
     div(ng-if="x.settings" layout="row" layout-align="center center")
-      md-button(class="md-primary" translate="button-edit")
-      md-button(class="md-warn" translate="button-delete")
+      md-button(ng-click="x.edit()" class="md-primary" translate="button-edit")
+      md-button(ng-click="x.delete()" class="md-warn" translate="button-delete")
   div(ng-show="x.info" layout="column" layout-align="center center" layout-fill)
     ivo-stencil-preview(text="x.text" view="x.view")
     ivo-include(include="'configurationInfoView'" template="true")
@@ -15,7 +15,7 @@ div(layout="column" layout-align="center center" layout-fill)
       p(translate="checkbox-save-configuration")
     md-button(
       ng-click="x.configurationAction($event, configuration.$invalid)"
-      ng-if="x.action !== 'preview' || !x.settings"
+      ng-if="x.action === 'preview' && x.settings || x.action === 'new'"
       class="md-primary"
       aria-label="x.mode"
       translate="{{x.action + '-configuration'}}"

@@ -24,4 +24,15 @@ router.get "/config", (req, res) ->
       if success then response.configs = doc
       res.send response
 
+router.patch "/config", (req, res) ->
+  config = req.body.config
+  id = config._id
+  delete config._id
+  configModel.findByIdAndUpdate id, $set: config, (err, doc, result) ->
+    res.send success: successful err, result
+
+router.delete "/config/:id", (req, res) ->
+  configModel.remove _id: req.params.id, (err) ->
+    res.send success: err is null
+
 module.exports = router

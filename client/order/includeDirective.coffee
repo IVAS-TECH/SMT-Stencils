@@ -8,7 +8,7 @@ module.exports = ($compile, template) ->
       element.html html
       compileFn = $compile element.contents()
       compileFn scope
-    scope.x = scope.$parent.$parent.x
+    scope.x = scope.$parent.$parent.x ? scope.$parent.x
     if attrs.template is "true"
       compile template scope.include
     else
