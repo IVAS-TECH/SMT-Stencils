@@ -2,10 +2,8 @@ module.exports = (template) ->
   @$inject = ["template"]
   template: template "stencilPreviewView"
   restrict: "E"
-  scope: false
-  controller: ->
-  controllerAs: "stencilCtrl"
-  bindToController: {
+  scope: {
     text: "="
     view: "="
   }
+  link: (scope) -> scope.x = scope.$parent.$parent.x

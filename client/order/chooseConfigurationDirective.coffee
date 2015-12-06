@@ -2,10 +2,9 @@ module.exports = (template, RESTHelperService) ->
   @$inject = ["template", "RESTHelperService"]
   restrict: "E"
   scope: false
-  template: (tElement, tAttrs) ->
-    if tAttrs.settings is "false"
-      return template "chooseConfigurationView"
+  template: template "chooseConfigurationView"
   link: (scope, element, attrs) ->
+    #if tAttrs.settings is "false" then scope.$parent.x.settings = false else true
     RESTHelperService.config.find (res) ->
       if res.success
         scope.$parent.x.configs = res.configs

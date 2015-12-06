@@ -1,14 +1,15 @@
 module.exports = ($compile, template) ->
   @$inject = ["$compile", "template"]
-  restrict: "A"
-  replace: true
+  restrict: "E"
+  scope:
+    include: "="
   link: (scope, element, attrs) ->
     compile = (html) ->
       element.html html
       compileFn = $compile element.contents()
       compileFn scope
-    include = scope.$eval attrs.ivoInclude
-    if typeof include is "string"
-      compile template include
+    scope.x = scope.$parent.$parent.x
+    if attrs.template is "true"
+      compile template scope.include
     else
-      scope.$watch include, compile
+      scope.$watch "include", compile

@@ -1,6 +1,6 @@
 {angular} = require "dependencies"
 
-module.exports = (RESTHelperService, simpleDialogService, $scope) ->
+module.exports = (RESTHelperService, simpleDialogService, template) ->
 
   textPosition = ->
     options = []
@@ -20,11 +20,12 @@ module.exports = (RESTHelperService, simpleDialogService, $scope) ->
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService", "$scope"]
+  controller.$inject = ["RESTHelperService", "simpleDialogService", "template"]
   controller.text = "Text"
-  controller.view = "'top'"
+  controller.view = template "top"
 
   controller.reset = ->
+      controller.disabled = false
       controller.action = "new"
       controller.stencil = style: {}
       controller.change()
@@ -42,6 +43,7 @@ module.exports = (RESTHelperService, simpleDialogService, $scope) ->
     controller.changeStencilPosition()
 
   controller.choose = ->
+    controller.disabled = true
     config = controller.configs[controller.config]
     config.style = {}
     controller.stencil = config
