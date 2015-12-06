@@ -1,6 +1,11 @@
 {angular} = require "dependencies"
 
-module.exports = (RESTHelperService, simpleDialogService, template) ->
+module.exports = (RESTHelperService, simpleDialogService) ->
+
+  init = ->
+    RESTHelperService.config.find (res) ->
+      if res.success
+        controller.configs = res.configs
 
   textPosition = ->
     options = []
@@ -20,33 +25,30 @@ module.exports = (RESTHelperService, simpleDialogService, template) ->
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService", "template"]
-  controller.text = "Text"
-  controller.view = template "top"
+  controller.$inject = ["RESTHelperService", "simpleDialogService"]
+  init()
 
   controller.reset = ->
       controller.disabled = false
       controller.action = "new"
-      controller.stencil = style: {}
+      controller.configuration = {}
       controller.change()
 
   controller.change = ->
     position = ""
-    if controller.stencil.text
-         position = controller.stencil.text.position
+    if controller.configuration.text
+         position = controller.configuration.text.position
     controller.options =
       side: ["pcb-side", "squeegee-side"]
       textAngle: textAngle position
       textPosition: textPosition()
-    controller.changeText controller.stencil.text
+    controller.changeText controller.configuration.text
     controller.changeStencilTransitioning()
     controller.changeStencilPosition()
 
   controller.choose = ->
     controller.disabled = true
-    config = controller.configs[controller.config]
-    config.style = {}
-    controller.stencil = config
+    controller.configuration = controller.configs[controller.config]
     controller.change()
 
   controller.textAngle = textAngle
@@ -69,41 +71,40 @@ module.exports = (RESTHelperService, simpleDialogService, template) ->
     return [color, ["text", text.position, angle].join "-"]
 
   controller.changeStencilTransitioning = ->
-    if not controller.stencil.stencil?
+    if not controller.configuration.stencil?
       controller.frame = false
       return
-    controller.frame = controller.stencil.stencil.transitioning.match /frame/
+    controller.frame = controller.configuration.stencil.transitioning.match /frame/
 
   controller.changeStencilPosition = ->
-    if not controller.stencil.position?
-      controller.stencil.style.out = false
-      controller.stencil.style.lay = false
-      controller.stencil.style.mode = ["portrait", "centered"].join "-"
+    if not controller.configuration.position?
+      controller.outline = false
+      controller.layout = false
+      controller.mode = ["portrait", "centered"].join "-"
       return
-    aligment = controller.stencil.position.aligment ? "portrait"
-    position = controller.stencil.position.position
+    aligment = controller.configuration.position.aligment ? "portrait"
+    position = controller.configuration.position.position
     mode = ""
     if position isnt "pcb-centered"
-      controller.stencil.style.out = false
-      controller.stencil.style.lay = position is "layout-centered"
-      if controller.stencil.style.lay
+      controller.outline = false
+      controller.layout = position is "layout-centered"
+      if controller.layout
         mode = "centered"
       else mode = "no"
-      controller.stencil.style.mode = [aligment, mode].join "-"
+      controller.mode = [aligment, mode].join "-"
       return
-    controller.stencil.style.out = true
-    controller.stencil.style.lay = false
-    controller.stencil.style.mode = [aligment, "centered"].join "-"
+    controller.outline = true
+    controller.layout = false
+    controller.mode = [aligment, "centered"].join "-"
 
   controller.configurationAction = (event, invalid) ->
     create = ->
-      controller.stencil.stencil.size = controller.stencil.stencil.size ? "default"
-      controller.stencil.text.side = controller.stencil.text.side ? "default"
-      config = angular.copy controller.stencil
+      controller.configuration.stencil.size = controller.configuration.stencil.size ? "default"
+      controller.configuration.text.side = controller.configuration.text.side ? "default"
+      config = angular.copy controller.configuration
       delete config.style
       RESTHelperService.config.create config: config, (res) ->
-        if res.success then controller.stencil._id = res._id
-
+        if res.success then controller.configuration._id = res._id
     if not invalid
       if controller.action is "new"  then create()
     else simpleDialogService event, "required-fields"
