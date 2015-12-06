@@ -7,16 +7,6 @@ module.exports = (RESTHelperService, simpleDialogService, $scope) ->
       if res.success
         controller.configs = res.configs
 
-  reset = (stencil) ->
-      controller.text = "Text"
-      controller.view = "'top'"
-      controller.action = "new"
-      controller.stencil = stencil
-      controller.options =
-        side: ["pcb-side", "squeegee-side"]
-        textAngle: textAngle()
-        textPosition: textPosition()
-
   textPosition = ->
     options = []
     directionX = ["left", "right", "center"]
@@ -36,10 +26,32 @@ module.exports = (RESTHelperService, simpleDialogService, $scope) ->
 
   controller = @
   controller.$inject = ["RESTHelperService", "simpleDialogService", "$scope"]
+  controller.text = "Text"
+  controller.view = "'top'"
   listConfigs()
 
-  reset style: {}
-  controller.log = -> console.log controller.configs[1]
+  controller.reset = ->
+      controller.action = "new"
+      controller.stencil = style: {}
+      controller.change()
+
+  controller.change = ->
+    position = ""
+    if controller.stencil.text
+         position = controller.stencil.text.position
+    controller.options =
+      side: ["pcb-side", "squeegee-side"]
+      textAngle: textAngle position
+      textPosition: textPosition()
+    controller.changeText controller.stencil.text
+    controller.changeStencilTransitioning()
+    controller.changeStencilPosition()
+
+  controller.choose = ->
+    config = controller.configs[controller.config]
+    config.style = {}
+    controller.stencil = config
+    controller.change()
 
   controller.textAngle = textAngle
 
@@ -61,9 +73,17 @@ module.exports = (RESTHelperService, simpleDialogService, $scope) ->
     return [color, ["text", text.position, angle].join "-"]
 
   controller.changeStencilTransitioning = ->
+    if not controller.stencil.stencil?
+      controller.frame = false
+      return
     controller.frame = controller.stencil.stencil.transitioning.match /frame/
 
   controller.changeStencilPosition = ->
+    if not controller.stencil.position?
+      controller.stencil.style.out = false
+      controller.stencil.style.lay = false
+      controller.stencil.style.mode = ["portrait", "centered"].join "-"
+      return
     aligment = controller.stencil.position.aligment ? "portrait"
     position = controller.stencil.position.position
     mode = ""

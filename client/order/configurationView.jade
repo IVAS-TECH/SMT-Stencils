@@ -1,7 +1,7 @@
+md-button(ng-click="x.reset()" class="md-primary" aria-label="new") New
 md-input-container
   label Choose
-  md-select(ng-model="x.config" ng-change="x.log()")
-    md-option(ng-repeat="c in x.configs" ng-value="c.name") {{c.name}}
-
+  md-select(ng-model="x.config" ng-change="x.choose()")
+    md-option(ng-repeat="c in x.configs" ng-value="$index") {{c.name}}
 ivo-stencil-preview(text="x.text" view="x.view")
 div(ivo-include="'configurationInfoView'")
