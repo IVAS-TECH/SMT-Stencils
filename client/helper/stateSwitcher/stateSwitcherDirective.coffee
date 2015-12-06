@@ -5,7 +5,6 @@ module.exports = (template, $state) ->
   controllerAs: "stateSwitcherCtrl"
   bindToController: {
     state: "@"
-    lay: "@"
     menu: "@"
   }
   link: (scope, element, attrs, controller) ->

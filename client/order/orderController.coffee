@@ -1,6 +1,6 @@
 {angular} = require "dependencies"
 
-module.exports = (RESTHelperService, simpleDialogService) ->
+module.exports = (RESTHelperService, simpleDialogService, $state) ->
 
   init = ->
     RESTHelperService.config.find (res) ->
@@ -25,16 +25,18 @@ module.exports = (RESTHelperService, simpleDialogService) ->
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService"]
+  controller.$inject = ["RESTHelperService", "simpleDialogService", "$state"]
   init()
 
   controller.reset = ->
       controller.disabled = false
       controller.action = "new"
+      delete controller.config
       controller.configuration = {}
       controller.change()
 
   controller.change = ->
+    controller.info = true
     position = ""
     if controller.configuration.text
          position = controller.configuration.text.position
@@ -48,6 +50,7 @@ module.exports = (RESTHelperService, simpleDialogService) ->
 
   controller.choose = ->
     controller.disabled = true
+    controller.action = "preview"
     controller.configuration = controller.configs[controller.config]
     controller.change()
 
@@ -98,13 +101,25 @@ module.exports = (RESTHelperService, simpleDialogService) ->
     controller.mode = [aligment, "centered"].join "-"
 
   controller.configurationAction = (event, invalid) ->
+
     create = ->
       controller.configuration.stencil.size = controller.configuration.stencil.size ? "default"
       controller.configuration.text.side = controller.configuration.text.side ? "default"
       RESTHelperService.config.create config: controller.configuration, (res) ->
         if res.success then controller.configuration._id = res._id
+
+    remove = ->
+      RESTHelperService.config.delete controller.configuration._id, (res) ->
+        console.log res.success
+
+
     if not invalid
-      if controller.action is "new"  then create()
+      if controller.action is "new"
+        if controller.save then create()
+        $state.go "home.order.spesific"
+      if controller.action is "preview" and not controller.settings
+        $state.go "home.order.spesific"
+      if controller.action is "delete" then remove()
     else simpleDialogService event, "required-fields"
 
   controller

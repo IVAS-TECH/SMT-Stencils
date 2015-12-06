@@ -7,3 +7,4 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
   $stateProvider
     .state "home.order", url: "/order", controller: "orderController as x", template: templateProvider.provide "orderView"
     .state "home.order.configuration", template: templateProvider.provide "configurationView"
+    .state "home.order.spesific", template: "Spesific"
