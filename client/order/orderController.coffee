@@ -101,9 +101,7 @@ module.exports = (RESTHelperService, simpleDialogService) ->
     create = ->
       controller.configuration.stencil.size = controller.configuration.stencil.size ? "default"
       controller.configuration.text.side = controller.configuration.text.side ? "default"
-      config = angular.copy controller.configuration
-      delete config.style
-      RESTHelperService.config.create config: config, (res) ->
+      RESTHelperService.config.create config: controller.configuration, (res) ->
         if res.success then controller.configuration._id = res._id
     if not invalid
       if controller.action is "new"  then create()
