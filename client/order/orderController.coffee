@@ -2,11 +2,6 @@
 
 module.exports = (RESTHelperService, simpleDialogService, $scope) ->
 
-  listConfigs = ->
-    RESTHelperService.config.find (res) ->
-      if res.success
-        controller.configs = res.configs
-
   textPosition = ->
     options = []
     directionX = ["left", "right", "center"]
@@ -28,7 +23,6 @@ module.exports = (RESTHelperService, simpleDialogService, $scope) ->
   controller.$inject = ["RESTHelperService", "simpleDialogService", "$scope"]
   controller.text = "Text"
   controller.view = "'top'"
-  listConfigs()
 
   controller.reset = ->
       controller.action = "new"

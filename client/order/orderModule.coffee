@@ -7,6 +7,7 @@ angular
     .config require "./orderConfig"
     .directive "ivoInclude", require "./includeDirective"
     .directive "ivoStencilPreview", require "./stencilPreviewDirective"
+    .directive "ivoChooseConfiguration", require "./chooseConfiguration"
     .run ($state) ->
       @$inject = ["$state"]
       $state.go "home.order.configuration"
