@@ -15,7 +15,7 @@ module.exports = (files) ->
   top.svg.height = "90%"
   outline = out.svg._[0].g._[0]
   figs = top.svg._[1].g._
-  top.svg["ng-class"] = "[(x.configuration.position.side || 'pcb-side'), (x.layout ? 'stencil-layout' : 'stencil-centered')]"
-  outline.path["ng-class"] = "x.outline ? 'stencil-outline' : 'stencil-no-outline'"
+  top.svg["ng-class"] = "[(x.configuration.position.side || 'pcb-side'), (x.style.layout ? 'stencil-layout' : 'stencil-centered')]"
+  outline.path["ng-class"] = "x.style.outline ? 'stencil-outline' : 'stencil-no-outline'"
   figs.push outline
   top: gerberToSvg top

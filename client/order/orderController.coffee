@@ -3,6 +3,7 @@
 module.exports = (RESTHelperService, simpleDialogService, $state) ->
 
   init = ->
+    controller.style = {}
     RESTHelperService.config.find (res) ->
       if res.success
         controller.configs = res.configs
@@ -76,6 +77,7 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
       color = text.type
     if not text.position
       return [color, def]
+    console.log text
     if not text.angle? or not text.angle in controller.options.textAngle
       angle = controller.options.textAngle[0]
     else angle = text.angle
@@ -83,30 +85,30 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
 
   controller.changeStencilTransitioning = ->
     if not controller.configuration.stencil?
-      controller.frame = false
+      controller.style.frame = false
       return
-    controller.frame = controller.configuration.stencil.transitioning.match /frame/
+    controller.style.frame = controller.configuration.stencil.transitioning.match /frame/
 
   controller.changeStencilPosition = ->
     if not controller.configuration.position?
-      controller.outline = false
-      controller.layout = false
-      controller.mode = ["portrait", "centered"].join "-"
+      controller.style.outline = false
+      controller.style.layout = false
+      controller.style.mode = ["portrait", "centered"].join "-"
       return
     aligment = controller.configuration.position.aligment ? "portrait"
     position = controller.configuration.position.position
     mode = ""
     if position isnt "pcb-centered"
-      controller.outline = false
-      controller.layout = position is "layout-centered"
-      if controller.layout
+      controller.style.outline = false
+      controller.style.layout = position is "layout-centered"
+      if controller.style.layout
         mode = "centered"
       else mode = "no"
-      controller.mode = [aligment, mode].join "-"
+      controller.style.mode = [aligment, mode].join "-"
       return
-    controller.outline = true
-    controller.layout = false
-    controller.mode = [aligment, "centered"].join "-"
+    controller.style.outline = true
+    controller.style.layout = false
+    controller.style.mode = [aligment, "centered"].join "-"
 
   controller.configurationAction = (event, invalid) ->
 
