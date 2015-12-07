@@ -2,24 +2,28 @@
 
 # setup
 
-install mongodb
+if you are using Debian based Linux dist that uses apt-get
 
-install node and npm
+you can setup the project by runing: sudo make setup.
 
-run npm install -g coffee-script
+install: mongodb
 
-run npm install -g jade
+install: node and npm
 
-run npm install -g browserify
+run: npm install -g coffee-script
 
-run npm install -g uglify-js
+run: npm install -g jade
 
-run mkdir ./server/data && mongod --dbpath ./server/data
+run: npm install -g browserify
 
-run cake build to build the project
+run: npm install -g uglify-js
 
-if nodegit thows error when installed ensure that libssl-dev is installed and try again.   
-if it still fails ensure that libgit2, libssl & libgcrypt that are also installed.   
-if it fails again try two more times runnign cake build if it still fails run cake git
+run: mkdir ./server/data && mongod --dbpath ./server/data
 
-run cake start to start the server enter "stop" to stop it
+# build
+
+run: cake build to build the project
+
+# start/stop server
+
+run: cake start to start the server enter "stop" to stop it

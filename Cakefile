@@ -68,31 +68,29 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
       fs.writeFileSync cssFile, uglified, "utf8"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
-
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   if not fs then invoke "install"
+  {spawnSync} = require "child_process"
   gerbersToSvgLayers = require "./server/lib/gerbersToSvgLayers"
-  {Clone} = require "nodegit"
   resources = join __dirname, "client/resources"
   console.log "Pulling resources..."
   fs.removeSync resources
-  clone = Clone.clone "https://github.com/NoHomey/diplomna_resources", resources
-  clone.then (repo) ->
-    fs.removeSync join resources, ".git"
-    console.log "Pulling resources    done"
-    console.log "Generating default stencil SVG..."
-    files = []
-    walker = walk join resources, "samples"
-    walker.on "file", (root, file, next) ->
-      pathToFile = join root, file.name
-      content = fs.readFileSync pathToFile, "utf8"
-      files.push content: content, path: pathToFile
-      next()
-    walker.on "end", ->
-      svgs = gerbersToSvgLayers files
-      top = join resources, "top.html"
-      fs.writeFileSync top, svgs.top, "utf8"
-    console.log "Generating default stencil SVG    done"
+  clone = spawnSync "git", ["clone", "https://github.com/NoHomey/diplomna_resources", resources], stdio: "inherit"
+  fs.removeSync join resources, ".git"
+  console.log "Pulling resources    done"
+  console.log "Generating default stencil SVG..."
+  files = []
+  walker = walk join resources, "samples"
+  walker.on "file", (root, file, next) ->
+    pathToFile = join root, file.name
+    content = fs.readFileSync pathToFile, "utf8"
+    files.push content: content, path: pathToFile
+    next()
+  walker.on "end", ->
+    svgs = gerbersToSvgLayers files
+    top = join resources, "top.html"
+    fs.writeFileSync top, svgs.top, "utf8"
+  console.log "Generating default stencil SVG    done"
 
 task "clean", "Returns repo as it was pulled", ->
   if not fs then invoke "install"
