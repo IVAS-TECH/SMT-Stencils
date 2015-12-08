@@ -1,6 +1,6 @@
 {angular} = require "dependencies"
 
-module.exports = (RESTHelperService, simpleDialogService, $state) ->
+module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $scope) ->
 
   init = ->
     controller.style = {}
@@ -26,7 +26,7 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService", "$state"]
+  controller.$inject = ["RESTHelperService", "simpleDialogService", "$state", "$injector", "$scope"]
   init()
 
   controller.reset = ->
@@ -37,7 +37,6 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
       controller.change()
 
   controller.change = ->
-    controller.info = true
     position = ""
     if controller.configuration.text
          position = controller.configuration.text.position
@@ -55,11 +54,12 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
     controller.configuration = controller.configs[controller.config]
     controller.change()
 
-  controller.delete = ->
-      #confirmService
-      RESTHelperService.config.delete controller.configuration._id, (res) ->
-        #remove()
-        reset()
+  controller.delete = (event) ->
+      confirmService = $injector.get "confirmService"
+      confirmService event, success: ->
+        RESTHelperService.config.delete controller.configuration._id, (res) ->
+          reset()
+          $scope.$digest()
 
   controller.edit = -> controller.disabled = false
 
@@ -77,7 +77,6 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
       color = text.type
     if not text.position
       return [color, def]
-    console.log text
     if not text.angle? or not text.angle in controller.options.textAngle
       angle = controller.options.textAngle[0]
     else angle = text.angle
@@ -119,13 +118,17 @@ module.exports = (RESTHelperService, simpleDialogService, $state) ->
         if res.success then controller.configuration._id = res._id
 
     edit = ->
-      RESTHelperService.config.update config: controller.configuration, (res) ->
-        console.log res
+      confirmService = $injector.get "confirmService"
+      confirmService event, success: ->
+        RESTHelperService.config.update config: controller.configuration, (res) ->
+          console.log res
 
     if not invalid
       if controller.action is "new" or "preview"
         if controller.save then create()
-        if controller.settings then edit()
+        if controller.settings
+          edit()
+          return
         $state.go "home.order.spesific"
     else simpleDialogService event, "required-fields"
 

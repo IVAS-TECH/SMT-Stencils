@@ -28,8 +28,8 @@ router.patch "/config", (req, res) ->
   config = req.body.config
   id = config._id
   delete config._id
-  configModel.findByIdAndUpdate id, $set: config, (err, doc, result) ->
-    res.send success: successful err, result
+  configModel.findByIdAndUpdate id, $set: config, {new: true}, (err, doc) ->
+    res.send success: successful err, doc
 
 router.delete "/config/:id", (req, res) ->
   configModel.remove _id: req.params.id, (err) ->

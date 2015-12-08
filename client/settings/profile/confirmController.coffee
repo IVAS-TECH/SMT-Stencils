@@ -2,7 +2,7 @@ module.exports = (authenticationService) ->
   controller = @
   controller.$inject = ["authenticationService"]
   controller.error = false
-  controller.key = authenticationService.user.password
+  controller.key = authenticationService.getUser().password
   controller.confirm = (invalid) ->
     if not invalid
       if controller.password is controller.key

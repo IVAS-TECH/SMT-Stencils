@@ -16,8 +16,8 @@ router.patch "/user", (req, res) ->
   update = {}
   update[req.body.type] = req.body.value
   id = req.session.find req.ip
-  userModel.findByIdAndUpdate id, $set: update, (err, doc, result) ->
-    res.send success: successful err, result
+  userModel.findByIdAndUpdate id, $set: update, {new: true}, (err, doc) ->
+    res.send success: successful err, doc
 
 router.get "/login", (req, res) ->
   status = req.session.isMapedIp req.ip
