@@ -69,3 +69,13 @@ div(layout="column" layout-align="center center" layout-fill layout-margin layou
       md-input-container(flex="auto")
         label(translate="label-configuration-name")
         input(ng-model="x.configuration.name" ng-disabled="x.disabled" required)      
+  md-checkbox(ng-if="x.action === 'new'" ng-model="x.save" ng-init="x.save=true" class="md-primary" aria-label="save")
+    p(translate="checkbox-save-configuration")
+  md-button(
+    ng-if="x.action === 'create' || x.action === 'edit'"
+    ng-click="x.doAction($event, configuration.$invalid)"
+    class="md-primary"
+    aria-label="x.action"
+    translate="{{x.action + '-configuration'}}"
+  )
+  

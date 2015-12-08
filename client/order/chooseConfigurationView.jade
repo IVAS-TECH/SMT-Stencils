@@ -11,12 +11,3 @@ div(layout="column" layout-align="center center" layout-fill)
   div(ng-if="x.configuration" layout="column" layout-align="center center" layout-fill)
     ivo-stencil-preview(text="x.text" view="x.view")
     ivo-include(include="'configurationInfoView'" template="true")
-    md-checkbox(ng-if="x.action === 'new'" ng-model="x.save" ng-init="x.save=true" class="md-primary" aria-label="save")
-      p(translate="checkbox-save-configuration")
-    md-button(
-      ng-click="x.configurationAction($event, configuration.$invalid)"
-      ng-if="x.action === 'preview' && x.settings || x.action === 'new'"
-      class="md-primary"
-      aria-label="x.mode"
-      translate="{{x.action + '-configuration'}}"
-    )

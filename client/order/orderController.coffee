@@ -31,7 +31,7 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
 
   controller.reset = ->
       controller.disabled = false
-      controller.action = "new"
+      controller.action = "create"
       delete controller.config
       controller.configuration = {}
       controller.change()
@@ -61,7 +61,26 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
           reset()
           $scope.$digest()
 
-  controller.edit = -> controller.disabled = false
+  controller.edit = ->
+    controller.disabled = false
+    controller.action = "edit"
+
+  controller.doAction = (event, invalid) ->
+    if not invalid
+      if controller.action is "create"
+        if controller.save
+          controller.configuration.stencil.size = controller.configuration.stencil.size ? "default"
+          controller.configuration.text.side = controller.configuration.text.side ? "default"
+          RESTHelperService.config.create config: controller.configuration, (res) ->
+            if res.success then controller.configuration._id = res._id
+        if $state.current.name is "home.order.configuration"
+          $state.go "home.order.spesific"
+      if controller.action is "edit"
+        confirmService = $injector.get "confirmService"
+        confirmService event, success: ->
+          RESTHelperService.config.update config: controller.configuration, (res) ->
+            console.log res
+    else simpleDialogService event, "required-fields"
 
   controller.textAngle = textAngle
 
@@ -108,28 +127,5 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     controller.style.outline = true
     controller.style.layout = false
     controller.style.mode = [aligment, "centered"].join "-"
-
-  controller.configurationAction = (event, invalid) ->
-
-    create = ->
-      controller.configuration.stencil.size = controller.configuration.stencil.size ? "default"
-      controller.configuration.text.side = controller.configuration.text.side ? "default"
-      RESTHelperService.config.create config: controller.configuration, (res) ->
-        if res.success then controller.configuration._id = res._id
-
-    edit = ->
-      confirmService = $injector.get "confirmService"
-      confirmService event, success: ->
-        RESTHelperService.config.update config: controller.configuration, (res) ->
-          console.log res
-
-    if not invalid
-      if controller.action is "new" or "preview"
-        if controller.save then create()
-        if controller.settings
-          edit()
-          return
-        $state.go "home.order.spesific"
-    else simpleDialogService event, "required-fields"
 
   controller
