@@ -8,6 +8,7 @@ angular
     .directive "ivoInclude", require "./includeDirective"
     .directive "ivoStencilPreview", require "./stencilPreviewDirective"
     .directive "ivoChooseConfiguration", require "./chooseConfigurationDirective"
+    .directive "ivoFile", require "./specific/fileDirective"
     .config require "./orderConfig"
     .run ($state) ->
       @$inject = ["$state"]

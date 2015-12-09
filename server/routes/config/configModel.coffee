@@ -13,7 +13,9 @@ schema = new mongoose.Schema
     position: String
     side: String
   stencil:
-    size: String
+    size:
+      type: String
+      default: "default"
     tickness: String
     transitioning: String
     type:
@@ -21,7 +23,9 @@ schema = new mongoose.Schema
   text:
     angle: String
     position: String
-    side: String
+    side:
+      type: String
+      default: "default"
     type:
       type: String
 

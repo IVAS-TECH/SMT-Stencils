@@ -69,8 +69,6 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     if not invalid
       if controller.action is "create"
         if controller.save
-          controller.configuration.stencil.size = controller.configuration.stencil.size ? "default"
-          controller.configuration.text.side = controller.configuration.text.side ? "default"
           RESTHelperService.config.create config: controller.configuration, (res) ->
             if res.success then controller.configuration._id = res._id
         if $state.current.name is "home.order.configuration"
@@ -127,5 +125,7 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     controller.style.outline = true
     controller.style.layout = false
     controller.style.mode = [aligment, "centered"].join "-"
+
+  controller.next = -> $state.go "home.order.specific"
 
   controller

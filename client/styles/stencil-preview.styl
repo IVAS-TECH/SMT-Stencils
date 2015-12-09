@@ -1,0 +1,96 @@
+@import "nib"
+@require "colors"
+@require "mixins"
+@require "stencil-text"
+
+.pcb-side
+  color clr-pcb-side
+
+.squeegee-side
+  color clr-sque-side
+
+.drilled
+  color clr-drill
+
+.stencil-text
+  absolute
+  font-size 50%
+
+.stencil
+  absolute top 0% left 0% right 0% bottom 0%
+  width 100%
+  height 100%
+  margin 0
+  padding 0
+
+.stencil-view
+  @extend .stencil
+  background-color clr-stencil
+  border solid 1px clr-drill
+
+.stencil-box-framed
+  relative
+  transform rotate(-30deg) skewX(20deg)
+  width 200px
+  height 240px
+  margin 1mm auto 1mm auto
+
+.stencil-box-simple
+  @extend .stencil-box-framed
+  width 130px
+  height 170px
+
+.stencil-glued
+  @extend .stencil
+  border solid 5mm clr-glued
+
+
+.stencil-inner-shadow
+  @extend .stencil
+  border-top-style solid
+  border-top-width 2mm
+  border-top-color darken(clr-glued, 10%)
+  border-right-style @border-top-style
+  border-right-width @border-top-width
+  border-right-color @border-top-color
+
+.stencil-frame
+  @extend .stencil
+  border solid 3mm clr-frame
+
+.stencil-outer-shadow
+  @extend .stencil
+  border-bottom-style solid
+  border-bottom-width 2mm
+  border-bottom-color darken(clr-frame, 30%)
+  border-left-style @border-bottom-style
+  border-left-width @border-bottom-width
+  border-left-color @border-bottom-color
+
+.stencil-outline
+  stroke-width 3cm
+
+.stencil-no-outline
+  stroke-width 0
+
+.stencil-layout
+  border solid 1mm
+
+.stencil-centered
+  border none 0
+
+.portrait-centered
+  absolute top 23% left 15%
+  rotateIt 0deg
+
+.portrait-no
+  absolute bottom 10% left 15%
+  rotateIt 0deg
+
+.landscape-centered
+  absolute top 23%
+  rotateIt 90deg
+
+.landscape-no
+  absolute bottom 3%
+  rotateIt 90deg
