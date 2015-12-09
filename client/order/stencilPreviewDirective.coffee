@@ -1,9 +1,9 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+module.exports = (template, scopeControllerService) ->
+  @$inject = ["template", "scopeControllerService"]
   template: template "stencilPreviewView"
   restrict: "E"
-  scope: {
+  scope:
     text: "="
     view: "="
-  }
-  link: (scope) -> scope.x = scope.$parent.$parent.x ? scope.$parent.x
+    controller: "="
+  link: (scope) -> scopeControllerService scope#scope.configCtrl = scope.$parent.configCtrl

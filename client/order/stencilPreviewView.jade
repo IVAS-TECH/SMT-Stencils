@@ -1,10 +1,10 @@
 div(layout-margin layout-padding layout-fill layout="column")
-  div(ng-class="x.style.frame ? 'stencil-box-framed' : 'stencil-box-simple'" layout-fill layout="column")
-    div(ng-class="x.style.frame ? 'stencil-outer-shadow' : 'stencil'" layout-fill layout="column")
-      div(ng-class="x.style.frame ? 'stencil-frame' : 'stencil'" layout-fill layout="column")
-        div(ng-class="x.style.frame ? 'stencil-inner-shadow' : 'stencil'" layout-fill layout="column")
-          div(ng-class="x.style.frame ? 'stencil-glued' : 'stencil'" layout-fill layout="column")
+  div(ng-class="scopeCtrl.style.frame ? 'stencil-box-framed' : 'stencil-box-simple'" layout-fill layout="column")
+    div(ng-class="scopeCtrl.style.frame ? 'stencil-outer-shadow' : 'stencil'" layout-fill layout="column")
+      div(ng-class="scopeCtrl.style.frame ? 'stencil-frame' : 'stencil'" layout-fill layout="column")
+        div(ng-class="scopeCtrl.style.frame ? 'stencil-inner-shadow' : 'stencil'" layout-fill layout="column")
+          div(ng-class="scopeCtrl.style.frame ? 'stencil-glued' : 'stencil'" layout-fill layout="column")
             div(class="stencil-view" layout-fill layout="column")
-              span(class="stencil-text" ng-class="x.changeText(x.configuration.text)") {{text}}
-              div(ng-class="x.style.mode || 'portrait-centered'")
-                ivo-include(include="view")
+              span(class="stencil-text" ng-class="scopeCtrl.changeText(scopeCtrl.configuration.text)") {{text}}
+              div(ng-class="scopeCtrl.style.mode || 'portrait-centered'")
+                ivo-include(include="view" controller="controller")
