@@ -10,8 +10,8 @@ div(
 )
   div(translate="instruction-select")
   div(translate="instruction-drop")
-  div(ng-if="spesificCtrl.files.length > 0" layout="column" layout-align="space-around center" class="dashed-border")
-    div(class="dashed-border" layout="row" layout-align="space-between center" layout-wrap layout-padding)
-      ivo-file(ng-repeat="file in spesificCtrl.files" name="file.name" ng-click="spesificCtrl.removeFile($event, $index)")
+  div(ng-if="spesificCtrl.files.length === 0" layout="column" layout-align="space-around center" class="dashed-border")
+  div(ng-if="spesificCtrl.files.length > 0" class="dashed-border" layout="row" layout-align="space-between center" layout-wrap layout-padding)
+    ivo-file(ng-repeat="file in spesificCtrl.files" name="file.name" ng-click="spesificCtrl.removeFile($event, $index)")
 md-button(ng-click="pesificCtrl.view()" class="md-primary")
   
