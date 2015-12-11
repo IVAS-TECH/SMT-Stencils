@@ -4,6 +4,7 @@ moduleName = "orderModule"
 angular
   .module moduleName, [require "./specific/specificModule"]
     .factory "scopeControllerService", require "./scopeControllerService"
+    .controller "orderController", require "./orderController"
     .controller "configurationController", require "./configurationController"
     .directive "ivoInclude", require "./includeDirective"
     .directive "ivoStencilPreview", require "./stencilPreviewDirective"

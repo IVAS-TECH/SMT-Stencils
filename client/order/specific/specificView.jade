@@ -1,25 +1,37 @@
-div(layout="column" layout-align="center center" layout-wrap)  
+div(layout="column" layout-align="center center" layout-wrap)
+  div(layout="row" layout-margin-gt-xs layout-padding-gt-xs layout-wrap layout-align="center center")
+    ivo-stencil-preview(text="specificCtrl.top.text" view="specificCtrl.top.view" controller="'orderCtrl'")
+    ivo-stencil-preview(text="specificCtrl.bottom.text" view="specificCtrl.bottom.view" controller="'orderCtrl'")
   div(
     ng-model="specificCtrl.files"
     ngf-select
     ngf-drop
     ngf-multiple="true"
     ngf-keep="'distinct'"
-    class="file-upload-container dashed-border"
+    class="dashed-border"
     layout="column"
-    layout-align="space-around center"
+    layout-align="space-between center"
+    layout-margin
+    layout-wrap
   )
     div(translate="div-select-files")
     div(translate="div-drop-files")
-    div(ng-if="specificCtrl.files.length === 0" layout="column" layout-align="space-around center" class="dashed-border")
+    div(ng-if="specificCtrl.files.length === 0" layout="column" layout-align="space-between center" layout-wrap)
       div(translate="div-supported-formats")
       div(translate="div-file-number")
       div(translate="div-file-size")
-    div(ng-if="specificCtrl.files.length > 0" layout="column" layout-align="space-between center")
+    div(ng-if="specificCtrl.files.length > 0" layout="column" layout-margin)
       div(layout="column" layout-align="center center")
         div(translate="div-selected-files")
         div(translate="div-remove-files")
-      div(class="dashed-border" layout="row" layout-align="space-between center" layout-wrap layout-padding)
-        ivo-file(ng-repeat="file in specificCtrl.files" name="file.name" ng-click="specificCtrl.removeFile($event, $index)")
+      div(layout="column" class="dashed-border")
+        div(layout="column" ng-repeat="i in [1, 2, 3]")
+          div(layout="row" layout-margin)
+            ivo-file(
+              ng-repeat="j in [1, 2, 3]"
+              ng-if="specificCtrl.files[i * j - 1].name"
+              name="specificCtrl.files[i * j - 1].name"
+              ng-click="specificCtrl.removeFile($event, i * j - 1)"
+            )
   md-button(ng-click="pesificCtrl.view()" class="md-primary") View
   

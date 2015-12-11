@@ -126,6 +126,9 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     controller.style.layout = false
     controller.style.mode = [aligment, "centered"].join "-"
 
-  controller.next = -> $state.go "home.order.specific"
+  controller.next = ->
+    $scope.$parent.orderCtrl.style = controller.style
+    $scope.$parent.orderCtrl.configuration = controller.configuration
+    $state.go "home.order.specific"
 
   controller
