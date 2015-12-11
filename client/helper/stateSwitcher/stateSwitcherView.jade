@@ -1,4 +1,4 @@
-div(hide-sm layout="row" layout-align="center center")
+div(hide-xs layout="row" layout-align="center center")
   md-button(
     ng-repeat="state in stateSwitcherCtrl.states"
     ng-click="stateSwitcherCtrl.switchState(state)"
@@ -7,7 +7,7 @@ div(hide-sm layout="row" layout-align="center center")
     aria-label="state"
     translate="{{'button-' + state}}"
   )
-div(show-sm hide layout="column")
+div(show-xs hide layout="column" layout-align="start end")
   md-menu
     md-button(
       md-menu-origin

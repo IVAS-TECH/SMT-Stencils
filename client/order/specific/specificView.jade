@@ -1,24 +1,25 @@
-div(
-  ng-model="specificCtrl.files"
-  ngf-select
-  ngf-drop
-  ngf-multiple="true"
-  ngf-keep="'distinct'"
-  class="file-upload-container dashed-border"
-  layout="column"
-  layout-align="space-around center"
-)
-  div(translate="div-select-files")
-  div(translate="div-drop-files")
-  div(ng-if="specificCtrl.files.length === 0" layout="column" layout-align="space-around center" class="dashed-border")
-    div(translate="div-supported-formats")
-    div(translate="div-file-number")
-    div(translate="div-file-size")
-  div(ng-if="specificCtrl.files.length > 0" layout="column" layout-align="space-between center")
-    div(layout="column" layout-align="center center")
-      div(translate="div-selected-files")
-      div(translate="div-remove-files")
-    div(class="dashed-border" layout="row" layout-align="space-between center" layout-wrap layout-padding)
-      ivo-file(ng-repeat="file in specificCtrl.files" name="file.name" ng-click="specificCtrl.removeFile($event, $index)")
-md-button(ng-click="pesificCtrl.view()" class="md-primary") View
+div(layout="column" layout-align="center center" layout-wrap)  
+  div(
+    ng-model="specificCtrl.files"
+    ngf-select
+    ngf-drop
+    ngf-multiple="true"
+    ngf-keep="'distinct'"
+    class="file-upload-container dashed-border"
+    layout="column"
+    layout-align="space-around center"
+  )
+    div(translate="div-select-files")
+    div(translate="div-drop-files")
+    div(ng-if="specificCtrl.files.length === 0" layout="column" layout-align="space-around center" class="dashed-border")
+      div(translate="div-supported-formats")
+      div(translate="div-file-number")
+      div(translate="div-file-size")
+    div(ng-if="specificCtrl.files.length > 0" layout="column" layout-align="space-between center")
+      div(layout="column" layout-align="center center")
+        div(translate="div-selected-files")
+        div(translate="div-remove-files")
+      div(class="dashed-border" layout="row" layout-align="space-between center" layout-wrap layout-padding)
+        ivo-file(ng-repeat="file in specificCtrl.files" name="file.name" ng-click="specificCtrl.removeFile($event, $index)")
+  md-button(ng-click="pesificCtrl.view()" class="md-primary") View
   

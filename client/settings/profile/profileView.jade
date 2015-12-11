@@ -1,5 +1,5 @@
-form(name="profile" novalidate layout="column" layout-align="center center")
-  div(layout="column" layout-align="center center")
+form(name="profile" novalidate layout="column")
+  div(layout="column" layout-align="start center")
     md-input-container
       label(translate="label-new-email")
       input(ng-model="profileCtrl.user.email" name="email" type="email" ivo-email-taken required)
@@ -11,7 +11,7 @@ form(name="profile" novalidate layout="column" layout-align="center center")
         div(ng-message="required" ng-if="profileCtrl.error.email")
           span(translate="error-email-required")
     md-button(ng-click="profileCtrl.change($event, 'email', profile.email.$invalid)" class="md-warn" aria-label="change email" translate="button-change-email")
-  div(layout="column" layout-align="center center")
+  div(layout="column" layout-align="start center")
     md-input-container
       label(translate="label-new-password")
       input(ng-model="profileCtrl.user.password" name="password" type="password" ng-minlength="6" ng-maxlength="35" required)

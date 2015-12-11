@@ -1,11 +1,11 @@
-div(layout="column" layout-align="space-between center")
-  md-toolbar(layout="row" layout-align="space-around center" layout-sm="column" layout-align-sm="start center" layout-md="column" layout-align-md="start center")
+div(layout="column" layout-align="space-between strech" layout-wrap)
+  md-toolbar(layout="row" layout-align="space-around strech" layout-xs="column" layout-align-xs="start strech" layout-sm="column" layout-align-sm="start strech" layout-wrap)
     div(layout="row" layout-align="center center")
       h1(translate="firm-name")
       md-button(class="md-raised md-warn" aria-label="logo" translate="web-page")
-    div(layout="row" layout-align="space-around center" layout-sm="column" layout-align-sm="center center")
+    div(layout="row" layout-align="space-around center" layout-xs="column" layout-align-xs="start strech")
       ivo-translate
       ivo-user
-  div(layout="column" layout-align="center center" layout-margin layout-padding)
-    ivo-state-switcher(state="home" menu="menu" flex-offset-sm="66")
-    ui-view(layout-fill layout-margin layout-padding) 
+  div(layout="column" layout-align="space-between strech" layout-wrap)
+    ivo-state-switcher(state="home" menu="menu")
+    ui-view(layout="column" layout-wrap layout-padding layout-margin) 
