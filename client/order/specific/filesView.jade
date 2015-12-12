@@ -1,0 +1,8 @@
+div(layout="column" ng-repeat="i in filesCtrl.range")
+  div(layout="row" layout-margin)
+    ivo-file(
+      ng-repeat="j in filesCtrl.range"
+      ng-if="filesCtrl.files[i * j - 1].name"
+      name="filesCtrl.files[i * j - 1].name"
+      ng-click="filesCtrl.removeFile($event, i * j - 1)"
+    )

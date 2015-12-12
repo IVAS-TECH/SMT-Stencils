@@ -24,14 +24,6 @@ div(layout="column" layout-align="center center" layout-wrap)
       div(layout="column" layout-align="center center")
         div(translate="div-selected-files")
         div(translate="div-remove-files")
-      div(layout="column" class="dashed-border")
-        div(layout="column" ng-repeat="i in [1, 2, 3]")
-          div(layout="row" layout-margin)
-            ivo-file(
-              ng-repeat="j in [1, 2, 3]"
-              ng-if="specificCtrl.files[i * j - 1].name"
-              name="specificCtrl.files[i * j - 1].name"
-              ng-click="specificCtrl.removeFile($event, i * j - 1)"
-            )
-  md-button(ng-click="pesificCtrl.view()" class="md-primary") View
+      ivo-files(files="specificCtrl.files" remove="true" layout="column" class="dashed-border")
+  md-button(ng-click="specificCtrl.view()" class="md-primary") View
   

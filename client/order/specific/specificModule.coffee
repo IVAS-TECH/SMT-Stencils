@@ -5,7 +5,9 @@ bg = require "./language-bg"
 
 angular
   .module moduleName, []
+    .directive "ivoFiles", require "./filesDirective"
     .directive "ivoFile", require "./fileDirective"
+    .controller "filesController", require "./filesController"
     .controller "specificController", require "./specificController"
     .config (translateProvider) ->
       @$inject = ["translateProvider"]
