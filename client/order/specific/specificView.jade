@@ -1,29 +1,36 @@
-div(layout="column" layout-align="center center" layout-wrap)
-  div(layout="row" layout-margin-gt-xs layout-padding-gt-xs layout-wrap layout-align="center center")
-    ivo-stencil-preview(text="specificCtrl.top.text" view="specificCtrl.top.view" controller="'orderCtrl'")
-    ivo-stencil-preview(text="specificCtrl.bottom.text" view="specificCtrl.bottom.view" controller="'orderCtrl'")
-  div(
-    ng-model="specificCtrl.files"
-    ngf-select
-    ngf-drop
-    ngf-multiple="true"
-    ngf-keep="'distinct'"
-    class="dashed-border"
-    layout="column"
-    layout-align="space-between center"
-    layout-margin
-    layout-wrap
-  )
-    div(translate="div-select-files")
-    div(translate="div-drop-files")
-    div(ng-if="specificCtrl.files.length === 0" layout="column" layout-align="space-between center" layout-wrap)
-      div(translate="div-supported-formats")
-      div(translate="div-file-number")
-      div(translate="div-file-size")
-    div(ng-if="specificCtrl.files.length > 0" layout="column" layout-margin)
-      div(layout="column" layout-align="center center")
-        div(translate="div-selected-files")
-        div(translate="div-remove-files")
-      ivo-files(files="specificCtrl.files" remove="true" layout="column" class="dashed-border")
-  md-button(ng-click="specificCtrl.view()" class="md-primary") View
-  
+div(layout="column" layout-align="center center" layout-wrap)  
+  div(layout="column" layout-align="center center" layout-wrap)
+    div(layout="row" layout-wrap layout-align="center center")
+      ivo-stencil-preview(text="specificCtrl.top.text" view="specificCtrl.top.view" controller="'orderCtrl'")
+      ivo-stencil-preview(text="specificCtrl.bottom.text" view="specificCtrl.bottom.view" controller="'orderCtrl'")
+    div(
+      ng-model="specificCtrl.files"
+      ngf-select
+      ngf-drop
+      ngf-multiple="true"
+      ngf-keep="'distinct'"
+      class="dashed-border"
+      layout="column"
+      layout-align="space-between center"
+      layout-margin
+      layout-wrap
+    )
+      div(translate="div-select-files")
+      div(translate="div-drop-files")
+      div(ng-if="specificCtrl.files.length === 0" layout="column" layout-align="space-between center" layout-wrap)
+        div(translate="div-supported-formats")
+        div(translate="div-file-number")
+        div(translate="div-file-size")
+      div(ng-if="specificCtrl.files.length > 0" layout="column" layout-margin)
+        div(layout="column" layout-align="center center")
+          div(translate="div-selected-files")
+          div(translate="div-remove-files")
+        ivo-files(files="specificCtrl.files" remove="true" layout="column" class="dashed-border")
+    md-button(ng-click="specificCtrl.upload()" class="md-primary") View
+    div(layout="column" layout-fill)
+      md-input-container(flex="auto")
+        label(translate="label-top-text")
+        input(ng-model="specificCtrl.top.text")
+      md-input-container(flex="auto")
+        label(translate="label-bottom-text")
+        input(ng-model="specificCtrl.bottom.text")  
