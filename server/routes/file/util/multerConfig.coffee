@@ -2,9 +2,8 @@ multer = require "multer"
 {join} = require "path"
 
 limits =
-  files: 9
+  files: 15
   fileSize: 40000000000
-
 
 module.exports =
   preview: ->
