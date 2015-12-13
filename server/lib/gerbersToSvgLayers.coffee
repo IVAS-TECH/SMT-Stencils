@@ -2,19 +2,25 @@ gerberToSvg = require "gerber-to-svg"
 {identify} = require "pcb-stackup/lib/layer-types"
 
 module.exports = (files) ->
-  top = bottom = out = {}
+  top = null
+  bottom = null
+  out = null
   err = []
   parse = (gerber) ->
     type = identify gerber.path
     try
       svg = gerberToSvg gerber.content, object: true, drill: type is "drl", warnArr: err
     catch e
-      console.log typeof e
+      console.log "error parsing all", e
     if type is "tsp" then top = svg
     if type is "bsp" then bottom = svg
     if type is "out" then out = svg
   parse file for file in files
-  console.log err.length
+  console.log "warnings", err
+  console.log "top and bot", top, bottom
+  if not top? or not bottom?
+    return top: top, bottom: bottom
+
   top.svg.viewBox = out.svg.viewBox
   top.svg.width = "80%"
   top.svg.height = "90%"
@@ -30,6 +36,6 @@ module.exports = (files) ->
     if bottom.svg._.length > 0
       bottomSVG = gerberToSvg bottom
   catch e
-    console.log typeof e
+    console.log "error parsing", e
   top: topSVG
   bottom: bottomSVG
