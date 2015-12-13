@@ -5,7 +5,7 @@ config = require "./config/configRouter"
 router = new Router()
 
 router.use user
-router.use file
+router.use "/file", file
 router.use config
 
 module.exports = router

@@ -1,18 +1,15 @@
-module.exports = (Upload) ->
+module.exports = (RESTHelperService) ->
   controller = @
-  controller.$inject = ["Upload"]
+  controller.$inject = ["RESTHelperService"]
+
   controller.files = []
-  controller.top =
-    text: ""
-    view: ""
-  controller.bottom =
-    text: ""
-    view: ""
+  controller.top = {}
+  controller.bottom = {}
+
   controller.upload = ->
-    upload = Upload.upload
-      url: "client/preview"
-      data:
-        files: controller.files
-    upload.then (res) ->
-      controller.top.view = controller.bottom.view = res.data.top
+    RESTHelperService.upload.preview controller.files, (res) ->
+      controller.top.view = res.top
+      if res.bottom?
+        controller.bottom.view = res.bottom
+
   controller

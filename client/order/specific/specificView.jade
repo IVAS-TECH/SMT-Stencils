@@ -1,8 +1,8 @@
 div(layout="column" layout-align="center center" layout-wrap)  
   div(layout="column" layout-align="center center" layout-wrap)
     div(layout="row" layout-wrap layout-align="center center")
-      ivo-stencil-preview(text="specificCtrl.top.text" view="specificCtrl.top.view" controller="'orderCtrl'")
-      ivo-stencil-preview(text="specificCtrl.bottom.text" view="specificCtrl.bottom.view" controller="'orderCtrl'")
+      ivo-stencil-preview(ng-if="specificCtrl.top.view" text="specificCtrl.top.text" view="specificCtrl.top.view" controller="'orderCtrl'")
+      ivo-stencil-preview(ng-if="specificCtrl.bottom.view" text="specificCtrl.bottom.text" view="specificCtrl.bottom.view" controller="'orderCtrl'")
     div(
       ng-model="specificCtrl.files"
       ngf-select
@@ -28,9 +28,9 @@ div(layout="column" layout-align="center center" layout-wrap)
         ivo-files(files="specificCtrl.files" remove="true" layout="column" class="dashed-border")
     md-button(ng-click="specificCtrl.upload()" class="md-primary") View
     div(layout="column" layout-fill)
-      md-input-container(flex="auto")
+      md-input-container(ng-if="specificCtrl.top.view" flex="auto")
         label(translate="label-top-text")
         input(ng-model="specificCtrl.top.text")
-      md-input-container(flex="auto")
+      md-input-container(ng-if="specificCtrl.bottom.view" flex="auto")
         label(translate="label-bottom-text")
         input(ng-model="specificCtrl.bottom.text")  

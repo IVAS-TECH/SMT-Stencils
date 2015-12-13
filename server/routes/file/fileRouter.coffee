@@ -11,9 +11,11 @@ router.post "/files", filesMidleware.any(), (req, res) ->
   print file for file in req.files
 
 router.post "/preview", previewMidleware.any(), (req, res) ->
-  #console.log req.files
-  #get originalname and convert buffer -> string
-  entry = (file) -> path: file.originalname, content: file.buffer.toString()
+  fileName = (name) ->
+    if name.match /./
+      return name
+    "#{name}.#{name}"
+  entry = (file) -> content: file.buffer.toString(), path: fileName file.originalname
   files = (entry file for file in req.files)
   res.send gerberToSVG files
 
