@@ -8,14 +8,14 @@ svgPath = require "svgpath"
 {join} = require "path"
 
 convert = (name) ->
-  spawnSync "gerbv", ["-x", "svg", "--foreground=#555555FF", name], stdio: "inherit"
+  spawnSync "gerbv", ["-x", "svg", "--border=5%", "--foreground=#555555FF", name], stdio: "inherit"
   out = fs.readFileSync "output.svg", "utf8"
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
-samples = join __dirname, "../../client/resources/samples"
+samples = join __dirname, "../../client/resources"
 
-f = ["#{samples}/clockblock-hub-F_Paste.gtp", "#{samples}/clockblock-hub-Edge_Cuts.gbr"]
-
+f = ["#{samples}/ATR150701-V2_F_Paste.gtp", "#{samples}/ATR150701-V2_Edge_Cuts.gbr"]
+#f = ["#{samples}/samples/clockblock-hub-F_Paste.gtp", "#{samples}/samples/clockblock-hub-Edge_Cuts.gbr"]
 exports = (files) ->
   new Promise (resolve, reject) ->
     svg = []
@@ -27,7 +27,7 @@ exports = (files) ->
       resolve svg
 
 exports(f).then (c) ->
-  gTop = c[0] "g"
+  g0 = c[0] "g"
   svg0 = c[0] "svg"
   size0 = svg0.attr "viewbox"
   size = size0.split " "
@@ -38,10 +38,10 @@ exports(f).then (c) ->
   size = size2.split " "
   x2 = parseInt size[2]
   y2 = parseInt size[3]
-  x = (x2 - x0) / 4
-  y = (y2 - y0) / 2
+  x = (x2 - x0) / 2 - 4
+  y = (y2 - y0) / 2 - 1
   for path in c[0] "path"
     path.attribs.d = svgPath(path.attribs.d).translate(x, y).toString()
-  gTop.append svg2.html()
+  g0.append svg2.html()
   svg0.attr "viewbox", size2
   console.log c[0].html()
