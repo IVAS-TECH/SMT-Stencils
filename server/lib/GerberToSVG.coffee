@@ -5,17 +5,19 @@ cheerio = require "cheerio"
 {spawnSync} = require "child_process"
 {join} = require "path"
 
-convert = (paste, outline = "") ->
+convert = (paste, outline = null) ->
   #color = "--foreground=#FFFFFFFF"
   color = "--foreground=#000000FF"
-  spawnSync "gerbv", ["-x", "svg", color, color, paste, outline], stdio: "inherit"
+  args = ["-x", "svg", color, color, paste, outline]
+  if not outline? then args.pop()
+  spawnSync "gerbv", args, stdio: "inherit"
   out = fs.readFileSync "output.svg", "utf8"
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
 samples = join __dirname, "../../client/resources"
-
 #f = ["#{samples}/ATR150701-V2_F_Paste.gtp", "#{samples}/ATR150701-V2_Edge_Cuts.gbr"]
 f = ["#{samples}/samples/clockblock-hub-F_Paste.gtp", "#{samples}/samples/clockblock-hub-Edge_Cuts.gbr"]
+
 exports = (files) ->
   new Promise (resolve, reject) ->
     svg = []
