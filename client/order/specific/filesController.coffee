@@ -2,7 +2,7 @@ module.exports = ->
   controller = @
 
   controller.columns = ->
-    for i in [7..2]
+    for i in [7..1]
       if controller.files.length % i is 0
         controller.rows = [1..i]
         return [1..controller.files.length / i]
