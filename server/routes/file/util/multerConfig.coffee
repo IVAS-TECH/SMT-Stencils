@@ -6,7 +6,7 @@ limits =
   fileSize: 40000000000
 
 fileName = (name) ->
-  if name.match /./
+  if name.match /\./
     return name
   "#{name}.#{name}"
 
