@@ -69,7 +69,7 @@ div(layout="column" layout-fill layout-margin layout-padding)
       md-input-container(flex="auto")
         label(translate="label-configuration-name")
         input(ng-model="scopeCtrl.configuration.name" ng-disabled="scopeCtrl.disabled" required)      
-  md-checkbox(ng-if="scopeCtrl.action === 'new'" ng-model="scopeCtrl.save" ng-init="scopeCtrl.save=true" class="md-primary" aria-label="save")
+  md-checkbox(ng-if="scopeCtrl.action === 'create'" ng-model="scopeCtrl.save" ng-init="scopeCtrl.save=true" class="md-primary" aria-label="save")
     p(translate="checkbox-save-configuration")
   md-button(
     ng-if="scopeCtrl.action === 'create' || scopeCtrl.action === 'edit'"

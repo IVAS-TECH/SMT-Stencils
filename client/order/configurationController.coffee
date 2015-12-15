@@ -72,12 +72,11 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
           RESTHelperService.config.create config: controller.configuration, (res) ->
             if res.success then controller.configuration._id = res._id
         if $state.current.name is "home.order.configuration"
-          $state.go "home.order.spesific"
+          controller.next()
       if controller.action is "edit"
         confirmService = $injector.get "confirmService"
         confirmService event, success: ->
           RESTHelperService.config.update config: controller.configuration, (res) ->
-            console.log res
     else simpleDialogService event, "required-fields"
 
   controller.textAngle = textAngle

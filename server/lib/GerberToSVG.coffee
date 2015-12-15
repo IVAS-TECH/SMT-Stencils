@@ -3,12 +3,13 @@ fs = require "fs-extra"
 cheerio = require "cheerio"
 {identify} = require "pcb-stackup/lib/layer-types"
 {spawnSync} = require "child_process"
-{join} = require "path"
 
 convert = (paste, outline) ->
-  color = "--foreground=#FFFFFFFF"
-  args = ["-x", "svg", "-a", color, color, paste, outline]
-  if not outline? then args.pop()
+  colorPaste = "--foreground=#FFFFFFFF"
+  args = ["-x", "svg", "-a", colorPaste, paste]
+  if outline?
+    args.push "--foreground=#000000FF"
+    args.push outline
   spawnSync "gerbv", args, stdio: "inherit"
   output = "output.svg"
   out = fs.readFileSync output, "utf8"
@@ -16,10 +17,11 @@ convert = (paste, outline) ->
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
 formSVG = (paste, outline = null) ->
+  if paste is undefined then return null
   $ = cheerio.load convert paste, outline
   paths = $ "path"
   out = paths.filter (i, element) ->
-    if element.attribs.style.match /fill:none/
+    if element.attribs.style.match /(0%,0,%0%)/
       return element
   attr = "ng-class"
   out.css "stroke-width", ""
@@ -27,10 +29,13 @@ formSVG = (paste, outline = null) ->
   out.remove()
   svg =  $ "svg"
   g = $ "g"
+  paths = $ "path"
   g.append outHTML
   svg.attr "width", "80%"
   svg.attr "height", "90%"
   svg.attr attr, "[(scopeCtrl.configuration.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
+  paths.css "fill", ""
+  paths.css "stroke", ""
   $.html().replace((new RegExp "&apos;", "g"), "'").replace (new RegExp "\n", "g"), ""
 
 module.exports = (files) ->
@@ -41,4 +46,9 @@ module.exports = (files) ->
       layer = identify file
       if layer in layers
         svg[layers.indexOf layer] = file
-    resolve top: formSVG svg[0], svg[2], bottom: formSVG svg[1], svg[2]
+    if svg.length
+      resolve
+        top: formSVG svg[0], svg[2]
+        bottom: formSVG svg[1], svg[2]
+    else
+      resolve top: formSVG files[0]

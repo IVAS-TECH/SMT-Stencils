@@ -8,6 +8,7 @@ module.exports = (RESTHelperService) ->
 
   controller.upload = ->
     RESTHelperService.upload.preview controller.files, (res) ->
+      console.log res
       controller.top.view = res.top
       if res.bottom?
         controller.bottom.view = res.bottom
