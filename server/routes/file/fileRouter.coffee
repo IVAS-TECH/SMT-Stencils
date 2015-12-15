@@ -1,22 +1,18 @@
 {Router} = require "express"
 {join} = require "path"
 config = require "./util/multerConfig"
-gerberToSVG = require "./../../lib/gerbersToSvgLayers"
+GerberToSVG = require "./../../lib/GerberToSVG"
 router = new Router()
-filesMidleware = config.order join __dirname, "../../../files"
-previewMidleware = config.preview()
+multerConfig = config join __dirname, "../../../files"
+filesMidleware = multerConfig.order().any()
+previewMidleware = multerConfig.preview().any()
 
-router.post "/files", filesMidleware.any(), (req, res) ->
-  print = (f) -> console.log f.path
+router.post "/files", filesMidleware, (req, res) ->
+  print = (f) -> console.log f
   print file for file in req.files
 
-router.post "/preview", previewMidleware.any(), (req, res) ->
-  fileName = (name) ->
-    if name.match /./
-      return name
-    "#{name}.#{name}"
-  entry = (file) -> content: file.buffer.toString(), path: fileName file.originalname
-  files = (entry file for file in req.files)
-  res.send gerberToSVG files
+router.post "/preview", previewMidleware, (req, res) ->
+  console.log req.files
+
 
 module.exports = router
