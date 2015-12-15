@@ -1,5 +1,6 @@
 {Router} = require "express"
 {join} = require "path"
+fs = require "fs"
 config = require "./util/multerConfig"
 GerberToSVG = require "./../../lib/GerberToSVG"
 router = new Router()
@@ -12,7 +13,9 @@ router.post "/files", filesMidleware, (req, res) ->
   print file for file in req.files
 
 router.post "/preview", previewMidleware, (req, res) ->
-  console.log req.files
-
+  files = (file.path for file in req.files)
+  GerberToSVG(files).then (svg) ->
+    fs.unlinkSync file for file in files
+    res.send svg
 
 module.exports = router
