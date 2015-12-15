@@ -71,7 +71,7 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   if not fs then invoke "install"
   {spawnSync} = require "child_process"
-  gerbersToSvgLayers = require "./server/lib/gerbersToSvgLayers"
+  GerberToSVG = require "./server/lib/GerberToSVG"
   resources = join __dirname, "client/resources"
   console.log "Pulling resources..."
   fs.removeSync resources
@@ -82,15 +82,13 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   files = []
   walker = walk join resources, "samples"
   walker.on "file", (root, file, next) ->
-    pathToFile = join root, file.name
-    content = fs.readFileSync pathToFile, "utf8"
-    files.push content: content, path: pathToFile
+    files.push join root, file.name
     next()
   walker.on "end", ->
-    svgs = gerbersToSvgLayers files
-    top = join resources, "top.html"
-    fs.writeFileSync top, svgs.top, "utf8"
-  console.log "Generating default stencil SVG    done"
+    GerberToSVG(files).then (svg) ->
+      top = join resources, "top.html"
+      fs.writeFileSync top, svg.top, "utf8"
+      console.log "Generating default stencil SVG    done"
 
 task "clean", "Returns repo as it was pulled", ->
   if not fs then invoke "install"

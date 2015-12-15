@@ -6,19 +6,16 @@ cheerio = require "cheerio"
 {join} = require "path"
 
 convert = (paste, outline = null) ->
-  #color = "--foreground=#FFFFFFFF"
-  color = "--foreground=#000000FF"
+  color = "--foreground=#FFFFFFFF"
   args = ["-x", "svg", color, color, paste, outline]
   if not outline? then args.pop()
   spawnSync "gerbv", args, stdio: "inherit"
-  out = fs.readFileSync "output.svg", "utf8"
+  output = "output.svg"
+  out = fs.readFileSync output, "utf8"
+  fs.removeSync output
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
-samples = join __dirname, "../../client/resources"
-#f = ["#{samples}/ATR150701-V2_F_Paste.gtp", "#{samples}/ATR150701-V2_Edge_Cuts.gbr"]
-f = ["#{samples}/samples/clockblock-hub-F_Paste.gtp", "#{samples}/samples/clockblock-hub-Edge_Cuts.gbr"]
-
-exports = (files) ->
+module.exports = (files) ->
   new Promise (resolve, reject) ->
     svg = []
     layers = ["tsp", "bsp", "out"]
@@ -33,15 +30,14 @@ exports = (files) ->
     out = paths.filter (i, element) ->
       if element.attribs.style.match /fill:none/
         return element
-    out.replaceWith "<g>#{out.toString()}</g>"
     attr = "ng-class"
-    out.attr attr, "scopeCtrl.style.outline ? 'stencil-outline' : 'stencil-no-outline'"
+    out.css "stroke-width", ""
+    outline = "<g #{attr}=\"scopeCtrl.style.outline ? 'stencil-outline' : 'stencil-no-outline'\">#{out.toString()}</g>"
+    out.remove()
     svg =  top "svg"
-    svg.attr "width", "10%"
-    svg.attr "height", "20%"
+    g = top "g"
+    g.append outline
+    svg.attr "width", "80%"
+    svg.attr "height", "90%"
     svg.attr attr, "[(scopeCtrl.configuration.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
-    resolve top: top.html()
-      #resolve top
-
-exports(f).then (c) ->
-  console.log c.top
+    resolve top: top.html().replace((new RegExp "&apos;", "g"), "'").replace (new RegExp "\n", "g"), ""
