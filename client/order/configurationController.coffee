@@ -1,12 +1,14 @@
-{angular} = require "dependencies"
-
 module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $scope) ->
 
   init = ->
-    controller.style = {}
     RESTHelperService.config.find (res) ->
       if res.success
         controller.configs = res.configs
+      if $state.current.name is "home.order.configuration" and $scope.$parent.orderCtrl.configuration?
+        controller.style = $scope.$parent.orderCtrl.style
+        controller.configuration = $scope.$parent.orderCtrl.configuration
+        controller.name = controller.configuration.name
+        $scope.$digest()
 
   textPosition = ->
     options = []
@@ -27,7 +29,11 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
 
   controller = @
   controller.$inject = ["RESTHelperService", "simpleDialogService", "$state", "$injector", "$scope"]
-  init()
+  controller.style = {}
+  controller.options =
+    side: ["pcb-side", "squeegee-side"]
+    textPosition: textPosition()
+    textAngle: textAngle()
 
   controller.reset = ->
       controller.disabled = false
@@ -40,18 +46,15 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     position = ""
     if controller.configuration.text
          position = controller.configuration.text.position
-    controller.options =
-      side: ["pcb-side", "squeegee-side"]
-      textAngle: textAngle position
-      textPosition: textPosition()
+    controller.options.textAngle =  textAngle position
     controller.changeText controller.configuration.text
     controller.changeStencilTransitioning()
     controller.changeStencilPosition()
 
-  controller.choose = (config = false) ->
+  controller.choose = ->
     controller.disabled = true
     controller.action = "preview"
-    if not config
+    if not controller.name
       controller.configuration = controller.configs[controller.config]
     controller.change()
 
@@ -131,10 +134,6 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     $scope.$parent.orderCtrl.configuration = controller.configuration
     $state.go "home.order.specific"
 
-  if $scope.$parent.orderCtrl.configuration?
-    controller.style = $scope.$parent.orderCtrl.style
-    controller.configuration = $scope.$parent.orderCtrl.configuration
-    controller.name = controller.configuration.name
-    controller.choose true
+  init()
 
   controller

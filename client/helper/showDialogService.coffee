@@ -11,6 +11,7 @@ module.exports = ($mdDialog, template) ->
       locals: locals
       openFrom: "body"
       closeFrom: "body"
+      escapeToClose: false
   showDialog: (event, action, handle, locals) ->
     openDialog event, action, locals
       .then (val) ->

@@ -3,7 +3,7 @@ md-dialog
     div(class="md-actions" layout="row" layout-align="end start")
       md-button(ng-click="registerCtrl.hide('close')" class="md-warn" aria-label="close" translate="button-close")
     p(align="center" class="md-title" translate="button-register")
-    form(name="register" novalidate)
+    form(name="register" novalidate layout="column")
       md-input-container
         label(translate="label-email")
         input(ng-model="registerCtrl.user.email" name="email" type="email" ivo-email-taken required)
