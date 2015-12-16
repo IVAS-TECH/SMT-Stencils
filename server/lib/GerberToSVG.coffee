@@ -1,22 +1,26 @@
 Promise = require "promise"
 fs = require "fs-extra"
 cheerio = require "cheerio"
+path = require "path"
 {identify} = require "pcb-stackup/lib/layer-types"
 {spawnSync} = require "child_process"
 
 layers = ["tsp", "bsp", "out"]
 
 identifyLayer = (layer) ->
-  identified = identify layer
+  splited = layer.split path.sep
+  tested = splited[splited.length - 1]
+  identified = identify tested
+  test = (search) -> tested.match new RegExp search, "i"
   if layer in layers
     return identified
-  if layer.match new RegExp "top", "i"
+  if test "top"
     return layers[0]
-  if layer.match new RegExp "bot", "i"
+  if test "bot"
     return layers[1]
-  if layer.match new RegExp "out", "i"
+  if test "out"
     return layers[2]
-  return layer[0]
+  return null
 
 convert = (paste, outline) ->
   colorPaste = "--foreground=#FFFFFFFF"
@@ -62,9 +66,8 @@ module.exports = (files) ->
   new Promise (resolve, reject) ->
     svg = []
     for file in files
-      layer = identifyLayer file
-      if layer in layers
-        svg[layers.indexOf layer] = file
+      index = layers.indexOf identifyLayer file
+      if index > -1 then svg[index] = file
     if svg.length
       resolve
         top: formSVG svg[0], svg[2]
