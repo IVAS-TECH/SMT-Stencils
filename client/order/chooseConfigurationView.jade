@@ -6,6 +6,7 @@ div(layout="column" layout-align="space-between center" layout-wrap)
         label(translate="choose-configuration")
         md-select(ng-model="configCtrl.config" ng-change="configCtrl.choose()")
           md-option(ng-repeat="c in configCtrl.configs" ng-value="$index") {{c.name}}
+          md-option(ng-if="configCtrl.name && !configCtrl.configs" ng-selected="true") {{configCtrl.name}}
       div(ng-if="configCtrl.settings" layout="row" layout-align="center center")
         md-button(ng-click="configCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="configCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")

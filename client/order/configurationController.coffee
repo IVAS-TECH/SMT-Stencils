@@ -48,10 +48,11 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     controller.changeStencilTransitioning()
     controller.changeStencilPosition()
 
-  controller.choose = ->
+  controller.choose = (config = false) ->
     controller.disabled = true
     controller.action = "preview"
-    controller.configuration = controller.configs[controller.config]
+    if not config
+      controller.configuration = controller.configs[controller.config]
     controller.change()
 
   controller.delete = (event) ->
@@ -129,5 +130,11 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     $scope.$parent.orderCtrl.style = controller.style
     $scope.$parent.orderCtrl.configuration = controller.configuration
     $state.go "home.order.specific"
+
+  if $scope.$parent.orderCtrl.configuration?
+    controller.style = $scope.$parent.orderCtrl.style
+    controller.configuration = $scope.$parent.orderCtrl.configuration
+    controller.name = controller.configuration.name
+    controller.choose true
 
   controller

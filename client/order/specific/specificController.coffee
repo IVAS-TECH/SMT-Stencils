@@ -1,4 +1,4 @@
-module.exports = (RESTHelperService) ->
+module.exports = (RESTHelperService, $scope, $state) ->
   controller = @
   controller.$inject = ["RESTHelperService"]
   controller.files = []
@@ -10,5 +10,7 @@ module.exports = (RESTHelperService) ->
       test = (model) -> if model? then model else undefined
       controller.top.view = test res.top
       controller.bottom.view = test res.bottom
+
+  controller.back = -> $state.go "home.order.configuration"
 
   controller
