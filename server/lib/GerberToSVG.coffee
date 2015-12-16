@@ -11,8 +11,10 @@ identifyLayer = (layer) ->
   splited = layer.split path.sep
   tested = splited[splited.length - 1]
   identified = identify tested
+
   test = (search) -> tested.match new RegExp search, "i"
-  if layer in layers
+
+  if identified in layers
     return identified
   if test "top"
     return layers[0]
@@ -20,7 +22,7 @@ identifyLayer = (layer) ->
     return layers[1]
   if test layers[2]
     return layers[2]
-  return null
+  null
 
 convert = (paste, outline) ->
   colorPaste = "--foreground=#FFFFFFFF"
@@ -34,17 +36,19 @@ convert = (paste, outline) ->
   fs.removeSync output
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
-replaceAll = (str, search, replace) ->
-  str.replace (new RegExp search, "g"), replace
-
-removeAll = (str, search) -> replaceAll str, search, ""
-
 formSVG = (paste, outline = null) ->
   if paste is undefined then return null
+
   filter = (paths, search) ->
     paths.filter (i, element) ->
       if element.attribs.style.match search
         return element
+
+  replaceAll = (str, search, replace) ->
+    str.replace (new RegExp search, "g"), replace
+
+  removeAll = (str, search) -> replaceAll str, search, ""
+
   $ = cheerio.load convert paste, outline
   paths = $ "path"
   svg =  $ "svg"
