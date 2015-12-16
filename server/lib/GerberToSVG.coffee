@@ -18,7 +18,7 @@ identifyLayer = (layer) ->
     return layers[0]
   if test "bot"
     return layers[1]
-  if test "out"
+  if test layers[2]
     return layers[2]
   return null
 
@@ -41,13 +41,15 @@ removeAll = (str, search) -> replaceAll str, search, ""
 
 formSVG = (paste, outline = null) ->
   if paste is undefined then return null
+  filter = (paths, search) ->
+    paths.filter (i, element) ->
+      if element.attribs.style.match search
+        return element
   $ = cheerio.load convert paste, outline
   paths = $ "path"
   svg =  $ "svg"
   attr = "ng-class"
-  out = paths.filter (i, element) ->
-    if element.attribs.style.match /0%,0%,0%/
-      return element
+  out = filter paths, /0%,0%,0%/
   out.css "stroke-width", ""
   out.css "stroke", ""
   outHTML = "<g #{attr}=\"scopeCtrl.style.outline ? 'stencil-outline' : 'stencil-no-outline'\">#{out.toString()}</g>"
@@ -56,10 +58,7 @@ formSVG = (paste, outline = null) ->
   svg.attr "width", "80%"
   svg.attr "height", "90%"
   svg.attr attr, "[(scopeCtrl.configuration.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
-  (paths.filter (i, element) ->
-    if element.attribs.style.match /100%,100%,100%/
-      return element
-  ).css "fill", ""
+  (filter paths, /100%,100%,100%/).css "fill", ""
   replaceAll (removeAll $.html(), "\n"), "&apos;", "'"
 
 module.exports = (files) ->
