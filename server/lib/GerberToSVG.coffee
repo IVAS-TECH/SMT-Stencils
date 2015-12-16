@@ -16,27 +16,33 @@ convert = (paste, outline) ->
   fs.removeSync output
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
+replaceAll = (str, search, replace) ->
+  str.replace (new RegExp search, "g"), replace
+
+removeAll = (str, search) -> replaceAll str, search, ""
+
 formSVG = (paste, outline = null) ->
   if paste is undefined then return null
   $ = cheerio.load convert paste, outline
   paths = $ "path"
-  out = paths.filter (i, element) ->
-    if element.attribs.style.match /(0%,0,%0%)/
-      return element
+  svg =  $ "svg"
   attr = "ng-class"
+  out = paths.filter (i, element) ->
+    if element.attribs.style.match /0%,0%,0%/
+      return element
   out.css "stroke-width", ""
+  out.css "stroke", ""
   outHTML = "<g #{attr}=\"scopeCtrl.style.outline ? 'stencil-outline' : 'stencil-no-outline'\">#{out.toString()}</g>"
   out.remove()
-  svg =  $ "svg"
-  g = $ "g"
-  paths = $ "path"
-  g.append outHTML
+  ($ "g").append outHTML
   svg.attr "width", "80%"
   svg.attr "height", "90%"
   svg.attr attr, "[(scopeCtrl.configuration.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
-  paths.css "fill", ""
-  paths.css "stroke", ""
-  $.html().replace((new RegExp "&apos;", "g"), "'").replace (new RegExp "\n", "g"), ""
+  (paths.filter (i, element) ->
+    if element.attribs.style.match /100%,100%,100%/
+      return element
+  ).css "fill", ""
+  replaceAll (removeAll $.html(), "\n"), "&apos;", "'"
 
 module.exports = (files) ->
   new Promise (resolve, reject) ->
