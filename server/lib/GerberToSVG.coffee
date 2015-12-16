@@ -4,6 +4,20 @@ cheerio = require "cheerio"
 {identify} = require "pcb-stackup/lib/layer-types"
 {spawnSync} = require "child_process"
 
+layers = ["tsp", "bsp", "out"]
+
+identifyLayer = (layer) ->
+  identified = identify layer
+  if layer in layers
+    return identified
+  if layer.match new RegExp "top", "i"
+    return layers[0]
+  if layer.match new RegExp "bot", "i"
+    return layers[1]
+  if layer.match new RegExp "out", "i"
+    return layers[2]
+  return layer[0]
+
 convert = (paste, outline) ->
   colorPaste = "--foreground=#FFFFFFFF"
   args = ["-x", "svg", "-a", colorPaste, paste]
@@ -47,9 +61,8 @@ formSVG = (paste, outline = null) ->
 module.exports = (files) ->
   new Promise (resolve, reject) ->
     svg = []
-    layers = ["tsp", "bsp", "out"]
     for file in files
-      layer = identify file
+      layer = identifyLayer file
       if layer in layers
         svg[layers.indexOf layer] = file
     if svg.length
