@@ -4,4 +4,8 @@ module.exports = ->
     "bulgaria"
     "romania"
   ]
+  controller.cities = [
+    "bulgaria"
+    "romania"
+  ]
   controller

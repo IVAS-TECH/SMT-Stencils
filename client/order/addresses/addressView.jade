@@ -1,5 +1,27 @@
-form(layout="column" novalidate)
-  md-input-container
-    label(translate="label-country")
-    md-select(ng-model="address.country" required)
-      md-option(ng-repeat="country in addressCtrl.countries") {{country}}
+form(layout="column" layout-wrap layout-margin layout-padding novalidate)
+  div(layout="row" layout-align="center center" layout-fill flex="auto")
+    md-input-container
+      label(translate="label-country")
+      md-select(ng-model="address.country" required)
+        md-option(ng-repeat="country in addressCtrl.countries") {{country}}
+    md-input-container
+      label(translate="label-city")
+      md-select(ng-model="address.city" required)
+        md-option(ng-repeat="city in addressCtrl.cities") {{city}}
+    md-input-container
+      label(translate="label-post-code")
+      input(ng-model="address.postcode" required)
+  div(layout="column" layout-gt-md="row" layout-fill flex="auto")
+    md-input-container(layout-fill flex="auto")
+      label(translate="label-address1")
+      input(ng-model="address.address1" required)
+    md-input-container(layout-fill flex="auto")
+      label(translate="label-address2")
+      input(ng-model="address.address2" required)
+  div(layout="row" layout-fill flex="auto")
+    md-input-container(layout-fill flex="auto")
+      label(translate="label-firstname")
+      input(ng-model="address.firstname" required)
+    md-input-container(layout-fill flex="auto")
+      label(translate="label-lastname")
+      input(ng-model="address.lastname" required)

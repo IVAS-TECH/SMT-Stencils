@@ -7,22 +7,44 @@ path = require "path"
 
 layers = ["tsp", "bsp", "out"]
 
-identifyLayer = (layer) ->
-  splited = layer.split path.sep
-  tested = splited[splited.length - 1]
-  identified = identify tested
+identifyLayer = (layer, files) ->
+  justFile = (f) ->
+    splited = f.split path.sep
+    splited[splited.length - 1]
 
-  test = (search) -> tested.match new RegExp search, "i"
+  test = (searchIn, searchFor) ->
+    tester = (search) -> not (searchIn.match new RegExp search, "i")?
+    if not searchFor.match /\ /
+      tester searchFor
+    else
+      (tester token for token in (searchFor.split " ")).every (element) -> element is true
 
-  if identified in layers
-    return identified
-  if test "top"
-    return layers[0]
-  if test "bot"
-    return layers[1]
-  if test layers[2]
-    return layers[2]
-  null
+  filter = (justFile file for file in files)
+
+  tryIdentify = (condition) ->
+    (filter.filter condition)[0]
+
+  switch layer
+    when "top"
+      top = tryIdentify (e) -> identify e is layer[0]
+      if top? then return top
+      top = tryIdentify (e) -> test e, "top paste"
+      if top? then return top
+      top = tryIdentify (e) -> test e, "top"
+      if top? then return top
+      return null
+    when "bot"
+      bot = tryIdentify (e) -> identify e is layer[1]
+      if bot? then return bot
+      bot = tryIdentify (e) -> test e, "bot paste"
+      if bot? then return bot
+      bot = tryIdentify (e) -> test e, "bot"
+      if bot? then return bot
+      return null
+    when "out"
+      out = tryIdentify (e) -> identify e is layer[1] or test e, "out" or test e, "border"
+      if out? then return out
+      return null
 
 convert = (paste, outline) ->
   colorPaste = "--foreground=#FFFFFFFF"
@@ -36,7 +58,7 @@ convert = (paste, outline) ->
   fs.removeSync output
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
-formSVG = (paste, outline = null) ->
+formSVG = (paste, outline) ->
   if paste is undefined then return null
 
   filter = (paths, search) ->
@@ -67,13 +89,13 @@ formSVG = (paste, outline = null) ->
 
 module.exports = (files) ->
   new Promise (resolve, reject) ->
-    svg = []
-    for file in files
-      index = layers.indexOf identifyLayer file
-      if index > -1 then svg[index] = file
-    if svg.length
-      resolve
-        top: formSVG svg[0], svg[2]
-        bottom: formSVG svg[1], svg[2]
-    else
-      resolve top: formSVG files[0]
+    svg = [
+      identifyLayer "top", files
+      identifyLayer "bot", files
+      identifyLayer "out", files
+    ]
+    console.log svg
+    res = top: formSVG svg[0], svg[2]
+    if svg[1]?
+        res.bottom = formSVG svg[1], svg[2]
+    resolve res
