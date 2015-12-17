@@ -5,47 +5,6 @@ path = require "path"
 {identify} = require "pcb-stackup/lib/layer-types"
 {spawnSync} = require "child_process"
 
-layers = ["tsp", "bsp", "out"]
-
-identifyLayer = (layer, files) ->
-  justFile = (f) ->
-    splited = f.split path.sep
-    splited[splited.length - 1]
-
-  test = (searchIn, searchFor) ->
-    tester = (search) -> not (searchIn.match new RegExp search, "i")?
-    if not searchFor.match /\ /
-      tester searchFor
-    else
-      (tester token for token in (searchFor.split " ")).every (element) -> element is true
-
-  filter = (justFile file for file in files)
-
-  tryIdentify = (condition) ->
-    (filter.filter condition)[0]
-
-  switch layer
-    when "top"
-      top = tryIdentify (e) -> identify e is layer[0]
-      if top? then return top
-      top = tryIdentify (e) -> test e, "top paste"
-      if top? then return top
-      top = tryIdentify (e) -> test e, "top"
-      if top? then return top
-      return null
-    when "bot"
-      bot = tryIdentify (e) -> identify e is layer[1]
-      if bot? then return bot
-      bot = tryIdentify (e) -> test e, "bot paste"
-      if bot? then return bot
-      bot = tryIdentify (e) -> test e, "bot"
-      if bot? then return bot
-      return null
-    when "out"
-      out = tryIdentify (e) -> identify e is layer[1] or test e, "out" or test e, "border"
-      if out? then return out
-      return null
-
 convert = (paste, outline) ->
   colorPaste = "--foreground=#FFFFFFFF"
   args = ["-x", "svg", "-a", colorPaste, paste]
@@ -89,12 +48,38 @@ formSVG = (paste, outline) ->
 
 module.exports = (files) ->
   new Promise (resolve, reject) ->
+    justFile = (f) ->
+      splited = f.split path.sep
+      splited[splited.length - 1]
+
+    filter = (justFile file for file in files)
+
+    identifyLayer = (layer) ->
+      layers = ["tsp", "bsp", "out"]
+      test = (searchIn, searchFor) ->
+        tester = (search) -> (searchIn.match new RegExp search, "i")?
+        if not searchFor.match /\ /
+          tester searchFor
+        else
+          (tester token for token in (searchFor.split " ")).every (element) -> element is true
+
+      tryIdentify = (condition) ->
+        callback = -> (element, index) -> condition filter[index]
+
+        (files.filter callback())[0]
+
+      if layer is "out"
+        return tryIdentify (e) -> identify e is layers[2] or test e, "out" or test e, "border"
+      else
+        res = tryIdentify (e) -> test e, layer + " paste" or identify e is layers[layers.indexOf layer]
+        if res? then return res
+        return tryIdentify (e) -> test e, layer
+
     svg = [
-      identifyLayer "top", files
-      identifyLayer "bot", files
-      identifyLayer "out", files
+      identifyLayer "top"
+      identifyLayer "bot"
+      identifyLayer "out"
     ]
-    console.log svg
     res = top: formSVG svg[0], svg[2]
     if svg[1]?
         res.bottom = formSVG svg[1], svg[2]
