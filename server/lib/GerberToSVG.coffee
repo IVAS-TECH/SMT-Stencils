@@ -6,8 +6,7 @@ path = require "path"
 {spawnSync} = require "child_process"
 
 convert = (paste, outline) ->
-  colorPaste = "--foreground=#FFFFFFFF"
-  args = ["-x", "svg", "-a", colorPaste, paste]
+  args = ["-x", "svg", "-a", "--foreground=#FFFFFFFF", paste]
   if outline?
     args.push "--foreground=#000000FF"
     args.push outline
@@ -18,7 +17,7 @@ convert = (paste, outline) ->
   out.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
 
 formSVG = (paste, outline) ->
-  if paste is undefined then return null
+  if not paste? then return null
 
   filter = (paths, search) ->
     paths.filter (i, element) ->
@@ -69,9 +68,7 @@ module.exports = (files) ->
       if layer is "out"
         return tryIdentify (e) -> identify e is layers[2] or test e, "out" or test e, "border"
       else
-        res = tryIdentify (e) -> test e, layer + " paste" or identify e is layers[layers.indexOf layer]
-        if res? then return res
-        return tryIdentify (e) -> test e, layer
+        return tryIdentify (e) -> test e, layer + " paste" or identify e is layers[layers.indexOf layer] or test e, layer
 
     svg = [
       identifyLayer "top"
