@@ -1,14 +1,13 @@
 store = require "./sessionModel"
 
 class Session
-  init = ->
-    map = {}
-    add = (d) -> map[d.ip] = d.map
-    store.find {}, (err, docs) ->
-      if not err? and docs? then add doc for doc in docs
-    map
 
-  constructor: -> @map = init()
+  constructor: ->
+    @map = {}
+    add = (doc) => @map[doc.ip] = doc.map
+    store.find {}, (err, docs) =>
+      if not err? and docs?
+        add doc for doc in docs
 
   find: (ip) -> @map[ip]
 

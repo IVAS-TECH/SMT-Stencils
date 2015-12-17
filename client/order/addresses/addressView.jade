@@ -1,0 +1,5 @@
+form(layout="column" novalidate)
+  md-input-container
+    label(translate="label-country")
+    md-select(ng-model="address.country" required)
+      md-option(ng-repeat="country in addressCtrl.countries") {{country}}

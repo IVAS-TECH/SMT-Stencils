@@ -1,6 +1,6 @@
 module.exports = (RESTHelperService, $scope, $state) ->
   controller = @
-  controller.$inject = ["RESTHelperService"]
+  controller.$inject = ["RESTHelperService", "$scope", "$state"]
   controller.files = []
   controller.top = {}
   controller.bottom = {}
@@ -12,5 +12,7 @@ module.exports = (RESTHelperService, $scope, $state) ->
       controller.bottom.view = test res.bottom
 
   controller.back = -> $state.go "home.order.configuration"
+
+  controller.next = -> $state.go "home.order.addresses"
 
   controller

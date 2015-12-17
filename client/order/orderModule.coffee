@@ -1,8 +1,13 @@
 {angular} = require "dependencies"
 moduleName = "orderModule"
 
+dependencies = [
+  require "./addresses/addressesModule"
+  require "./specific/specificModule"
+]
+
 angular
-  .module moduleName, [require "./specific/specificModule"]
+  .module moduleName, dependencies
     .factory "scopeControllerService", require "./scopeControllerService"
     .controller "orderController", require "./orderController"
     .controller "configurationController", require "./configurationController"

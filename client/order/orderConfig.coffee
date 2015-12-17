@@ -8,3 +8,4 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
     .state "home.order", url: "/order", controller: "orderController as orderCtrl", template: templateProvider.provide "orderView"
     .state "home.order.configuration", controller: "configurationController as configCtrl", template: templateProvider.provide "configurationView"
     .state "home.order.specific", controller: "specificController as specificCtrl", template: templateProvider.provide "specificView"
+    .state "home.order.addresses", controller: "addressesController as addressesCtrl", template: templateProvider.provide "addressesView"
