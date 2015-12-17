@@ -59,10 +59,9 @@ module.exports = (files) ->
 
       test = (searchIn, searchFor) ->
         tester = (search) -> (searchIn.match new RegExp search, "i")?
-        if not searchFor.match /\ /
-          tester searchFor
+        if not searchFor.match /\ / then tester searchFor
         else
-          (tester token for token in (searchFor.split " ")).every (element) -> element is true
+          (tester token for token in searchFor.split " ").every (element) -> element is true
 
       tryIdentify = (condition) ->
         (files.filter (element, index) -> condition filter[index])[0]
