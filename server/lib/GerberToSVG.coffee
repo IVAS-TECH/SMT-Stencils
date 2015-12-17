@@ -56,6 +56,7 @@ module.exports = (files) ->
 
     identifyLayer = (layer) ->
       layers = ["tsp", "bsp", "out"]
+
       test = (searchIn, searchFor) ->
         tester = (search) -> (searchIn.match new RegExp search, "i")?
         if not searchFor.match /\ /
@@ -64,9 +65,7 @@ module.exports = (files) ->
           (tester token for token in (searchFor.split " ")).every (element) -> element is true
 
       tryIdentify = (condition) ->
-        callback = -> (element, index) -> condition filter[index]
-
-        (files.filter callback())[0]
+        (files.filter (element, index) -> condition filter[index])[0]
 
       if layer is "out"
         return tryIdentify (e) -> identify e is layers[2] or test e, "out" or test e, "border"
