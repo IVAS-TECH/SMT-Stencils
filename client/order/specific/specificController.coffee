@@ -1,21 +1,11 @@
-module.exports = (RESTHelperService, $scope, $state) ->
+module.exports = (RESTHelperService, $scope, progressService) ->
   controller = @
-  controller.$inject = ["RESTHelperService", "$scope", "$state"]
+  controller.$inject = ["RESTHelperService", "$scope", "progressService"]
   controller.files = []
   controller.top = {}
   controller.bottom = {}
 
-  restore = ->
-    if $scope.$parent.orderCtrl.files?
-      controller.files = $scope.$parent.orderCtrl.files
-      controller.top = $scope.$parent.orderCtrl.top
-      controller.bottom = $scope.$parent.orderCtrl.bottom
-
-  move = (state) ->
-    $scope.$parent.orderCtrl.files = controller.files
-    $scope.$parent.orderCtrl.top = controller.top
-    $scope.$parent.orderCtrl.bottom = controller.bottom
-    $state.go "home.order.#{state}"
+  progress = progressService $scope, "orderCtrl", "specificCtrl"
 
   controller.upload = ->
     RESTHelperService.upload.preview controller.files, (res) ->
@@ -23,10 +13,8 @@ module.exports = (RESTHelperService, $scope, $state) ->
       controller.top.view = test res.top
       controller.bottom.view = test res.bottom
 
-  controller.back = -> move "configuration"
+  controller.back = -> progress.move "configuration"
 
-  controller.next = -> move "addresses"
-
-  restore()
+  controller.next = -> progress.move "addresses"
 
   controller

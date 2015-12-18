@@ -1,30 +1,19 @@
 {angular} = require "dependencies"
 
-module.exports = ($scope, $state) ->
+module.exports = ($scope, progressService) ->
   controller = @
-  controller.$inject = ["$scope", "$state"]
-  controller.addresses =
-    delivery: {}
-    invoice: {}
-    firm: {}
+  controller.$inject = ["$scope", "progressService"]
+  controller.delivery = {}
+  controller.invoice = {}
+  controller.firm = {}
 
-  restore = ->
-    if $scope.$parent.orderCtrl.addresses?
-      controller.addresses = $scope.$parent.orderCtrl.addresses
+  progress = progressService $scope, "orderCtrl", "addressesCtrl"
 
-  move = (state) ->
-    $scope.$parent.orderCtrl.addresses = controller.addresses
-    $state.go "home.order.#{state}"
+  controller.back = -> progress.move "specific"
 
-  controller.back = -> move "specific"
-
-  controller.next = -> move "finalizate"
+  controller.next = -> progress.move "finalizate"
 
   controller.fill = (dst, src) ->
-    destination = controller.addresses[dst]
-    source = controller.addresses[src]
-    angular.copy destination, source
-
-  restore()
+    angular.copy controller[dst], controller[src]
 
   controller

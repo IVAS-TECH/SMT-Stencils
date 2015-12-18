@@ -8,6 +8,7 @@ dependencies = [
 
 angular
   .module moduleName, dependencies
+    .service "progressService", require "./progressService"
     .factory "scopeControllerService", require "./scopeControllerService"
     .controller "orderController", require "./orderController"
     .controller "configurationController", require "./configurationController"
