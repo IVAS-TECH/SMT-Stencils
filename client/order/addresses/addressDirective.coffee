@@ -5,3 +5,4 @@ module.exports = (template) ->
   controllerAs: "addressCtrl"
   scope:
     address: "="
+    name: "@"

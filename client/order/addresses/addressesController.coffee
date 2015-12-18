@@ -1,3 +1,5 @@
+{angular} = require "dependencies"
+
 module.exports = ($scope, $state) ->
   controller = @
   controller.$inject = ["$scope", "$state"]
@@ -16,7 +18,12 @@ module.exports = ($scope, $state) ->
 
   controller.back = -> move "specific"
 
-  #controller.next = -> $state.go "home.order.finalizate"
+  controller.next = -> move "finalizate"
+
+  controller.fill = (dst, src) ->
+    destination = controller.addresses[dst]
+    source = controller.addresses[src]
+    angular.copy destination, source
 
   restore()
 
