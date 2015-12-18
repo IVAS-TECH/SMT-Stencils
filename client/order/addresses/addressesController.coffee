@@ -3,11 +3,17 @@
 module.exports = ($scope, progressService) ->
   controller = @
   controller.$inject = ["$scope", "progressService"]
-  controller.delivery = {}
-  controller.invoice = {}
-  controller.firm = {}
 
-  progress = progressService $scope, "orderCtrl", "addressesCtrl", ["sameAsAbove", "sameAsDelivery", "sameAsInvoice"]
+  properties = [
+    "delivery"
+    "invoice"
+    "firm"
+    "sameAsAbove"
+    "sameAsDelivery"
+    "sameAsInvoice"
+  ]
+
+  progress = progressService $scope, "orderCtrl", "addressesCtrl", properties
 
   controller.back = -> progress.move "specific"
 

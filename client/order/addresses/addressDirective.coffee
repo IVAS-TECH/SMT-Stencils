@@ -6,3 +6,4 @@ module.exports = (template) ->
   scope:
     address: "="
     name: "@"
+  link: (scope) -> scope.address = {}
