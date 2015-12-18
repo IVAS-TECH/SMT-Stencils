@@ -7,7 +7,7 @@ module.exports = ($scope, progressService) ->
   controller.invoice = {}
   controller.firm = {}
 
-  progress = progressService $scope, "orderCtrl", "addressesCtrl"
+  progress = progressService $scope, "orderCtrl", "addressesCtrl", ["sameAsAbove", "sameAsDelivery", "sameAsInvoice"]
 
   controller.back = -> progress.move "specific"
 
