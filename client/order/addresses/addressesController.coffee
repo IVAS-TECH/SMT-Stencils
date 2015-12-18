@@ -1,12 +1,23 @@
 module.exports = ($scope, $state) ->
   controller = @
   controller.$inject = ["$scope", "$state"]
-  controller.delivery = {}
-  controller.invoice = {}
-  controller.firm = {}
+  controller.addresses =
+    delivery: {}
+    invoice: {}
+    firm: {}
 
-  controller.back = -> $state.go "home.order.specific"
+  restore = ->
+    if $scope.$parent.orderCtrl.addresses?
+      controller.addresses = $scope.$parent.orderCtrl.addresses
+
+  move = (state) ->
+    $scope.$parent.orderCtrl.addresses = controller.addresses
+    $state.go "home.order.#{state}"
+
+  controller.back = -> move "specific"
 
   #controller.next = -> $state.go "home.order.finalizate"
+
+  restore()
 
   controller
