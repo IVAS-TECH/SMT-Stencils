@@ -6,4 +6,4 @@ module.exports = (template, scopeControllerService) ->
     text: "="
     view: "="
     controller: "="
-  link: (scope) -> scopeControllerService scope#scope.configCtrl = scope.$parent.configCtrl
+  link: (scope) -> scopeControllerService scope
