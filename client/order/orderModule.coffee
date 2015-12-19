@@ -4,17 +4,12 @@ moduleName = "orderModule"
 dependencies = [
   require "./addresses/addressesModule"
   require "./specific/specificModule"
+  require "./configuration/configurationModule"
 ]
 
 angular
   .module moduleName, dependencies
-    .service "progressService", require "./progressService"
-    .factory "scopeControllerService", require "./scopeControllerService"
     .controller "orderController", require "./orderController"
-    .controller "configurationController", require "./configurationController"
-    .directive "ivoInclude", require "./includeDirective"
-    .directive "ivoStencilPreview", require "./stencilPreviewDirective"
-    .directive "ivoChooseConfiguration", require "./chooseConfigurationDirective"
     .config require "./orderConfig"
     .run ($state) ->
       @$inject = ["$state"]

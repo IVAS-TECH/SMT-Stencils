@@ -1,4 +1,4 @@
-module.exports =  {
+module.exports =
   "button-login": "Вход"
   "button-register": "Регистрация"
   "button-close": "Затвори"
@@ -19,4 +19,3 @@ module.exports =  {
   "error-password-required": "Паролата е задължителна"
   "error-repassword-pattern": "Потвърдената парола е различна от паролата"
   "error-repassword-required": "Потвърждаването на паролата е задължително"
-}

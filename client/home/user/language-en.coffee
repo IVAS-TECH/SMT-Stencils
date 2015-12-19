@@ -1,4 +1,4 @@
-module.exports = {
+module.exports =
   "button-login": "Log In"
   "button-register": "Register"
   "button-close": "Close"
@@ -19,4 +19,3 @@ module.exports = {
   "error-password-required": "Password is required"
   "error-repassword-pattern": "Re-Password doen't match password"
   "error-repassword-required": "Re-Password is required"
-}

@@ -1,6 +1,6 @@
 md-dialog
   md-dialog-content(class="md-dialog-content")
-    div(class="md-actions" layout="row" layout-align="end start")
+    md-dialog-actions(layout="row" layout-align="end start")
       md-button(ng-click="loginCtrl.hide('close')" class="md-warn" aria-label="close" translate="button-close")
     p(align="center" class="md-title" translate="button-login")
     form(name="login" novalidate layout="column")
@@ -24,5 +24,5 @@ md-dialog
             span(translate="error-password-required")
       md-checkbox(ng-model="loginCtrl.session" class="md-primary" aria-label="stay login")
         p(translate="checkbox-stay-login")
-      div(class="md-actions" layout="row" layout-sm="column" layout-align="center center")
+      md-dialog-actions(layout="row" layout-sm="column" layout-align="center center")
         md-button(ng-click="loginCtrl.login(login.$invalid)" class="md-primary" aria-label="login" md-autofocus="true" translate="button-login")
