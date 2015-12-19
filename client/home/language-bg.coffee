@@ -1,4 +1,4 @@
-module.exports =  {
+module.exports =
   "button-about": "За нас"
   "button-technologies": "Технологии"
   "button-order": "Поръчай"
@@ -7,4 +7,3 @@ module.exports =  {
   "button-menu-menu": "Меню"
   "firm-name": "ИВАС-ТЕХ"
   "web-page": "Стенсили"
-}

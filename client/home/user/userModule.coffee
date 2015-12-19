@@ -5,8 +5,8 @@ bg = require "./language-bg"
 noController = ->
 
 dependencies = [
-  require "./login/loginModule"
   require "./register/registerModule"
+  require "./login/loginModule"
 ]
 
 angular

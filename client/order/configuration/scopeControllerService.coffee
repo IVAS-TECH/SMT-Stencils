@@ -14,5 +14,4 @@ module.exports = ->
     while not findAndAssign search
       if search.$parent?
         search = search.$parent
-      else
-        break
+      else break
