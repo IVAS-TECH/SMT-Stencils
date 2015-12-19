@@ -1,14 +1,14 @@
-module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $scope) ->
+module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $scope, progressService) ->
 
   init = ->
-    RESTHelperService.config.find (res) ->
-      if res.success
-        controller.configs = res.configs
-      if $state.current.name is "home.order.configuration" and $scope.$parent.orderCtrl.configuration?
-        controller.style = $scope.$parent.orderCtrl.style
-        controller.configuration = $scope.$parent.orderCtrl.configuration
-        controller.name = controller.configuration.name
-        $scope.$digest()
+    if not $scope.$parent.orderCtrl.config?
+      RESTHelperService.config.find (res) ->
+        if res.success
+          controller.configs = res.configs
+    else
+      stop = $scope.$on "update-view", ->
+        controller.choose()
+        stop()
 
   textPosition = ->
     options = []
@@ -28,12 +28,22 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService", "$state", "$injector", "$scope"]
+  controller.$inject = ["RESTHelperService", "simpleDialogService", "$state", "$injector", "$scope", "progressService"]
   controller.style = {}
   controller.options =
     side: ["pcb-side", "squeegee-side"]
     textPosition: textPosition()
     textAngle: textAngle()
+
+  properties = [
+    "configuration"
+    "configs"
+    "config"
+    "disabled"
+    "action"
+  ]
+
+  progress = progressService $scope, "orderCtrl", "configCtrl", properties
 
   controller.reset = ->
       controller.disabled = false
@@ -54,8 +64,7 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
   controller.choose = ->
     controller.disabled = true
     controller.action = "preview"
-    if not controller.name
-      controller.configuration = controller.configs[controller.config]
+    controller.configuration = controller.configs[controller.config]
     controller.change()
 
   controller.delete = (event) ->
@@ -129,10 +138,7 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     controller.style.layout = false
     controller.style.mode = [aligment, "centered"].join "-"
 
-  controller.next = ->
-    $scope.$parent.orderCtrl.style = controller.style
-    $scope.$parent.orderCtrl.configuration = controller.configuration
-    $state.go "home.order.specific"
+  controller.next = -> progress.move "specific"
 
   init()
 

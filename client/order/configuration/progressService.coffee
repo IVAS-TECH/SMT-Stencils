@@ -13,6 +13,7 @@ module.exports = ($state) ->
         if @parentScope[@properties[0]]?
           for property in @properties
             @currentScope[property] = @parentScope[property]
+          scope.$emit "update-view"
         restored()
 
     move: (state) =>
