@@ -2,6 +2,7 @@ module.exports = ($mdDialog, template) ->
   @$inject = ["$mdDialog", "template"]
   openDialog = (event, action, locals = {}) ->
     locals.hide = $mdDialog.hide
+    event = if event.target? then event else undefined
     $mdDialog.show
       template: template "#{action}View"
       targetEvent: event
