@@ -78,5 +78,5 @@ div(layout="column" layout-fill layout-margin layout-padding)
     aria-label="scopeCtrl.action"
     translate="{{scopeCtrl.action + '-configuration'}}"
   )
-div(layout="row" layout-align="end end")
+div(ng-if="!scopeCtrl.settings" layout="row" layout-align="end end")
     md-button(ng-click="scopeCtrl.next()" class="md-warn" aria-label="next" translate="button-next")

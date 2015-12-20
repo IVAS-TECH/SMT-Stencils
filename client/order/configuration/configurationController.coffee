@@ -1,22 +1,11 @@
 module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $scope, progressService) ->
-
-  init = ->
-    if not $scope.$parent.orderCtrl.config?
-      RESTHelperService.config.find (res) ->
-        if res.success
-          controller.configs = res.configs
-    else
-      stop = $scope.$on "update-view", ->
-        controller.choose()
-        stop()
-
   textPosition = ->
     options = []
     directionX = ["left", "right", "center"]
     directionY = ["top", "bottom", "center"]
-    for i in [0..2]
-      for j in [0..2]
-        options.push "#{directionY[i]}-#{directionX[j]}"
+    for x in directionX
+      for y in directionY
+        options.push "#{x}-#{y}"
     options
 
   textAngle = (position = "") ->
@@ -29,21 +18,37 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
 
   controller = @
   controller.$inject = ["RESTHelperService", "simpleDialogService", "$state", "$injector", "$scope", "progressService"]
+  controller.isOrderRelated = $state.current.name is "home.order.configuration"
   controller.style = {}
   controller.options =
     side: ["pcb-side", "squeegee-side"]
     textPosition: textPosition()
     textAngle: textAngle()
 
-  properties = [
-    "configuration"
-    "configs"
-    "config"
-    "disabled"
-    "action"
-  ]
+  if controller.isOrderRelated
+    properties = [
+      "configuration"
+      "configs"
+      "config"
+      "disabled"
+      "action"
+    ]
+    controller.progress = progressService $scope, "orderCtrl", "configCtrl", properties
 
-  progress = progressService $scope, "orderCtrl", "configCtrl", properties
+  controller.getConfigs = ->
+    RESTHelperService.config.find (res) ->
+        if res.success
+          controller.configs = res.configs
+
+  controller.init = ->
+    if controller.isOrderRelated
+      if not $scope.$parent.orderCtrl.config?
+        controller.getConfigs()
+      else
+        stop = $scope.$on "update-view", ->
+          controller.choose()
+          stop()
+    else controller.getConfigs()
 
   controller.reset = ->
       controller.disabled = false
@@ -92,8 +97,6 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
           RESTHelperService.config.update config: controller.configuration, (res) ->
     else simpleDialogService event, "required-fields"
 
-  controller.textAngle = textAngle
-
   controller.changeText = (text) ->
     color = "pcb-side"
     angle = ""
@@ -138,8 +141,8 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $sc
     controller.style.layout = false
     controller.style.mode = [aligment, "centered"].join "-"
 
-  controller.next = -> progress.move "specific"
+  controller.next = -> controller.progress.move "specific"
 
-  init()
+  controller.init()
 
   controller
