@@ -36,10 +36,9 @@ module.exports = module.exports = ($controller, progressService, RESTHelperServi
   controller.next = -> progress.move "specific"
 
   controller.create = ->
-    if controller.save
-      RESTHelperService.config.create config: controller.configuration, (res) ->
-        if res.success then controller.configuration._id = res._id
-      controller.next()
+    if controller.saveIt
+      controller.save()
+    controller.next()
 
   controller.init()
 

@@ -19,9 +19,7 @@ module.exports = module.exports = ($controller, confirmService, RESTHelperServic
 
   controller.init = -> controller.getConfigs()
 
-  controller.create = ->
-    RESTHelperService.config.create config: controller.configuration, (res) ->
-      if res.success then controller.configuration._id = res._id
+  controller.create = -> controller.save()
 
   controller.delete = (event) ->
       confirmService event, success: ->

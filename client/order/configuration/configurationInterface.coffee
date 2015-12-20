@@ -54,6 +54,10 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $scope, templa
     controller.configuration = controller.configs[controller.config]
     controller.change()
 
+  controller.save = ->
+    RESTHelperService.config.create config: controller.configuration, (res) ->
+      if res.success then controller.configuration._id = res._id
+
   controller.create = ->
 
   controller.doAction = (event, invalid) ->
