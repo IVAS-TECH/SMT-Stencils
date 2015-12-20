@@ -5,9 +5,9 @@ angular
   .module moduleName, []
     .service "progressService", require "./progressService"
     .factory "scopeControllerService", require "./scopeControllerService"
+    .controller "configurationInterface", require "./configurationInterface"
     .controller "configurationController", require "./configurationController"
     .directive "ivoInclude", require "./includeDirective"
     .directive "ivoStencilPreview", require "./stencilPreviewDirective"
-    .directive "ivoChooseConfiguration", require "./chooseConfigurationDirective"
 
 module.exports = moduleName

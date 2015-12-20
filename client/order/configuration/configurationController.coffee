@@ -1,147 +1,45 @@
-module.exports = (RESTHelperService, simpleDialogService, $state, $injector, $scope, progressService) ->
-  textPosition = ->
-    options = []
-    directionX = ["left", "right", "center"]
-    directionY = ["top", "bottom", "center"]
-    for x in directionX
-      for y in directionY
-        options.push "#{x}-#{y}"
-    options
-
-  textAngle = (position = "") ->
-    if not position or not position.match /center/
-      return ["left", "right", "bottom", "top"]
-    if position.match /center-/
-      return ["left", "right"]
-    if position.match /-center/
-      return ["bottom", "top"]
-
-  controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService", "$state", "$injector", "$scope", "progressService"]
-  controller.isOrderRelated = $state.current.name is "home.order.configuration"
-  controller.style = {}
-  controller.options =
-    side: ["pcb-side", "squeegee-side"]
-    textPosition: textPosition()
-    textAngle: textAngle()
-
-  if controller.isOrderRelated
-    properties = [
-      "configuration"
-      "configs"
-      "config"
-      "disabled"
-      "action"
-    ]
-    controller.progress = progressService $scope, "orderCtrl", "configCtrl", properties
-
-  controller.getConfigs = ->
-    RESTHelperService.config.find (res) ->
-        if res.success
-          controller.configs = res.configs
+module.exports = module.exports = ($controller, progressService, RESTHelperService, simpleDialogService, $state, $scope, template) ->
+  @inject = [
+    "$controller"
+    "progressService"
+    "RESTHelperService"
+    "simpleDialogService"
+    "$state"
+    "$scope"
+    "template"
+  ]
+  injectable =
+    "RESTHelperService": RESTHelperService
+    "simpleDialogService": simpleDialogService
+    "$state": $state
+    "$scope": $scope
+    "template": template
+  properties = [
+    "configuration"
+    "configs"
+    "config"
+    "disabled"
+    "action"
+  ]
+  progress = progressService $scope, "orderCtrl", "configCtrl", properties
+  controller = $controller "configurationInterface", injectable
+  controller.settings = false
 
   controller.init = ->
-    if controller.isOrderRelated
-      if not $scope.$parent.orderCtrl.config?
-        controller.getConfigs()
-      else
-        stop = $scope.$on "update-view", ->
-          controller.choose()
-          stop()
-    else controller.getConfigs()
+    if not $scope.$parent.orderCtrl.config?
+      controller.getConfigs()
+    else
+      stop = $scope.$on "update-view", ->
+        controller.choose()
+        stop()
 
-  controller.reset = ->
-      controller.disabled = false
-      controller.action = "create"
-      delete controller.config
-      controller.configuration = {}
-      controller.change()
+  controller.next = -> progress.move "specific"
 
-  controller.change = ->
-    position = ""
-    if controller.configuration.text
-         position = controller.configuration.text.position
-    controller.options.textAngle =  textAngle position
-    controller.changeText controller.configuration.text
-    controller.changeStencilTransitioning()
-    controller.changeStencilPosition()
-
-  controller.choose = ->
-    controller.disabled = true
-    controller.action = "preview"
-    controller.configuration = controller.configs[controller.config]
-    controller.change()
-
-  controller.delete = (event) ->
-      confirmService = $injector.get "confirmService"
-      confirmService event, success: ->
-        RESTHelperService.config.delete controller.configuration._id, (res) ->
-          reset()
-          $scope.$digest()
-
-  controller.edit = ->
-    controller.disabled = false
-    controller.action = "edit"
-
-  controller.doAction = (event, invalid) ->
-    if not invalid
-      if controller.action is "create"
-        if controller.save
-          RESTHelperService.config.create config: controller.configuration, (res) ->
-            if res.success then controller.configuration._id = res._id
-        if $state.current.name is "home.order.configuration"
-          controller.next()
-      if controller.action is "edit"
-        confirmService = $injector.get "confirmService"
-        confirmService event, success: ->
-          RESTHelperService.config.update config: controller.configuration, (res) ->
-    else simpleDialogService event, "required-fields"
-
-  controller.changeText = (text) ->
-    color = "pcb-side"
-    angle = ""
-    def = "text-top-left-left"
-    if not text?
-      return [color, def]
-    if text.type is "engraved" and text.side
-      color = text.side
-    if text.type is "drilled"
-      color = text.type
-    if not text.position
-      return [color, def]
-    if not text.angle? or not text.angle in controller.options.textAngle
-      angle = controller.options.textAngle[0]
-    else angle = text.angle
-    return [color, ["text", text.position, angle].join "-"]
-
-  controller.changeStencilTransitioning = ->
-    if not controller.configuration.stencil?
-      controller.style.frame = false
-      return
-    controller.style.frame = controller.configuration.stencil.transitioning.match /frame/
-
-  controller.changeStencilPosition = ->
-    if not controller.configuration.position?
-      controller.style.outline = false
-      controller.style.layout = false
-      controller.style.mode = ["portrait", "centered"].join "-"
-      return
-    aligment = controller.configuration.position.aligment ? "portrait"
-    position = controller.configuration.position.position
-    mode = ""
-    if position isnt "pcb-centered"
-      controller.style.outline = false
-      controller.style.layout = position is "layout-centered"
-      if controller.style.layout
-        mode = "centered"
-      else mode = "no"
-      controller.style.mode = [aligment, mode].join "-"
-      return
-    controller.style.outline = true
-    controller.style.layout = false
-    controller.style.mode = [aligment, "centered"].join "-"
-
-  controller.next = -> controller.progress.move "specific"
+  controller.create = ->
+    if controller.save
+      RESTHelperService.config.create config: controller.configuration, (res) ->
+        if res.success then controller.configuration._id = res._id
+      controller.next()
 
   controller.init()
 
