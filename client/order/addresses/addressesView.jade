@@ -1,5 +1,13 @@
 div(layout="column" layout-align="center center" layout-wrap layout-padding layout-margin)
-  div(layout="column" layout-fill layout-margin layout-padding)
+  div(layout="row" layout-align="center center" layout-wrap layout-padding layout-margin)
+    md-input-container
+      label(translate="choose-addresses")
+      md-select(ng-model="addressesCtrl.address" ng-change="addressesCtrl.choose()")
+        md-option(ng-repeat="address in addressesCtrl.addresses" ng-value="$index") {{address.name}}
+    div(ng-if="addressesCtrl.settings" layout="row" layout-align="center center")
+      md-button(ng-click="addressesCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
+      md-button(ng-click="addressesCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")    
+  div(ng-if="addressesCtrl.show" layout="column" layout-fill layout-margin layout-padding)
     ivo-address(address="addressesCtrl.delivery" name="delivery")
     md-checkbox(ng-model="addressesCtrl.sameAsAbove" ng-click="addressesCtrl.fill('delivery', 'invoice')" class="md-primary" aria-label="as-above")
     ivo-address(address="addressesCtrl.invoice" name="invoice")
@@ -7,6 +15,15 @@ div(layout="column" layout-align="center center" layout-wrap layout-padding layo
       md-checkbox(ng-model="addressesCtrl.sameAsDelivery" ng-click="addressesCtrl.fill('delivery', 'firm')" class="md-primary" aria-label="as-delivery")
       md-checkbox(ng-model="addressesCtrl.sameAsInvoice" ng-click="addressesCtrl.fill('invoice', 'firm')" class="md-primary" aria-label="as-invoice")
     ivo-address(address="addressesCtrl.firm" name="firm")
-  div(layout="row" layout-align="end end")
+  md-chekbox(ng-if="addressesCtrl.action === 'create'" ng-model="addressesCtrl.saveIt" ng-init="addressesCtrl.saveIt=true" class="md-primary" aria-label="save")
+    p(translate="checkbox-save-configuration")
+  md-button(
+    ng-if="addressesCtrl.action === 'create' || addressesCtrl.action === 'edit'"
+    ng-click="addressesCtrl.doAction($event)"
+    class="md-primary"
+    aria-label="addressesCtrl.action"
+    translate="{{scopeCtrl.action + '-addresses'}}"
+  )
+  div(layout="row" layout-align="end end" layout-wrap layout-padding layout-margin)
     md-button(ng-click="addressesCtrl.back()" class="md-warn" aria-label="back" translate="button-back")
     md-button(ng-click="addressesCtrl.next()" class="md-primary" aria-label="finish" translate="button-finish")

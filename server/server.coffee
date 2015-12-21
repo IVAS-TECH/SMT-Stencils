@@ -2,7 +2,7 @@
 express = require "express"
 bodyParser = require "body-parser"
 mongoose = require "mongoose"
-session = require "./lib/session"
+session = require "./lib/session/session"
 routes = require "./routes/routes"
 port = process.env.PORT ? 3000
 appDir = join __dirname, '../client/app'
