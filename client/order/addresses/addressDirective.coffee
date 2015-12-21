@@ -6,4 +6,6 @@ module.exports = (template) ->
   scope:
     address: "="
     name: "@"
-  link: (scope) -> scope.address = {}
+  link: (scope, element, attrs) ->
+    scope.$watch "address.$invalid", (value) ->
+      scope.$emit "address-validity", scope.name, value
