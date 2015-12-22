@@ -1,4 +1,4 @@
-module.exports = (RESTHelperService, simpleDialogService, $state, $scope, template) ->
+module.exports = (RESTHelperService, simpleDialogService, template) ->
   textPosition = ->
     options = []
     directionX = ["left", "right", "center"]
@@ -17,7 +17,7 @@ module.exports = (RESTHelperService, simpleDialogService, $state, $scope, templa
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService", "$state","$scope", "template"]
+  controller.$inject = ["RESTHelperService", "simpleDialogService", "template"]
   controller.controller = "configCtrl"
   controller.text = "Text"
   controller.view = template "top"

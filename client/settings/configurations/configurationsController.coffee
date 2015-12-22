@@ -1,18 +1,14 @@
-module.exports = module.exports = ($controller, confirmService, RESTHelperService, simpleDialogService, $state, $scope, template) ->
+module.exports = module.exports = ($controller, confirmService, RESTHelperService, simpleDialogService, template) ->
   @inject = [
     "$controller"
     "confirmService"
     "RESTHelperService"
     "simpleDialogService"
-    "$state"
-    "$scope"
     "template"
   ]
   injectable =
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
-    "$state": $state
-    "$scope": $scope
     "template": template
   controller = $controller "configurationInterface", injectable
   controller.settings = true

@@ -5,7 +5,7 @@ div(layout="column" layout-align="center center" layout-wrap layout-padding layo
       md-input-container
         label(translate="choose-addresses")
         md-select(ng-model="addressesCtrl.address" ng-change="addressesCtrl.choose()")
-          md-option(ng-repeat="address in addressesCtrl.addresses" ng-value="$index") {{address.name}}
+          md-option(ng-repeat="address in addressesCtrl.listOfAddresses" ng-value="$index") {{address.name}}
       div(ng-if="addressesCtrl.settings" layout="row" layout-align="center center")
         md-button(ng-click="addressesCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="addressesCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")    

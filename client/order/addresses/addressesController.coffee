@@ -1,8 +1,6 @@
-{angular} = require "dependencies"
-
-module.exports = ($scope, progressService) ->
+module.exports = ($scope, progressService, simpleDialogService, RESTHelperService) ->
   controller = @
-  controller.$inject = ["$scope", "progressService"]
+  controller.$inject = ["$scope", "progressService", "simpleDialogService", "RESTHelperService"]
   controller.invalid = []
 
   controller.init = ->
@@ -12,8 +10,12 @@ module.exports = ($scope, progressService) ->
         when "delivery" then index = 0
         when "invoice" then index = 1
         when "firm" then index = 2
-      console.log wich, index, value
       controller.invalid[index] = value
+
+  controller.getAddresses = ->
+    RESTHelperService.addresses.find (res) ->
+      if res.success
+        controller.listOfAddresses = res.addresses
 
   controller.reset = ->
     controller.information =
@@ -28,10 +30,18 @@ module.exports = ($scope, progressService) ->
   controller.choose = ->
     controller.disabled = true
     controller.action = "preview"
-    controller.information = controller.addresses[controller.address]
+    controller.information = controller.listOfAddresses[controller.address]
+
+  controller.create = ->
 
   controller.doAction = (event) ->
-    console.log controller.invalid
+    if not (controller.invalid.every (element) -> element is true)
+      if controller.action is "create"
+        controller.create()
+      if controller.action is "edit"
+        controller.update event
+    else simpleDialogService event, "required-fields"
+
 
   properties = [
     "delivery"
@@ -49,8 +59,17 @@ module.exports = ($scope, progressService) ->
   controller.next = -> progress.move "finalizate"
 
   controller.fill = (dst, src) ->
-    for key, value of controller.information[dst]
-    angular.copy controller.information[dst], controller.information[src]
+    info = [
+      "country"
+      "city"
+      "postcode"
+      "address1"
+      "address2"
+      "firstname"
+      "lastname"
+    ]
+    for key in info
+      controller.information[src][key] =  controller.information[dst][key]
 
   controller.init()
 
