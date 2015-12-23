@@ -42,7 +42,6 @@ module.exports = ($scope, progressService, simpleDialogService, RESTHelperServic
         controller.update event
     else simpleDialogService event, "required-fields"
 
-
   properties = [
     "delivery"
     "invoice"
