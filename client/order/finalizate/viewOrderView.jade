@@ -1,0 +1,5 @@
+div(layout="column" layout-align="center center" layout-wrap)
+  ivo-order-preview(directiveCtrl="order", order="controller")
+  ivo-order-text(directiveCtrl="order")
+  ivo-files(files="order.files" remove="false")
+  ivo-include(include="'configurationInfoView'" template="true" order="controller")

@@ -1,8 +1,6 @@
 div(layout="column" layout-align="center center" layout-wrap)  
   div(layout="column" layout-align="center center" layout-wrap)
-    div(layout="row" layout-wrap layout-align="center center")
-      ivo-stencil-preview(ng-if="specificCtrl.top.view" text="specificCtrl.top.text" view="specificCtrl.top.view" controller="'orderCtrl'")
-      ivo-stencil-preview(ng-if="specificCtrl.bottom.view" text="specificCtrl.bottom.text" view="specificCtrl.bottom.view" controller="'orderCtrl'")
+    ivo-order-preview(directiveCtrl="specificCtrl", controller="'orderCtrl'")
     div(
       ng-model="specificCtrl.files"
       ngf-select
@@ -25,15 +23,9 @@ div(layout="column" layout-align="center center" layout-wrap)
         div(layout="column" layout-align="center center")
           div(translate="div-selected-files")
           div(translate="div-remove-files")
-        ivo-files(files="specificCtrl.files" remove="true" layout="column" class="dashed-border")
+        ivo-files(files="specificCtrl.files" remove="true")
     md-button(ng-click="specificCtrl.upload()" class="md-primary") View
-    div(layout="column" layout-fill)
-      md-input-container(ng-if="specificCtrl.top.view" flex="auto")
-        label(translate="label-top-text")
-        input(ng-model="specificCtrl.top.text")
-      md-input-container(ng-if="specificCtrl.bottom.view" flex="auto")
-        label(translate="label-bottom-text")
-        input(ng-model="specificCtrl.bottom.text")  
+    ivo-order-text(directiveCtrl="specificCtrl")  
     div(layout="row" layout-align="end end")
       md-button(ng-click="specificCtrl.back()" class="md-primary" aria-label="back" translate="button-back")
       md-button(ng-click="specificCtrl.next()" class="md-warn" aria-label="back" translate="button-next")

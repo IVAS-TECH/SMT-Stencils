@@ -1,0 +1,7 @@
+div(layout="column" layout-fill)
+  md-input-container(ng-if="directiveCtrl.top.view" flex="auto")
+    label(translate="label-top-text")
+    input(ng-model="directiveCtrl.top.text")
+  md-input-container(ng-if="directiveCtrl.bottom.view" flex="auto")
+    label(translate="label-bottom-text")
+    input(ng-model="directiveCtrl.bottom.text")  

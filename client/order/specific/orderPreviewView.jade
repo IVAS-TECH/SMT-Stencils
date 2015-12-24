@@ -1,0 +1,13 @@
+div(layout="row" layout-wrap layout-align="center center")
+  ivo-stencil-preview(
+    ng-if="directiveCtrl.top.view"
+    text="directiveCtrl.top.text"
+    view="directiveCtrl.top.view"
+    controller="controller"
+  )
+  ivo-stencil-preview(
+    ng-if="directiveCtrl.bottom.view"
+    text="directiveCtrl.bottom.text"
+    view="directiveCtrl.bottom.view"
+    controller="controller"
+  )

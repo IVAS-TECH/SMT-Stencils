@@ -23,13 +23,13 @@ div(layout="column" layout-align="center center" layout-wrap layout-padding layo
         input(ng-model="addressesCtrl.information.name" required)
       md-checkbox(ng-if="addressesCtrl.action === 'create'" ng-model="addressesCtrl.saveIt" ng-init="addressesCtrl.saveIt=true" class="md-primary" aria-label="save")
         p(translate="checkbox-save-information")
-    md-button(
-      ng-if="addressesCtrl.action === 'create' || addressesCtrl.action === 'edit'"
-      ng-click="addressesCtrl.doAction($event, addresses.$invalid)"
-      class="md-primary"
-      aria-label="addressesCtrl.action"
-      translate="{{addressesCtrl.action + '-addresses'}}"
-    )
+      md-button(
+        ng-if="addressesCtrl.action === 'create' || addressesCtrl.action === 'edit'"
+        ng-click="addressesCtrl.doAction($event, addresses.$invalid)"
+        class="md-primary"
+        aria-label="addressesCtrl.action"
+        translate="{{addressesCtrl.action + '-addresses'}}"
+      )
   div(ng-if="!addressesCtrl.settings" layout="row" layout-align="end end" layout-wrap layout-padding layout-margin)
     md-button(ng-click="addressesCtrl.back()" class="md-warn" aria-label="back" translate="button-back")
     md-button(ng-click="addressesCtrl.next()" class="md-primary" aria-label="finish" translate="button-finish")

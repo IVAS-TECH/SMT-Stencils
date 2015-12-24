@@ -5,6 +5,8 @@ bg = require "./language-bg"
 
 angular
   .module moduleName, []
+    .directive "ivoOrderText", require "./orderTextDirective"
+    .directive "ivoOrderPreview", require "./orderPreviewDirective"
     .directive "ivoFiles", require "./filesDirective"
     .directive "ivoFile", require "./fileDirective"
     .controller "filesController", require "./filesController"
