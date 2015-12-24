@@ -25,9 +25,7 @@ module.exports = (REST, uploadService) ->
     preview: (files, resolver) -> previewUpload(files).then resolve resolver
     order: (files, resolver) -> orderUpload(files).then resolve resolver
   addresses:
-    create: (addresses, resolver) ->
-      console.log addresses 
-      addressesREST.post(addresses).then resolve resolver
+    create: (addresses, resolver) -> addressesREST.post(addresses).then resolve resolver
     find: (resolver) -> addressesREST.get().then resolve resolver
     delete: (addresses, resolver) -> addressesREST.delete(addresses).then resolve resolver
     update: (addresses, resolver) -> addressesREST.patch(addresses).then resolve resolver

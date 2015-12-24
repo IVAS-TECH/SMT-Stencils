@@ -5,13 +5,9 @@ router = new Router()
 successful = (err, doc) -> doc? and not err?
 
 router.post "/addresses", (req, res) ->
-  console.log req
-  console.log "addresses", req.body.addresses
   addresses = req.body.addresses
   addresses.user = req.session.find req.ip
-  console.log "addrss", addresses
   addressesModel.create addresses, (err, doc) ->
-    console.log err, doc
     success = successful err, doc
     response = success: success
     if success then response._id = doc._id
