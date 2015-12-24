@@ -11,6 +11,9 @@ address =
 
 schema = new mongoose.Schema
   name: String
+  user:
+    type: mongoose.Schema.Types.ObjectId
+    ref: "User"
   delivery: address
   invoice: address
   firm: address

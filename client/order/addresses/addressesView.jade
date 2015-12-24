@@ -13,7 +13,7 @@ div(layout="column" layout-align="center center" layout-wrap layout-padding layo
     ivo-address(address="addressesCtrl.information.delivery" name="delivery")
     md-checkbox(ng-model="addressesCtrl.sameAsAbove" ng-click="addressesCtrl.fill('delivery', 'invoice')" class="md-primary" aria-label="as-above")
     ivo-address(address="addressesCtrl.information.invoice" name="invoice")
-    div(layout="row" layout-align="start center")
+    div(layout="row" layout-align="center center")
       md-checkbox(ng-model="addressesCtrl.sameAsDelivery" ng-click="addressesCtrl.fill('delivery', 'firm')" class="md-primary" aria-label="as-delivery")
       md-checkbox(ng-model="addressesCtrl.sameAsInvoice" ng-click="addressesCtrl.fill('invoice', 'firm')" class="md-primary" aria-label="as-invoice")
     ivo-address(address="addressesCtrl.information.firm" name="firm")

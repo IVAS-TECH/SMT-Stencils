@@ -15,9 +15,13 @@ class HTTP
         response = ""
         res.on "data", (chunk) -> response += chunk
         res.on "end", -> resolve HTTP.form res, response
-        res.on "error", (err) -> reject err
+        res.on "error", (err) ->
+          console.log err
+          reject err
       if typeof send isnt "string"
+        console.log "ASASAS", JSON.stringify send
         data = JSON.stringify send
+        console.log data
         req.setHeader "Content-Type", json
         req.setHeader "Content-Length", data.length
         req.write data

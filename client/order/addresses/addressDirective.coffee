@@ -9,4 +9,4 @@ module.exports = (template) ->
   link: (scope, element, attrs) ->
     stop = scope.$watch "address.$invalid", (value) ->
       scope.$emit "address-validity", scope.name, value
-    scope.$on "$destroy", stop()
+    scope.$on "$destroy", stop

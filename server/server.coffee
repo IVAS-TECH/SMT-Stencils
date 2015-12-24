@@ -12,6 +12,9 @@ mongoose.connect "0.0.0.0:27017/db"
 app = express()
 app.use bodyParser.json()
 app.use session()
+app.use (req, res, next) ->
+  console.log req.url, req.method
+  next()
 app.use "/client", routes
 app.get "/final.js", (req, res) -> res.sendFile join appDir , "final.js"
 app.use (req, res) -> if req.url is "/" then res.sendFile index else res.sendFile error

@@ -15,6 +15,7 @@ module.exports = ($scope, progressService, simpleDialogService, RESTHelperServic
   controller.getAddresses = ->
     RESTHelperService.addresses.find (res) ->
       if res.success
+        console.log res.addresses
         controller.listOfAddresses = res.addresses
 
   controller.reset = ->
@@ -32,9 +33,15 @@ module.exports = ($scope, progressService, simpleDialogService, RESTHelperServic
     controller.action = "preview"
     controller.information = controller.listOfAddresses[controller.address]
 
-  controller.create = ->
+  controller.save = ->
+    console.log "save", controller.information
+    RESTHelperService.addresses.create addresses: controller.information, (res) -> console.log res
+      #if res.success then controller.information._id = res._id
+
+  controller.create = -> controller.save()
 
   controller.doAction = (event) ->
+    console.log controller.invalid
     if not (controller.invalid.every (element) -> element is true)
       if controller.action is "create"
         controller.create()
@@ -71,5 +78,6 @@ module.exports = ($scope, progressService, simpleDialogService, RESTHelperServic
       controller.information[src][key] =  controller.information[dst][key]
 
   controller.init()
+  controller.getAddresses()
 
   controller
