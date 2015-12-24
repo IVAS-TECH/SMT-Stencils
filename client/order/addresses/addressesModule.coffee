@@ -5,6 +5,7 @@ bg = require "./language-bg"
 
 angular
   .module moduleName, []
+    .controller "addressesInterface", require "./addressesInterface"
     .controller "addressesController", require "./addressesController"
     .controller "addressController", require "./addressController"
     .directive "ivoAddress", require "./addressDirective"

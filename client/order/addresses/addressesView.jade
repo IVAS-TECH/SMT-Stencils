@@ -9,23 +9,24 @@ div(layout="column" layout-align="center center" layout-wrap layout-padding layo
       div(ng-if="addressesCtrl.settings" layout="row" layout-align="center center")
         md-button(ng-click="addressesCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="addressesCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")    
-  div(ng-if="addressesCtrl.show" layout="column" layout-fill layout-margin layout-padding)
-    ivo-address(address="addressesCtrl.information.delivery" name="delivery")
+  div(ng-if="addressesCtrl.information" layout="column" layout-fill layout-margin layout-padding)
+    ivo-address(address="addressesCtrl.information.delivery" value="addressesCtrl.information.delivery" name="delivery")
     md-checkbox(ng-model="addressesCtrl.sameAsAbove" ng-click="addressesCtrl.fill('delivery', 'invoice')" class="md-primary" aria-label="as-above")
-    ivo-address(address="addressesCtrl.information.invoice" name="invoice")
+    ivo-address(address="addressesCtrl.information.invoice" value="addressesCtrl.information.invoice" name="invoice")
     div(layout="row" layout-align="center center")
       md-checkbox(ng-model="addressesCtrl.sameAsDelivery" ng-click="addressesCtrl.fill('delivery', 'firm')" class="md-primary" aria-label="as-delivery")
       md-checkbox(ng-model="addressesCtrl.sameAsInvoice" ng-click="addressesCtrl.fill('invoice', 'firm')" class="md-primary" aria-label="as-invoice")
-    ivo-address(address="addressesCtrl.information.firm" name="firm")
+    ivo-address(address="addressesCtrl.information.firm" value="addressesCtrl.information.firm" name="firm")
     div(layout="column" layout-align="center center")
+      form(name="addresses" novalidate)
       md-input-container
         label(translate="information-name")
-        input(ng-model="addressesCtrl.information.name")
+        input(ng-model="addressesCtrl.information.name" required)
       md-checkbox(ng-if="addressesCtrl.action === 'create'" ng-model="addressesCtrl.saveIt" ng-init="addressesCtrl.saveIt=true" class="md-primary" aria-label="save")
         p(translate="checkbox-save-information")
   md-button(
     ng-if="addressesCtrl.action === 'create' || addressesCtrl.action === 'edit'"
-    ng-click="addressesCtrl.doAction($event)"
+    ng-click="addressesCtrl.doAction($event, addresses.$invalid)"
     class="md-primary"
     aria-label="addressesCtrl.action"
     translate="{{addressesCtrl.action + '-addresses'}}"
