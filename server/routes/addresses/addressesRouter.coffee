@@ -31,7 +31,7 @@ router.patch "/addresses", (req, res) ->
   addressesModel.findByIdAndUpdate id, $set: addresses, {new: true}, (err, doc) ->
     res.send success: successful err, doc
 
-router.delete "/adresses/:id", (req, res) ->
+router.delete "/addresses/:id", (req, res) ->
   addressesModel.remove _id: req.params.id, (err) ->
     res.send success: err is null
 

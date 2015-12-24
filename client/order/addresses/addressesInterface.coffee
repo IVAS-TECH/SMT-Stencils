@@ -33,22 +33,23 @@ module.exports = ($scope, simpleDialogService, RESTHelperService) ->
     controller.action = "preview"
     controller.information = angular.copy controller.listOfAddresses[controller.address]
 
+  controller.infoOnly = ->
+    result = {}
+    validInfo = (object) ->
+      valid = {}
+      for key, value of object
+        if not key.match /\$/
+          valid[key] = value
+      valid
+    for k, v of controller.information
+      if typeof v is "object"
+        result[k] = validInfo v
+      else
+        result[k] = v
+    result
+
   controller.save = ->
-    infoOnly = ->
-      result = {}
-      validInfo = (object) ->
-        valid = {}
-        for key, value of object
-          if not key.match /\$/
-            valid[key] = value
-        valid
-      for k, v of controller.information
-        if typeof v is "object"
-          result[k] = validInfo v
-        else
-          result[k] = v
-      result
-    RESTHelperService.addresses.create addresses: infoOnly(), (res) ->
+    RESTHelperService.addresses.create addresses: controller.infoOnly(), (res) ->
       if res.success then controller.information._id = res._id
 
   controller.create = ->
