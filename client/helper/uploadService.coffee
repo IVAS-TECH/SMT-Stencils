@@ -5,5 +5,4 @@ module.exports = (Upload, REST) ->
     (files) ->
       Upload.upload
         url: "#{REST.base}/file/#{url}"
-        data:
-          files: files
+        data: files: files
