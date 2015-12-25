@@ -15,5 +15,4 @@ angular
       @$inject = ["translateProvider"]
       translateProvider.add en, bg
 
-
 module.exports = moduleName
