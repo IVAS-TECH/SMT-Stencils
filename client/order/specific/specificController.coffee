@@ -11,6 +11,7 @@ module.exports = (RESTHelperService, $scope, progressService) ->
     RESTHelperService.upload.preview controller.files, (res) ->
       controller.top.view = res.top
       controller.bottom.view = res.bottom
+      $scope.$digest()
 
   controller.back = -> progress.move "configuration"
 
