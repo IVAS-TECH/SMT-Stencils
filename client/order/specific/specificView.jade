@@ -3,6 +3,7 @@ div(layout="column" layout-align="center center" layout-wrap)
     ivo-order-preview(order="specificCtrl", controller="'orderCtrl'")
     div(
       ng-model="specificCtrl.files"
+      ng-change="specificCtrl.upload()"
       ngf-select
       ngf-drop
       ngf-multiple="true"
@@ -23,8 +24,7 @@ div(layout="column" layout-align="center center" layout-wrap)
         div(layout="column" layout-align="center center")
           div(translate="div-selected-files")
           div(translate="div-remove-files")
-        ivo-files(files="specificCtrl.files" remove="true")
-    md-button(ng-click="specificCtrl.upload()" class="md-primary") View
+        ivo-files(files="specificCtrl.files" remove="true" class="no-border")
     ivo-order-text(order="specificCtrl")  
     div(layout="row" layout-align="end end")
       md-button(ng-click="specificCtrl.back()" class="md-primary" aria-label="back" translate="button-back")
