@@ -7,6 +7,7 @@ angular
     .factory "scopeControllerService", require "./scopeControllerService"
     .controller "configurationInterface", require "./configurationInterface"
     .controller "configurationController", require "./configurationController"
+    .directive "ivoConfigInfo", require "./configurationInfoDirective"
     .directive "ivoInclude", require "./includeDirective"
     .directive "ivoStencilPreview", require "./stencilPreviewDirective"
 
