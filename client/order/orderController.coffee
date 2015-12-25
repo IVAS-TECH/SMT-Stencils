@@ -11,7 +11,6 @@ module.exports = ($scope, RESTHelperService, infoOnlyService) ->
         textBottom: controller.bottom.text
         configuration: controller.configuration
         information: infoOnlyService controller.information
-      console.log order
       RESTHelperService.order.create order: order, (res) ->
         console.log res
 

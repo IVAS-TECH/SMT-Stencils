@@ -14,6 +14,7 @@ deps = [
   require "./translate/translateModule"
   require "./home/homeModule"
   require "./order/orderModule"
+  require "./orders/ordersModule"
   require "./settings/settingsModule"
 ]
 

@@ -32,3 +32,4 @@ module.exports = (REST, uploadService) ->
     update: (addresses, resolver) -> addressesREST.patch(addresses).then resolve resolver
   order:
     create: (order, resolver) -> orderREST.post(order).then resolve resolver
+    find: (resolver) -> orderREST.get().then resolve resolver

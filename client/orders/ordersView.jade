@@ -1,0 +1,8 @@
+form(name="orders" layout="column" layout-align="center center" novalidate)
+  md-input-container
+    label(translate="label-filter")
+    input(ng-model="ordersCtrl.filter")
+  div(ng-repeat="order in ordersCtrl.listOfOrders" layout="row")
+    md-button(ng-click="ordersCtrl.choose(order)" aria-label="order._id" class="md-primary") {{order._id}}
+    md-button(ng-disabled="true" class="md-warn" aria-label="{{'status-' + order.status}}" translate="{{'status-' + order.status}}")
+  ivo-view-order(ng-if="ordersCtrl.order" order="ordersCtrl.order" controller="'ordersCtrl.order'")

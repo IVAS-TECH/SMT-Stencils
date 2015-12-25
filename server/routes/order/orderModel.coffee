@@ -1,6 +1,9 @@
 mongoose = require "mongoose"
 
 schema = new mongoose.Schema
+  status:
+    type: String
+    default: "New"
   files: [String]
   topText: String
   bottomText: String
