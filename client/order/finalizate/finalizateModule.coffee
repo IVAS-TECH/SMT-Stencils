@@ -3,6 +3,6 @@ moduleName = "finalizateModule"
 
 angular
   .module moduleName, []
-    .directive "ivoViewOrder", require "./viewOrderDirective"
+    .directive "ivoViewOrder", require "./viewOrder/viewOrderDirective"
 
 module.exports = moduleName

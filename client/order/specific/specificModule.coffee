@@ -5,11 +5,11 @@ bg = require "./language-bg"
 
 angular
   .module moduleName, []
-    .directive "ivoOrderText", require "./orderTextDirective"
-    .directive "ivoOrderPreview", require "./orderPreviewDirective"
-    .directive "ivoFiles", require "./filesDirective"
-    .directive "ivoFile", require "./fileDirective"
-    .controller "filesController", require "./filesController"
+    .directive "ivoOrderText", require "./orderText/orderTextDirective"
+    .directive "ivoOrderPreview", require "./orderPreview/orderPreviewDirective"
+    .directive "ivoFiles", require "./files/filesDirective"
+    .directive "ivoFile", require "./file/fileDirective"
+    .controller "filesController", require "./files/filesController"
     .controller "specificController", require "./specificController"
     .config (translateProvider) ->
       @$inject = ["translateProvider"]
