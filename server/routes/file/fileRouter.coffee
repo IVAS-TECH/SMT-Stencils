@@ -1,7 +1,7 @@
 {Router} = require "express"
 {join} = require "path"
 fs = require "fs"
-config = require "./util/multerConfig"
+config = require "./multerConfig"
 GerberToSVG = require "./../../lib/GerberToSVG"
 router = new Router()
 multerConfig = config join __dirname, "../../../files"
