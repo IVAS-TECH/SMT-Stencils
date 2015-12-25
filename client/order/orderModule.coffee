@@ -5,6 +5,7 @@ dependencies = [
   require "./addresses/addressesModule"
   require "./specific/specificModule"
   require "./configuration/configurationModule"
+  require "./finalizate/finalizateModule"
 ]
 
 angular
