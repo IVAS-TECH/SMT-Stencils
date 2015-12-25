@@ -5,9 +5,7 @@ module.exports = ($controller, progressService, $scope, simpleDialogService, RES
     "simpleDialogService": simpleDialogService
     "$scope": $scope
   properties = [
-    "delivery"
-    "invoice"
-    "firm"
+    "information"
     "sameAsAbove"
     "sameAsDelivery"
     "sameAsInvoice"

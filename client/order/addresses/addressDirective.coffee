@@ -4,6 +4,7 @@ module.exports = (template) ->
   controller: "addressController"
   controllerAs: "addressCtrl"
   scope:
+    disabled: "="
     address: "="
     value: "="
     name: "@"

@@ -3,26 +3,26 @@ form(name="address" layout="column" layout-wrap layout-margin layout-padding nov
   div(layout="row" layout-fill flex="auto")
     md-input-container
       label(translate="label-country")
-      md-select(ng-model="address.country" required)
+      md-select(ng-model="address.country" ng-disabled="disabled" required)
         md-option(ng-repeat="country in addressCtrl.countries") {{country}}
     md-input-container
       label(translate="label-city")
-      md-select(ng-model="address.city" required)
+      md-select(ng-model="address.city" ng-disabled="disabled" required)
         md-option(ng-repeat="city in addressCtrl.cities") {{city}}
     md-input-container
       label(translate="label-post-code")
-      input(ng-model="address.postcode" required)
+      input(ng-model="address.postcode" ng-disabled="disabled" required)
   div(layout="column" layout-gt-md="row" layout-fill flex="auto")
     md-input-container(layout-fill flex="auto")
       label(translate="label-address1")
-      input(ng-model="address.address1" required)
+      input(ng-model="address.address1" ng-disabled="disabled" required)
     md-input-container(layout-fill flex="auto")
       label(translate="label-address2")
-      input(ng-model="address.address2" required)
+      input(ng-model="address.address2" ng-disabled="disabled" required)
   div(layout="row" layout-fill flex="auto")
     md-input-container(layout-fill flex="auto")
       label(translate="label-firstname")
-      input(ng-model="address.firstname" required)
+      input(ng-model="address.firstname" ng-disabled="disabled" required)
     md-input-container(layout-fill flex="auto")
       label(translate="label-lastname")
-      input(ng-model="address.lastname" required)
+      input(ng-model="address.lastname" ng-disabled="disabled" required)
