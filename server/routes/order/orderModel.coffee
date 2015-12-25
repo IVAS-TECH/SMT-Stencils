@@ -1,9 +1,14 @@
 mongoose = require "mongoose"
 
 schema = new mongoose.Schema
+  style:
+    frame: Boolean
+    outline: Boolean
+    layout: Boolean
+    mode: String
   status:
     type: String
-    default: "New"
+    default: "new"
   files: [String]
   topText: String
   bottomText: String

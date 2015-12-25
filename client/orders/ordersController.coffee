@@ -9,11 +9,13 @@ module.exports = ($scope, RESTHelperService) ->
         $scope.$digest()
 
   controller.choose = (order) ->
-    console.log order
-    controller.order = order
-    controller.order.bottom = text: order.bottomText
-    controller.order.top = text: order.topText
-    controller.order.disabled = true
+    RESTHelperService.order.view files: order.files, (res) ->
+      set = (wich) -> text: order[wich + "Text"], view: res[wich]
+      $scope.order = order
+      $scope.order.top = set "top"
+      $scope.order.bottom = set "bottom"
+      $scope.order.disabled = true
+      $scope.$digest()
 
   controller.init()
 

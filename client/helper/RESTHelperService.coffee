@@ -33,3 +33,4 @@ module.exports = (REST, uploadService) ->
   order:
     create: (order, resolver) -> orderREST.post(order).then resolve resolver
     find: (resolver) -> orderREST.get().then resolve resolver
+    view: (order, resolver) -> orderREST.put(order).then resolve resolver

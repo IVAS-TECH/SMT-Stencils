@@ -11,4 +11,12 @@ module.exports = ->
     if controller.remove
       event.stopPropagation()
       controller.files.splice index, 1
+
+  controller.fileName = (index) ->
+    file = controller.files[index]
+    if typeof file is "object"
+      return file.name
+    else
+      return (file.split "___")[2]
+
   controller

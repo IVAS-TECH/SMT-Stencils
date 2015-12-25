@@ -1,4 +1,4 @@
 div(layout="column" class="dashed-border")
   div(layout-gt-xs="column" layout-xs="row" layout-align="center center" ng-repeat="i in filesCtrl.columns()")
     div(layout-gt-xs="row" layout-xs="column" layout-margin)
-      ivo-file(ng-repeat="j in filesCtrl.rows" name="filesCtrl.files[i * j - 1].name" ng-click="filesCtrl.removeFile($event, i * j - 1)")
+      ivo-file(ng-repeat="j in filesCtrl.rows" name="filesCtrl.fileName(i * j - 1)" ng-click="filesCtrl.removeFile($event, i * j - 1)")

@@ -6,9 +6,10 @@ module.exports = ($scope, RESTHelperService, infoOnlyService) ->
   controller.order = (event) ->
     RESTHelperService.upload.order controller.files, (res) ->
       order =
+        style: controller.style
         files: res.files
-        textTop: controller.top.text
-        textBottom: controller.bottom.text
+        topText: controller.top.text
+        bottomText: controller.bottom.text
         configuration: controller.configuration
         information: infoOnlyService controller.information
       RESTHelperService.order.create order: order, (res) ->

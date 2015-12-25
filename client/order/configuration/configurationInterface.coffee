@@ -89,7 +89,7 @@ module.exports = (RESTHelperService, simpleDialogService, template) ->
     if not controller.configuration.stencil?
       controller.style.frame = false
       return
-    controller.style.frame = controller.configuration.stencil.transitioning.match /frame/
+    controller.style.frame = (controller.configuration.stencil.transitioning.match /frame/)?
 
   controller.changeStencilPosition = ->
     if not controller.configuration.position?

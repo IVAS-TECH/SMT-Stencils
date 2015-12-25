@@ -1,3 +1,3 @@
 module.exports =
   "label-filter": "filter"
-  "status-New": "Status: Nw"
+  "status-new": "Status: New"

@@ -5,7 +5,7 @@ config = require "./multerConfig"
 GerberToSVG = require "./../../../lib/GerberToSVG"
 
 router = new Router()
-multerConfig = config join __dirname, "../../../files"
+multerConfig = config join __dirname, "../../../../files"
 orderMidleware = multerConfig.order().any()
 previewMidleware = multerConfig.preview().any()
 

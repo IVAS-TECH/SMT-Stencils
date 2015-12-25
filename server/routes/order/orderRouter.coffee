@@ -1,8 +1,12 @@
 {Router} = require "express"
+{join} = require "path"
 file = require "./file/fileRouter"
 config = require "./config/configRouter"
 addresses = require "./addresses/addressesRouter"
 orderModel = require "./orderModel"
+GerberToSVG = require "./../../lib/GerberToSVG"
+
+dir = join __dirname, "../../../files"
 router = new Router()
 
 successful = (err, doc) -> doc? and not err?
@@ -22,5 +26,13 @@ router.get "/order", (req, res) ->
     response = success: success
     if success then response.orders = docs
     res.send response
+
+router.put "/order", (req, res) ->
+  filePath = (f) -> join dir, f
+
+  files = (filePath file for file in req.body.files)
+
+  GerberToSVG(files).then (svg) ->
+    res.send svg
 
 module.exports = router

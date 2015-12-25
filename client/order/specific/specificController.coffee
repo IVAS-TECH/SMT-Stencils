@@ -9,9 +9,8 @@ module.exports = (RESTHelperService, $scope, progressService) ->
 
   controller.upload = ->
     RESTHelperService.upload.preview controller.files, (res) ->
-      test = (model) -> if model? then model else undefined
-      controller.top.view = test res.top
-      controller.bottom.view = test res.bottom
+      controller.top.view = res.top
+      controller.bottom.view = res.bottom
 
   controller.back = -> progress.move "configuration"
 

@@ -1,9 +1,9 @@
 node_modules/*
+data/*
+files/*
 client/dependencies/*
 client/resources/*
 client/styles/*.css
-server/data/*
-server/files/*
 *.js
 *.css
 *.html

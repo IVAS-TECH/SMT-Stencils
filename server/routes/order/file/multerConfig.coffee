@@ -19,5 +19,6 @@ module.exports = (dir) ->
   order: ->
     multer
       storage: multer.diskStorage destination: dir, filename: (req, file, cb) ->
-        cb null, "#{req.session.find req.ip}_#{randomString()}_#{fileName file.originalname}"
+        delimiter = "___"
+        cb null, (req.session.find req.ip) + delimiter + randomString() + delimiter + fileName file.originalname
       limits: limits
