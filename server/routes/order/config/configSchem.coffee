@@ -1,6 +1,6 @@
 mongoose = require "mongoose"
 
-schema = new mongoose.Schema
+module.exports =
   name: String
   user:
     type: mongoose.Schema.Types.ObjectId
@@ -28,5 +28,3 @@ schema = new mongoose.Schema
       default: "default"
     type:
       type: String
-
-module.exports = mongoose.model "Config", schema

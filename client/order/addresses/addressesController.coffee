@@ -1,6 +1,7 @@
-module.exports = ($controller, progressService, $scope, simpleDialogService, RESTHelperService) ->
-  @$inject = ["$controller", "progressService", "$scope", "simpleDialogService", "RESTHelperService"]
+module.exports = ($controller, progressService, $scope, simpleDialogService, RESTHelperService, infoOnlyService) ->
+  @$inject = ["$controller", "progressService", "$scope", "simpleDialogService", "RESTHelperService", "infoOnlyService"]
   injectable =
+    "infoOnlyService": infoOnlyService
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
     "$scope": $scope

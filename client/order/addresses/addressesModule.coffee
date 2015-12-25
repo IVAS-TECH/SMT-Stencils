@@ -5,6 +5,7 @@ bg = require "./language-bg"
 
 angular
   .module moduleName, [require "./address/addressModule"]
+    .factory "infoOnlyService", require "./infoOnlyService"
     .controller "addressesInterface", require "./addressesInterface"
     .controller "addressesController", require "./addressesController"
     .config (translateProvider) ->

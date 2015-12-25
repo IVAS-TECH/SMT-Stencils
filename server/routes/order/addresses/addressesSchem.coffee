@@ -9,7 +9,7 @@ address =
   firstname: String
   lastname: String
 
-schema = new mongoose.Schema
+module.exports =
   name: String
   user:
     type: mongoose.Schema.Types.ObjectId
@@ -17,5 +17,3 @@ schema = new mongoose.Schema
   delivery: address
   invoice: address
   firm: address
-
-module.exports = mongoose.model "Address", schema

@@ -1,11 +1,9 @@
 node_modules/*
-bower_components/*
 client/dependencies/*
-server/data/*
 client/resources/*
-client/files/*
 client/styles/*.css
-old_client/*
+server/data/*
+server/files/*
 *.js
 *.css
 *.html

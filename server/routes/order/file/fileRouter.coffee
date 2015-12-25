@@ -2,15 +2,16 @@
 {join} = require "path"
 fs = require "fs"
 config = require "./multerConfig"
-GerberToSVG = require "./../../lib/GerberToSVG"
+GerberToSVG = require "./../../../lib/GerberToSVG"
+
 router = new Router()
 multerConfig = config join __dirname, "../../../files"
-filesMidleware = multerConfig.order().any()
+orderMidleware = multerConfig.order().any()
 previewMidleware = multerConfig.preview().any()
 
-router.post "/files", filesMidleware, (req, res) ->
-  print = (f) -> console.log f
-  print file for file in req.files
+router.post "/order", orderMidleware, (req, res) ->
+  fileName = (f) -> f.filename
+  res.send files: (fileName file for file in req.files)
 
 router.post "/preview", previewMidleware, (req, res) ->
   files = (file.path for file in req.files)

@@ -5,9 +5,6 @@ json = "application/json"
 class HTTP
   @form: (res, data) -> headers: res.headers, statusCode: res.statusCode, data: JSON.parse data
   constructor: (base = "") -> @base = "/#{base}"
-  take: (extend = "") ->
-    @base += "/#{extend}"
-    @
   make: (method, send) ->
     path = if method in ["GET", "DELETE"] and send isnt "" then "#{@base}/#{send}" else @base
     promise = new Promise (resolve, reject) ->

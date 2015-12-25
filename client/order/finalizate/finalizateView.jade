@@ -1,1 +1,3 @@
-ivo-view-order(order="orderCtrl" controller="'orderCtrl'")
+div(layout="column" layout-align="center center" layout-wrap)
+  ivo-view-order(order="orderCtrl" controller="'orderCtrl'")
+  md-button(ng-click="orderCtrl.order($event)" class="md-primary" aria-label="finish" translate="button-finish")

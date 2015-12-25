@@ -1,5 +1,5 @@
-module.exports = ($controller, confirmService, $scope, simpleDialogService, RESTHelperService) ->
-  @$inject = ["$controller", "confirmService", "$scope", "simpleDialogService", "RESTHelperService"]
+module.exports = ($controller, confirmService, $scope, simpleDialogService, RESTHelperService, infoOnlyService) ->
+  @$inject = ["$controller", "confirmService", "$scope", "simpleDialogService", "RESTHelperService", "infoOnlyService"]
   injectable =
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
@@ -25,7 +25,7 @@ module.exports = ($controller, confirmService, $scope, simpleDialogService, REST
   controller.update = (event, invalid) ->
     if not invalid
       confirmService event, success: ->
-        RESTHelperService.addresses.update addresses: controller.infoOnly(), (res) ->
+        RESTHelperService.addresses.update addresses: (infoOnlyService controller.information), (res) ->
           console.log res
 
   controller.init()

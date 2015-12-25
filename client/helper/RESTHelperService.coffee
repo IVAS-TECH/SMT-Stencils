@@ -7,6 +7,7 @@ module.exports = (REST, uploadService) ->
   previewUpload = uploadService "preview"
   orderUpload = uploadService "order"
   addressesREST = REST.make "addresses"
+  orderREST = REST.make "order"
 
   resolve = (resolver) -> (res) -> resolver res.data
 
@@ -29,3 +30,5 @@ module.exports = (REST, uploadService) ->
     find: (resolver) -> addressesREST.get().then resolve resolver
     delete: (addresses, resolver) -> addressesREST.delete(addresses).then resolve resolver
     update: (addresses, resolver) -> addressesREST.patch(addresses).then resolve resolver
+  order:
+    create: (order, resolver) -> orderREST.post(order).then resolve resolver
