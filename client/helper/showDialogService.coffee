@@ -1,26 +1,31 @@
 module.exports = ($mdDialog, template) ->
   @$inject = ["$mdDialog", "template"]
-  openDialog = (event, action, locals = {}) ->
+
+  showDialog: (event, action, handle, locals = {}) ->
+
     locals.hide = $mdDialog.hide
-    event = if event.target? then event else undefined
-    $mdDialog.show
-      template: template "#{action}View"
-      targetEvent: event
-      controller: "#{action}Controller"
-      controllerAs: "#{action}Ctrl"
-      bindToController: true
-      locals: locals
-      openFrom: "body"
-      closeFrom: "body"
-      escapeToClose: false
-  showDialog: (event, action, handle, locals) ->
-    openDialog event, action, locals
+
+    $mdDialog
+      .show
+        template: template "#{action}View"
+        targetEvent: if event.target? then event else undefined
+        controller: "#{action}Controller"
+        controllerAs: "#{action}Ctrl"
+        bindToController: true
+        locals: locals
+        openFrom: "body"
+        closeFrom: "body"
+        escapeToClose: false
       .then (val) ->
+
         if typeof val is "object"
           for key, value of val
             if handle[key]? then handle[key] value
-        else
-          if handle[val]? then handle[val]()
+
+        else if handle[val]? then handle[val]()
+
   extendHandle: (extend, handle) ->
+
     if extend then handle[key] = value for key, value of extend
+
     handle
