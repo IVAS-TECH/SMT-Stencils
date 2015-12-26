@@ -1,13 +1,13 @@
 module.exports = (REST, uploadService) ->
   @$inject = ["REST", "uploadService"]
 
-  loginREST = REST.make "login"
-  userREST = REST.make "user"
-  configREST = REST.make "config"
+  loginREST = REST "login"
+  userREST = REST "user"
+  configREST = REST "config"
   previewUpload = uploadService "preview"
   orderUpload = uploadService "order"
-  addressesREST = REST.make "addresses"
-  orderREST = REST.make "order"
+  addressesREST = REST "addresses"
+  orderREST = REST "order"
 
   resolve = (resolver) -> (res) -> resolver res.data
 
