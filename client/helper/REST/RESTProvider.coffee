@@ -18,6 +18,7 @@ module.exports = ->
 
         new Promise (resolve, reject) ->
           req = http.request path: path, method: method, responseType: json, (res) ->
+
             response = ""
 
             res.on "data", (chunk) -> response += chunk

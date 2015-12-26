@@ -14,7 +14,7 @@ div(show-xs hide layout="column" layout-align="start end")
       ng-click="$mdOpenMenu($event)"
       class="md-warn"
       aria-label="{{stateSwitcherCtrl.menu}}"
-      translate!="{{'button-menu-' + stateSwitcherCtrl.menu}}"
+      translate="{{'button-menu-' + stateSwitcherCtrl.menu}}"
     )
     md-menu-content
       md-menu-item(ng-repeat="state in stateSwitcherCtrl.states")
@@ -23,5 +23,5 @@ div(show-xs hide layout="column" layout-align="start end")
           ng-click="stateSwitcherCtrl.switchState(state)"
           class="md-primary"
           aria-label="state"
-          translate!="{{'button-' + state}}"
+          translate="{{'button-' + state}}"
         )
