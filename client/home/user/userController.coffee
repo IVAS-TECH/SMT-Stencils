@@ -5,8 +5,7 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   authenticateUser = ->
     controller.user = authenticationService.getUser()
     controller.authenticated = authenticationService.isAuthenticated()
-    if authenticationService.isAsync()
-      $scope.$digest()
+    if authenticationService.isAsync() then $scope.$digest()
 
   init = ->
 

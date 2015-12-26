@@ -1,32 +1,25 @@
-Promise = require "promise"
 {angular} = require "dependencies"
+Promise = require "promise"
 
 module.exports = (RESTHelperService, $rootScope) ->
   @$inject = ["RESTHelperService", "$rootScope"]
-  _authenticated = _user = _session = _async = null
 
-  init = ->
+  _authenticated = false
+  _user = null
+  _session = true
+  _async = false
 
-    reset = ->
-      _authenticated = false
-      _user = null
-      _session = true
-      _async = false
+  $rootScope.$on "authentication", (event, authentication) ->
+    _authenticated = true
+    _user = authentication.user
+    _session = authentication.session ? true
+    _async = authentication.async_ ? false
 
-    auth = (authentication) ->
-      _authenticated = true
-      _user = authentication.user
-      _session = authentication.session ? true
-      _async = authentication.async_ ? false
-
-    reset()
-    $rootScope.$on "authentication", (event, authentication) ->
-      auth authentication
-    $rootScope.$on "unauthentication", (event) ->
-      reset()
-      _async = true
-
-  init()
+  $rootScope.$on "unauthentication", (event) ->
+    _authenticated = false
+    _user = null
+    _session = true
+    _async = true
 
   authenticate: (authentication) ->
     broadcast = (auth) ->
