@@ -20,9 +20,10 @@ deps = [
 
 angular
   .module moduleName, deps
-    .config (RESTProvider) ->
-      @$inject = ["RESTProvider"]
+    .config (RESTProvider, uploadServiceProvider) ->
+      @$inject = ["RESTProvider", "uploadServiceProvider"]
       RESTProvider.setBase "client"
+      uploadServiceProvider.setBase "file"
 
 angular
   .element document

@@ -1,27 +1,31 @@
-Promise = require "promise"
+module.exports = ->
 
-module.exports = ($state) ->
-  @$inject = ["$state"]
+  fromState = ""
 
-  (scope, parent, current, awaiting = []) ->
-    currentScope = parentScope = properties = null
+  setState: (state) -> fromState = state
 
-    restored = scope.$watch current, (controller) ->
-      currentScope = scope[current]
-      parentScope = scope.$parent[parent]
+  $get: ($state) ->
+    @$inject = ["$state"]
 
-      properties = (Object.keys currentScope).filter (property) ->
-        property isnt "$inject" and typeof currentScope[property] isnt "function"
-      properties.push deferred for deferred in awaiting
+    (scope, parent, current, awaiting = []) ->
+      currentScope = parentScope = properties = null
 
-      if parentScope[properties[0]]?
+      restored = scope.$watch current, (controller) ->
+        currentScope = scope[current]
+        parentScope = scope.$parent[parent]
+
+        properties = (Object.keys currentScope).filter (property) ->
+          property isnt "$inject" and typeof currentScope[property] isnt "function"
+        properties.push deferred for deferred in awaiting
+
+        if parentScope[properties[0]]?
+          for property in properties
+            currentScope[property] = parentScope[property]
+          scope.$emit "update-view"
+
+        restored()
+
+      (state) ->
         for property in properties
-          currentScope[property] = parentScope[property]
-        scope.$emit "update-view"
-
-      restored()
-
-    (state) ->
-      for property in properties
-        parentScope[property] = currentScope[property]
-      $state.go "home.order.#{state}"
+          parentScope[property] = currentScope[property]
+        $state.go fromState + "\." + state

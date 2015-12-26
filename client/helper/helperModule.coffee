@@ -5,8 +5,8 @@ angular
   .module moduleName, [require "./REST/RESTModule"]
     .provider "template", require "./templateProvider"
     .provider "translate", require "./translateProvider"
+    .provider "uploadService", require "./uploadService"
     .factory "showDialogService", require "./showDialogService"
-    .factory "uploadService", require "./uploadService"
     .directive "ivoStateSwitcher", require "./stateSwitcher/stateSwitcherDirective"
 
 module.exports = moduleName

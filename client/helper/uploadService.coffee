@@ -1,8 +1,14 @@
-module.exports = (Upload, REST) ->
-  @$inject = ["Upload", "REST"]
+module.exports = ->
 
-  (url) ->
-    (files) ->
-      Upload.upload
-        url: "#{REST.base}/file/#{url}"
-        data: files: files
+  base = ""
+
+  setBase: (b) -> base = b
+
+  $get: (Upload, REST) ->
+    @$inject = ["Upload", "REST"]
+
+    (url) ->
+      (files) ->
+        Upload.upload
+          url: [REST.base, base, url].join "\/"
+          data: files: files
