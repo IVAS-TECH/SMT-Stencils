@@ -30,7 +30,7 @@ module.exports = module.exports = ($controller, progressService, $scope, RESTHel
         controller.choose()
         stop()
 
-  controller.next = -> progress.move "specific"
+  controller.next = -> progress "specific"
 
   controller.create = ->
     if controller.saveIt

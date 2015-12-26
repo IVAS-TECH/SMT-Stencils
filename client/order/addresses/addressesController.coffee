@@ -23,9 +23,9 @@ module.exports = ($controller, progressService, $scope, simpleDialogService, RES
         controller.choose()
         stop()
 
-  controller.back = -> progress.move "specific"
+  controller.back = -> progress "specific"
 
-  controller.next = -> progress.move "finalizate"
+  controller.next = -> progress "finalizate"
 
   controller.create = (event, invalid) ->
     if controller.saveIt and not invalid
