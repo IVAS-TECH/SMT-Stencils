@@ -1,14 +1,15 @@
-module.exports = ->
+module.exports = (RESTProvider) ->
+  @$inject = ["RESTProvider"]
 
   base = ""
 
   setBase: (b) -> base = b
 
   $get: (Upload, REST) ->
-    @$inject = ["Upload", "REST"]
+    @$inject = ["Upload"]
 
     (url) ->
       (files) ->
         Upload.upload
-          url: [REST.base, base, url].join "\/"
+          url: [RESTProvider.getBase(), base, url].join "\/"
           data: files: files

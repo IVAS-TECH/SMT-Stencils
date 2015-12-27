@@ -1,4 +1,5 @@
-module.exports = (RESTHelperService, simpleDialogService, template) ->
+module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
+
   textPosition = ->
     options = []
     directionX = ["left", "right", "center"]
@@ -17,7 +18,7 @@ module.exports = (RESTHelperService, simpleDialogService, template) ->
       return ["bottom", "top"]
 
   controller = @
-  controller.$inject = ["RESTHelperService", "simpleDialogService", "template"]
+  controller.$inject = ["$scope", "RESTHelperService", "simpleDialogService", "template"]
   controller.controller = "configCtrl"
   controller.text = "Text"
   controller.view = template "top"
@@ -26,6 +27,11 @@ module.exports = (RESTHelperService, simpleDialogService, template) ->
     side: ["pcb-side", "squeegee-side"]
     textPosition: textPosition()
     textAngle: textAngle()
+
+  controller.listen = ->
+    stop = $scope.$on "config-validity", (event, value) ->
+      controller.invalid = value
+    $scope.$on "$destroy", stop
 
   controller.getConfigs = ->
     RESTHelperService.config.find (res) ->
@@ -57,16 +63,6 @@ module.exports = (RESTHelperService, simpleDialogService, template) ->
   controller.save = ->
     RESTHelperService.config.create config: controller.configuration, (res) ->
       if res.success then controller.configuration._id = res._id
-
-  controller.create = ->
-
-  controller.doAction = (event, invalid) ->
-    if not invalid
-      if controller.action is "create"
-        controller.create()
-      if controller.action is "edit"
-        controller.update event
-    else simpleDialogService event, "required-fields"
 
   controller.changeText = (text) ->
     color = "pcb-side"
@@ -111,5 +107,7 @@ module.exports = (RESTHelperService, simpleDialogService, template) ->
     controller.style.outline = true
     controller.style.layout = false
     controller.style.mode = [aligment, "centered"].join "-"
+
+  controller.listen()
 
   controller

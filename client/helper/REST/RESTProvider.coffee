@@ -7,6 +7,8 @@ module.exports = ->
 
   setBase: (b) -> base = b
 
+  getBase: -> base
+
   $get: ->
 
     (resorce) ->

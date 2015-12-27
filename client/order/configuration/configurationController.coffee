@@ -1,25 +1,18 @@
 module.exports = module.exports = ($controller, progressService, $scope, RESTHelperService, simpleDialogService, template) ->
-  @inject = [
-    "$controller"
-    "progressService"
-    "$scope"
-    "RESTHelperService"
-    "simpleDialogService"
-    "template"
-  ]
+  @inject = ["$controller", "progressService", "$scope", "RESTHelperService", "simpleDialogService", "template"]
+
+  properties = ["configuration", "configs", "config", "disabled", "action"]
+
   injectable =
+    "$scope": $scope
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
     "template": template
-  properties = [
-    "configuration"
-    "configs"
-    "config"
-    "disabled"
-    "action"
-  ]
+
   progress = progressService $scope, "orderCtrl", "configCtrl", properties
+
   controller = $controller "configurationInterface", injectable
+
   controller.settings = false
 
   controller.init = ->

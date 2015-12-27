@@ -6,13 +6,14 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyServic
   controller.invalid = []
 
   controller.listen = ->
-    $scope.$on "address-validity", (event, wich, value) ->
+    stop = $scope.$on "address-validity", (event, wich, value) ->
       index = -1
       switch wich
         when "delivery" then index = 0
         when "invoice" then index = 1
         when "firm" then index = 2
       controller.invalid[index] = value
+    $scope.$on "$destroy", stop
 
   controller.getAddresses = ->
     RESTHelperService.addresses.find (res) ->

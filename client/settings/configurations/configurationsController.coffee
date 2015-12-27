@@ -15,7 +15,8 @@ module.exports = module.exports = ($controller, confirmService, RESTHelperServic
 
   controller.init = -> controller.getConfigs()
 
-  controller.create = -> controller.save()
+  controller.create = (event, invalid) ->
+    controller.save()
 
   controller.edit = ->
     controller.disabled = false
@@ -27,9 +28,17 @@ module.exports = module.exports = ($controller, confirmService, RESTHelperServic
           controller.reset()
           $scope.$digest()
 
-  controller.update = (event) ->
+  controller.update = (event, invalid) ->
     confirmService event, success: ->
       RESTHelperService.config.update config: controller.configuration, (res) ->
+
+  controller.doAction = (event, invalid) ->
+    if not invalid
+      if controller.action is "create"
+        controller.create event, invalid
+      if controller.action is "edit"
+        controller.update event, invalid
+    else simpleDialogService event, "required-fields"
 
   controller.init()
 
