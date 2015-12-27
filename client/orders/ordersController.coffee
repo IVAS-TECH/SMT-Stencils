@@ -9,10 +9,11 @@ module.exports = ($scope, RESTHelperService) ->
         $scope.$digest()
 
   controller.labels =
-    id: 40
-    status: 20
-    price: 20
-    date: 20
+    _id: 40
+    status: 15
+    price: 15
+    orderDate: 15
+    sendingDate: 15
 
   controller.choose = (order) ->
     RESTHelperService.order.view files: order.files, (res) ->

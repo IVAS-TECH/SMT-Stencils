@@ -12,7 +12,10 @@ schema = new mongoose.Schema
   price:
     type: Number
     default: 0
-  date:
+  orderDate:
+    type: Date
+    default: Date.now
+  sendingDate:
     type: Date
     default: Date.now
   files: [String]
