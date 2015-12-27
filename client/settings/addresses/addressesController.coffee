@@ -28,6 +28,14 @@ module.exports = ($controller, confirmService, $scope, simpleDialogService, REST
         RESTHelperService.addresses.update addresses: (infoOnlyService controller.information), (res) ->
           console.log res
 
+  controller.doAction = (event, invalid) ->
+    if (controller.invalid.every (element) -> element is false)
+      if controller.action is "create"
+        controller.create event, invalid
+      if controller.action is "edit"
+        controller.update event, invalid
+    else simpleDialogService event, "required-fields"
+
   controller.init()
 
   controller

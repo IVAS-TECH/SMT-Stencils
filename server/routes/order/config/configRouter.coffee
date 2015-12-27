@@ -16,9 +16,7 @@ router.post "/config", (req, res) ->
 router.get "/config", (req, res) ->
   id = req.session.find req.ip
   configModel
-    .find user: id
-    .populate "user"
-    .exec (err, doc) ->
+    .find user: id, (err, doc) ->
       success = successful err, doc
       response = success: success
       if success then response.configs = doc

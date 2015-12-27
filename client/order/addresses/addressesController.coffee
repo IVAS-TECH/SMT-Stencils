@@ -6,6 +6,8 @@ module.exports = ($controller, progressService, $scope, simpleDialogService, RES
     "simpleDialogService": simpleDialogService
     "$scope": $scope
   properties = [
+    "address"
+    "listOfAddresses"
     "information"
     "sameAsAbove"
     "sameAsDelivery"
@@ -25,11 +27,11 @@ module.exports = ($controller, progressService, $scope, simpleDialogService, RES
 
   controller.back = -> progress "specific"
 
-  controller.next = -> progress "finalizate"
-
-  controller.create = (event, invalid) ->
-    if controller.saveIt and not invalid
-      controller.save()
+  controller.next = (event) ->
+    if (controller.invalid.every (element) -> element is false)
+      if controller.saveIt then controller.save()
+      progress "finalizate"
+    else simpleDialogService event, "required-fields"
 
   controller.init()
 

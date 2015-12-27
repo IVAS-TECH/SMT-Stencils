@@ -1,7 +1,9 @@
-module.exports = ($scope, RESTHelperService, infoOnlyService) ->
+module.exports = ($scope, $state, RESTHelperService, infoOnlyService) ->
   controller = @
-  controller.$inject = ["$scope", "RESTHelperService", "infoOnlyService"]
+  controller.$inject = ["$scope", "$state", "RESTHelperService", "infoOnlyService"]
   controller.disabled = true
+
+  controller.back = -> $state.go "home.order.addresses"
 
   controller.order = (event) ->
     RESTHelperService.upload.order controller.files, (res) ->

@@ -1,5 +1,3 @@
-{angular} = require "dependencies"
-
 module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyService) ->
   controller = @
   controller.$inject = ["$scope", "simpleDialogService", "RESTHelperService", "infoOnlyService"]
@@ -25,28 +23,17 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyServic
       delivery: {}
       invoice: {}
       firm: {}
-    delete controller.address
     controller.disabled = false
     controller.action = "create"
 
   controller.choose = ->
     controller.disabled = true
     controller.action = "preview"
-    controller.information = angular.copy controller.listOfAddresses[controller.address]
+    controller.information = controller.listOfAddresses[controller.address]
 
   controller.save = ->
     RESTHelperService.addresses.create addresses: (infoOnlyService controller.information), (res) ->
       if res.success then controller.information._id = res._id
-
-  controller.create = ->
-
-  controller.doAction = (event, invalid) ->
-    if not (controller.invalid.every (element) -> element is true)
-      if controller.action is "create"
-        controller.create event, invalid
-      if controller.action is "edit"
-        controller.update event, invalid
-    else simpleDialogService event, "required-fields"
 
   controller.fill = (dst, src) ->
     info = [

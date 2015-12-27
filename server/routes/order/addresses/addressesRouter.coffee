@@ -16,9 +16,7 @@ router.post "/addresses", (req, res) ->
 router.get "/addresses", (req, res) ->
   id = req.session.find req.ip
   addressesModel
-    .find user: id
-    .populate "user"
-    .exec (err, doc) ->
+    .find user: id, (err, doc) ->
       success = successful err, doc
       response = success: success
       if success then response.addresses = doc

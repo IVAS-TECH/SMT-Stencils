@@ -5,8 +5,6 @@ config = require "./config/configRouter"
 addresses = require "./addresses/addressesRouter"
 orderModel = require "./orderModel"
 GerberToSVG = require "./../../lib/GerberToSVG"
-
-dir = join __dirname, "../../../files"
 router = new Router()
 
 successful = (err, doc) -> doc? and not err?
@@ -28,6 +26,8 @@ router.get "/order", (req, res) ->
     res.send response
 
 router.put "/order", (req, res) ->
+  dir = join __dirname, "../../../files"
+
   filePath = (f) -> join dir, f
 
   files = (filePath file for file in req.body.files)

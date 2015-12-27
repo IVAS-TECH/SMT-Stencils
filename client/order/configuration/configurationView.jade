@@ -15,14 +15,14 @@ div(layout="column" layout-align="center center" layout-fill)
     div(layout="column")
       md-button(
         ng-if="configCtrl.settings && configCtrl.action !== 'preview'"
-        ng-click="configCtrl.doAction($event, configuration.$invalid)"
+        ng-click="configCtrl.doAction($event)"
         class="md-primary"
         aria-label="configCtrl.action"
         translate="{{configCtrl.action + '-configuration'}}"
       )
-      div(ng-if="!configCtrl.settings" layout="column" layout-align="center center" layout-wrap)
+      div(ng-if="!configCtrl.settings" layout="column" layout-align="end end" layout-wrap)
         md-checkbox(ng-if="configCtrl.action === 'create'" ng-model="configCtrl.saveIt" ng-init="configCtrl.saveIt=true" class="md-primary" aria-label="save")
-          p(translate="checkbox-save-configuration")  
-        md-button(ng-click="configCtrl.next($event)" class="md-warn" aria-label="next" translate="button-next")
+          p(translate="checkbox-save-configuration") 
+        md-button(ng-click="configCtrl.next($event)" class="md-primary" aria-label="next" translate="button-next")
 
   

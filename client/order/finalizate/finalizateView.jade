@@ -1,3 +1,5 @@
 div(layout="column" layout-align="center center" layout-wrap)
   ivo-view-order(order="orderCtrl" controller="'orderCtrl'")
-  md-button(ng-click="orderCtrl.order($event)" class="md-primary" aria-label="finish" translate="button-finish")
+  div(layout="row" layout-align="space-between center")
+    md-button(ng-click="orderCtrl.back()" class="md-warn" aria-label="back" translate="button-back")
+    md-button(ng-click="orderCtrl.order($event)" class="md-primary" aria-label="finish" translate="button-finish")

@@ -23,12 +23,11 @@ module.exports = module.exports = ($controller, progressService, $scope, RESTHel
         controller.choose()
         stop()
 
-  controller.next = -> progress "specific"
-
-  controller.create = ->
-    if controller.saveIt
-      controller.save()
-    controller.next()
+  controller.next = (event) ->
+    if not controller.invalid
+      if controller.saveIt then controller.save()
+      progress "specific"
+    else simpleDialogService event, "required-fields"
 
   controller.init()
 

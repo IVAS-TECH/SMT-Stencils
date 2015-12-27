@@ -1,7 +1,7 @@
-div(layout="column" layout-align="center center" layout-wrap layout-padding layout-margin)
-  div(layout="column" layout-align="center center" layout-wrap layout-padding layout-margin)
+div(layout="column" layout-align="center center" layout-wrap)
+  div(layout="column" layout-align="center center" layout-wrap)
     md-button(ng-click="addressesCtrl.reset()" class="md-primary" aria-label="new" translate="button-new-addresses")
-    div(layout="row" layout-align="center center" layout-wrap layout-padding layout-margin)
+    div(layout="row" layout-align="center center" layout-wrap)
       md-input-container
         label(translate="choose-addresses")
         md-select(ng-model="addressesCtrl.address" ng-change="addressesCtrl.choose()")
@@ -9,27 +9,39 @@ div(layout="column" layout-align="center center" layout-wrap layout-padding layo
       div(ng-if="addressesCtrl.settings" layout="row" layout-align="center center")
         md-button(ng-click="addressesCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="addressesCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")    
-  div(ng-if="addressesCtrl.information" layout="column" layout-fill layout-margin layout-padding)
-    ivo-address(disabled="addressesCtrl.disabled" address="addressesCtrl.information.delivery" value="addressesCtrl.information.delivery" name="delivery")
-    md-checkbox(ng-model="addressesCtrl.sameAsAbove" ng-click="addressesCtrl.fill('delivery', 'invoice')" class="md-primary" aria-label="as-above")
-    ivo-address(disabled="addressesCtrl.disabled" address="addressesCtrl.information.invoice" value="addressesCtrl.information.invoice" name="invoice")
-    div(layout="row" layout-align="center center")
+  div(ng-if="addressesCtrl.information" layout="column" layout-align="center strech" layout-fill)
+    ivo-address(disabled="addressesCtrl.disabled" address="addressesCtrl.information.delivery" name="delivery")
+    div(ng-if="addressesCtrl.action !== 'preview'" layout="row" layout-align="center center")
+      md-checkbox(ng-model="addressesCtrl.sameAsAbove" ng-click="addressesCtrl.fill('delivery', 'invoice')" class="md-primary" aria-label="as-above")
+        p(translate="same-as-above")
+    ivo-address(disabled="addressesCtrl.disabled" address="addressesCtrl.information.invoice" name="invoice")
+    div(ng-if="addressesCtrl.action !== 'preview'" layout="row" layout-align="center center")
       md-checkbox(ng-model="addressesCtrl.sameAsDelivery" ng-click="addressesCtrl.fill('delivery', 'firm')" class="md-primary" aria-label="as-delivery")
+        p(translate="same-as-above")
       md-checkbox(ng-model="addressesCtrl.sameAsInvoice" ng-click="addressesCtrl.fill('invoice', 'firm')" class="md-primary" aria-label="as-invoice")
-    ivo-address(disabled="addressesCtrl.disabled" address="addressesCtrl.information.firm" value="addressesCtrl.information.firm" name="firm")
+        p(translate="same-as-above")
+    ivo-address(disabled="addressesCtrl.disabled" address="addressesCtrl.information.firm" name="firm")
     form(name="addresses" layout="column" layout-align="center center" novalidate)
       md-input-container
         label(translate="information-name")
         input(ng-disabled="addressesCtrl.disabled" ng-model="addressesCtrl.information.name" required)
-      md-checkbox(ng-if="addressesCtrl.action === 'create'" ng-model="addressesCtrl.saveIt" ng-init="addressesCtrl.saveIt=true" class="md-primary" aria-label="save")
-        p(translate="checkbox-save-information")
-      md-button(
-        ng-if="addressesCtrl.action === 'create' || addressesCtrl.action === 'edit'"
-        ng-click="addressesCtrl.doAction($event, addresses.$invalid)"
-        class="md-primary"
-        aria-label="addressesCtrl.action"
-        translate="{{addressesCtrl.action + '-addresses'}}"
-      )
-  div(ng-if="!addressesCtrl.settings" layout="row" layout-align="end end" layout-wrap layout-padding layout-margin)
-    md-button(ng-click="addressesCtrl.back()" class="md-warn" aria-label="back" translate="button-back")
-    md-button(ng-click="addressesCtrl.next()" class="md-primary" aria-label="finish" translate="button-finish")
+      div(layout="column")
+        md-button(
+          ng-if="addressesCtrl.settings && addressesCtrl.action !== 'preview'"
+          ng-click="addressesCtrl.doAction($event, addresses.$invalid)"
+          class="md-primary"
+          aria-label="addressesCtrl.action"
+          translate="{{addressesCtrl.action + '-configuration'}}"
+          )
+        div(ng-if="!addressesCtrl.settings" layout="column" layout-align="center center" layout-wrap)
+          md-checkbox(
+            ng-if="addressesCtrl.action === 'create'"
+            ng-model="addressesCtrl.saveIt"
+            ng-init="addressesCtrl.saveIt=true"
+            class="md-primary"
+            aria-label="save"
+          )
+            p(translate="checkbox-save-information") 
+          div(layout="row" layout-align="center center" layout-fill)
+            md-button(ng-click="addressesCtrl.back()" class="md-warn" aria-label="back" translate="button-back")
+            md-button(ng-click="addressesCtrl.next($event, addresses.$invalid)" class="md-primary" aria-label="finish" translate="button-finish")
