@@ -1,8 +1,14 @@
-form(name="orders" layout="column" layout-align="center center" novalidate)
-  md-input-container
-    label(translate="label-filter")
-    input(ng-model="ordersCtrl.filter")
-  div(ng-repeat="order in ordersCtrl.listOfOrders" layout="row")
-    md-button(ng-click="ordersCtrl.choose(order)" aria-label="order._id" class="md-primary") {{order._id}}
-    md-button(ng-disabled="true" class="md-warn" aria-label="{{'status-' + order.status}}" translate="{{'status-' + order.status}}")
-  ivo-view-order(ng-if="order" order="order" controller="'order'")
+div(layout="column" layout-align="center strech" layout-wrap)
+  div(layout="row" layout-align="center center")
+    md-input-container
+      label(translate="label-filter")
+      input(ng-model="ordersCtrl.filter")
+  div(layout="row" flex="auto")
+    span(ng-repeat="(key, value) in ordersCtrl.labels" flex="{{value}}" ng-class="key === 'id' ? 'md-primary' : 'md-warn'" class="md-button fake-button" aria-label="{{'chip-' + key}}" translate="{{'chip-' + key}}")
+  div(ng-repeat="order in ordersCtrl.listOfOrders" layout="row" flex="auto")
+    span(ng-click="ordersCtrl.choose(order)" flex="40" class="md-primary md-button") {{order._id}}
+    span(flex="20" class="md-warn md-button fake-button" translate="{{'status-' + order.status}}")
+    span(flex="20" class="md-warn md-button fake-button") {{0}}
+    span(flex="20" class="md-warn md-button fake-button") {{"2015-12-27"}}
+  div(layout="row" layout-align="center center")
+    ivo-view-order(ng-if="order" order="order" controller="'order'")

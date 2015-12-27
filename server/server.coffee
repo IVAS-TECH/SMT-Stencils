@@ -5,7 +5,7 @@ mongoose = require "mongoose"
 session = require "./lib/session/session"
 routes = require "./routes/routes"
 
-port = process.env.PORT ? 3000
+port = process.env.PORT ? 4000
 appDir = join __dirname, '../client/app'
 index = join appDir, "index.html"
 error = join appDir, "error.html"

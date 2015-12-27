@@ -9,6 +9,12 @@ schema = new mongoose.Schema
   status:
     type: String
     default: "new"
+  price:
+    type: Number
+    default: 0
+  date:
+    type: Date
+    default: Date.now
   files: [String]
   topText: String
   bottomText: String
