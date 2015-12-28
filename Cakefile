@@ -4,22 +4,30 @@ try
   fs = require "fs-extra"
 catch error
   fs = null
-if fs isnt null
+if fs?
   {walk} = require "walk"
 clientDir = join __dirname, "./client"
 appDir = join clientDir, "app"
+{spawn, spawnSync} = require "child_process"
 
 task "install", "Builds all package install", ->
-  {spawnSync} = require "child_process"
   console.log "Installing node packages... (Please wait this can take more than 5 mins)"
   spawnSync "npm", ["install"], stdio: "inherit"
   console.log "Installing node packages    done"
   fs = require "fs-extra"
   {walk} = require "walk"
 
+task "mongodb", "Setups mongodb on __ip__:4000", ->
+  if not fs then invoke "install"
+  fs.ensureDir join __dirname, "data"
+  ip = require "ip"
+  address = ip.address()
+  args = ["--dbpath", "./data", "--bind_ip", address, "--port", 4000]
+  if ip.isV6Format address then args.push "--ipv6"
+  spawn "mongod", args, stdio: "inherit"
+
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
   invoke "style"
-  {spawnSync} = require "child_process"
   spawnSync "jade", ["./client"], stdio: "inherit"
   walker = walk clientDir
   map = {}
@@ -70,7 +78,6 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   if not fs then invoke "install"
-  {spawnSync} = require "child_process"
   GerberToSVG = require "./server/lib/GerberToSVG"
   resources = join __dirname, "client/resources"
   console.log "Pulling resources..."
@@ -109,7 +116,6 @@ task "build", "Wraps up the building proccess", ->
 task "start", "Starts the server and stops it on entering 'stop'", ->
   invoke "bundle" #testing only
   console.log "Starting server..."
-  {spawn, spawnSync} = require "child_process"
   spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"
   server = spawn "node", ["server/server.js"], stdio: "inherit"
   console.log "Starting server    done"

@@ -6,7 +6,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
     directionY = ["top", "bottom", "center"]
     for x in directionX
       for y in directionY
-        options.push "#{x}-#{y}"
+        options.push "#{y}-#{x}"
     options
 
   textAngle = (position = "") ->
@@ -27,6 +27,8 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
     side: ["pcb-side", "squeegee-side"]
     textPosition: textPosition()
     textAngle: textAngle()
+
+  controller.textAngle = textAngle
 
   controller.listen = ->
     stop = $scope.$on "config-validity", (event, value) ->
@@ -79,7 +81,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
     if not text.angle? or not text.angle in controller.options.textAngle
       angle = controller.options.textAngle[0]
     else angle = text.angle
-    return [color, ["text", text.position, angle].join "-"]
+    return [color, (["text", text.position, angle].join "-")].join " "
 
   controller.changeStencilTransitioning = ->
     if not controller.configuration.stencil?
