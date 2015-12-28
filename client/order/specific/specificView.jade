@@ -11,8 +11,9 @@ div(layout="column" layout-align="space-between strech" layout-margin layout-wra
     layout-align="center center"
     )
     ivo-files(files="specificCtrl.files" remove="true")
-  ivo-order-text(order="specificCtrl")  
-  ivo-text-field(bind="specificCtrl.top.text")
+  div(layout="row" layout-align="center center")
+    ivo-order-text(text="specificCtrl.top.text" label="'top'")
+    ivo-order-text(text="specificCtrl.bottom.text" label="'bottom'")  
   div(layout="row" layout-align="center center")
     md-button(ng-click="specificCtrl.back()" class="md-warn" aria-label="back" translate="button-back")
     md-button(ng-click="specificCtrl.next()" class="md-primary" aria-label="next" translate="button-next")

@@ -1,3 +1,9 @@
 module.exports = (template) ->
+  @$inject = ["template"]
+
   template: template "orderTextView"
-  scope: order: "="
+  scope:
+    text: "="
+    label: "="
+    disabled: "="
+  link: (scope) -> scope.text = [""]

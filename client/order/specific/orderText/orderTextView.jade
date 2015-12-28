@@ -1,4 +1,2 @@
 div(layout="column" layout-wrap)
-  md-input-container(ng-if="order.bottom.view" flex="100")
-    label(translate="label-bottom-text")
-    input(ng-model="order.bottom.text" ng-disabled="order.disabled" contentEditable="true")  
+  ivo-text-field(ng-repeat="t in text track by $index" label="label" text="text[$index]" index="$index" texts="text" disabled="disabled")

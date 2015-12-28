@@ -6,5 +6,8 @@ module.exports = (template) ->
   controller: "textFieldController"
   controllerAs: "textFieldCtrl"
   bindToController:
+    label: "="
+    text: "="
+    index: "="
+    texts: "="
     disabled: "="
-    bind: "="
