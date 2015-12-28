@@ -1,12 +1,16 @@
 {angular} = require "dependencies"
 moduleName = "helperModule"
 
+deps = [
+  require "./REST/RESTModule"
+  require "./stateSwitcher/stateSwitcherModule"
+]
+
 angular
-  .module moduleName, [require "./REST/RESTModule"]
+  .module moduleName, deps
     .provider "template", require "./templateProvider"
     .provider "translate", require "./translateProvider"
     .provider "uploadService", require "./uploadService"
     .factory "showDialogService", require "./showDialogService"
-    .directive "ivoStateSwitcher", require "./stateSwitcher/stateSwitcherDirective"
-
+    
 module.exports = moduleName
