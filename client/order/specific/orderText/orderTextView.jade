@@ -1,7 +1,4 @@
 div(layout="column" layout-wrap)
-  md-input-container(ng-if="order.top.view" flex="100")
-    label(translate="label-top-text")
-    input(ng-model="order.top.text" ng-disabled="order.disabled")
   md-input-container(ng-if="order.bottom.view" flex="100")
     label(translate="label-bottom-text")
-    input(ng-model="order.bottom.text" ng-disabled="order.disabled")  
+    input(ng-model="order.bottom.text" ng-disabled="order.disabled" contentEditable="true")  

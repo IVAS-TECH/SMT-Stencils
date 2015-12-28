@@ -6,4 +6,7 @@ module.exports = (template, scopeControllerService) ->
     text: "="
     view: "="
     controller: "="
-  link: (scope) -> scopeControllerService scope
+  link: (scope) ->
+    scopeControllerService scope
+    if typeof scope.text is "string"
+      scope.text = [scope.text]
