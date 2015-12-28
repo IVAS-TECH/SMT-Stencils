@@ -32,8 +32,12 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyServic
     controller.information = controller.listOfAddresses[controller.address]
 
   controller.save = ->
-    RESTHelperService.addresses.create addresses: (infoOnlyService controller.information), (res) ->
-      if res.success then controller.information._id = res._id
+    new Promise (resolve, reject) ->
+      RESTHelperService.addresses.create addresses: (infoOnlyService controller.information), (res) ->
+        if res.success
+          controller.information._id = res._id
+          controller.information.user = res.user
+          resolve()
 
   controller.fill = (dst, src) ->
     info = [

@@ -9,7 +9,7 @@ router.post "/addresses", (req, res) ->
   addresses.user = req.session.find req.ip
   addressesModel.create addresses, (err, doc) ->
     success = successful err, doc
-    response = success: success
+    response = success: success, user: addresses.user
     if success then response._id = doc._id
     res.send response
 

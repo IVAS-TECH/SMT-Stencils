@@ -21,7 +21,6 @@ module.exports = ($scope, RESTHelperService) ->
       $scope.order = order
       $scope.order.top = set "top"
       $scope.order.bottom = set "bottom"
-      $scope.order.disabled = true
       $scope.$digest()
 
   controller.init()

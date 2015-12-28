@@ -29,8 +29,10 @@ module.exports = ($controller, progressService, $scope, simpleDialogService, RES
 
   controller.next = (event) ->
     if (controller.invalid.every (element) -> element is false)
-      if controller.saveIt then controller.save()
-      progress "finalizate"
+      if controller.saveIt
+        controller.save().then ->
+          progress "finalizate"
+      else progress "finalizate"
     else simpleDialogService event, "required-fields"
 
   controller.init()

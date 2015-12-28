@@ -1,3 +1,5 @@
+Promise = require "promise"
+
 module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
 
   textPosition = ->
@@ -63,8 +65,12 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
     controller.change()
 
   controller.save = ->
-    RESTHelperService.config.create config: controller.configuration, (res) ->
-      if res.success then controller.configuration._id = res._id
+    new Promise (resolve, reject) ->
+      RESTHelperService.config.create config: controller.configuration, (res) ->
+        if res.success
+          controller.configuration._id = res._id
+          controller.configuration.user = res.user
+          resolve()
 
   controller.changeText = (text) ->
     color = "pcb-side"

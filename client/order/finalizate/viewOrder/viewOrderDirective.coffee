@@ -3,3 +3,4 @@ module.exports = (template) ->
   scope:
     order: "="
     controller: "="
+  link: (scope) -> scope.order.disabled = true
