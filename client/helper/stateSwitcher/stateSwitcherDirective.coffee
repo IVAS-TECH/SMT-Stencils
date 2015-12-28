@@ -8,15 +8,24 @@ module.exports = (template, $state) ->
   bindToController:
     state: "@"
     menu: "@"
+    override: "="
   link: (scope, element, attrs, controller) ->
 
+    last = (stateName) ->
+      name = stateName.split "\."
+      name[name.length - 1]
+
     highlight = (state) ->
-      controller.selected = controller.select controller.states.indexOf state
+      index = controller.states.indexOf state
+      if index > -1
+        controller.selected = controller.select index
 
     init = ->
 
       allStates = $state.get()
       test = new RegExp controller.state
+
+      if not controller.override? then controller.override = {}
 
       addIfDirectChild = (s) ->
         if not s.abstract and s.name isnt controller.state and s.name.match test
@@ -25,16 +34,13 @@ module.exports = (template, $state) ->
 
       controller.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
 
-      checkStates = (current) ->
-        isState = (state) ->
-          test = new RegExp state
-          if current.name.match test then highlight state
-        isState state for state in controller.states
-
-      checkStates  $state.current
+      highlight last $state.current.name
 
       scope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) ->
-        checkStates toState
+        state = last toState.name
+        highlight state
+        if controller.override[state]?
+          $state.go "#{controller.state}.#{controller.override[state]}"
 
     controller.select = (i = 0) ->
         select = (false for [1..controller.states.length])
