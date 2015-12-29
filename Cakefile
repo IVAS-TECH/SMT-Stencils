@@ -17,13 +17,13 @@ task "install", "Builds all package install", ->
   fs = require "fs-extra"
   {walk} = require "walk"
 
-task "mongodb", "Setups mongodb on __ip__:4000", ->
+task "mongodb", "Setups mongodb on 0.0.0.0:27017/db", ->
   if not fs then invoke "install"
   fs.ensureDir join __dirname, "data"
   ip = require "ip"
   address = ip.address()
-  args = ["--dbpath", "./data", "--bind_ip", address, "--port", 4000]
-  if ip.isV6Format address then args.push "--ipv6"
+  args = ["--dbpath", "./data"]#, "--bind_ip", address, "--port", 4000]
+  #if ip.isV6Format address then args.push "--ipv6"
   spawn "mongod", args, stdio: "inherit"
 
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
