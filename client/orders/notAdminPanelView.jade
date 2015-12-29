@@ -5,5 +5,5 @@ div(ng-repeat="order in scopeCtrl.listOfOrders" layout="row" flex="auto")
     flex="{{value}}"
     ng-class="key === '_id' ? 'md-primary' : 'md-warn fake-button'"
     class="md-button"
-    translate="{{order[key]}}"
+    translate="{{order[key] | ifDate}}"
   )

@@ -9,7 +9,7 @@ module.exports = (REST, uploadService) ->
   addressesREST = REST "addresses"
   orderREST = REST "order"
 
-  resolve = (resolver) -> (res) -> resolver res.data
+  resolve = (resolver) -> (res) -> if res.data.success then resolver res.data else console.log res.data
 
   email: (email, resolver) -> userREST.get(email).then resolve resolver
   register: (user, resolver) -> userREST.post(user).then resolve resolver
@@ -33,7 +33,7 @@ module.exports = (REST, uploadService) ->
     find: (resolver) -> addressesREST.get().then resolve resolver
     delete: (addresses, resolver) -> addressesREST.delete(addresses).then resolve resolver
     update: (addresses, resolver) -> addressesREST.patch(addresses).then resolve resolver
-    
+
   order:
     create: (order, resolver) -> orderREST.post(order).then resolve resolver
     find: (resolver) -> orderREST.get().then resolve resolver

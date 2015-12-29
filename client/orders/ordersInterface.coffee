@@ -4,9 +4,15 @@ module.exports = ($scope, RESTHelperService) ->
 
   controller.init = ->
     RESTHelperService.order.find (res) ->
-      if res.success
-        controller.listOfOrders = res.orders
-        $scope.$digest()
+
+      dates = (order) ->
+        order.orderDate = new Date order.orderDate
+        order.sendingDate = new Date order.sendingDate
+        order
+
+      controller.listOfOrders = (dates order for order in res.orders)
+
+      $scope.$digest()
 
   controller.labels =
     _id: 40

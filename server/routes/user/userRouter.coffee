@@ -1,12 +1,8 @@
 {Router} = require "express"
 userModel = require "./userModel"
-getAdmins = require "./admin/getAdmins"
 successful = require "./../../lib/successful"
-
-admins = []
+isAdmin = require "./admin/isAdmin"
 router = new Router()
-
-getAdmins().then (ads) -> admins = ads
 
 router.get "/user/:email", (req, res) ->
   userModel.findOne email: req.params.email, (err, doc) ->
@@ -25,20 +21,15 @@ router.patch "/user", (req, res) ->
 
 router.get "/login", (req, res) ->
   status = req.session.isMapedIp req.ip
-  id = req.session.find req.ip
-
-  isAdmin = (id) ->
-    for admin in admins
-      if admin.user is id
-        return admin
-    false
 
   if status
+    id = req.session.find req.ip
     userModel.findById id, (err, doc) ->
       user = {}
       success = status and successful err, doc
-      if success then user = email: doc.email, password: doc.password
-      res.send user: user, success: success, admin: isAdmin id
+      if success then user = email: doc.email, password: doc.password else {}
+      isAdmin(id).then (admin) ->
+        res.send user: user, success: success, admin: admin
   else res.send success: status
 
 router.post "/login", (req, res) ->

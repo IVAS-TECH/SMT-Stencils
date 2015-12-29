@@ -1,8 +1,10 @@
 {angular} = require "dependencies"
 Promise = require "promise"
 
-module.exports = (RESTHelperService, $rootScope) ->
-  @$inject = ["RESTHelperService", "$rootScope"]
+module.exports = (RESTHelperService, $rootScope, $state) ->
+  @$inject = ["RESTHelperService", "$rootScope", "$state"]
+
+  isAdmin = -> _admin.admin
 
   _authenticated = false
   _user = null
@@ -16,6 +18,8 @@ module.exports = (RESTHelperService, $rootScope) ->
     _session = authentication.session ? true
     _async = authentication.async_ ? false
     _admin = authentication.admin
+    #if isAdmin() then $state.go "admin"
+    $state.go "admin"
 
   $rootScope.$on "unauthentication", (event) ->
     _authenticated = false
@@ -51,4 +55,4 @@ module.exports = (RESTHelperService, $rootScope) ->
 
   isAsync: -> _async
 
-  isAdmin: ->  if _admin then true else false
+  isAdmin: isAdmin

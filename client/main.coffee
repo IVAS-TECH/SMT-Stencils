@@ -16,6 +16,7 @@ deps = [
   require "./order/orderModule"
   require "./orders/ordersModule"
   require "./settings/settingsModule"
+  require "./admin/adminModule"
 ]
 
 angular

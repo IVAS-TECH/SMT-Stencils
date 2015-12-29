@@ -1,0 +1,11 @@
+div(ng-repeat="order in scopeCtrl.listOfOrders" layout="row" flex="auto")
+  span(ng-click="scopeCtrl.choose(order)" class="md-primary md-button" flex="{{scopeCtrl.labels._id}}") {{order._id}}
+  md-input-container(flex="{{scopeCtrl.labels.status}}")
+    label(translate="label-status")
+    md-select(ng-model="order.status")
+      md-option(ng-repeat="option in scopeCtrl.status") {{option}}
+  md-input-container(flex="{{scopeCtrl.labels.price}}")
+    label(translate="label-price")
+    input(ng-model="order.price")
+  span(flex="{{scopeCtrl.labels.orderDate}}" class="md-primary md-button fake-button") {{order.orderDate | ifDate}}
+  md-datepicker(flex="{{scopeCtrl.labels.sendingDate}}" ng-model="order.sendingDate")

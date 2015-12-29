@@ -4,6 +4,7 @@ file = require "./file/fileRouter"
 config = require "./config/configRouter"
 addresses = require "./addresses/addressesRouter"
 orderModel = require "./orderModel"
+isAdmin = require "./../user/admin/isAdmin"
 GerberToSVG = require "./../../lib/GerberToSVG"
 successful = require "./../../lib/successful"
 router = new Router()
@@ -20,11 +21,13 @@ router.post "/order", (req, res) ->
 
 router.get "/order", (req, res) ->
   id = req.session.find req.ip
-  orderModel.find user: id, (err, docs) ->
-    success = successful err, docs
-    response = success: success
-    if success then response.orders = docs
-    res.send response
+  isAdmin(id).then (admin) ->
+    find = if admin.admin then {} else user: id
+    orderModel.find find, (err, docs) ->
+      success = successful err, docs
+      response = success: success
+      if success then response.orders = docs
+      res.send response
 
 router.put "/order", (req, res) ->
   dir = join __dirname, "../../../files"
@@ -34,6 +37,7 @@ router.put "/order", (req, res) ->
   files = (filePath file for file in req.body.files)
 
   GerberToSVG(files).then (svg) ->
+    svg.success = true
     res.send svg
 
 module.exports = router
