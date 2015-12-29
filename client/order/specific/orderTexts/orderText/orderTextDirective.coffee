@@ -6,4 +6,6 @@ module.exports = (template) ->
     text: "="
     label: "="
     disabled: "="
-  link: (scope) -> scope.text = [""]
+  link: (scope) ->
+    if not scope.text?
+      scope.text = [""]

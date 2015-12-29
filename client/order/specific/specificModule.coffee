@@ -4,7 +4,7 @@ en = require "./language-en"
 bg = require "./language-bg"
 
 angular
-  .module moduleName, [require "./orderText/orderTextModule"]
+  .module moduleName, [require "./orderTexts/orderTextsModule"]
     .directive "ivoOrderPreview", require "./orderPreview/orderPreviewDirective"
     .directive "ivoFiles", require "./files/filesDirective"
     .directive "ivoFile", require "./file/fileDirective"
