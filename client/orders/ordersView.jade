@@ -11,14 +11,6 @@ div(layout="column" layout-align="center strech" layout-wrap)
       class="md-button fake-button"
       translate="{{'label-' + key}}"
     )
-  div(ng-repeat="order in ordersCtrl.listOfOrders" layout="row" flex="auto")
-    span(
-      ng-repeat="(key, value) in ordersCtrl.labels"
-      ng-click="key === '_id' ? ordersCtrl.choose(order) : null"
-      flex="{{value}}"
-      ng-class="key === '_id' ? 'md-primary' : 'md-warn fake-button'"
-      class="md-button"
-      translate="{{order[key]}}"
-    )
+  ivo-include(include="ordersCtrl.panel" template="true" controller="'ordersCtrl'")
   div(layout="row" layout-align="center center")
     ivo-view-order(ng-if="order" order="order" controller="'order'")

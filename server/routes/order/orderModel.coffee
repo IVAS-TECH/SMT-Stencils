@@ -22,8 +22,8 @@ schema = new mongoose.Schema
     type: mongoose.Schema.Types.ObjectId
     ref: "User"
   files: [String]
-  topText: String
-  bottomText: String
+  topText: [String]
+  bottomText: [String]
   configuration: require "./config/configSchem"
   information: require "./addresses/addressesSchem"
 

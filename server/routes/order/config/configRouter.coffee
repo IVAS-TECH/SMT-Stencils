@@ -1,8 +1,7 @@
 {Router} = require "express"
 configModel = require "./configModel"
+successful = require "./../../../lib/successful"
 router = new Router()
-
-successful = (err, doc) -> doc? and not err?
 
 router.post "/config", (req, res) ->
   config = req.body.config

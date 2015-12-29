@@ -5,9 +5,8 @@ config = require "./config/configRouter"
 addresses = require "./addresses/addressesRouter"
 orderModel = require "./orderModel"
 GerberToSVG = require "./../../lib/GerberToSVG"
+successful = require "./../../lib/successful"
 router = new Router()
-
-successful = (err, doc) -> doc? and not err?
 
 router.use "/file", file
 router.use config

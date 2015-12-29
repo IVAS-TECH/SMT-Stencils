@@ -1,8 +1,7 @@
 {Router} = require "express"
 addressesModel = require "./addressesModel"
+successful = require "./../../../lib/successful"
 router = new Router()
-
-successful = (err, doc) -> doc? and not err?
 
 router.post "/addresses", (req, res) ->
   addresses = req.body.addresses

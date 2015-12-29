@@ -1,4 +1,5 @@
 store = require "./sessionModel"
+successful = require "./../successful"
 
 class Session
 
@@ -6,7 +7,7 @@ class Session
     @map = {}
     add = (doc) => @map[doc.ip] = doc.map
     store.find {}, (err, docs) =>
-      if not err? and docs?
+      if successful err, docs
         add doc for doc in docs
 
   find: (ip) -> @map[ip]

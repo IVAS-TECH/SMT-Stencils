@@ -8,10 +8,11 @@ module.exports = ($compile, template, scopeControllerService) ->
 
     compile = (html) ->
       element.html html
-      compileFn = $compile element.contents()
-      compileFn scope
+      ($compile element.contents()) scope
 
-    scopeControllerService scope
+    if scope.controller?
+      scopeControllerService scope
+
     if attrs.template is "true"
       compile template scope.include
     else
