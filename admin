@@ -1,0 +1,12 @@
+#! /usr/bin/env coffee
+
+makeAdmin = require "./server/routes/user/admin/makeAdmin"
+mongoose = require "mongoose"
+
+mongoose.connect "0.0.0.0:27017/db"
+
+admin = makeAdmin process.argv[2], Number process.argv[3]
+
+admin.then (res) ->
+  console.log res
+  process.exit 0

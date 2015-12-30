@@ -19,7 +19,6 @@ module.exports = (RESTHelperService, $rootScope, $state) ->
     _async = authentication.async_ ? false
     _admin = authentication.admin
     if isAdmin() then $state.go "admin"
-    #$state.go "admin"
 
   $rootScope.$on "unauthentication", (event) ->
     _authenticated = false
