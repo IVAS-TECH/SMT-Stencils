@@ -6,7 +6,7 @@ router = new Router()
 
 router.get "/user/:email", (req, res) ->
   userModel.findOne email: req.params.email, (err, doc) ->
-    res.send taken: successful err, doc
+    res.send success: true, taken: successful err, doc
 
 router.post "/user", (req, res) ->
   userModel.create req.body.user, (err, doc) ->
@@ -21,7 +21,6 @@ router.patch "/user", (req, res) ->
 
 router.get "/login", (req, res) ->
   status = req.session.isMapedIp req.ip
-
   if status
     id = req.session.find req.ip
     userModel.findById id, (err, doc) ->
@@ -29,8 +28,8 @@ router.get "/login", (req, res) ->
       success = status and successful err, doc
       if success then user = email: doc.email, password: doc.password else {}
       isAdmin(id).then (admin) ->
-        res.send user: user, success: success, admin: admin
-  else res.send success: status
+        res.send user: user, success: success, admin: admin, login: success
+  else res.send login: false, success: true, user: {}, admin: admin:false
 
 router.post "/login", (req, res) ->
   userModel.findOne req.body.user, (err, doc) ->

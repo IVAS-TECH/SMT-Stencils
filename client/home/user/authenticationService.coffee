@@ -4,13 +4,13 @@ Promise = require "promise"
 module.exports = (RESTHelperService, $rootScope, $state) ->
   @$inject = ["RESTHelperService", "$rootScope", "$state"]
 
-  isAdmin = -> _admin.admin
-
   _authenticated = false
   _user = null
   _session = true
   _async = false
-  _admin = false
+  _admin = null
+
+  isAdmin = -> _admin.admin
 
   $rootScope.$on "authentication", (event, authentication) ->
     _authenticated = true
@@ -18,8 +18,8 @@ module.exports = (RESTHelperService, $rootScope, $state) ->
     _session = authentication.session ? true
     _async = authentication.async_ ? false
     _admin = authentication.admin
-    #if isAdmin() then $state.go "admin"
-    $state.go "admin"
+    if isAdmin() then $state.go "admin"
+    #$state.go "admin"
 
   $rootScope.$on "unauthentication", (event) ->
     _authenticated = false
@@ -37,7 +37,7 @@ module.exports = (RESTHelperService, $rootScope, $state) ->
       new Promise (resolve, reject) ->
         RESTHelperService.logged (res) ->
           res.async_ = true
-          if res.success then broadcast res
+          if res.login then broadcast res
           resolve()
 
   unauthenticate: (callback) ->
