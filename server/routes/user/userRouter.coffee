@@ -35,7 +35,8 @@ router.post "/login", (req, res) ->
   userModel.findOne req.body.user, (err, doc) ->
     success = successful err, doc
     if success then req.session.mapIp req.ip, doc._id
-    res.send success: success
+    isAdmin(doc._id).then (admin) ->
+      res.send success: true, login: success, admin: admin
 
 router.delete "/login", (req, res) ->
   req.session.unMapIp req.ip
