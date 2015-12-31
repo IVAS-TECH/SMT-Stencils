@@ -17,7 +17,7 @@ module.exports = (config) ->
       browserify:
         debug: true
       specReporter:
-        suppressErrorSummary: true
+        suppressErrorSummary: false
         suppressFailed: false
         suppressPassed: false
         suppressSkipped: false
