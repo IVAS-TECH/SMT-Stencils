@@ -51,7 +51,8 @@
     "angular-aria": "1.4.8",
     "angular-animate": "1.4.8",
     "angular-material": "1.0.1",
-    "angular-translate": "2.8.1"
+    "angular-translate": "2.8.1",
+    "angular-mocks": "1.4.8"
   },
   "browser": {
     "safe-ng-file-upload": "./node_modules/ng-file-upload/dist/ng-file-upload-all.min.js",
@@ -62,6 +63,7 @@
     "safe-angular-material": "./node_modules/angular-material/angular-material.min.js",
     "ui-router": "./node_modules/ui-router/release/angular-ui-router.min.js",
     "angular-translate": "./node_modules/angular-translate/dist/angular-translate.min.js",
-    "dependencies": "./client/dependencies.js"
+    "dependencies": "./client/dependencies.js",
+    "mock": "./client/mock.js"
   }
 }

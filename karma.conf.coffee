@@ -7,12 +7,12 @@ module.exports = (config) ->
         #"server/*_spec.js",
         #"server/*.js",
         "client/app/final.js"
-        "client/*_spec.js"
+        "client/**/*_spec.js"
       ]
       exclude: []
       reporters: ["spec", "coverage"]
       preprocessors:
-        "client/*_spec.js": ["browserify"]
+        "client/**/*_spec.js": ["browserify"]
         "client/app/final.js": ["coverage"]
       browserify:
         debug: true
