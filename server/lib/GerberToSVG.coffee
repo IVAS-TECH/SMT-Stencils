@@ -86,7 +86,7 @@ module.exports = (files) ->
           (e) -> test e, "#{tested} paste"
           (e) -> test e, tested
         ]
-        
+
     svg = (identifyLayer layer for layer in layers)
     res = top: formSVG svg[0], svg[2]
     if svg[1]?

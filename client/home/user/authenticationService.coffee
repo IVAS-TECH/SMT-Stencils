@@ -46,7 +46,7 @@ module.exports = (RESTHelperService, $rootScope, $state) ->
 
   getUser: -> _user
 
-  getAdminInfo: -> if _admin then _admin else {}
+  getAdminAccess: -> _admin.access ? -1
 
   isAuthenticated: -> _authenticated
 

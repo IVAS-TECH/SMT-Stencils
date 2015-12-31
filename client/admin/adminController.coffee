@@ -9,6 +9,16 @@ module.exports = ($controller, $scope, RESTHelperService) ->
 
   controller.panel = "adminPanelView"
 
-  controller.status = ["new", "delivered"]
+  controller.status = [
+    "__new__"
+    "__accepted__"
+    "__rejected__"
+    "__done__"
+    "__sent__"
+    "__delivered__"
+    "__$remove$__"
+    "__$delete$__"
+    "__$block$__"
+  ]
 
   controller

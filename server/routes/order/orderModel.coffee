@@ -8,7 +8,7 @@ schema = new mongoose.Schema
     mode: String
   status:
     type: String
-    default: "new"
+    default: "__new__"
   price:
     type: Number
     default: 0

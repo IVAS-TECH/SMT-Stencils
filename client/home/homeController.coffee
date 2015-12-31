@@ -1,6 +1,7 @@
 module.exports = (authenticationService, loginService, goHomeService, $location, $scope) ->
+  @$inject = ["authenticationService", "loginService", "goHomeService", "$scope"]
+
   controller = @
-  controller.$inject = ["authenticationService", "loginService", "goHomeService", "$scope"]
 
   init = ->
 
