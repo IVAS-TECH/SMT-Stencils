@@ -21,7 +21,7 @@ module.exports = ($scope, $state) ->
     addIfDirectChild = (s) ->
       if not s.abstract and s.name isnt controller.state and s.name.match test
         name = if controller.state then s.name.replace "#{controller.state}.", "" else s.name
-        if not name.match /\./ then return name
+        if name not in controller.remove and not name.match /\./ then return name
 
     controller.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
 

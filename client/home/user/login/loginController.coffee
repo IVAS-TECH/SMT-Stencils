@@ -8,10 +8,10 @@ module.exports = (RESTHelperService) ->
       RESTHelperService.login user: controller.user, (res) ->
         if res.login
           controller.hide
-            success:
+            "success":
               user: controller.user
               session: controller.session
-            admin: res.admin
+              admin: res.admin
         else controller.hide "fail"
     else controller.error = true
   controller

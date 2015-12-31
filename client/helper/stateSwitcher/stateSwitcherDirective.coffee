@@ -9,3 +9,4 @@ module.exports = (template) ->
     state: "@"
     menu: "@"
     override: "="
+    remove: "="

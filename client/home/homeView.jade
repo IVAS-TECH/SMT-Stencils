@@ -15,5 +15,10 @@ div(layout="column" layout-align="space-between strech" layout-wrap)
       ivo-translate
       ivo-user
   div(layout="column" layout-align="space-between strech" layout-wrap)
-    ivo-state-switcher(state="home" menu="menu" override="{'order': 'order.configuration', 'settings': 'settings.profile'}")
+    ivo-state-switcher(
+      state="home"
+      menu="menu"
+      override="{'order': 'order.configuration', 'settings': 'settings.profile'}"
+      remove="['admin']"
+    )
     ui-view(layout="column" layout-margin layout-padding layout-wrap) 

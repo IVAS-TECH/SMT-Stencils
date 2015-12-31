@@ -7,7 +7,7 @@ orderModel = require "./orderModel"
 isAdmin = require "./../user/admin/isAdmin"
 GerberToSVG = require "./../../lib/GerberToSVG"
 successful = require "./../../lib/successful"
-block = (ip) -> null
+block = (uid) -> null
 dir = join __dirname, "../../../files"
 
 filePath = (f) -> join dir, f
@@ -43,8 +43,6 @@ router.put "/order", (req, res) ->
 router.patch "/order", (req, res) ->
   order = req.body.order
   action = 0
-
-  delete order.sendingDate
 
   switch order.status
     when "__new__"
