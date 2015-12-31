@@ -8,4 +8,4 @@ module.exports = (email, access) ->
     userModel.findOne email: email, (err, user) ->
       if not successful err, user then resolve err
       adminModel.create user: user._id, access: access, (error, doc) ->
-        resolve if successful err, doc then "done" else error
+        resolve if successful err, doc then "#{email} is Admin now." else error

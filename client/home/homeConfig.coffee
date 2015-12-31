@@ -7,7 +7,10 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
   translateProvider.add en, bg
 
   $stateProvider
-    .state "home", url: "", controller: "homeController as homeCtrl", template: templateProvider.provide "homeView"
+    .state "home",
+      url: ""
+      controller: "homeController as homeCtrl"
+      template: templateProvider.provide "homeView"
     .state "home.about", url: "/about", template: "A"
     .state "home.technologies", url: "/technologies", template: "T"
     .state "home.contacts", url: "/contacts", template: "C"

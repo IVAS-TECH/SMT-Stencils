@@ -7,4 +7,7 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
   #translateProvider.add en, bg
 
   $stateProvider
-    .state "admin", controller: "adminController as ordersCtrl", template: templateProvider.provide "ordersView"
+    .state "home.admin",
+      url: "/admin"
+      controller: "adminController as ordersCtrl"
+      template: templateProvider.provide "ordersView"

@@ -6,6 +6,8 @@ module.exports = (authenticationService, loginService, goHomeService, $location,
 
     restrict = ->
       if not authenticationService.isAuthenticated()
+        if $location.path() is "/admin" and not authenticationService.isAdmin()
+          return goHomeService()
         if $location.path() not in ["/about", "/technologies", "/contacts"]
           loginService {}, close: goHomeService, cancel: goHomeService
 
