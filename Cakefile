@@ -26,7 +26,12 @@ task "mongodb", "Setups mongodb on 0.0.0.0:27017/db", ->
   #if ip.isV6Format address then args.push "--ipv6"
   spawn "mongod", args, stdio: "inherit"
 
+task "coffee", "Compiles coffee to js", ->
+  spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
+  spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"
+
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
+  invoke "coffee"
   invoke "style"
   spawnSync "jade", ["./client"], stdio: "inherit"
   walker = walk clientDir
@@ -40,7 +45,6 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
   walker.on "end", ->
     file = join clientDir, "helper/template.coffee"
     fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
-    spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
     spawnSync "browserify", ["#{clientDir}/main.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
     #spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
     style = join appDir, "style.css"
@@ -116,7 +120,6 @@ task "build", "Wraps up the building proccess", ->
 task "start", "Starts the server and stops it on entering 'stop'", ->
   invoke "bundle" #testing only
   console.log "Starting server..."
-  spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"
   server = spawn "node", ["server/server.js"], stdio: "inherit"
   console.log "Starting server    done"
   process.stdin.setEncoding 'utf8'
@@ -129,3 +132,10 @@ task "start", "Starts the server and stops it on entering 'stop'", ->
       server.kill "SIGINT"
       console.log()
       console.log "Stoping server..."
+
+task "tests", "Runs tests and shows coverage results", ->
+  if not fs then invoke "install"
+  invoke "bundle"
+  open = require "open"
+  spawnSync "karma", ["start"], stdio: "inherit"
+  open join __dirname, "coverage/html/index.html"

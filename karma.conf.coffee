@@ -2,31 +2,33 @@ module.exports = (config) ->
   config
     .set
       basePath: ""
-      frameworks: ["jasmine"]
+      frameworks: ["browserify", "jasmine"]
       files: [
         #"server/*_spec.js",
         #"server/*.js",
-        #"client/app/final/.js"
-        #"client/*_spec.js"
-        "test.js"
-        "test_spec.js"
+        "client/app/final.js"
+        "client/*_spec.js"
       ]
       exclude: []
-      preprocessors: {}
-      reporters: ["progress", "coverage"]
+      reporters: ["spec", "coverage"]
       preprocessors:
-        "test.js": ["coverage"]
+        "client/*_spec.js": ["browserify"]
+        "client/app/final.js": ["coverage"]
+      browserify:
+        debug: true
+      specReporter:
+        suppressErrorSummary: true
+        suppressFailed: false
+        suppressPassed: false
+        suppressSkipped: false
       coverageReporter:
         type : "html",
         dir : "coverage/"
+        subdir: "html"
       port: 9876
       colors: true
       logLevel: config.LOG_INFO
       autoWatch: false
-      browsers: [
-        "Chrome"
-        #"Firefox" add to package.json::devDependencies:["karma-firefox-launcher"]
-        #"PhantomJS" add to package.json::dependencies:["phantomjs"] and package.json::devDependencies["karma-phantomjs-launcher"]
-      ]
+      browsers: ["Chrome"]
       singleRun: true
       concurrency: Infinity

@@ -21,10 +21,12 @@
     "karma-chrome-launcher": "0.2.2",
     "karma-jasmine": "0.3.6",
     "karma-coverage": "0.5.3",
-    "karma-spec-reporter": "0.0.23"
+    "karma-spec-reporter": "0.0.22",
+    "karma-browserify": "4.4.2"
   },
   "dependencies": {
     "jasmine-core": "2.4.1",
+    "open": "0.0.5",
     "body-parser": "1.14.2",
     "express": "4.13.3",
     "mongoose": "4.3.4",
