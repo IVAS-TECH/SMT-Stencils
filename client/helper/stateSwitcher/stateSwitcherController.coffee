@@ -14,12 +14,12 @@ module.exports = ($scope, $state) ->
         controller.selected = controller.select index
 
     allStates = $state.get()
-    test = new RegExp controller.state
 
     if not controller.override? then controller.override = {}
+    if not controller.remove? then controller.remove = []
 
     addIfDirectChild = (s) ->
-      if not s.abstract and s.name isnt controller.state and s.name.match test
+      if not s.abstract and s.name isnt controller.state and s.name.match controller.state
         name = if controller.state then s.name.replace "#{controller.state}.", "" else s.name
         if name not in controller.remove and not name.match /\./ then return name
 
