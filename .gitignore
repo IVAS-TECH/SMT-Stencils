@@ -1,6 +1,7 @@
 node_modules/*
 data/*
 files/*
+coverage/*
 client/dependencies/*
 client/resources/*
 client/styles/*.css

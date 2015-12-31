@@ -14,13 +14,7 @@ install: [node] and [npm]
 
 install: [gerbv] and make sure that it's build with Cairo!
 
-run: npm install -g coffee-script
-
-run: npm install -g jade
-
-run: npm install -g browserify
-
-run: npm install -g uglify-js
+run: sudo make globals
 
 # build
 

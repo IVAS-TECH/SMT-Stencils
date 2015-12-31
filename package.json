@@ -16,11 +16,19 @@
     "url": "https://github.com/NoHomey/diplomna3/issues"
   },
   "homepage": "https://github.com/NoHomey/diplomna3#readme",
+  "devDependencies": {
+    "karma": "0.13.16",
+    "karma-chrome-launcher": "0.2.2",
+    "karma-jasmine": "0.3.6",
+    "karma-coverage": "0.5.3",
+    "karma-spec-reporter": "0.0.23"
+  },
   "dependencies": {
+    "jasmine-core": "2.4.1",
     "body-parser": "1.14.2",
     "express": "4.13.3",
     "mongoose": "4.3.4",
-    "promise" : "7.1.1",
+    "promise": "7.1.1",
     "uglify-js": "2.6.1",
     "uglifycss": "0.0.19",
     "browserify": "12.0.1",
@@ -44,13 +52,12 @@
     "angular-translate": "2.8.1"
   },
   "browser": {
-    "safe-ng-file-upload": "./node_modules/ng-file-upload/dist/ng-file-upload.min.js",
+    "safe-ng-file-upload": "./node_modules/ng-file-upload/dist/ng-file-upload-all.min.js",
     "safe-angular": "./node_modules/angular/angular.min.js",
     "safe-angular-animate": "./node_modules/angular-animate/angular-animate.min.js",
     "safe-angular-aria": "./node_modules/angular-aria/angular-aria.min.js",
     "safe-angular-messages": "./node_modules/angular-messages/angular-messages.min.js",
     "safe-angular-material": "./node_modules/angular-material/angular-material.min.js",
-    "safe-ng-file-upload": "./node_modules/ng-file-upload/dist/ng-file-upload-all.min.js",
     "ui-router": "./node_modules/ui-router/release/angular-ui-router.min.js",
     "angular-translate": "./node_modules/angular-translate/dist/angular-translate.min.js",
     "dependencies": "./client/dependencies.js"

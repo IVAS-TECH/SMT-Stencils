@@ -11,7 +11,7 @@ appDir = join clientDir, "app"
 {spawn, spawnSync} = require "child_process"
 
 task "install", "Builds all package install", ->
-  console.log "Installing node packages... (Please wait this can take more than 5 mins)"
+  console.log "Installing node packages... (Please wait this will take some time)"
   spawnSync "npm", ["install"], stdio: "inherit"
   console.log "Installing node packages    done"
   fs = require "fs-extra"
