@@ -2,13 +2,17 @@
 
 # setup
 
+Server can currently be ran under Linux only because of [gerbv] beeing a dependency.
+
 if you are using Debian based Linux dist that uses apt-get
 
 you can setup the project by runing: sudo make setup.
 
-install: mongodb
+install: [mongodb]
 
-install: node and npm
+install: [node] and [npm]
+
+install: [gerbv] and make sure that it's build with Cairo!
 
 run: npm install -g coffee-script
 
@@ -17,8 +21,6 @@ run: npm install -g jade
 run: npm install -g browserify
 
 run: npm install -g uglify-js
-
-run: mkdir ./server/data && mongod --dbpath ./server/data
 
 # build
 

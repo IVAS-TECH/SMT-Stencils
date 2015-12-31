@@ -88,7 +88,7 @@ module.exports = (files) ->
         ]
 
     svg = (identifyLayer layer for layer in layers)
-    res = top: formSVG svg[0], svg[2]
+    res = success: true, top: formSVG svg[0], svg[2]
     if svg[1]?
         res.bottom = formSVG svg[1], svg[2]
     resolve res

@@ -11,12 +11,15 @@ previewMidleware = multerConfig.preview().any()
 
 router.post "/order", orderMidleware, (req, res) ->
   fileName = (f) -> f.filename
-  res.send files: (fileName file for file in req.files)
+  res.send
+    success: true
+    files: (fileName file for file in req.files)
 
 router.post "/preview", previewMidleware, (req, res) ->
   files = (file.path for file in req.files)
   GerberToSVG(files).then (svg) ->
-    fs.unlinkSync file for file in files
     res.send svg
+    for file in files
+      fs.unlink file, ->
 
 module.exports = router

@@ -21,4 +21,11 @@ module.exports = ($controller, $scope, RESTHelperService) ->
     "__$block$__"
   ]
 
+  controller.addDiscription = (order) ->
+    controller.choose order
+    controller.order = order
+
+  controller.update = ->
+    console.log controller.discription
+
   controller
