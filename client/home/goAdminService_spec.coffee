@@ -18,8 +18,8 @@ describe "goAdminService", ->
 
     expect($state.go).toEqual jasmine.any Function
 
-    goAdminService()
+    goAdminService().then ->
 
-    expect($state.current.name).toEqual "home.admin"
+      expect($state.current.name).toEqual "home.admin"
 
-    expect(spy).toHaveBeenCalledWith "home.admin"
+      expect(spy).toHaveBeenCalledWith "home.admin"

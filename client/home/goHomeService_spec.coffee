@@ -9,7 +9,6 @@ describe "goHomeService", ->
   beforeEach mock.inject (_goHomeService_, _$state_) ->
     goHomeService = _goHomeService_
     $state = _$state_
-    console.log s.name for s in $state.get()
 
   it "should chage $state to 'home.about'", ->
 
@@ -19,8 +18,8 @@ describe "goHomeService", ->
 
     expect($state.go).toEqual jasmine.any Function
 
-    goHomeService()
+    goHomeService().then ->
 
-    expect($state.current.name).toEqual "home.about"
+      expect($state.current.name).toEqual "home.about"
 
-    expect(spy).toHaveBeenCalledWith "home.about"
+      expect(spy).toHaveBeenCalledWith "home.about"
