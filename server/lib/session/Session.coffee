@@ -14,10 +14,11 @@ class Session
   constructor: (@ip) ->
     @map = []
     @get = {}
-    @ready = new Promise (resolve, reject) =>
+
+  ready: ->
+    new Promise (resolve, reject) =>
 
       add = (doc) =>
-
         @get[doc.key] = Session.deserializate doc.value
         @map.push doc
 

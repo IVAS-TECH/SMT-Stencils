@@ -136,21 +136,32 @@ task "start", "Starts the server and stops it on entering 'stop'", ->
 task "angular", "Runs tests and shows coverage results for client side code", ->
   if not fs then invoke "install"
   invoke "bundle"
-  open = require "open"
   spawnSync "karma", ["start", "client/karma.conf.js"], stdio: "inherit"
-  open join __dirname, "client/coverage/html/index.html"
 
+mocha = (args) ->
+  if not fs then invoke "install"
+  invoke "coffee"
+  Promise = require "promise"
+  new Promise (resolve, reject) ->
+    walker = walk join __dirname, "server"
+    files = []
+    walker.on "file", (root, file, next) ->
+      if file.name.match "_spec.js"
+        files.push join root, file.name
+      next()
+    walker.on "end", ->
+      args.push file for file in files
+      resolve args
 
 task "express", "Runs tests and shows coverage results for server side code", ->
+  (mocha ["--opts", "./server/mocha.conf"]).then (args) ->
+    spawnSync "mocha", args, stdio: "inherit"
+
+task "coverage", "It shows code coverage", ->
   if not fs then invoke "install"
-  invoke "bundle"
   open = require "open"
-  walker = walk join __dirname, "server"
-  files = []
-  walker.on "file", (root, file, next) ->
-    if file.name.match "_spec.js"
-      files.push join root, file.name
-    next()
-  walker.on "end", ->
-    spawnSync "mocha", ["--opts", "./server/mocha.conf", files.join " "], stdio: "inherit"
-    open join __dirname, "server/coverage/html/index.html"
+  (mocha ["cover", "_mocha", "--", "--opts", "./server/mocha.conf"]).then (args) ->
+    invoke "angular"
+    spawnSync "istanbul", args, stdio: "inherit"
+    open join __dirname, "client/coverage/html/index.html"
+    open join __dirname, "coverage/lcov-report/index.html"

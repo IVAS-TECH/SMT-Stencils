@@ -6,10 +6,9 @@ describe "goHomeService", ->
 
   beforeEach mock.module "main"
 
-  beforeEach mock.inject ($injector, _$state_) ->
+  beforeEach mock.inject (_goHomeService_, _$state_) ->
     $state = _$state_
-    _goHomeService_ = require "./goHomeService"
-    goHomeService = $injector.invoke _goHomeService_, _goHomeService_, $state: $state
+    goHomeService = _goHomeService_
 
   it "should chage $state to 'home.about'", () ->
 
