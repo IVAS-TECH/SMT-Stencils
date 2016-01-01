@@ -2,8 +2,7 @@ mongoose = require "mongoose"
 
 schema = new mongoose.Schema
   ip: String
-  map:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "User"
+  key: String
+  value: String
 
 module.exports = mongoose.model "Session", schema

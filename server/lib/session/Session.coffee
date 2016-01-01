@@ -1,25 +1,68 @@
+Promise = require "promise"
 store = require "./sessionModel"
 successful = require "./../successful"
 
 class Session
 
-  constructor: ->
-    @map = {}
-    add = (doc) => @map[doc.ip] = doc.map
-    store.find {}, (err, docs) =>
-      if successful err, docs
-        add doc for doc in docs
+  @serializate: (value) ->
+    if typeof value is "string"
+      return value
+    JSON.stringify value
 
-  find: (ip) -> @map[ip]
+  @deserializate: (value) -> JSON.parse value
 
-  isMapedIp: (ip) -> @map[ip]?
+  constructor: (@ip) ->
+    @map = []
+    @get = {}
+    @ready = new Promise (resolve, reject) =>
 
-  mapIp: (ip, map) ->
-    @map[ip] = map
-    store.create {ip: ip, map: map}, (err, doc) -> console.log err, doc
+      add = (doc) =>
 
-  unMapIp: (ip) ->
-    store.remove ip: ip, (err, doc) ->
-    delete @map[ip]
+        @get[doc.key] = Session.deserializate doc.value
+        @map.push doc
+
+      store.find ip: @ip, (err, docs) =>
+        if successful err, docs
+          add doc for doc in docs
+          resolve()
+
+  empty: -> @map.length is 0
+
+  create: (map) ->
+    new Promise (resolve, reject) =>
+      for k, v of map
+        if not @get[k]?
+          create =
+            ip: @ip
+            key: k
+            value: Session.serializate v
+          store.create create, (err, doc) ->
+            resolve successful err, doc
+        else
+          @update("#{k}": v).then (res) ->
+            resolve res
+
+  update: (map) ->
+    new Promise (resolve, reject) =>
+      for m in @map
+        for k, v of map
+          if m.key is k
+            set = "#{k}": Session.serializate v
+            store
+              .findByIdAndUpdate m._id, $set: set, {new: true}, (err, doc) ->
+                resolve successful err, doc
+
+  delete: (map) ->
+    for m in @map
+      for k, v of map
+        if m.key is k
+          store
+            .remove _id: m._id
+            .exec()
+
+  destroy: ->
+    new Promise (resolve, reject) =>
+      store.remove ip: @ip, (err) ->
+        resolve not err?
 
 module.exports = Session

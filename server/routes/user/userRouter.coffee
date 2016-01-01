@@ -20,26 +20,25 @@ router.patch "/user", (req, res) ->
     res.send success: successful err, doc
 
 router.get "/login", (req, res) ->
-  status = req.session.isMapedIp req.ip
-  if status
-    id = req.session.find req.ip
+  if not req.session.empty()
+    id = req.session.get.uid
     userModel.findById id, (err, doc) ->
-      user = {}
-      success = status and successful err, doc
-      if success then user = email: doc.email, password: doc.password else {}
+      success = successful err, doc
+      user = if success then email: doc.email, password: doc.password else {}
       isAdmin(id).then (admin) ->
-        res.send user: user, success: success, admin: admin, login: success
-  else res.send login: false, success: true, user: {}, admin: admin:false
+        res.send user: user, success: true, admin: admin, login: success
+  else res.send login: false, success: true, user: {}, admin: admin: false
 
 router.post "/login", (req, res) ->
   userModel.findOne req.body.user, (err, doc) ->
-    success = successful err, doc
-    if success then req.session.mapIp req.ip, doc._id
-    isAdmin(doc._id).then (admin) ->
-      res.send success: true, login: success, admin: admin
+    if successful err, doc
+      req.session.create(uid: doc._id).then (login) ->
+        isAdmin(doc._id).then (admin) ->
+          res.send success: true, login: login, admin: admin
+    else res.send success: false
 
 router.delete "/login", (req, res) ->
-  req.session.unMapIp req.ip
-  res.send success: true
+  req.session.destroy().then (success) ->
+    res.send success: success
 
 module.exports = router

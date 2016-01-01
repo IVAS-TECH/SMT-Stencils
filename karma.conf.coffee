@@ -10,17 +10,12 @@ module.exports = (config) ->
         "client/**/*_spec.js"
       ]
       exclude: []
-      reporters: ["spec", "coverage"]
+      reporters: ["mocha", "coverage"]
       preprocessors:
         "client/**/*_spec.js": ["browserify"]
         "client/app/final.js": ["coverage"]
       browserify:
         debug: true
-      specReporter:
-        suppressErrorSummary: false
-        suppressFailed: false
-        suppressPassed: false
-        suppressSkipped: false
       coverageReporter:
         type : "html",
         dir : "coverage/"
