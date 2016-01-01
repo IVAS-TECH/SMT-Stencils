@@ -6,25 +6,26 @@ describe "goAdminService", ->
 
   beforeEach mock.module "main"
 
-  beforeEach mock.inject (_goAdminService_, _$state_) ->
-    goAdminService = _goAdminService_
+  beforeEach mock.inject ($injector, _$state_) ->
     $state = _$state_
+    _goAdminService_ = require "./goAdminService"
+    goAdminService = $injector.invoke _goAdminService_, _goAdminService_, $state: $state
 
-  it "should chage $state to 'home.admin'", ->
+  it "should chage $state to 'home.admin'", () ->
 
     spy = jasmine.createSpy $state, "go"
 
     expect($state.current.name).not.toEqual "home.admin"
 
     spy.and.callFake (transition) ->
-
       $state.current.name = "home.admin"
+      then: (resolve, reject) ->
+        resolve(9)
 
-      then: (reslove, reject) ->
-        resolve()
+    goAdminService().then (res) ->
 
-    goAdminService().then ->
-
-      expect($state.current.name).toEqual "home.admin"
+      expect(res).toEqual 9
 
       expect(spy).toHaveBeenCalledWith "home.admin"
+
+      expect($state.current.name).toEqual "home.admin"

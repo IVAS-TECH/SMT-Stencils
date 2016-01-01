@@ -18,6 +18,7 @@
   "homepage": "https://github.com/NoHomey/diplomna3#readme",
   "devDependencies": {
     "karma": "0.13.16",
+    "chai": "3.4.1",
     "karma-chrome-launcher": "0.2.2",
     "karma-jasmine": "0.3.6",
     "karma-coverage": "0.5.3",

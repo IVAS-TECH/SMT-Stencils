@@ -12,8 +12,7 @@ div(lauout="column" flex="auto")
       ng-repeat="date in ['orderDate', 'sendingDate']"
       flex="{{scopeCtrl.labels[date]}}"
       class="md-primary md-button fake-button"
-    )
-      {{order[date] | ifDate}}
+    ) {{order[date] | ifDate}}
   div(ng-if="scopeCtrl.order" layout="column" layout-align="center center")
     ivo-order-text(text="scopeCtrl.discription" label="'label-desctiption'" disabled="false")
     md-button(ng-click="scopeCtrl.update()" class="md-warn" aria-label="update" translate="button-update")

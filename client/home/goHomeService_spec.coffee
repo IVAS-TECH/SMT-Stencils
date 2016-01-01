@@ -6,9 +6,10 @@ describe "goHomeService", ->
 
   beforeEach mock.module "main"
 
-  beforeEach mock.inject (_goHomeService_, _$state_) ->
-    goHomeService = _goHomeService_
+  beforeEach mock.inject ($injector, _$state_) ->
     $state = _$state_
+    _goHomeService_ = require "./goHomeService"
+    goHomeService = $injector.invoke _goHomeService_, _goHomeService_, $state: $state
 
   it "should chage $state to 'home.about'", () ->
 
@@ -19,9 +20,11 @@ describe "goHomeService", ->
     spy.and.callFake (transition) ->
       $state.current.name = "home.about"
       then: (resolve, reject) ->
-        resolve()
+        resolve(9)
 
-    goHomeService().then ->
+    goHomeService().then (res) ->
+
+      expect(res).toEqual 9
 
       expect(spy).toHaveBeenCalledWith "home.about"
 

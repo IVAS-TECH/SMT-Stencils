@@ -2,6 +2,7 @@ node_modules/*
 data/*
 files/*
 client/coverage/*
+server/coverage/*
 client/dependencies/*
 client/resources/*
 client/styles/*.css

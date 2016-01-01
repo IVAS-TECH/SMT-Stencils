@@ -139,3 +139,18 @@ task "angular", "Runs tests and shows coverage results for client side code", ->
   open = require "open"
   spawnSync "karma", ["start", "client/karma.conf.js"], stdio: "inherit"
   open join __dirname, "client/coverage/html/index.html"
+
+
+task "express", "Runs tests and shows coverage results for server side code", ->
+  if not fs then invoke "install"
+  invoke "bundle"
+  open = require "open"
+  walker = walk join __dirname, "server"
+  files = []
+  walker.on "file", (root, file, next) ->
+    if file.name.match "_spec.js"
+      files.push join root, file.name
+    next()
+  walker.on "end", ->
+    spawnSync "mocha", ["--opts", "./server/mocha.conf", files.join " "], stdio: "inherit"
+    open join __dirname, "server/coverage/html/index.html"
