@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/NoHomey/diplomna3#readme",
   "devDependencies": {
+    "proxyquire": "1.7.3",
     "karma": "0.13.16",
     "chai": "3.4.1",
     "sinon": "1.17.2",
