@@ -4,16 +4,14 @@ module.exports = (config) ->
       basePath: ""
       frameworks: ["browserify", "jasmine"]
       files: [
-        #"server/*_spec.js",
-        #"server/*.js",
-        "client/app/final.js"
-        "client/**/*_spec.js"
+        "app/final.js"
+        "**/*_spec.js"
       ]
-      exclude: []
+      exclude: ["karma.conf.js"]
       reporters: ["mocha", "coverage"]
       preprocessors:
-        "client/**/*_spec.js": ["browserify"]
-        "client/app/final.js": ["coverage"]
+        "**/*_spec.js": ["browserify"]
+        "app/final.js": ["coverage"]
       browserify:
         debug: true
       coverageReporter:

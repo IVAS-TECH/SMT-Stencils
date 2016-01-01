@@ -133,9 +133,9 @@ task "start", "Starts the server and stops it on entering 'stop'", ->
       console.log()
       console.log "Stoping server..."
 
-task "tests", "Runs tests and shows coverage results", ->
+task "angular", "Runs tests and shows coverage results for client side code", ->
   if not fs then invoke "install"
   invoke "bundle"
   open = require "open"
-  spawnSync "karma", ["start"], stdio: "inherit"
-  open join __dirname, "coverage/html/index.html"
+  spawnSync "karma", ["start", "client/karma.conf.js"], stdio: "inherit"
+  open join __dirname, "client/coverage/html/index.html"

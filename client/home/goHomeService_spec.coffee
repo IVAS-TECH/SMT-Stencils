@@ -10,16 +10,19 @@ describe "goHomeService", ->
     goHomeService = _goHomeService_
     $state = _$state_
 
-  it "should chage $state to 'home.about'", ->
+  it "should chage $state to 'home.about'", () ->
 
     spy = jasmine.createSpy $state, "go"
 
     expect($state.current.name).not.toEqual "home.about"
 
-    expect($state.go).toEqual jasmine.any Function
+    spy.and.callFake (transition) ->
+      $state.current.name = "home.about"
+      then: (resolve, reject) ->
+        resolve()
 
     goHomeService().then ->
 
-      expect($state.current.name).toEqual "home.about"
-
       expect(spy).toHaveBeenCalledWith "home.about"
+
+      expect($state.current.name).toEqual "home.about"

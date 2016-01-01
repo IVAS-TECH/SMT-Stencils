@@ -16,7 +16,12 @@ describe "goAdminService", ->
 
     expect($state.current.name).not.toEqual "home.admin"
 
-    expect($state.go).toEqual jasmine.any Function
+    spy.and.callFake (transition) ->
+
+      $state.current.name = "home.admin"
+
+      then: (reslove, reject) ->
+        resolve()
 
     goAdminService().then ->
 
