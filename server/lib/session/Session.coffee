@@ -16,31 +16,34 @@ class Session
       @map[index] = doc
 
   ready: ->
-    new Promise (resolve, reject) -> resolve()
-      #store.find ip: @ip, (err, docs) =>
-      #  if successful err, docs then resolve()
-      #  else reject err
+    new Promise (resolve, reject) =>
+      store.find ip: @ip, (err, docs) =>
+        if successful err, docs
+          @add doc for doc in docs
+          resolve()
+        else reject err
 
   isEmpty: -> @map.length is 0
 
   create: (map) ->
     new Promise (resolve, reject) =>
+      success = true
       for k, v of map
         if not @get[k]?
           create =
             ip: @ip
             key: k
             value: JSON.stringify v
-          store.create create, (err, doc) ->
-            success = successful err, doc
-            if successful err, doc
+          store.create create, (err, doc) =>
+            success &= successful err, doc
+            if success
               @add doc
-              resolve()
             else reject err
         else
           upadte = @update "#{k}": v
           update.then -> resolve()
           upadte.catch (err) -> reject err
+      resolve()
 
   update: (map) ->
     new Promise (resolve, reject) =>
