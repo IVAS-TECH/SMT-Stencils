@@ -14,12 +14,12 @@ install: [node] and [npm]
 
 install: [gerbv] and make sure that it's build with Cairo!
 
-run: sudo make globals
+run: make task
 
 # build
 
-run: cake build to build the project
+run: ./task build to build the project
 
 # start/stop server
 
-run: cake start to start the server enter "stop" to stop it
+run: ./task start to start the server enter "stop" to stop it

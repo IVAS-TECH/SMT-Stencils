@@ -6,9 +6,20 @@ catch error
   fs = null
 if fs?
   {walk} = require "walk"
-clientDir = join __dirname, "./client"
+clientDir = join __dirname, "client"
 appDir = join clientDir, "app"
+nodeModules = "./node_modules"
 {spawn, spawnSync} = require "child_process"
+
+exec =
+  jade: "./node_modules/jade/bin/jade.js"
+  browserify: "./node_modules/browserify/bin/cmd.js"
+  uglifyJS: "./node_modules/uglify-js/bin/uglifyjs"
+  karma: "./node_modules/karma-cli/bin/karma"
+  mocha: "./node_modules/mocha/bin/mocha"
+  _mocha: "./node_modules/mocha/bin/_mocha"
+  istanbul: "./node_modules/istanbul/lib/cli.js"
+  coffee: "./node_modules/coffee-script/bin/coffee"
 
 task "install", "Builds all package install", ->
   console.log "Installing node packages... (Please wait this will take some time)"
@@ -27,13 +38,19 @@ task "mongodb", "Setups mongodb on 0.0.0.0:27017/db", ->
   spawn "mongod", args, stdio: "inherit"
 
 task "coffee", "Compiles coffee to js", ->
-  spawnSync "coffee", ["-c", "-b", "./client"], stdio: "inherit"
-  spawnSync "coffee", ["-c", "-b", "server"], stdio: "inherit"
+  spawnSync exec.coffee, ["-c", "-b", "./client"], stdio: "inherit"
+  spawnSync exec.coffee, ["-c", "-b", "server"], stdio: "inherit"
+
+task "jade", "Compiles jade to html", ->
+  spawnSync exec.jade, ["./client"], stdio: "inherit"
+
+task "browserify", "Wraps everything up", ->
+  spawnSync exec.browserify, ["#{clientDir}/main.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
 
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
   invoke "coffee"
   invoke "style"
-  spawnSync "jade", ["./client"], stdio: "inherit"
+  invoke "jade"
   walker = walk clientDir
   map = {}
   walker.on "file", (root, file, next) ->
@@ -45,7 +62,7 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
   walker.on "end", ->
     file = join clientDir, "helper/template.coffee"
     fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
-    spawnSync "browserify", ["#{clientDir}/main.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
+    invoke "browserify"
     #spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
     style = join appDir, "style.css"
     bundle = join appDir, "final.js"
@@ -136,7 +153,7 @@ task "start", "Starts the server and stops it on entering 'stop'", ->
 task "angular", "Runs tests and shows coverage results for client side code", ->
   if not fs then invoke "install"
   invoke "bundle"
-  spawnSync "karma", ["start", "client/karma.conf.js"], stdio: "inherit"
+  spawnSync exec.karma, ["start", "client/karma.conf.js"], stdio: "inherit"
 
 mocha = (args) ->
   if not fs then invoke "install"
@@ -155,13 +172,13 @@ mocha = (args) ->
 
 task "express", "Runs tests and shows coverage results for server side code", ->
   (mocha ["--opts", "./server/mocha.conf"]).then (args) ->
-    spawnSync "mocha", args, stdio: "inherit"
+    spawnSync exec.mocha, args, stdio: "inherit"
 
 task "coverage", "It shows code coverage", ->
   if not fs then invoke "install"
   open = require "open"
   (mocha ["cover", "_mocha", "--", "--opts", "./server/mocha.conf"]).then (args) ->
     invoke "angular"
-    spawnSync "istanbul", args, stdio: "inherit"
+    spawnSync exec.istanbul, args, stdio: "inherit"
     open join __dirname, "client/coverage/html/index.html"
     open join __dirname, "coverage/lcov-report/index.html"

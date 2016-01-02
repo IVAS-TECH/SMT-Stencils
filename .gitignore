@@ -11,3 +11,4 @@ client/styles/*.css
 *.css
 *.html
 template.coffee
+task

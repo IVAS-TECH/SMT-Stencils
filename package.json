@@ -18,7 +18,10 @@
   "homepage": "https://github.com/NoHomey/diplomna3#readme",
   "devDependencies": {
     "proxyquire": "1.7.3",
+    "karma-cli": "0.1.2",
     "karma": "0.13.16",
+    "mocha": "2.3.4",
+    "istanbul": "0.4.1",
     "chai": "3.4.1",
     "sinon": "1.17.2",
     "sinon-chai": "2.8.0",
@@ -33,6 +36,10 @@
     "extend": "3.0.0"
   },
   "dependencies": {
+    "jade": "1.11.0",
+    "coffee-script": "1.10.0",
+    "browserify": "12.0.1",
+    "uglify-js": "2.6.1",
     "body-parser": "1.14.2",
     "express": "4.13.3",
     "mongoose": "4.3.4",
