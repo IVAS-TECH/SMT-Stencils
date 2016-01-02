@@ -4,16 +4,10 @@ describe "successful", ->
 
   it "returns true if db query is successful", ->
 
-    success = successful null, _id: "some id"
-
-    expect(success).to.equal true
+    expect(successful null, _id: "some id").to.be.true
 
   it "returns false if db query failed", ->
 
-    success = successful new Error(), _id: "some id"
+    expect(successful new Error(), _id: "some id").to.be.false
 
-    expect(success).to.equal false
-
-    success = successful new Error()
-
-    expect(success).to.equal false
+    expect(successful new Error()).to.be.false

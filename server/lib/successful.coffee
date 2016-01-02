@@ -1,1 +1,4 @@
-module.exports = (err, doc) -> doc? and not err?
+module.exports = (err, doc) ->
+  if not doc? and not err?
+    return true
+  not err? and doc?

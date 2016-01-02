@@ -67,7 +67,7 @@ class Session
         for m in @map
           if key is m.key
             store.remove _id: m._id, (err) =>
-              if not err?
+              if successful err
                 delete @get.k
                 @map.splice (@map.indexOf m), 1
                 resolve()
@@ -89,7 +89,7 @@ class Session
   destroy: ->
     new Promise (resolve, reject) =>
       store.remove ip: @ip, (err) =>
-        if not err?
+        if successful err
           @map = []
           @get = {}
           resolve()

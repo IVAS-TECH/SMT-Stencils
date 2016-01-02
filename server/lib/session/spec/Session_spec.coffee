@@ -8,10 +8,6 @@ describe "Session", ->
 
       Session = require "./../Session"
 
-    afterEach ->
-
-      Session = undefined
-
     it "creates new empty Session", ->
 
       session = new Session "127.0.0.1"
@@ -121,125 +117,127 @@ describe "Session", ->
             key1: 9
             key2: []
 
-    describe "create", ->
+    describe "create and update", ->
 
-      spy = stub = firstReturn = secondReturn = firstCall = secondCall = session = undefined
+      find = undefined
 
-      beforeEach (done) ->
+      beforeEach ->
 
-        extend = require "extend"
-        ip = "ip"
+        mockSessionModel.findByIdAndUpdate = ->
 
-        firstCall =
-          key: "first"
-          value: "\"first\""
-          ip: ip
-
-        secondCall =
-          key: "second"
-          value: "\"second\""
-          ip: ip
-
-        firstReturn = id: "first"
-        extend firstReturn, firstCall
-
-        secondReturn = id: "second"
-        extend secondReturn, secondCall
-
-        stub = sinon.stub()
-
-        stub.onFirstCall().callsArgWith 1, null, firstReturn
-
-        stub.onSecondCall().callsArgWith 1, null, secondReturn
-
-        mockSessionModel.create = stub
-        mockSessionModel.findByIdAndUpdate = (id, query, opts, callback) ->
+        find = sinon.stub mockSessionModel, "findByIdAndUpdate", (id, query, opts, callback) ->
           doc = query.$set
           doc._id = id
           callback null, doc
 
-        Session = proxyquire "./../Session", "./sessionModel": mockSessionModel
+      afterEach -> find.restore()
 
-        session = new Session ip
+      describe "create", ->
 
-        spy = sinon.spy session, "update"
+        spy = stub = firstReturn = secondReturn = firstCall = secondCall = session = undefined
 
-        session.ready().then done
+        beforeEach (done) ->
 
-      afterEach -> spy.restore()
+          extend = require "extend"
+          ip = "ip"
 
-      it "extends session collection", ->
+          firstCall =
+            key: "first"
+            value: "\"first\""
+            ip: ip
 
-        create = session.create
-          first: "first"
-          second: "second"
+          secondCall =
+            key: "second"
+            value: "\"second\""
+            ip: ip
 
-        create.then ->
+          firstReturn = id: "first"
+          extend firstReturn, firstCall
 
-          expect(session.map.length).to.equal 5
+          secondReturn = id: "second"
+          extend secondReturn, secondCall
 
-          expect(session.map).to.contain firstReturn
+          stub = sinon.stub()
 
-          expect(session.map).to.contain secondReturn
+          stub.onFirstCall().callsArgWith 1, null, firstReturn
 
-          expect(stub).to.have.been.calledTwice
+          stub.onSecondCall().callsArgWith 1, null, secondReturn
 
-          expect(stub).to.have.been.calledWith firstCall
+          mockSessionModel.create = stub
 
-          expect(stub).to.have.been.calledWith secondCall
+          Session = proxyquire "./../Session", "./sessionModel": mockSessionModel
 
-      it "calls update if item exists in the collection", ->
+          session = new Session ip
 
-        (session.create
-          key0: 0
-          key1: 1
-          key2: 2).then ->
+          spy = sinon.spy session, "update"
 
-          expect(spy).to.have.been.calledThrice
+          session.ready().then done
 
-    describe "update", ->
+        afterEach -> spy.restore()
 
-      spy = session = undefined
+        it "extends session collection", ->
 
-      beforeEach (done) ->
+          create = session.create
+            first: "first"
+            second: "second"
 
-        mockSessionModel.findByIdAndUpdate = (id, query, opts, callback) ->
-          doc = query.$set
-          doc._id = id
-          callback null, doc
+          create.then ->
 
-        spy = sinon.spy mockSessionModel, "findByIdAndUpdate"
+            expect(session.map.length).to.equal 5
 
-        Session = proxyquire "./../Session", "./sessionModel": mockSessionModel
+            expect(session.map).to.contain firstReturn
 
-        session = new Session "ip"
+            expect(session.map).to.contain secondReturn
 
-        session.ready().then done
+            expect(stub).to.have.been.calledTwice
 
-      afterEach -> spy.restore()
+            expect(stub).to.have.been.calledWith firstCall
 
-      it "updates the collection", ->
+            expect(stub).to.have.been.calledWith secondCall
 
-        expect(session.map.length).to.equal 3
+        it "calls update if item exists in the collection", ->
 
-        expect(session.get.key0).to.eql i: 9
+          (session.create
+            key0: 0
+            key1: 1
+            key2: 2).then ->
 
-        (session.update key0: 0).then ->
+            expect(spy).to.have.been.calledThrice
 
-          set =
-            ip: "ip"
-            key: "key0"
-            value: "0"
+      describe "update", ->
 
-          expect(spy).to.have.been.calledWithMatch "id0", $set: set, {new: true}
+        session = undefined
+
+        beforeEach (done) ->
+
+          Session = proxyquire "./../Session", "./sessionModel": mockSessionModel
+
+          session = new Session "ip"
+
+          session.ready().then done
+
+        it "updates the collection", ->
 
           expect(session.map.length).to.equal 3
 
-          expect(session.get.key0).to.eql 0
+          expect(session.get.key0).to.eql i: 9
 
-          set._id = "id0"
+          (session.update key0: 0).then ->
 
-          expect(session.map).to.contains set
+            set =
+              ip: "ip"
+              key: "key0"
+              value: "0"
+
+            expect(find).to.have.been.calledWithMatch "id0", $set: set, {new: true}
+
+            expect(session.map.length).to.equal 3
+
+            expect(session.get.key0).to.eql 0
+
+            set._id = "id0"
+
+            expect(session.map).to.contains set
 
     describe "remove, destroy and delete", ->
 
@@ -302,6 +300,8 @@ describe "Session", ->
 
             expect(remove).to.have.been.calledWith "key2"
 
+            expect(session.isEmpty()).to.be.true
+
       describe "destroy", ->
 
         it "restores session state to new", ->
@@ -314,4 +314,84 @@ describe "Session", ->
 
             expect(session.get).to.eql {}
 
-          expect(session.isEmpty()).to.be.true
+            expect(session.isEmpty()).to.be.true
+
+  describe "functionality when DB Query is not successful", ->
+
+    proxyquire = session = undefined
+
+    simpleCallback = (obj, callback) -> callback new Error()
+
+    before ->
+
+      proxyquire = require "proxyquire"
+
+      proxyquire.noCallThru()
+
+      mockedStore =
+        find: simpleCallback
+        findByIdAndUpdate: (id, query, opts, callback) ->
+          simpleCallback query, callback
+        create: simpleCallback
+        remove: simpleCallback
+
+      Session = proxyquire "./../Session", "./sessionModel": mockedStore
+
+      session = new Session "ip"
+
+    after -> proxyquire.callThru()
+
+    tests = [
+      {
+        method: "ready"
+        args: []
+      }
+      {
+        method: "create"
+        args: [uid: "id"]
+      }
+      {
+        method: "update"
+        args: [uid: "uid"]
+      }
+      {
+        method: "remove"
+        args: ["uid"]
+      }
+      {
+        method: "delete"
+        args: ["uid"]
+      }
+      {
+        method: "destroy"
+        args: []
+      }
+    ]
+
+    for test in tests
+
+      it "rejects when calling #{test.method} and DB Qeuery fails", ->
+
+        promise = session[test.method].apply null, test.args
+
+        return expect(promise).to.eventually.be.rejectedWith Error
+
+    describe "remove when empty", ->
+
+      promise = spy = undefined
+
+      beforeEach (done) ->
+
+        spy = sinon.spy simpleCallback
+
+        Session = proxyquire "./../Session", "./sessionModel": remove: spy
+
+        session = new Session "ip"
+
+        promise = session.remove "uid"
+
+        promise.then null, done
+
+      it "rejects when empty", ->
+
+        expect(spy).not.to.have.been.called
