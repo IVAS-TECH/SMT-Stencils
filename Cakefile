@@ -177,7 +177,7 @@ task "express", "Runs tests and shows coverage results for server side code", ->
 task "coverage", "It shows code coverage", ->
   if not fs then invoke "install"
   open = require "open"
-  (mocha ["cover", "_mocha", "--", "--opts", "./server/mocha.conf"]).then (args) ->
+  (mocha ["cover", exec._mocha, "--", "--opts", "./server/mocha.conf"]).then (args) ->
     invoke "angular"
     spawnSync exec.istanbul, args, stdio: "inherit"
     open join __dirname, "client/coverage/html/index.html"

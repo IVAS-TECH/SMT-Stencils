@@ -123,7 +123,7 @@ describe "Session", ->
 
     describe "create", ->
 
-      stub = firstReturn = secondReturn = firstCall = secondCall = session = undefined
+      spy = stub = firstReturn = secondReturn = firstCall = secondCall = session = undefined
 
       beforeEach (done) ->
 
@@ -146,21 +146,30 @@ describe "Session", ->
         secondReturn = id: "second"
         extend secondReturn, secondCall
 
-        mockSessionModel.create = (obj, callback) ->
-
-        stub = sinon.stub mockSessionModel, "create"
+        stub = sinon.stub()
 
         stub.onFirstCall().callsArgWith 1, null, firstReturn
 
         stub.onSecondCall().callsArgWith 1, null, secondReturn
 
+        mockSessionModel.create = stub
+        mockSessionModel.findByIdAndUpdate = (id, query, opts, callback) ->
+          doc = query.$set
+          doc._id = id
+          callback null, doc
+
         Session = proxyquire "./../Session", "./sessionModel": mockSessionModel
 
         session = new Session ip
 
+        spy = sinon.spy session, "update"
+
         session.ready().then done
 
+      afterEach -> spy.restore()
+
       it "extends session collection", ->
+
         create = session.create
           first: "first"
           second: "second"
@@ -178,3 +187,131 @@ describe "Session", ->
           expect(stub).to.have.been.calledWith firstCall
 
           expect(stub).to.have.been.calledWith secondCall
+
+      it "calls update if item exists in the collection", ->
+
+        (session.create
+          key0: 0
+          key1: 1
+          key2: 2).then ->
+
+          expect(spy).to.have.been.calledThrice
+
+    describe "update", ->
+
+      spy = session = undefined
+
+      beforeEach (done) ->
+
+        mockSessionModel.findByIdAndUpdate = (id, query, opts, callback) ->
+          doc = query.$set
+          doc._id = id
+          callback null, doc
+
+        spy = sinon.spy mockSessionModel, "findByIdAndUpdate"
+
+        Session = proxyquire "./../Session", "./sessionModel": mockSessionModel
+
+        session = new Session "ip"
+
+        session.ready().then done
+
+      afterEach -> spy.restore()
+
+      it "updates the collection", ->
+
+        expect(session.map.length).to.equal 3
+
+        expect(session.get.key0).to.eql i: 9
+
+        (session.update key0: 0).then ->
+
+          set =
+            ip: "ip"
+            key: "key0"
+            value: "0"
+
+          expect(spy).to.have.been.calledWithMatch "id0", $set: set, {new: true}
+
+          expect(session.map.length).to.equal 3
+
+          expect(session.get.key0).to.eql 0
+
+          set._id = "id0"
+
+          expect(session.map).to.contains set
+
+    describe "remove, destroy and delete", ->
+
+      spy = session = undefined
+
+      beforeEach (done) ->
+
+        mockSessionModel.remove = (obj, callback) ->
+          callback null
+
+        spy = sinon.spy mockSessionModel, "remove"
+
+        Session = proxyquire "./../Session", "./sessionModel": mockSessionModel
+
+        session = new Session "ip"
+
+        session.ready().then done
+
+      afterEach -> spy.restore()
+
+      describe "remove", ->
+
+        it "shrinks the collection and DB", ->
+
+          expect(session.map.length).to.equal 3
+
+          (session.remove "key0").then ->
+
+            expect(session.map.length).to.be.below 3
+
+            expect(session.map.length).to.be.above 1
+
+            expect(spy).to.have.been.calledWith _id: "id0"
+
+      describe "delete", ->
+
+        remove = undefined
+
+        beforeEach ->
+
+          remove = sinon.spy session, "remove"
+
+        afterEach = -> remove.restore()
+
+        it "calls remove when called with key: String", ->
+
+          (session.delete "key0").then ->
+
+            expect(remove).to.have.been.calledWith "key0"
+
+        it "calls remove for each when called with key: Arrat", ->
+
+          (session.delete ["key0", "key1", "key2"]).then ->
+
+            expect(remove).to.have.been.calledThrice
+
+            expect(remove).to.have.been.calledWith "key0"
+
+            expect(remove).to.have.been.calledWith "key1"
+
+            expect(remove).to.have.been.calledWith "key2"
+
+      describe "destroy", ->
+
+        it "restores session state to new", ->
+
+          session.destroy().then ->
+
+            expect(spy).to.have.been.calledWith ip: "ip"
+
+            expect(session.map).to.eql []
+
+            expect(session.get).to.eql {}
+
+          expect(session.isEmpty()).to.be.true
