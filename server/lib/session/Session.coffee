@@ -4,30 +4,24 @@ successful = require "./../successful"
 
 class Session
 
-  @serializate: (value) ->
-    if typeof value is "string"
-      return value
-    JSON.stringify value
-
-  @deserializate: (value) -> JSON.parse value
-
   constructor: (@ip) ->
     @map = []
     @get = {}
 
+  add: (doc, index = -1) ->
+    @get[doc.key] = JSON.parse doc.value
+    if index is -1
+      @map.push doc
+    else
+      @map[index] = doc
+
   ready: ->
-    new Promise (resolve, reject) =>
+    new Promise (resolve, reject) -> resolve()
+      #store.find ip: @ip, (err, docs) =>
+      #  if successful err, docs then resolve()
+      #  else reject err
 
-      add = (doc) =>
-        @get[doc.key] = Session.deserializate doc.value
-        @map.push doc
-
-      store.find ip: @ip, (err, docs) =>
-        if successful err, docs
-          add doc for doc in docs
-          resolve()
-
-  empty: -> @map.length is 0
+  isEmpty: -> @map.length is 0
 
   create: (map) ->
     new Promise (resolve, reject) =>
@@ -36,34 +30,54 @@ class Session
           create =
             ip: @ip
             key: k
-            value: Session.serializate v
+            value: JSON.stringify v
           store.create create, (err, doc) ->
-            resolve successful err, doc
+            success = successful err, doc
+            if successful err, doc
+              @add doc
+              resolve()
+            else reject err
         else
-          @update("#{k}": v).then (res) ->
-            resolve res
+          upadte = @update "#{k}": v
+          update.then -> resolve()
+          upadte.catch (err) -> reject err
 
   update: (map) ->
     new Promise (resolve, reject) =>
       for m in @map
         for k, v of map
           if m.key is k
-            set = "#{k}": Session.serializate v
+            set = "#{k}": JSON.stringify v
             store
               .findByIdAndUpdate m._id, $set: set, {new: true}, (err, doc) ->
-                resolve successful err, doc
+                success = successful err, doc
+                if success
+                  @add doc @map.indexOf m
+                  resolve()
+                else reject err
 
   delete: (map) ->
-    for m in @map
-      for k, v of map
-        if m.key is k
-          store
-            .remove _id: m._id
-            .exec()
+    new Promise (resolve, reject) =>
+      if @empty()
+        reject()
+      else
+        for m in @map
+          for k, v of map
+            if m.key is k
+              store.remove _id: m._id, (err) =>
+                if not err?
+                  delete @get.k
+                  @map.splice (@map.indexOf m), 1
+                  resolve()
+                else reject err
 
   destroy: ->
     new Promise (resolve, reject) =>
-      store.remove ip: @ip, (err) ->
-        resolve not err?
+      store.remove ip: @ip, (err) =>
+        if not err?
+          @map = []
+          @get = {}
+          resolve()
+        else reject err
 
 module.exports = Session

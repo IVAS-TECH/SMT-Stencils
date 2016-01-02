@@ -15,12 +15,12 @@ router.post "/user", (req, res) ->
 router.patch "/user", (req, res) ->
   update = {}
   update[req.body.type] = req.body.value
-  id = req.session.find req.ip
+  id = req.session.get.uid
   userModel.findByIdAndUpdate id, $set: update, {new: true}, (err, doc) ->
     res.send success: successful err, doc
 
 router.get "/login", (req, res) ->
-  if not req.session.empty()
+  if not req.session.isEmpty()
     id = req.session.get.uid
     userModel.findById id, (err, doc) ->
       success = successful err, doc

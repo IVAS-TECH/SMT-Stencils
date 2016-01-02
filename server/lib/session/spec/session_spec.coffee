@@ -48,9 +48,9 @@ describe "session", ->
       midleware req
       expect(req.session.ip).to.equal "127.0.0.1"
 
-  describe "lets next req handler to execute", ->
+  describe "it lets next req handler to execute", ->
 
-    req = undefined
+    proxyquire = req = undefined
 
     beforeEach ->
 
@@ -60,19 +60,50 @@ describe "session", ->
         connection:
           remoteAddress: "127.0.0.1"
 
-      class Session
-        ready: ->
-          then: (resolve) ->
-            resolve()
+    describe "if DB Query Succed it simply calls next", ->
 
-      session = proxyquire "./../session", "./Session": Session
+      beforeEach ->
 
-      midleware = session()
+        class mockSession
+          ready: ->
+            then: (resolve) ->
+              resolve()
 
-    it "calls next() when session is ready for use", ->
+        session = proxyquire "./../session", "./Session": mockSession
 
-      spy = sinon.spy()
+        midleware = session()
 
-      midleware req, {}, spy
+      it "calls next() when session is ready for use", ->
 
-      expect(spy).to.have.been.calledOnce
+        spy = sinon.spy()
+
+        midleware req, {}, spy
+
+        expect(spy).to.have.been.calledOnce
+
+    describe "if DB Query failed it 'throws' the error by calling next with error", ->
+
+      error = undefined
+
+      beforeEach ->
+
+        error = new Error "some error"
+
+        class mockSession
+          ready: ->
+            then: (resolve, reject) ->
+              reject error
+
+        session = proxyquire "./../session", "./Session": mockSession
+
+        midleware = session()
+
+      it "calls next() when session is ready for use", ->
+
+        next = (err) ->
+
+        spy = sinon.spy next
+
+        midleware req, {}, spy
+
+        expect(spy).to.have.been.calledOnce.calledWithExactly error
