@@ -65,7 +65,7 @@ describe "session", ->
       beforeEach ->
 
         class mockSession
-          ready: ->
+          restore: ->
             then: (resolve) ->
               resolve()
 
@@ -73,7 +73,7 @@ describe "session", ->
 
         midleware = session()
 
-      it "calls next() when session is ready for use", ->
+      it "calls next() when session is restore for use", ->
 
         spy = sinon.spy()
 
@@ -90,7 +90,7 @@ describe "session", ->
         error = new Error "some error"
 
         class mockSession
-          ready: ->
+          restore: ->
             then: (resolve, reject) ->
               reject error
 
@@ -98,7 +98,7 @@ describe "session", ->
 
         midleware = session()
 
-      it "calls next() when session is ready for use", ->
+      it "calls next() when session is restore and ready for use", ->
 
         next = (err) ->
 

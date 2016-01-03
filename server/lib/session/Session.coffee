@@ -15,7 +15,7 @@ class Session
     else
       @map[index] = doc
 
-  ready: ->
+  restore: ->
     new Promise (resolve, reject) =>
       store.find ip: @ip, (err, docs) =>
         if successful err, docs
@@ -79,12 +79,9 @@ class Session
       if typeof key is "string"
         (@remove key).then resolve, reject
       else
-        index = 0
-        next = =>
-          if index < key.length
-            (@remove key[index++]).then next, reject
-          else resolve()
-        next()
+        Promise
+          .all (@remove k for k in key)
+          .then resolve, reject
 
   destroy: ->
     new Promise (resolve, reject) =>

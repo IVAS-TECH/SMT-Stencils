@@ -3,8 +3,7 @@ moduleName = "homeModule"
 
 angular
     .module moduleName, [require './user/userModule']
-      .factory "goHomeService", require "./goHomeService"
-      .factory "goAdminService", require "./goAdminService"
+      .factory "transitionService", require "./transitionService"
       .controller "homeController", require "./homeController"
       .config require "./homeConfig"
 

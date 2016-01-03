@@ -1,8 +1,8 @@
 {angular} = require "dependencies"
 Promise = require "promise"
 
-module.exports = ($rootScope, RESTHelperService, goAdminService) ->
-  @$inject = ["$rootScope", "RESTHelperService", "goAdminService"]
+module.exports = ($rootScope, RESTHelperService, transitionService) ->
+  @$inject = ["$rootScope", "RESTHelperService", "transitionService"]
 
   _authenticated = false
   _user = null
@@ -18,7 +18,7 @@ module.exports = ($rootScope, RESTHelperService, goAdminService) ->
     _session = authentication.session ? true
     _async = authentication.async_ ? false
     _admin = authentication.admin
-    if isAdmin() then goAdminService()
+    if isAdmin() then transitionService.toAdmin()
 
   $rootScope.$on "unauthentication", (event) ->
     _authenticated = false

@@ -6,4 +6,4 @@ module.exports = ->
     req.session = new Session req.ip
     resolve = -> next()
     reject = (err) -> next err
-    req.session.ready().then resolve, reject
+    req.session.restore().then resolve, reject

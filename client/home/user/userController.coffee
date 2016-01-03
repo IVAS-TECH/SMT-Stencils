@@ -1,6 +1,6 @@
-module.exports = (registerService, loginService, authenticationService, $scope, $window, goHomeService) ->
+module.exports = (registerService, loginService, authenticationService, $scope, $window, transitionService) ->
   controller = @
-  controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "goHomeService"]
+  controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "transitionService"]
 
   authenticateUser = ->
     controller.user = authenticationService.getUser()
@@ -25,7 +25,7 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
   controller.logout = (event) ->
     authenticationService.unauthenticate ->
       authenticateUser()
-      goHomeService()
+      transitionService.toHome()
 
   init()
 

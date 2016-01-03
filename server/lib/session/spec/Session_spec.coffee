@@ -96,7 +96,7 @@ describe "Session", ->
 
     afterEach -> proxyquire.callThru()
 
-    describe "ready", ->
+    describe "restore", ->
 
       beforeEach ->
 
@@ -106,7 +106,7 @@ describe "Session", ->
 
         session = new Session "ip"
 
-        session.ready().then ->
+        session.restore().then ->
 
           expect(session.isEmpty()).to.be.false
 
@@ -171,7 +171,7 @@ describe "Session", ->
 
           spy = sinon.spy session, "update"
 
-          session.ready().then done
+          session.restore().then done
 
         afterEach -> spy.restore()
 
@@ -214,7 +214,7 @@ describe "Session", ->
 
           session = new Session "ip"
 
-          session.ready().then done
+          session.restore().then done
 
         it "updates the collection", ->
 
@@ -254,7 +254,7 @@ describe "Session", ->
 
         session = new Session "ip"
 
-        session.ready().then done
+        session.restore().then done
 
       afterEach -> spy.restore()
 
@@ -343,7 +343,7 @@ describe "Session", ->
 
     tests = [
       {
-        method: "ready"
+        method: "restore"
         args: []
       }
       {

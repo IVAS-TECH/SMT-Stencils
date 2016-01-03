@@ -1,5 +1,5 @@
-module.exports = ($scope, $location, authenticationService, loginService, goHomeService, goAdminService) ->
-  @$inject = ["$scope", "$location", "authenticationService", "loginService", "goHomeService", "goAdminService"]
+module.exports = ($scope, $location, authenticationService, loginService, transitionService) ->
+  @$inject = ["$scope", "$location", "authenticationService", "loginService", "transitionService"]
 
   controller = @
 
@@ -10,17 +10,16 @@ module.exports = ($scope, $location, authenticationService, loginService, goHome
       if not authenticationService.isAuthenticated()
 
         if $location.path() not in ["/about", "/technologies", "/contacts"]
-          loginService {}, close: goHomeService, cancel: goHomeService
-
+          loginService {}, close: transitionService.toHome, cancel: transitionService.toHome
       else
 
         if authenticationService.isAdmin()
 
-          if $location.path() isnt "/admin" then goAdminService()
+          if $location.path() isnt "/admin" then transitionService.toAdmin()
 
-        else if $location.path() is "/admin" then goHomeService()
+        else if $location.path() is "/admin" then transitionService.toHome()
 
-    if $location.path() is "" then goHomeService()
+    if $location.path() is "" then transitionService.toHome()
 
     authenticationService.authenticate().then ->
       restrict()
