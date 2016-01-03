@@ -3,4 +3,4 @@ module.exports = (errorFile) ->
     if err is "Not Found"
       res.status(200).sendFile errorFile
     else
-      res.send success: false
+      res.sendStatus 500

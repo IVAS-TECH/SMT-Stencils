@@ -1,6 +1,7 @@
 Promise = require "promise"
 store = require "./sessionModel"
 successful = require "./../successful"
+noErr = require "./../noErr"
 
 class Session
 
@@ -67,7 +68,7 @@ class Session
         for m in @map
           if key is m.key
             store.remove _id: m._id, (err) =>
-              if successful err
+              if noErr err
                 delete @get.k
                 @map.splice (@map.indexOf m), 1
                 resolve()
@@ -86,7 +87,7 @@ class Session
   destroy: ->
     new Promise (resolve, reject) =>
       store.remove ip: @ip, (err) =>
-        if successful err
+        if noErr err
           @map = []
           @get = {}
           resolve()

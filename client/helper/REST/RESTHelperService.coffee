@@ -9,7 +9,7 @@ module.exports = (REST, uploadService) ->
   addressesREST = REST "addresses"
   orderREST = REST "order"
 
-  resolve = (resolver) -> (res) -> if res.data.success then resolver res.data else console.log res.data
+  resolve = (resolver) -> (res) -> if res.statusCode is 200 then resolver res.data else console.log res
 
   email: (email, resolver) -> userREST.get(email).then resolve resolver
   register: (user, resolver) -> userREST.post(user).then resolve resolver

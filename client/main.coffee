@@ -23,7 +23,7 @@ angular
   .module moduleName, deps
     .config (RESTProvider, uploadServiceProvider) ->
       @$inject = ["RESTProvider", "uploadServiceProvider"]
-      RESTProvider.setBase "client"
+      RESTProvider.setBase "api"
       uploadServiceProvider.setBase "file"
 
 angular
