@@ -1,11 +1,11 @@
 Promise = require "promise"
 adminModel = require "./adminModel"
-noErr = require "./../../../lib/noErr"
+query = require "./../../../lib/query"
 
 module.exports = (id) ->
   new Promise (resolve, reject) ->
     adminModel.findOne user: id, (err, doc) ->
-      if noErr err
+      if query.noErr err
         res = admin: doc?
         if res.admin
           res.access = doc.access

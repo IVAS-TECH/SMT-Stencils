@@ -1,34 +1,32 @@
 {Router} = require "express"
 userModel = require "./userModel"
-successful = require "./../../lib/successful"
 send = require "./../../lib/send"
-queryCheck = require "./../../lib/queryCheck"
-noErr = require "./../../lib/noErr"
+query = require "./../../lib/query"
 isAdmin = require "./admin/isAdmin"
 router = new Router()
 
 router.get "/user/:email", (req, res, next) ->
   userModel.findOne email: req.params.email, (err, doc) ->
-    if noErr err
+    if query.noErr err
       send res, taken: doc?
-    else reject err
+    else next err
 
 router.post "/user", (req, res, next) ->
   userModel.create req.body.user, (err, doc) ->
-    queryCheck err, doc, res, next
+    query.basicHandle err, doc, res, next
 
 router.patch "/user", (req, res, next) ->
   update = {}
   update[req.body.type] = req.body.value
   id = req.session.get.uid
   userModel.findByIdAndUpdate id, $set: update, {new: true}, (err, doc) ->
-    queryCheck err, doc, res, next
+    query.basicHandle err, doc, res, next
 
 router.get "/login", (req, res, next) ->
   if not req.session.isEmpty()
     id = req.session.get.uid
     userModel.findById id, (err, doc) ->
-      success = successful err, doc
+      success = query.successful err, doc
       user = if success then email: doc.email, password: doc.password else {}
       isAdmin(id).then (admin) ->
         send res, user: user, admin: admin, login: success
@@ -36,7 +34,7 @@ router.get "/login", (req, res, next) ->
 
 router.post "/login", (req, res, next) ->
   userModel.findOne req.body.user, (err, doc) ->
-    if noErr err
+    if query.noErr err
       if doc?
         resolve = ->
           isAdmin(doc._id).then (admin) ->

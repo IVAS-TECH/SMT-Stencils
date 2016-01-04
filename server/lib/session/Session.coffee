@@ -1,7 +1,6 @@
 Promise = require "promise"
 store = require "./sessionModel"
-successful = require "./../successful"
-noErr = require "./../noErr"
+query = require "./../query"
 
 class Session
 
@@ -19,7 +18,7 @@ class Session
   restore: ->
     new Promise (resolve, reject) =>
       store.find ip: @ip, (err, docs) =>
-        if successful err, docs
+        if query.successful err, docs
           @add doc for doc in docs
           resolve()
         else reject err
@@ -36,7 +35,7 @@ class Session
             key: k
             value: JSON.stringify v
           store.create create, (err, doc) =>
-            success &= successful err, doc
+            success &= query.successful err, doc
             if success
               @add doc
             else reject err
@@ -56,7 +55,7 @@ class Session
               value: JSON.stringify v
             store
               .findByIdAndUpdate m._id, $set: set, {new: true}, (err, doc) =>
-                success &= successful err, doc
+                success &= query.successful err, doc
                 if success then @add doc, @map.indexOf m
                 else reject err
       resolve()
@@ -68,7 +67,7 @@ class Session
         for m in @map
           if key is m.key
             store.remove _id: m._id, (err) =>
-              if noErr err
+              if query.noErr err
                 delete @get.k
                 @map.splice (@map.indexOf m), 1
                 resolve()
@@ -87,7 +86,7 @@ class Session
   destroy: ->
     new Promise (resolve, reject) =>
       store.remove ip: @ip, (err) =>
-        if noErr err
+        if query.noErr err
           @map = []
           @get = {}
           resolve()
