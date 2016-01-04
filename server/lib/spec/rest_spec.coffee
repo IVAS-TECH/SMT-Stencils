@@ -34,7 +34,7 @@ describe "rest", ->
 
   afterEach -> spy.restore() for spy in spies
 
-  after -> proxyquire.callThru
+  after -> proxyquire.callThru()
 
   it "builds restful router", ->
 
