@@ -1,16 +1,22 @@
 describe "session", ->
 
-  session = midleware = undefined
+  req = proxyquire = session = midleware = undefined
 
-  describe "req.ip", ->
+  before -> proxyquire = require "proxyquire"
 
-    req = undefined
+  describe "req.session.ip", ->
 
-    beforeEach ->
+    spy = undefined
 
-      session = require "./../session"
+    before ->
+
+      spy = sinon.spy()
+
+      session = proxyquire "./../session", "./Session": spy
 
       midleware = session()
+
+    beforeEach ->
 
       req =
         connection:
@@ -18,47 +24,29 @@ describe "session", ->
           _peername:
             address: undefined
 
-    it "sets ip value to be req.connection.remoteAddress", ->
+    it "calls Session with req.connection.remoteAddress", ->
       req.connection.remoteAddress = "127.0.0.1"
       midleware req
-      expect(req.ip).to.equal req.connection.remoteAddress
+      expect(spy).to.have.been.calledWith req.connection.remoteAddress
 
       req.connection._peername.address = "0.0.0.0"
       midleware req
-      expect(req.ip).to.equal req.connection.remoteAddress
+      expect(spy).to.have.been.calledWith  req.connection.remoteAddress
 
-    it "sets ip value to be req.connection._peername.address", ->
+    it "scalls Session with req.connection._peername.address", ->
       req.connection._peername.address = "127.0.0.1"
       midleware req
-      expect(req.ip).to.equal req.connection._peername.address
-
-  describe "req.session", ->
-
-    req = undefined
-
-    beforeEach ->
-
-      session = require "./../session"
-      midleware = session()
-      req =
-        connection:
-          remoteAddress: "127.0.0.1"
-
-    it "creates new Session that maches the req.ip", ->
-      midleware req
-      expect(req.session.ip).to.equal "127.0.0.1"
+      expect(spy).to.have.been.calledWith  req.connection._peername.address
 
   describe "it lets next req handler to execute", ->
 
-    proxyquire = req = undefined
-
-    beforeEach ->
-
-      proxyquire = require "proxyquire"
+    before ->
 
       req =
         connection:
           remoteAddress: "127.0.0.1"
+
+      proxyquire = require "proxyquire"
 
     describe "if DB Query Succed it simply calls next", ->
 

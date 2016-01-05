@@ -12,14 +12,20 @@ sendFile = (file) ->
   (req, res) -> res.sendFile file
 
 module.exports =
+
   beforeEach: [bodyParser.json(), session()]
+
   afterEach: [
     (req, res, next) -> next "Not Found"
     errorHandler error
   ]
+
   get: sendFile index
+
   api: require "./routes/routes"
+
   script:
     get: sendFile script
+    
   "favicon.ico":
     get:  -> console.log "add favicon!!!"
