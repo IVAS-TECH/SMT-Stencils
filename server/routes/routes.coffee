@@ -1,8 +1,3 @@
-routerTree = require "./../lib/routerTree"
-#order = require "./order/orderRouter"
-
-handle =
+module.exports =
   user: require "./user/userHandle"
   login: require "./user/loginHandle"
-
-module.exports = routerTree handle

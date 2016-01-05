@@ -8,14 +8,26 @@ methods = [
   "patch"
 ]
 
+special = [
+  "param"
+  "beforeEach"
+  "afterEach"
+]
+
 routerLeaf = (handle) ->
 
   router = new Router()
 
-  param = handle.param
+  use = (wich) ->
+    if handle[special[wich]]?
+      router.use "\/", handle[special[wich]]
+
+  use 1
+
+  param = handle[special[0]]
 
   for key, value of handle
-    if key isnt "param"
+    if key not in special
 
       if key not in methods
         router.use "\/" + key, routerLeaf value
@@ -26,6 +38,8 @@ routerLeaf = (handle) ->
           uri += "\:" + param
 
         router[key] uri, value
+
+  use 2
 
   router
 
