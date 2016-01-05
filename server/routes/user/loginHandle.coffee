@@ -1,7 +1,7 @@
-userModel = require "./../userModel"
-send = require "./../../../lib/send"
-query = require "./../../../lib/query"
-isAdmin = require "./../admin/isAdmin"
+userModel = require "./userModel"
+send = require "./../../lib/send"
+query = require "./../../lib/query"
+isAdmin = require "./admin/isAdmin"
 
 module.exports =
 
@@ -12,7 +12,7 @@ module.exports =
         success = query.successful err, doc
         user = {}
         if success
-          email: doc.email, password: doc.password
+          user = email: doc.email, password: doc.password
         isAdmin(id).then (admin) ->
           send res, user: user, admin: admin, login: success
     else send res, login: false, user: {}, admin: admin: false

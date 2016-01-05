@@ -18,15 +18,15 @@ describe "query", ->
 
         expect(query.successful new Error()).to.be.false
 
-      describe "noErr", ->
+    describe "noErr", ->
 
-        it "returns true if thre is no db query error", ->
+      it "returns true if thre is no db query error", ->
 
-          expect(query.noErr null).to.be.true
+        expect(query.noErr null).to.be.true
 
-        it "returns false if thre was a db query error", ->
+      it "returns false if thre was a db query error", ->
 
-          expect(query.noErr new Error()).to.be.false
+        expect(query.noErr new Error()).to.be.false
 
     describe "basicHandle", ->
 

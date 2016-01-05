@@ -1,11 +1,8 @@
-{Router} = require "express"
-user = require "./user/user/userRouter"
-login = require "./user/login/loginRouter"
+routerTree = require "./../lib/routerTree"
 #order = require "./order/orderRouter"
-router = new Router()
 
-router.use user
-router.use login
-#router.use order
+handle =
+  user: require "./user/userHandle"
+  login: require "./user/loginHandle"
 
-module.exports = router
+module.exports = routerTree handle

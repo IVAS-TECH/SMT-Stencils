@@ -1,6 +1,6 @@
-userModel = require "./../userModel"
-send = require "./../../../lib/send"
-query = require "./../../../lib/query"
+userModel = require "./userModel"
+send = require "./../../lib/send"
+query = require "./../../lib/query"
 
 module.exports =
 
@@ -20,3 +20,5 @@ module.exports =
     id = req.session.get.uid
     userModel.findByIdAndUpdate id, $set: update, {new: true}, (err, doc) ->
       query.basicHandle err, doc, res, next
+
+  param: "email"
