@@ -35,7 +35,12 @@ routerLeaf = (handle) ->
       else
         uri = "\/"
         if key in methods[0..1] and param?
-          uri += "\:" + param
+          withParam = null
+          if typeof param is "object" and param[key]?
+            withParam = param[key]
+          if typeof param is "string"
+            withParam = param
+          if withParam? then uri += "\:" + withParam
 
         router[key] uri, value
 
