@@ -1,6 +1,6 @@
 describe "userHandle", ->
 
-  handle = proxyquire = userModel = send = query = undefined
+  res = handle = proxyquire = userModel = send = query = undefined
 
   before ->
 
@@ -11,15 +11,15 @@ describe "userHandle", ->
     query =
       basicHandle: sinon.spy()
 
+    res = {}
+
   describe "get", ->
 
-    req = res = next = stub = error = undefined
+    req = next = stub = error = undefined
 
     before ->
 
       req = params: email: "test@test"
-
-      res = {}
 
       next = sinon.spy()
 
@@ -71,15 +71,13 @@ describe "userHandle", ->
 
   describe "post", ->
 
-    req = res = stub = next = error = undefined
+    req = stub = next = error = undefined
 
     before ->
 
       req = body: user:
         email: "test@test"
         password: "testtest"
-
-      res = {}
 
       next = ->
 
@@ -110,3 +108,73 @@ describe "userHandle", ->
       expect(query.basicHandle).to.have.been
         .calledTwice
         .calledWithExactly error , null, res, next
+
+  describe "patch", ->
+
+    req = res = stub = next = error = undefined
+
+    before ->
+
+      next = ->
+
+      userModel = findByIdAndUpdate: ->
+
+      stub = sinon.stub userModel, "findByIdAndUpdate"
+
+      stub.onFirstCall().callsArgWith 3, null, not null
+
+      stub.onSecondCall().callsArgWith 3, null, not null
+
+      error = new Error()
+
+      stub.onThirdCall().callsArgWith 3, error, null
+
+      handle = proxyquire "./../userHandle",
+        "./userModel": userModel
+        "./../../lib/query": query
+
+    beforeEach -> req = session: get: uid: "id"
+
+    it "calls userModel.findByIdAndUpdate with user id and {emial: value} and makes a call to query.basicHandle", ->
+
+      req.body =
+        type: "email"
+        value: "email@email"
+
+      handle.patch req, res, next
+
+      expect(stub).to.have.been
+        .calledOnce
+        .calledWith req.session.get.uid, $set: email: "email@email", {new: true}
+
+      expect(query.basicHandle).to.have.been
+        .calledThrice
+        .calledWithExactly null, not null, res, next
+
+    it "calls userModel.findByIdAndUpdate with user id and {password: value} and makes a call to query.basicHandle", ->
+
+      req.body =
+        type: "password"
+        value: "password"
+
+      handle.patch req, res, next
+
+      expect(stub).to.have.been
+        .calledTwice
+        .calledWith req.session.get.uid, $set: password: "password", {new: true}
+
+      expect(query.basicHandle).to.have.been
+        .callCount 4
+        .calledWithExactly null, not null, res, next
+
+    it "passes on error", ->
+
+      req.body =
+        type: "notExpected"
+        value: "error"
+
+      handle.patch req, res, next
+
+      expect(query.basicHandle).to.have.been
+        .callCount 5
+        .calledWithExactly error, null, res, next
