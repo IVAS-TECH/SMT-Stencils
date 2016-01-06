@@ -12,6 +12,7 @@ special = [
   "param"
   "beforeEach"
   "afterEach"
+  "use"
 ]
 
 routerLeaf = (handle) ->

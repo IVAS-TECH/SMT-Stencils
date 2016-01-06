@@ -68,8 +68,6 @@ describe "Session", ->
 
       proxyquire = require "proxyquire"
 
-      proxyquire.noCallThru()
-
       docs = [
         {
           _id: "id0"
@@ -93,8 +91,6 @@ describe "Session", ->
 
       mockSessionModel =
         find: (obj, callback) -> callback null, docs
-
-    afterEach -> proxyquire.callThru()
 
     describe "restore", ->
 
@@ -326,8 +322,6 @@ describe "Session", ->
 
       proxyquire = require "proxyquire"
 
-      proxyquire.noCallThru()
-
       mockedStore =
         find: simpleCallback
         findByIdAndUpdate: (id, query, opts, callback) ->
@@ -338,8 +332,6 @@ describe "Session", ->
       Session = proxyquire "./../Session", "./sessionModel": mockedStore
 
       session = new Session "ip"
-
-    after -> proxyquire.callThru()
 
     tests = [
       {
