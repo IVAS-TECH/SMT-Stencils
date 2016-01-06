@@ -314,13 +314,15 @@ describe "Session", ->
 
   describe "functionality when DB Query is not successful", ->
 
-    proxyquire = session = undefined
-
-    simpleCallback = (obj, callback) -> callback new Error()
+    simpleCallback = error = proxyquire = session = undefined
 
     before ->
 
       proxyquire = require "proxyquire"
+
+      error = new Error()
+
+      simpleCallback = (obj, callback) -> callback error, null
 
       mockedStore =
         find: simpleCallback
@@ -329,7 +331,8 @@ describe "Session", ->
         create: simpleCallback
         remove: simpleCallback
 
-      Session = proxyquire "./../Session", "./sessionModel": mockedStore
+      Session = proxyquire "./../Session",
+        "./sessionModel": mockedStore
 
       session = new Session "ip"
 
@@ -366,7 +369,7 @@ describe "Session", ->
 
         promise = session[test.method].apply null, test.args
 
-        return expect(promise).to.eventually.be.rejectedWith Error
+        expect(promise).to.be.rejectedWith error
 
     describe "remove when empty", ->
 
