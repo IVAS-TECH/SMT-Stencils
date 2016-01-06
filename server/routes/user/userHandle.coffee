@@ -21,5 +21,5 @@ module.exports =
     userModel.findByIdAndUpdate id, $set: update, {new: true}, (err, doc) ->
       query.basicHandle err, doc, res, next
 
-  param:
+  params:
     get: "email"

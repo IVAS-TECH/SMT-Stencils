@@ -11,7 +11,7 @@ describe "routerTree", ->
   ]
 
   special = [
-    "param"
+    "params"
     "beforeEach"
     "afterEach"
     "use"
@@ -55,9 +55,9 @@ describe "routerTree", ->
     for index of methods
       expect(spies[index]).to.have.been.calledWith "/", cb
 
-  it "adds param to router if param has been passed and method is get/delete", ->
+  it "adds params to router if params has been passed and method is get/delete", ->
 
-    handle.param = "param"
+    handle.params = "params"
 
     router = routerTree handle
 
@@ -67,13 +67,13 @@ describe "routerTree", ->
 
     for method in methods
       if method in [methods[0], methods[4]]
-        expect(spies[methods.indexOf method]).to.have.been.calledWith "/:param", cb
+        expect(spies[methods.indexOf method]).to.have.been.calledWith "/:params", cb
       else
         expect(spies[methods.indexOf method]).to.have.been.calledWith "/", cb
 
-  it "adds param to router if param has been specified for a method", ->
+  it "adds params to router if params has been specified for a method", ->
 
-    handle.param = get: "param"
+    handle.params = get: "params"
 
     router = routerTree handle
 
@@ -83,7 +83,7 @@ describe "routerTree", ->
 
     for method in methods
       if method is methods[0]
-        expect(spies[methods.indexOf method]).to.have.been.calledWith "/:param", cb
+        expect(spies[methods.indexOf method]).to.have.been.calledWith "/:params", cb
       else
         expect(spies[methods.indexOf method]).to.have.been.calledWith "/", cb
 
@@ -118,7 +118,6 @@ describe "routerTree", ->
       .to.have.been.calledOnce
       .and.calledBefore spies[0]
       .and.calledWithExactly "\/", beforeEach
-
 
   it "calls router.use with provided afterEach if there is 1 on the handler after iterating the rest", ->
 

@@ -167,6 +167,7 @@ mocha = (args) ->
         files.push join root, file.name
       next()
     walker.on "end", ->
+      files.reverse()
       args.push file for file in files
       resolve args
 
