@@ -1,17 +1,21 @@
+proxyquire = require "proxyquire"
+
 describe "userHandle", ->
 
-  res = handle = proxyquire = userModel = send = query = undefined
+  handle = userModel = send = query = undefined
 
-  before ->
+  res = {}
 
-    proxyquire = require "proxyquire"
+  send = sinon.spy()
 
-    send = sinon.spy()
+  query =
+    basicHandle: sinon.spy()
 
-    query =
-      basicHandle: sinon.spy()
+  beforeEach ->
 
-    res = {}
+    send.reset()
+
+    query.basicHandle.reset()
 
   describe "get", ->
 
@@ -46,7 +50,6 @@ describe "userHandle", ->
       handle.get req, res, next
 
       expect(send).to.have.been
-        .calledOnce
         .calledWithExactly res, taken: true
 
       expect(next).to.have.not.been.called
@@ -56,7 +59,6 @@ describe "userHandle", ->
       handle.get req, res, next
 
       expect(send).to.have.been
-        .calledTwice
         .calledWithExactly res, taken: false
 
       expect(next).to.have.not.been.called
@@ -67,7 +69,7 @@ describe "userHandle", ->
 
       expect(next).to.have.been.calledWithExactly error
 
-      expect(send).to.have.not.been.calledTrice
+      expect(send).to.have.not.been.called
 
   describe "post", ->
 
@@ -144,11 +146,9 @@ describe "userHandle", ->
       handle.patch req, res, next
 
       expect(stub).to.have.been
-        .calledOnce
         .calledWith req.session.get.uid, $set: email: "email@email", {new: true}
 
       expect(query.basicHandle).to.have.been
-        .calledThrice
         .calledWithExactly null, not null, res, next
 
     it "calls userModel.findByIdAndUpdate with user id and {password: value} and makes a call to query.basicHandle", ->
@@ -160,11 +160,9 @@ describe "userHandle", ->
       handle.patch req, res, next
 
       expect(stub).to.have.been
-        .calledTwice
         .calledWith req.session.get.uid, $set: password: "password", {new: true}
 
       expect(query.basicHandle).to.have.been
-        .callCount 4
         .calledWithExactly null, not null, res, next
 
     it "passes on error", ->
@@ -176,5 +174,4 @@ describe "userHandle", ->
       handle.patch req, res, next
 
       expect(query.basicHandle).to.have.been
-        .callCount 5
         .calledWithExactly error, null, res, next

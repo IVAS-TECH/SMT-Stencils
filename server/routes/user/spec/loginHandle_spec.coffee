@@ -37,9 +37,7 @@ describe "loginHandle", ->
 
       handle.delete req, res, next
 
-      expect(send).to.have.been
-        .calledOnce
-        .and.calledWithExactly res
+      expect(send).to.have.been.calledWithExactly res
 
       expect(next).to.have.not.been.called
 
@@ -49,6 +47,4 @@ describe "loginHandle", ->
 
       expect(send).to.have.not.been.called
 
-      expect(next).to.have.been
-        .calledOnce
-        .and.calledWithExactly error
+      expect(next).to.have.been.calledWithExactly error
