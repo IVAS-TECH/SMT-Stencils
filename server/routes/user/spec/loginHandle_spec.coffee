@@ -1,25 +1,26 @@
+proxyquire = require "proxyquire"
+
 describe "loginHandle", ->
 
-  req = next = res = handle = proxyquire = userModel = send = query = undefined
+  req = next = res = handle = userModel = send = query = undefined
 
-  before ->
+  send = sinon.spy()
 
-    proxyquire = require "proxyquire"
+  next = sinon.spy()
 
-    send = sinon.spy()
+  res = {}
 
-    next = sinon.spy()
+  beforeEach ->
 
-    res = {}
+    send.reset()
+
+    next.reset()
 
   describe "delete", ->
 
     error = new Error()
 
     before ->
-
-      send.reset()
-      next.reset()
 
       stub = sinon.stub()
 
@@ -42,11 +43,11 @@ describe "loginHandle", ->
 
       expect(next).to.have.not.been.called
 
-    it "passes down error if there is one", ->
+    it "passes down error if there is error", ->
 
       handle.delete req, res, next
 
-      expect(send).to.have.been.calledOnce
+      expect(send).to.have.not.been.called
 
       expect(next).to.have.been
         .calledOnce
