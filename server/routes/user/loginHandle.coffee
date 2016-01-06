@@ -21,10 +21,11 @@ module.exports =
     userModel.findOne req.body.user, (err, doc) ->
       if query.noErr err
         if doc?
-          resolve = ->
-            isAdmin(doc._id).then (admin) ->
+          create = ->
+            resolve = (admin) ->
               send res, login: true, admin: admin
-          req.session.create(uid: doc._id).then resolve, next
+            isAdmin(doc._id).then resolve, next
+          req.session.create(uid: doc._id).then create, next
         else send res, login: false
       else next err
 
