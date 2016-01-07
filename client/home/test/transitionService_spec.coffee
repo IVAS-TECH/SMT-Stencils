@@ -1,14 +1,15 @@
-mock = require "mock"
+tested = require "./../transitionService"
 
 describe "goHomeService", ->
 
   transitionService = $state = undefined
 
-  beforeEach mock.module "main"
+  beforeEach ->
+    $state =
+      current: name: ""
+      go: ->
 
-  beforeEach mock.inject (_transitionService_, _$state_) ->
-    $state = _$state_
-    transitionService = _transitionService_
+    transitionService = tested $state
 
   it "should chage $state to 'home.about'", () ->
 

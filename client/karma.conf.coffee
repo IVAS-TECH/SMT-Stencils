@@ -1,19 +1,18 @@
+instanbul = require "browserify-istanbul"
+
 module.exports = (config) ->
   config
     .set
       basePath: ""
       frameworks: ["browserify", "jasmine"]
-      files: [
-        "app/final.js"
-        "**/*_spec.js"
-      ]
-      exclude: ["karma.conf.js"]
+      files: ["**/*_spec.js"]
+      exclude: ["karma.conf.js", "app/*"]
       reporters: ["mocha", "coverage"]
       preprocessors:
-        "app/final.js": ["coverage"]
         "**/*_spec.js": ["browserify"]
       browserify:
         debug: true
+        transform: [instanbul]
       coverageReporter:
         type : "html",
         dir : "coverage/"
