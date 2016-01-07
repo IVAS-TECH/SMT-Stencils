@@ -9,13 +9,11 @@ module.exports =
     if not req.session.isEmpty()
       id = req.session.get.uid
       userModel.findById id, (err, doc) ->
-        success = query.successful err, doc
-        user = {}
-        if success
-          user = email: doc.email, password: doc.password
-        resolve = (admin) ->
-          send res, user: user, admin: admin, login: success
-        isAdmin(id).then resolve, next
+        if query.successful err, doc
+          resolve = (admin) ->
+            send res, login: true, user: doc, admin: admin
+          isAdmin(id).then resolve, next
+        else next err
     else send res, login: false, user: {}, admin: admin: false
 
   post: (req, res, next) ->

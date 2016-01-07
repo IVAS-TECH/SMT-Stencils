@@ -23,29 +23,110 @@ describe "loginHandle", ->
 
   describe "get and post", ->
 
-    isAdmin = sinon.stub()
+    isAdmin = undefined
 
-    isAdmin.onFirstCall().returns
-      then: (resolve, reject) ->
-        reject error
+    before ->
 
-    isAdmin.returns
-      then: (resolve, reject) ->
-        resolve {}
+      isAdmin = sinon.stub()
+
+      isAdmin.onFirstCall().returns
+        then: (resolve, reject) ->
+          reject error
+
+      isAdmin.returns
+        then: (resolve, reject) ->
+          resolve {}
 
     describe "get", ->
 
+      id = "id"
+
+      findById = undefined
+
+      doc =_id: id
+
+      before ->
+
+        isEmpty = sinon.stub()
+
+        isEmpty.onFirstCall().returns true
+
+        isEmpty.returns false
+
+        req =
+          session:
+            get: uid: id
+
+            isEmpty: isEmpty
+
+        findById = sinon.stub()
+
+        findById.onFirstCall().callsArgWith 1, error, null
+
+        findById.callsArgWith 1, null, doc
+
+        userModel = findById: findById
+
+        handle = proxyquire "./../loginHandle",
+          "./userModel": userModel
+          "./admin/isAdmin": isAdmin
+          "./../../lib/send": send
+
+      it "sends {login: false, user: {}, admin:{admin: false}} if session is empty (thre is no session)", ->
+
+        handle.get req, res, next
+
+        expect(send).to.have.been.calledWithExactly res,
+          login: false, user: {}, admin: admin: false
+
+        expect(next).to.have.not.been.called
+
+      it "passes down error from :findById by calling next with error", ->
+
+        handle.get req, res, next
+
+        expect(next).to.have.been.calledWithExactly error
+
+        expect(findById).to.have.been.calledWith id
+
+        expect(isAdmin).to.have.not.been.called
+
+        expect(send).to.have.not.been.called
+
+      it "passes down error from isAdmin by calling next with error", ->
+
+        handle.get req, res, next
+
+        expect(next).to.have.been.calledWithExactly error
+
+        expect(isAdmin).to.have.been.calledWithExactly id
+
+        expect(send).to.have.not.been.called
+
+      it "sends login: true and admin if there was no error", ->
+
+        handle.get req, res, next
+
+        expect(isAdmin).to.have.been.calledWithExactly id
+
+        expect(send).to.have.been.calledWithExactly res,
+          login: true, user: doc, admin: {}
+
+        expect(next).to.have.not.been.called
+
     describe "post", ->
 
-      create = undefined
-
-      req = body: user:
-        email: "email@email"
-        password: "password"
+      findOne = create = undefined
 
       id = "some id"
 
+      user =
+        email: "email@email"
+        password: "password"
+
       before ->
+
+        req = body: user: user
 
         isAdmin.reset()
 
@@ -79,6 +160,8 @@ describe "loginHandle", ->
       it "passes down error from :findOne by calling next with error", ->
 
         handle.post req, res, next
+
+        expect(findOne).to.have.been.calledWith user
 
         expect(next).to.have.been.calledWithExactly error
 
@@ -122,7 +205,8 @@ describe "loginHandle", ->
 
         expect(isAdmin).to.have.been.calledWithExactly id
 
-        expect(send).to.have.been.calledWithExactly res, login: true, admin: {}
+        expect(send).to.have.been.calledWithExactly res,
+          login: true, admin: {}
 
         expect(next).to.have.not.been.called
 
