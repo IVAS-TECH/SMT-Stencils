@@ -13,8 +13,9 @@ module.exports =
         user = {}
         if success
           user = email: doc.email, password: doc.password
-        isAdmin(id).then (admin) ->
+        resolve = (admin) ->
           send res, user: user, admin: admin, login: success
+        isAdmin(id).then resolve, next
     else send res, login: false, user: {}, admin: admin: false
 
   post: (req, res, next) ->

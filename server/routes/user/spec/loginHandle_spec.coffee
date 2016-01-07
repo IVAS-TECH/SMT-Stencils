@@ -21,104 +21,110 @@ describe "loginHandle", ->
 
     next.reset()
 
-  describe "post", ->
+  describe "get and post", ->
 
-    isAdmin = create = undefined
+    isAdmin = sinon.stub()
 
-    req = body: user:
-      email: "email@email"
-      password: "password"
+    isAdmin.onFirstCall().returns
+      then: (resolve, reject) ->
+        reject error
 
-    id = "some id"
+    isAdmin.returns
+      then: (resolve, reject) ->
+        resolve {}
 
-    before ->
+    describe "get", ->
 
-      findOne = sinon.stub()
+    describe "post", ->
 
-      findOne.onFirstCall().callsArgWith 1, error, null
+      create = undefined
 
-      findOne.onSecondCall().callsArgWith 1, null, null
+      req = body: user:
+        email: "email@email"
+        password: "password"
 
-      findOne.callsArgWith 1, null, _id: id
+      id = "some id"
 
-      userModel = findOne: findOne
+      before ->
 
-      create = sinon.stub()
+        isAdmin.reset()
 
-      create.onFirstCall().returns
-        then: (resolve, reject) ->
-          reject error
+        findOne = sinon.stub()
 
-      create.returns
-        then: (resolve, reject) ->
-          resolve()
+        findOne.onFirstCall().callsArgWith 1, error, null
 
-      req.session = create: create
+        findOne.onSecondCall().callsArgWith 1, null, null
 
-      isAdmin = sinon.stub()
+        findOne.callsArgWith 1, null, _id: id
 
-      isAdmin.onFirstCall().returns
-        then: (resolve, reject) ->
-          reject error
+        userModel = findOne: findOne
 
-      isAdmin.returns
-        then: (resolve, reject) ->
-          resolve {}
+        create = sinon.stub()
 
-      handle = proxyquire "./../loginHandle",
-        "./userModel": userModel
-        "./admin/isAdmin": isAdmin
-        "./../../lib/send": send
+        create.onFirstCall().returns
+          then: (resolve, reject) ->
+            reject error
 
-    it "passes down error from :findOne by calling next with error", ->
+        create.returns
+          then: (resolve, reject) ->
+            resolve()
 
-      handle.post req, res, next
+        req.session = create: create
 
-      expect(next).to.have.been.calledWithExactly error
+        handle = proxyquire "./../loginHandle",
+          "./userModel": userModel
+          "./admin/isAdmin": isAdmin
+          "./../../lib/send": send
 
-      expect(send).to.have.not.been.called
+      it "passes down error from :findOne by calling next with error", ->
 
-      expect(create).to.have.not.been.called
+        handle.post req, res, next
 
-    it "sends login: false if none was found", ->
+        expect(next).to.have.been.calledWithExactly error
 
-      handle.post req, res, next
+        expect(send).to.have.not.been.called
 
-      expect(send).to.have.been.calledWithExactly res, login: false
+        expect(create).to.have.not.been.called
 
-      expect(create).to.have.not.been.called
+      it "sends login: false if none was found", ->
 
-      expect(next).to.have.not.been.called
+        handle.post req, res, next
 
-    it "passes down error from :create by calling next with error", ->
+        expect(send).to.have.been.calledWithExactly res, login: false
 
-      handle.post req, res, next
+        expect(create).to.have.not.been.called
 
-      expect(next).to.have.been.calledWithExactly error
+        expect(next).to.have.not.been.called
 
-      expect(isAdmin).to.have.not.been.called
+      it "passes down error from :create by calling next with error", ->
 
-      expect(send).to.have.not.been.called
+        handle.post req, res, next
 
-    it "passes down error from isAdmin by calling next with error", ->
+        expect(next).to.have.been.calledWithExactly error
 
-      handle.post req, res, next
+        expect(isAdmin).to.have.not.been.called
 
-      expect(next).to.have.been.calledWithExactly error
+        expect(send).to.have.not.been.called
 
-      expect(send).to.have.not.been.called
+      it "passes down error from isAdmin by calling next with error", ->
 
-    it "sends login: true and admin if there was no error", ->
+        handle.post req, res, next
 
-      handle.post req, res, next
+        expect(next).to.have.been.calledWithExactly error
 
-      expect(create).to.have.been.calledWithExactly uid: id
+        expect(send).to.have.not.been.called
 
-      expect(isAdmin).to.have.been.calledWithExactly id
+      it "sends login: true and admin if there was no error", ->
 
-      expect(send).to.have.been.calledWithExactly res, login: true, admin: {}
+        handle.post req, res, next
 
-      expect(next).to.have.not.been.called
+        expect(create).to.have.been.calledWithExactly uid: id
+
+        expect(isAdmin).to.have.been.calledWithExactly id
+
+        expect(send).to.have.been.calledWithExactly res, login: true, admin: {}
+
+        expect(next).to.have.not.been.called
 
   describe "delete", ->
 
