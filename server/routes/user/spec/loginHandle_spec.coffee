@@ -103,7 +103,7 @@ describe "loginHandle", ->
 
         expect(send).to.have.not.been.called
 
-      it "sends login: true and admin if there was no error", ->
+      it "sends {login: true user: doc, admin: admin} if there was no error", ->
 
         handle.get req, res, next
 
