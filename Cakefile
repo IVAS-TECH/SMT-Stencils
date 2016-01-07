@@ -179,7 +179,7 @@ task "coverage", "It shows code coverage", ->
   if not fs then invoke "install"
   open = require "open"
   (mocha ["cover", exec._mocha, "--", "--opts", "./server/mocha.conf"]).then (args) ->
-    #invoke "angular"
-    spawnSync exec.istanbul, args, stdio: "inherit"
-    #open join __dirname, "client/coverage/html/index.html"
-    open join __dirname, "coverage/lcov-report/index.html"
+    invoke "angular"
+    #spawnSync exec.istanbul, args, stdio: "inherit"
+    open join __dirname, "client/coverage/html/index.html"
+    #open join __dirname, "coverage/lcov-report/index.html"

@@ -10,8 +10,8 @@ module.exports = (config) ->
       exclude: ["karma.conf.js"]
       reporters: ["mocha", "coverage"]
       preprocessors:
-        "**/*_spec.js": ["browserify"]
         "app/final.js": ["coverage"]
+        "**/*_spec.js": ["browserify"]
       browserify:
         debug: true
       coverageReporter:
