@@ -111,55 +111,27 @@ describe "RESTProvider", ->
 
         done()
 
-    describe "REST.get", ->
+    run = (expected) ->
 
-      it "makes get request if no argumnt is passed empty string will take it place", (done) ->
+      (test) ->
 
-        resource.get().then (data) ->
+        describe "REST.#{test}", ->
 
-          expect(resource.make).toHaveBeenCalledWith "GET", ""
+          it "makes #{test} request if no argument is passed empty #{typeof expected} will take it place", (done) ->
 
-          done()
+            resource[test]().then (data) ->
 
-    describe "REST.post", ->
+              expect(resource.make).toHaveBeenCalledWith test.toUpperCase(), expected
 
-      it "makes post request if no argumnt is passed empty object will take it place", (done) ->
+              done()
 
-        resource.post().then (data) ->
+    withParam = run ""
 
-          expect(resource.make).toHaveBeenCalledWith "POST", {}
+    withParam test for test in ["get", "delete"]
 
-          done()
+    withObject = run {}
 
-    describe "REST.put", ->
-
-      it "makes put request if no argumnt is passed empty object will take it place", (done) ->
-
-        resource.put().then (data) ->
-
-          expect(resource.make).toHaveBeenCalledWith "PUT", {}
-
-          done()
-
-    describe "REST.delete", ->
-
-      it "makes delete request if no argumnt is passed empty string will take it place", (done) ->
-
-        resource.delete().then (data) ->
-
-          expect(resource.make).toHaveBeenCalledWith "DELETE", ""
-
-          done()
-
-    describe "REST.patch", ->
-
-      it "makes put request if no argumnt is passed empty object will take it place", (done) ->
-
-        resource.patch().then (data) ->
-
-          expect(resource.make).toHaveBeenCalledWith "PATCH", {}
-
-          done()
+    withObject test for test in ["post", "put", "patch"]
 
   describe "REST with error", ->
 

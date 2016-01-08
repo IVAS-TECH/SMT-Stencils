@@ -11,28 +11,28 @@ describe "goHomeService", ->
 
     transitionService = tested $state
 
-  it "should chage $state to 'home.about'", () ->
+  tests = [
+    {
+      expect: "home.about"
+      tested: "toHome"
+    }
+    {
+      expect: "home.admin"
+      tested: "toAdmin"
+    }
+  ]
 
-    spyOn($state, "go").and.callFake (transition) ->
-      $state.current.name = "home.about"
+  run = (test) ->
 
-    expect($state.current.name).not.toEqual "home.about"
+    it "should chage $state to #{test.expect}", () ->
 
-    transitionService.toHome()
+      spyOn($state, "go").and.callFake (transition) ->
+        $state.current.name = test.expect
 
-    expect($state.go).toHaveBeenCalledWith "home.about"
+      expect($state.current.name).not.toEqual test.expect
 
-    expect($state.current.name).toEqual "home.about"
+      transitionService[test.tested]()
 
-  it "should chage $state to 'home.admin'", () ->
+      expect($state.go).toHaveBeenCalledWith test.expect
 
-    spyOn($state, "go").and.callFake (transition) ->
-      $state.current.name = "home.admin"
-
-    expect($state.current.name).not.toEqual "home.admin"
-
-    transitionService.toAdmin()
-
-    expect($state.go).toHaveBeenCalledWith "home.admin"
-
-    expect($state.current.name).toEqual "home.admin"
+  run test for test in tests
