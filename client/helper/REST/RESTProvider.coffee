@@ -12,11 +12,13 @@ module.exports = ->
   $get: ->
 
     (resorce) ->
-      _path = "\/" + if base isnt "" then "#{_base}/#{resorce}" else resorce
+      _path = "\/" + if _base isnt "" then "#{_base}/#{resorce}" else resorce
 
       make = (method, send) ->
         json = "application/json"
-        path = if method in ["GET", "DELETE"] and send isnt "" then "#{_path}/#{send}" else _path
+        path = _path
+        if method in ["GET", "DELETE"] and send isnt ""
+          path += "\/" + send
 
         new Promise (resolve, reject) ->
           req = http.request path: path, method: method, responseType: json, (res) ->

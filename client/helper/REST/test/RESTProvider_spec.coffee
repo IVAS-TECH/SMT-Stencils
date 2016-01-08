@@ -1,5 +1,3 @@
-tested = require "./../RESTProvider"
-
 describe "RESTProvider", ->
 
   RESTProvider = undefined
@@ -7,6 +5,8 @@ describe "RESTProvider", ->
   describe "setBase", ->
 
     beforeEach ->
+
+      tested = require "./../RESTProvider"
 
       RESTProvider = tested()
 
@@ -17,3 +17,23 @@ describe "RESTProvider", ->
       RESTProvider.setBase "api"
 
       expect(RESTProvider.getBase()).toEqual "api"
+
+  describe "REST", ->
+
+    REST = undefined
+
+    beforeEach ->
+
+      proxyquire = require "proxyquire"
+
+      request = ->
+
+      tested = proxyquire "./../RESTProvider", http:
+        request: request
+        "@noCallThru": true
+
+      RESTProvider = tested()
+
+      RESTProvider.setBase "api"
+
+      REST = RESTProvider.$get()

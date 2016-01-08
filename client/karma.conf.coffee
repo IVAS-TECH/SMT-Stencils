@@ -13,6 +13,7 @@ module.exports = (config) ->
       browserify:
         debug: true
         transform: [instanbul]
+        plugin: ["proxyquire-universal"]
       coverageReporter:
         type : "html",
         dir : "coverage/"
