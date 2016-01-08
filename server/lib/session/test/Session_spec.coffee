@@ -130,7 +130,7 @@ describe "Session", ->
 
       describe "create", ->
 
-        spy = stub = firstReturn = secondReturn = firstCall = secondCall = session = undefined
+        stub = firstReturn = secondReturn = firstCall = secondCall = session = undefined
 
         beforeEach (done) ->
 
@@ -165,11 +165,7 @@ describe "Session", ->
 
           session = new Session ip
 
-          spy = sinon.spy session, "update"
-
           session.restore().then done
-
-        afterEach -> spy.restore()
 
         it "extends session collection", ->
 
@@ -193,12 +189,14 @@ describe "Session", ->
 
         it "calls update if item exists in the collection", ->
 
+          update = sinon.spy session, "update"
+
           (session.create
             key0: 0
             key1: 1
             key2: 2).then ->
 
-            expect(spy).to.have.been.calledThrice
+            expect(update).to.have.been.calledThrice
 
       describe "update", ->
 
@@ -234,6 +232,16 @@ describe "Session", ->
             set._id = "id0"
 
             expect(session.map).to.contains set
+
+        it "calls create if it item dosen't exist by calling create", ->
+
+          create = sinon.stub session, "create"
+
+          tested = exist: "not exist"
+
+          session.update(tested).then ->
+
+            expect(create).to.have.been.calledWithExactly tested
 
     describe "remove, destroy and delete", ->
 

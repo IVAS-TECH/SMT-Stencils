@@ -63,6 +63,8 @@ class Session
                     @add doc, @map.indexOf m
                     qRes()
                   else qRej err
+          if not @get[k]?
+            promises.push @create "#{k}": v
       Promise
         .all promises
         .then resolve, reject
