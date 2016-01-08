@@ -12,9 +12,9 @@ module.exports = ->
   $get: ->
 
     (resorce) ->
-      _path = "\/" + if _base isnt "" then "#{_base}/#{resorce}" else resorce
+      _path = "#{_base}/#{resorce}"
 
-      make = (method, send) ->
+      make: (method, send) ->
         json = "application/json"
         path = _path
         if method in ["GET", "DELETE"] and send isnt ""
@@ -45,8 +45,8 @@ module.exports = ->
 
           req.end()
 
-      get: (send = "") -> make "GET", send
-      post: (send = {}) -> make "POST", send
-      put: (send = {}) -> make "PUT", send
-      delete: (send = "") -> make "DELETE", send
-      patch: (send = {}) -> make "PATCH", send
+      get: (send = "") -> @make "GET", send
+      post: (send = {}) -> @make "POST", send
+      put: (send = {}) -> @make "PUT", send
+      delete: (send = "") -> @make "DELETE", send
+      patch: (send = {}) -> @make "PATCH", send
