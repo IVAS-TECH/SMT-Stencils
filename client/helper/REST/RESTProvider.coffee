@@ -11,8 +11,8 @@ module.exports = ->
 
   $get: ->
 
-    (resorce) ->
-      _path = "#{_base}/#{resorce}"
+    (resource) ->
+      _path = "#{_base}/#{resource}"
 
       make: (method, send) ->
         json = "application/json"
@@ -21,7 +21,12 @@ module.exports = ->
           path += "\/" + send
 
         new Promise (resolve, reject) ->
-          req = http.request path: path, method: method, responseType: json, (res) ->
+          request =
+            path: path
+            method: method
+            responseType: json
+
+          req = http.request request, (res) ->
 
             response = ""
 
@@ -33,9 +38,7 @@ module.exports = ->
                 data: JSON.parse response
                 statusCode: res.statusCode
 
-            res.on "error", (err) ->
-              console.log err
-              reject err
+            res.on "error", reject
 
           if typeof send isnt "string"
             data = JSON.stringify send
