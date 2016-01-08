@@ -27,25 +27,28 @@ class Session
 
   create: (map) ->
     new Promise (resolve, reject) =>
-      success = true
+      promises = []
       for k, v of map
         if not @get[k]?
           create =
             ip: @ip
             key: k
             value: JSON.stringify v
-          store.create create, (err, doc) =>
-            success &= query.successful err, doc
-            if success
-              @add doc
-            else reject err
+          promises.push new Promise (qRes, qRej) =>
+            store.create create, (err, doc) =>
+              if query.successful err, doc
+                @add doc
+                qRes()
+              else qRej err
         else
-          (@update "#{k}": v).then null, reject
-      resolve()
+          promises.push @update "#{k}": v
+      Promise
+        .all promises
+        .then resolve, reject
 
   update: (map) ->
     new Promise (resolve, reject) =>
-      success = true
+      promises = []
       for m in @map
         for k, v of map
           if m.key is k
@@ -53,12 +56,16 @@ class Session
               ip: @ip
               key: k
               value: JSON.stringify v
-            store
-              .findByIdAndUpdate m._id, $set: set, {new: true}, (err, doc) =>
-                success &= query.successful err, doc
-                if success then @add doc, @map.indexOf m
-                else reject err
-      resolve()
+            promises.push new Promise (qRes, qRej) =>
+              store
+                .findByIdAndUpdate m._id, $set: set, {new: true}, (err, doc) =>
+                  if query.successful err, doc
+                    @add doc, @map.indexOf m
+                    qRes()
+                  else qRej err
+      Promise
+        .all promises
+        .then resolve, reject
 
   remove: (key) ->
     new Promise (resolve, reject) =>
@@ -75,7 +82,6 @@ class Session
 
   delete: (key) ->
     new Promise (resolve, reject) =>
-      success = true
       if typeof key is "string"
         (@remove key).then resolve, reject
       else

@@ -336,6 +336,9 @@ describe "Session", ->
 
       session = new Session "ip"
 
+      session.map = [key: "uid", value: "uid"]
+      session.get.uid = "uid"
+
     tests = [
       {
         method: "restore"
@@ -343,7 +346,7 @@ describe "Session", ->
       }
       {
         method: "create"
-        args: [uid: "id"]
+        args: [test: "test"]
       }
       {
         method: "update"
@@ -363,13 +366,15 @@ describe "Session", ->
       }
     ]
 
-    for test in tests
+    run = (test) ->
 
       it "rejects when calling #{test.method} and DB Qeuery fails", ->
 
-        promise = session[test.method].apply null, test.args
+        promise = session[test.method].apply session, test.args
 
         expect(promise).to.be.rejectedWith error
+
+    run test for test in tests
 
     describe "remove when empty", ->
 
