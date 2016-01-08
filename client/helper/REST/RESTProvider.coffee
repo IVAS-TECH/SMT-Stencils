@@ -3,20 +3,20 @@ Promise = require "promise"
 
 module.exports = ->
 
-  base = ""
+  _base = ""
 
-  setBase: (b) -> base = b
+  setBase: (base) -> _base = base
 
-  getBase: -> base
+  getBase: -> _base
 
   $get: ->
 
     (resorce) ->
-      reqPath = "\/" + if base isnt "" then "#{base}/#{resorce}" else resorce
+      _path = "\/" + if base isnt "" then "#{_base}/#{resorce}" else resorce
 
       make = (method, send) ->
         json = "application/json"
-        path = if method in ["GET", "DELETE"] and send isnt "" then "#{reqPath}/#{send}" else reqPath
+        path = if method in ["GET", "DELETE"] and send isnt "" then "#{_path}/#{send}" else _path
 
         new Promise (resolve, reject) ->
           req = http.request path: path, method: method, responseType: json, (res) ->
