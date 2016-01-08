@@ -42,41 +42,30 @@ describe "RESTHelperService", ->
 
     it "creates restfull 'apis'", ->
 
-      expect(REST).toHaveBeenCalledWith "login"
+      for called in ["login", "user", "config", "addresses", "order"]
 
-      expect(REST).toHaveBeenCalledWith "user"
-
-      expect(REST).toHaveBeenCalledWith "config"
-
-      expect(REST).toHaveBeenCalledWith "addresses"
-
-      expect(REST).toHaveBeenCalledWith "order"
+        expect(REST).toHaveBeenCalledWith called
 
     it "creates file uploaders", ->
 
-      expect(uploadService).toHaveBeenCalledWith "preview"
-
-      expect(uploadService).toHaveBeenCalledWith "order"
+      for called in ["preview", "order"]
+        expect(uploadService).toHaveBeenCalledWith called
 
   describe "RESTHelperService.upload.[]", ->
 
     files = ["file1", "file2"]
 
-    it "uploads files for preview", ->
+    run = (test) ->
 
-      RESTHelperService.upload.preview files, callback
+      it "uploads files for #{test}", ->
 
-      expect(request).toHaveBeenCalledWith files
+        RESTHelperService.upload[test] files, callback
 
-      expect(callback).toHaveBeenCalled()
+        expect(request).toHaveBeenCalledWith files
 
-    it "uploads files for order", ->
+        expect(callback).toHaveBeenCalled()
 
-      RESTHelperService.upload.order files, callback
-
-      expect(request).toHaveBeenCalledWith files
-
-      expect(callback).toHaveBeenCalled()
+    run test for test in ["preview", "order"]
 
   describe "RESTHelperService.email", ->
 
@@ -94,48 +83,72 @@ describe "RESTHelperService", ->
       email: email
       password: "password"
 
-    describe "RESTHelperService.register", ->
+    run = (test) ->
 
-      it "register a new user", ->
+      describe "RESTHelperService.#{test}", ->
 
-        RESTHelperService.register user , callback
+        message = "#{test} a new user"
 
-        expect(request).toHaveBeenCalledWith user
+        if test is "profile"
+          message = "changes user's email/password"
+
+        it message, ->
+
+          RESTHelperService[test] user , callback
+
+          expect(request).toHaveBeenCalledWith user
+
+          expect(callback).toHaveBeenCalled()
+
+    run test for test in ["register", "login", "profile"]
+
+  testLog = (log) ->
+
+    describe "RESTHelperService.#{log}", ->
+
+      message = "checks if a user is currrently logged (for session)"
+
+      if log is "logout"
+        message = "logouts a user (destroies session)"
+
+      it message, ->
+
+        RESTHelperService[log] callback
 
         expect(callback).toHaveBeenCalled()
 
-    describe "RESTHelperService.login", ->
+  testLog log for log in ["logged", "logout"]
 
-      it "register a new user", ->
+  testWhat = (what, tests) ->
 
-        RESTHelperService.login user , callback
+    describe "RESTHelperService.#{what}.[]", ->
 
-        expect(request).toHaveBeenCalledWith user
+      wich = what
 
-        expect(callback).toHaveBeenCalled()
+      if wich is "config" then wich += "urations"
 
-    describe "RESTHelperService.profile", ->
+      run = (test) ->
 
-      it "changes user's email/password", ->
+        if test is "find"
 
-        RESTHelperService.profile user , callback
+          it "gets all user related #{wich}", ->
 
-        expect(request).toHaveBeenCalledWith user
+            RESTHelperService[what].find callback
 
-        expect(callback).toHaveBeenCalled()
+            expect(callback).toHaveBeenCalled()
 
-  describe "RESTHelperService.logged", ->
+        else
 
-    it "checks if a user is currrently logged (for session)", ->
+          it "#{test}s #{wich}", ->
 
-      RESTHelperService.logged callback
+            RESTHelperService[what][test] {}, callback
 
-      expect(callback).toHaveBeenCalled()
+            expect(request).toHaveBeenCalledWith {}
 
-  describe "RESTHelperService.logout", ->
+            expect(callback).toHaveBeenCalled()
 
-    it "logouts a user (destroies session)", ->
+      run test for test in tests
 
-      RESTHelperService.logout callback
+  testWhat what, ["create", "find", "delete", "update"] for what in ["config", "addresses"]
 
-      expect(callback).toHaveBeenCalled()
+  testWhat "order", ["create", "find", "view"]
