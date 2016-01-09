@@ -3,9 +3,10 @@ walk = null
 try
   fs = require "fs-extra"
 catch error
-  fs = null
-if fs?
-  {walk} = require "walk"
+  console.log "npm install is required"
+  return
+
+{walk} = require "walk"
 clientDir = join __dirname, "client"
 appDir = join clientDir, "app"
 nodeModules = "./node_modules"
@@ -21,15 +22,7 @@ exec =
   istanbul: "./node_modules/istanbul/lib/cli.js"
   coffee: "./node_modules/coffee-script/bin/coffee"
 
-task "install", "Builds all package install", ->
-  console.log "Installing node packages... (Please wait this will take some time)"
-  spawnSync "npm", ["install"], stdio: "inherit"
-  console.log "Installing node packages    done"
-  fs = require "fs-extra"
-  {walk} = require "walk"
-
 task "mongodb", "Setups mongodb on 0.0.0.0:27017/db", ->
-  if not fs then invoke "install"
   fs.ensureDir join __dirname, "data"
   ip = require "ip"
   address = ip.address()
@@ -75,7 +68,6 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
     fs.writeFileSync index, bundled, "utf8"
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
-  if not fs then invoke "install"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file..."
   stylus = require "stylus"
   nib = require "nib"
@@ -98,7 +90,6 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
-  if not fs then invoke "install"
   GerberToSVG = require "./server/lib/GerberToSVG"
   resources = join __dirname, "client/resources"
   console.log "Pulling resources..."
@@ -119,7 +110,6 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
       console.log "Generating default stencil SVG    done"
 
 task "clean", "Returns repo as it was pulled", ->
-  if not fs then invoke "install"
   client = join __dirname, "client"
   console.log "Restoring repository state..."
   fs.removeSync join __dirname, "node_modules"
@@ -130,7 +120,6 @@ task "clean", "Returns repo as it was pulled", ->
 
 task "build", "Wraps up the building proccess", ->
   #invoke "clean"
-  invoke "install"
   invoke "resources"
   invoke "bundle"
 
@@ -151,12 +140,10 @@ task "start", "Starts the server and stops it on entering 'stop'", ->
       console.log "Stoping server..."
 
 task "angular", "Runs tests and shows coverage results for client side code", ->
-  if not fs then invoke "install"
   invoke "bundle"
   spawnSync exec.karma, ["start", "client/karma.conf.js"], stdio: "inherit"
 
 mocha = (args) ->
-  if not fs then invoke "install"
   invoke "coffee"
   Promise = require "promise"
   new Promise (resolve, reject) ->
@@ -176,7 +163,6 @@ task "express", "Runs tests and shows coverage results for server side code", ->
     spawnSync exec.mocha, args, stdio: "inherit"
 
 task "coverage", "It shows code coverage", ->
-  if not fs then invoke "install"
   open = require "open"
   (mocha ["cover", exec._mocha, "--", "--opts", "./server/mocha.conf"]).then (args) ->
     invoke "angular"

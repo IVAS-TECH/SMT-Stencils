@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/IVAS-TECH/SMT-Stencils#readme",
   "devDependencies": {
+    "proxyquireify": "3.0.1",
     "proxyquire-universal": "1.0.8",
     "browserify-istanbul": "0.2.1",
     "proxyquire": "1.7.3",

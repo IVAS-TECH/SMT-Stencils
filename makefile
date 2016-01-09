@@ -6,5 +6,6 @@ setup:
 	sudo apt-get install gerbv
 
 task:
+	npm install
 	sed 's/\.\.\/lib/\.\/node_modules\/coffee\-script\/lib/' < ./node_modules/coffee-script/bin/cake > ./task
 	chmod 777 ./task
