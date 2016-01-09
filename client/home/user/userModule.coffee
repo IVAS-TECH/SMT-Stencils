@@ -1,7 +1,9 @@
 {angular} = require "dependencies"
 moduleName = "userModule"
+
 en = require "./language-en"
 bg = require "./language-bg"
+
 noController = ->
 
 dependencies = [
@@ -11,6 +13,7 @@ dependencies = [
 
 angular
     .module moduleName, dependencies
+      .factory "dialogWithTitleService", require "./dialogWithTitleService"
       .factory "simpleDialogService", require "./simpleDialog/simpleDialogService"
       .factory "authenticationService", require "./authenticationService"
       .factory "tryAgainService", require "./tryAgain/tryAgainService"

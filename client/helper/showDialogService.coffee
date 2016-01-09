@@ -1,9 +1,12 @@
 module.exports = ($mdDialog, template) ->
   @$inject = ["$mdDialog", "template"]
 
-  showDialog: (event, action, handle, locals = {}) ->
+  showDialog: (event, action, locals, handle = {}, extend) ->
 
     locals.hide = $mdDialog.hide
+
+    if extend
+      handle[key] = value for key, value of extend
 
     $mdDialog
       .show
@@ -23,9 +26,3 @@ module.exports = ($mdDialog, template) ->
             if handle[key]? then handle[key] value
 
         else if handle[val]? then handle[val]()
-
-  extendHandle: (extend, handle) ->
-
-    if extend then handle[key] = value for key, value of extend
-
-    handle

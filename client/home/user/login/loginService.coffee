@@ -1,8 +1,21 @@
-module.exports = (showDialogService, tryAgainService, authenticationService) ->
-  @$inject = ["showDialogService", "tryAgainService", "authenticationService"]
-  login = (event, handle = cancel: ->) -> showDialogService.showDialog event, "login", showDialogService.extendHandle handle,
-    "success": (authentication) -> authenticationService.authenticate authentication
-    "fail": -> tryAgainService event, (cancel: handle.cancel, success: -> login event, handle), "title-wrong-login"
-    "close": -> alert "We hope to see you again..."
-    "cancel": -> alert "Thank you fr trying..."
+module.exports = (showDialogService, authenticationService, tryAgainService) ->
+  @$inject = ["showDialogService", "authenticationService", "tryAgainService"]
+
+  login = (event, extend) ->
+
+    handle =
+
+      "success": (authentication) ->
+        authenticationService.authenticate authentication
+
+      "fail": ->
+
+        extendIt =
+          "success": -> login event, extend
+
+        tryAgainService event, "title-wrong-login", extendIt
+
+    showDialogService
+      .showDialog event, "login", {}, handle, extend
+
   login
