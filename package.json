@@ -1,21 +1,21 @@
 {
-  "name": "placeholder",
+  "name": "IVAS-TECH-SMT-Stencils",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "./server/server.js",
+  "engines": {
+    "node": "5.4.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NoHomey/diplomna3.git"
+    "url": "https://github.com/IVAS-TECH/SMT-Stencils.git"
   },
   "author": "NoHomey",
-  "license": "ISC",
+  "license": "GNU GPL v2",
   "bugs": {
-    "url": "https://github.com/NoHomey/diplomna3/issues"
+    "url": "https://github.com/IVAS-TECH/SMT-Stencils/issues"
   },
-  "homepage": "https://github.com/NoHomey/diplomna3#readme",
+  "homepage": "https://github.com/IVAS-TECH/SMT-Stencils#readme",
   "devDependencies": {
     "proxyquire-universal": "1.0.8",
     "browserify-istanbul": "0.2.1",
