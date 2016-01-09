@@ -24,5 +24,6 @@ module.exports = ($mdDialog, template) ->
         if typeof val is "object"
           for key, value of val
             if handle[key]? then handle[key] value
+          return
 
         else if handle[val]? then handle[val]()
