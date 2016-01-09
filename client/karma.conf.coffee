@@ -6,7 +6,7 @@ module.exports = (config) ->
       basePath: ""
       frameworks: ["browserify", "jasmine"]
       files: ["**/*_spec.js"]
-      exclude: ["karma.conf.js", "app/*"]
+      exclude: ["karma.conf.js", "app/*", "helper/template.js"]
       reporters: ["mocha", "coverage"]
       preprocessors:
         "**/*_spec.js": ["browserify"]

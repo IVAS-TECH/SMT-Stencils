@@ -1,12 +1,10 @@
 describe "templateProvider", ->
 
-  proxyquire = require "proxyquire"
+  template = require "./../template"
 
-  view = "html"
+  view = template "homeView"
 
-  template = (tmp) -> view
-
-  tested = proxyquire "./../templateProvider", "./template": template
+  tested = require "./../templateProvider"
 
   templateProvider = tested()
 
@@ -20,4 +18,4 @@ describe "templateProvider", ->
 
     it "suplies a view", ->
 
-      expect(templateProvider.provide "view").toEqual view
+      expect(templateProvider.provide "homeView").toEqual view
