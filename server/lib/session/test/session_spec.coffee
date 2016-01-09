@@ -1,52 +1,14 @@
 describe "session", ->
 
-  req = proxyquire = session = midleware = undefined
+  session = midleware = undefined
 
-  before -> proxyquire = require "proxyquire"
+  req = res = {}
 
-  describe "req.session.ip", ->
+  proxyquire = require "proxyquire"
 
-    spy = undefined
-
-    before ->
-
-      spy = sinon.spy()
-
-      session = proxyquire "./../session", "./Session": spy
-
-      midleware = session()
-
-    beforeEach ->
-
-      req =
-        connection:
-          remoteAddress: undefined
-          _peername:
-            address: undefined
-
-    it "calls Session with req.connection.remoteAddress", ->
-      req.connection.remoteAddress = "127.0.0.1"
-      midleware req
-      expect(spy).to.have.been.calledWith req.connection.remoteAddress
-
-      req.connection._peername.address = "0.0.0.0"
-      midleware req
-      expect(spy).to.have.been.calledWith  req.connection.remoteAddress
-
-    it "scalls Session with req.connection._peername.address", ->
-      req.connection._peername.address = "127.0.0.1"
-      midleware req
-      expect(spy).to.have.been.calledWith  req.connection._peername.address
+  getClientIp = -> "195.163.2.108"
 
   describe "it lets next req handler to execute", ->
-
-    before ->
-
-      req =
-        connection:
-          remoteAddress: "127.0.0.1"
-
-      proxyquire = require "proxyquire"
 
     describe "if DB Query Succed it simply calls next", ->
 
@@ -57,7 +19,9 @@ describe "session", ->
             then: (resolve) ->
               resolve()
 
-        session = proxyquire "./../session", "./Session": mockSession
+        session = proxyquire "./../session",
+          "./Session": mockSession
+          "request-ip": getClientIp: getClientIp
 
         midleware = session()
 
@@ -65,7 +29,7 @@ describe "session", ->
 
         spy = sinon.spy()
 
-        midleware req, {}, spy
+        midleware req, res, spy
 
         expect(spy).to.have.been.calledOnce
 
@@ -82,7 +46,9 @@ describe "session", ->
             then: (resolve, reject) ->
               reject error
 
-        session = proxyquire "./../session", "./Session": mockSession
+        session = proxyquire "./../session",
+          "./Session": mockSession
+          "request-ip": getClientIp: getClientIp
 
         midleware = session()
 
@@ -92,6 +58,6 @@ describe "session", ->
 
         spy = sinon.spy next
 
-        midleware req, {}, spy
+        midleware req, res, spy
 
         expect(spy).to.have.been.calledOnce.calledWithExactly error

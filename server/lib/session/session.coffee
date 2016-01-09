@@ -1,8 +1,9 @@
 Session = require "./Session"
+requestIp = require "request-ip"
 
 module.exports = ->
   (req, res, next) ->
-    ip = req.connection.remoteAddress ? req.connection._peername.address
+    ip = requestIp.getClientIp req
     req.session = new Session ip
     resolve = -> next()
     reject = (err) -> next err

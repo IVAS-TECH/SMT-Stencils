@@ -4,6 +4,9 @@ express = require "express"
 routerTree = require "./lib/routerTree"
 
 server = express()
+
+server.enable "trust proxy"
+
 server.use routerTree require "./requests"
 
 port = process.env.PORT ? 3000
