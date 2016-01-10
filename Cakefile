@@ -161,32 +161,33 @@ task "start", "Starts the server and stops it on entering 'stop'", ->
       console.log "Stoping server..."
 
 task "testing", "Remove all coffee generated code that can't be covered", ->
-  invoke "bundle"
   replacement = " || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
   replacer = ";"
   fs = require "fs"
   replaceStream = require "replacestream"
-  walker = walk __dirname,
-    filters: [".git", "node_modules", "coverage"]
 
-  new Promise (resolve) ->
-    walker.on "end", resolve
-    walker.on "file", (root, file, next) ->
-      info = file.name.split "."
-      if info.length is 1
-        return next()
-      if info[1] isnt "js"
-        return next()
-      path = join root, file.name
-      writeStream = fs.createWriteStream path + "x"
-      readStream = fs.createReadStream path
-      writeStream.on "finish", ->
-        fse.removeSync path
-        fs.renameSync path + "x", path
-        next()
-      readStream
-        .pipe replaceStream replacement, replacer
-        .pipe writeStream
+  (invoke "bundle").then ->
+    walker = walk __dirname,
+      filters: [".git", "node_modules", "coverage"]
+
+    new Promise (resolve) ->
+      walker.on "end", resolve
+      walker.on "file", (root, file, next) ->
+        info = file.name.split "."
+        if info.length is 1
+          return next()
+        if info[1] isnt "js"
+          return next()
+        path = join root, file.name
+        writeStream = fs.createWriteStream path + "x"
+        readStream = fs.createReadStream path
+        writeStream.on "finish", ->
+          fse.removeSync path
+          fs.renameSync path + "x", path
+          next()
+        readStream
+          .pipe replaceStream replacement, replacer
+          .pipe writeStream
 
 task "angular", "Runs tests and shows coverage results for client side code", ->
   (invoke "testing").then ->
