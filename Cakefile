@@ -10,6 +10,7 @@ clientDir = join __dirname, "client"
 sendDir = join __dirname, "deploy/send"
 deployDir = join __dirname, "deploy"
 compileDir = join __dirname, "compile"
+resourceDir = join __dirname, "resources"
 nodeModules = "./node_modules"
 {spawn, spawnSync} = require "child_process"
 Promise = require "promise"
@@ -106,12 +107,18 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   GerberToSVG = require "./server/lib/GerberToSVG"
-  resources = join __dirname, "client/resources"
+  favicon = "favicon.ico"
   console.log "Pulling resources..."
-  fse.removeSync resources
-  clone = spawnSync "git", ["clone", "https://github.com/NoHomey/diplomna_resources", resources], stdio: "inherit"
-  fse.removeSync join resources, ".git"
+  fse.removeSync resourceDir
+  clone = spawnSync "git", ["clone", "https://github.com/IVAS-TECH/SMT-Stencils_resources.git", resourceDir], stdio: "inherit"
+  fse.removeSync join resourceDir, ".git"
   console.log "Pulling resources    done"
+  console.log "Moving favicon.ico..."
+  src = join resourceDir, favicon
+  dst = join sendDir, favicon
+  fse.move src, dst, (err) ->
+    if err? then console.log err
+    console.log "Moving favicon.ico    done"
   console.log "Generating default stencil SVG..."
   files = []
   walker = walk join resources, "samples"

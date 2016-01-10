@@ -1,11 +1,11 @@
 node_modules/*
 data/*
 files/*
+resources/*
 coverage/*
 compile/*
 deploy/*
 client/coverage/*
 server/coverage/*
-client/resources/*
 template.coffee
 task
