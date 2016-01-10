@@ -186,7 +186,7 @@ task "angular", "Runs tests and shows coverage results for client side code", ->
 
 mocha = (args) ->
   new Promise (resolve, reject) ->
-    walker = walk join __dirname, "server"
+    walker = walk deployDir, filters: ["send"]
     files = []
     walker.on "file", (root, file, next) ->
       if file.name.match "_spec.js"
@@ -205,7 +205,7 @@ task "express", "Runs tests and shows coverage results for server side code", ->
 task "coverage", "It shows code coverage", ->
   open = require "open"
   (invoke "testing").then ->
-    spawnSync exec.karma, ["start", "client/karma.conf.js"], stdio: "inherit"
+    spawnSync exec.karma, ["start", "./compile/karma.conf.js"], stdio: "inherit"
     (mocha ["cover", exec._mocha, "--", "--opts", "./server/mocha.conf"]).then (args) ->
       spawnSync exec.istanbul, args, stdio: "inherit"
       open join __dirname, "client/coverage/html/index.html"
