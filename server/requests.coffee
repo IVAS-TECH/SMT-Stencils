@@ -3,10 +3,7 @@ bodyParser = require "body-parser"
 session = require "./lib/session/session"
 errorHandler = require "./errorHandler"
 
-appDir = join __dirname, '../client/app'
-index = join appDir, "index.html"
-error = join appDir, "error.html"
-script = join appDir , "final.js"
+sendDir = join __dirname, 'send'
 
 sendFile = (file) ->
   (req, res) -> res.sendFile file
@@ -17,15 +14,15 @@ module.exports =
 
   afterEach: [
     (req, res, next) -> next "Not Found"
-    errorHandler error
+    errorHandler join sendDir, "error.html"
   ]
 
-  get: sendFile index
+  get: sendFile join sendDir, "index.html"
 
   api: require "./routes/routes"
 
   script:
-    get: sendFile script
-    
+    get: sendFile join sendDir, "bundle.js"
+
   "favicon.ico":
-    get:  -> console.log "add favicon!!!"
+    get: sendFile join sendDir, "favicon.ico"

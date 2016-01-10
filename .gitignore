@@ -2,13 +2,10 @@ node_modules/*
 data/*
 files/*
 coverage/*
+compile/*
+deploy/*
 client/coverage/*
 server/coverage/*
-client/dependencies/*
 client/resources/*
-client/styles/*.css
-*.js
-*.css
-*.html
 template.coffee
 task

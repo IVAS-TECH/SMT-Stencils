@@ -44,36 +44,38 @@ task "browserify", "Wraps everything up", ->
   spawnSync exec.browserify, ["./compile/main.js", "-o", "./deploy/send/bundle.js"], stdio: "inherit"
 
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
-  invoke "jade"
-  walker = walk compileDir
-  map = {}
-  walker.on "file", (root, file, next) ->
-    info = file.name.split "\."
-    path = join root, file.name
-    if info[0] not in ["index", "error"]
-      map[info[0]] = fse.readFileSync path, "utf8"
-    else
-      dest = join sendDir, file.name
-      fse.ensureFileSync dest
-      fse.copySync path, dest
-    next()
-  walker.on "end", ->
-    fse.emptyDirSync compileDir
-    file = join clientDir, "helper/template.coffee"
-    fse.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
-    invoke "coffee"
-    invoke "browserify"
-    invoke "style"
-    #spawnSync "uglifyjs", ["#{sendDir}/bundle.js", "-o", "#{sendDir}/final.js"], stdio: "inherit"
-    style = join sendDir, "style.css"
-    bundle = join sendDir, "bundle.js"
-    index = join sendDir, "index.html"
-    styleContent = fse.readFileSync style, "utf8"
-    bundleContent = fse.readFileSync bundle, "utf8"
-    indexContent = fse.readFileSync index, "utf8"
-    styled = indexContent.replace "@@@", styleContent
-    bundled = styled.replace "!!!", JSON.stringify bundleContent
-    fse.writeFileSync index, bundled, "utf8"
+  new Promise (resolve, reject) ->
+    invoke "jade"
+    walker = walk compileDir
+    map = {}
+    walker.on "file", (root, file, next) ->
+      info = file.name.split "\."
+      path = join root, file.name
+      if info[0] not in ["index", "error"]
+        map[info[0]] = fse.readFileSync path, "utf8"
+      else
+        dest = join sendDir, file.name
+        fse.ensureFileSync dest
+        fse.copySync path, dest
+      next()
+    walker.on "end", ->
+      fse.emptyDirSync compileDir
+      file = join clientDir, "helper/template.coffee"
+      fse.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
+      invoke "coffee"
+      invoke "browserify"
+      invoke "style"
+      #spawnSync "uglifyjs", ["#{sendDir}/bundle.js", "-o", "#{sendDir}/final.js"], stdio: "inherit"
+      style = join sendDir, "style.css"
+      bundle = join sendDir, "bundle.js"
+      index = join sendDir, "index.html"
+      styleContent = fse.readFileSync style, "utf8"
+      bundleContent = fse.readFileSync bundle, "utf8"
+      indexContent = fse.readFileSync index, "utf8"
+      styled = indexContent.replace "@@@", styleContent
+      bundled = styled.replace "!!!", JSON.stringify bundleContent
+      fse.writeFileSync index, bundled, "utf8"
+      resolve()
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file..."
@@ -133,11 +135,10 @@ task "clean", "Returns repo as it was pulled", ->
 
 task "build", "Wraps up the building proccess", ->
   #invoke "clean"
-  invoke "resources"
-  invoke "bundle"
+  (invoke "bundle").then ->
+    invoke "resources"
 
 task "start", "Starts the server and stops it on entering 'stop'", ->
-  invoke "bundle" #testing only
   console.log "Starting server..."
   server = spawn "node", ["./deploy/server.js"], stdio: "inherit"
   console.log "Starting server    done"
@@ -182,7 +183,7 @@ task "testing", "Remove all coffee generated code that can't be covered", ->
 
 task "angular", "Runs tests and shows coverage results for client side code", ->
   (invoke "testing").then ->
-    spawnSync exec.karma, ["start", "client/karma.conf.js"], stdio: "inherit"
+    spawnSync exec.karma, ["start", "./compile/karma.conf.js"], stdio: "inherit"
 
 mocha = (args) ->
   new Promise (resolve, reject) ->
