@@ -1,7 +1,7 @@
 {join} = require "path"
 walk = null
 try
-  fs = require "fs-extra"
+  fse = require "fs-extra"
 catch error
   console.log "npm install is required"
   return
@@ -11,6 +11,7 @@ clientDir = join __dirname, "client"
 appDir = join clientDir, "app"
 nodeModules = "./node_modules"
 {spawn, spawnSync} = require "child_process"
+Promise = require "promise"
 
 exec =
   jade: "./node_modules/jade/bin/jade.js"
@@ -23,7 +24,7 @@ exec =
   coffee: "./node_modules/coffee-script/bin/coffee"
 
 task "mongodb", "Setups mongodb on 0.0.0.0:27017/db", ->
-  fs.ensureDir join __dirname, "data"
+  fse.ensureDir join __dirname, "data"
   ip = require "ip"
   address = ip.address()
   args = ["--dbpath", "./data"]#, "--bind_ip", address, "--port", 4000]
@@ -50,22 +51,22 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
     info = file.name.split "."
     if info[1] is "html" and info[0] not in ["index", "error"]
       path = join root, file.name
-      map[info[0]] = fs.readFileSync path, "utf8"
-    next()
+      map[info[0]] = fse.readFileSync path, "utf8"
+      next()
   walker.on "end", ->
     file = join clientDir, "helper/template.coffee"
-    fs.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
+    fse.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
     invoke "browserify"
     #spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
     style = join appDir, "style.css"
     bundle = join appDir, "final.js"
     index = join appDir, "index.html"
-    styleContent = fs.readFileSync style, "utf8"
-    bundleContent = fs.readFileSync bundle, "utf8"
-    indexContent = fs.readFileSync index, "utf8"
+    styleContent = fse.readFileSync style, "utf8"
+    bundleContent = fse.readFileSync bundle, "utf8"
+    indexContent = fse.readFileSync index, "utf8"
     styled = indexContent.replace "@@@", styleContent
     bundled = styled.replace "!!!", JSON.stringify bundleContent
-    fs.writeFileSync index, bundled, "utf8"
+    fse.writeFileSync index, bundled, "utf8"
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file..."
@@ -74,9 +75,9 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
   uglify = require "uglifycss"
   styles = join clientDir, "styles"
   styl = join styles, "styl-style.styl"
-  stylContent = fs.readFileSync styl, "utf8"
+  stylContent = fse.readFileSync styl, "utf8"
   material = join __dirname, "node_modules/angular-material/angular-material.min.css"
-  materialContent = fs.readFileSync material, "utf8"
+  materialContent = fse.readFileSync material, "utf8"
   stylus stylContent
     .include styles
     .use nib()
@@ -84,18 +85,22 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
       if cssErr then console.log cssErr
       cssFile = join appDir, "style.css"
       cssContent = "#{materialContent}\n#{css}"
-      uglified = uglify.processString cssContent, maxLineLen: 0, expandVars: false, uglyComments:true, cuteComments: false
-      fs.ensureFileSync cssFile
-      fs.writeFileSync cssFile, uglified, "utf8"
+      uglified = uglify.processString cssContent,
+        maxLineLen: 0
+        expandVars: false
+        uglyComments:true
+        cuteComments: false
+      fse.ensureFileSync cssFile
+      fse.writeFileSync cssFile, uglified, "utf8"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   GerberToSVG = require "./server/lib/GerberToSVG"
   resources = join __dirname, "client/resources"
   console.log "Pulling resources..."
-  fs.removeSync resources
+  fse.removeSync resources
   clone = spawnSync "git", ["clone", "https://github.com/NoHomey/diplomna_resources", resources], stdio: "inherit"
-  fs.removeSync join resources, ".git"
+  fse.removeSync join resources, ".git"
   console.log "Pulling resources    done"
   console.log "Generating default stencil SVG..."
   files = []
@@ -106,16 +111,16 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   walker.on "end", ->
     GerberToSVG(files).then (svg) ->
       top = join resources, "top.html"
-      fs.writeFileSync top, svg.top, "utf8"
+      fse.writeFileSync top, svg.top, "utf8"
       console.log "Generating default stencil SVG    done"
 
 task "clean", "Returns repo as it was pulled", ->
   client = join __dirname, "client"
   console.log "Restoring repository state..."
-  fs.removeSync join __dirname, "node_modules"
-  fs.removeSync join client, "resources"
-  fs.removeSync join client, "install"
-  fs.removeSync join client, "styles/style.css"
+  fse.removeSync join __dirname, "node_modules"
+  fse.removeSync join client, "resources"
+  fse.removeSync join client, "install"
+  fse.removeSync join client, "styles/style.css"
   console.log "Restoring repository state    dome"
 
 task "build", "Wraps up the building proccess", ->
@@ -139,13 +144,39 @@ task "start", "Starts the server and stops it on entering 'stop'", ->
       console.log()
       console.log "Stoping server..."
 
-task "angular", "Runs tests and shows coverage results for client side code", ->
+task "testing", "Remove all coffee generated code that can't be covered", ->
   invoke "bundle"
-  spawnSync exec.karma, ["start", "client/karma.conf.js"], stdio: "inherit"
+  replacement = " || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };"
+  replacer = ";"
+  fs = require "fs"
+  replaceStream = require "replacestream"
+  walker = walk __dirname,
+    filters: [".git", "node_modules", "coverage"]
+
+  new Promise (resolve) ->
+    walker.on "end", resolve
+    walker.on "file", (root, file, next) ->
+      info = file.name.split "."
+      if info.length is 1
+        return next()
+      if info[1] isnt "js"
+        return next()
+      path = join root, file.name
+      writeStream = fs.createWriteStream path + "x"
+      readStream = fs.createReadStream path
+      writeStream.on "finish", ->
+        fse.removeSync path
+        fs.renameSync path + "x", path
+        next()
+      readStream
+        .pipe replaceStream replacement, replacer
+        .pipe writeStream
+
+task "angular", "Runs tests and shows coverage results for client side code", ->
+  (invoke "testing").then ->
+    spawnSync exec.karma, ["start", "client/karma.conf.js"], stdio: "inherit"
 
 mocha = (args) ->
-  invoke "coffee"
-  Promise = require "promise"
   new Promise (resolve, reject) ->
     walker = walk join __dirname, "server"
     files = []
@@ -159,13 +190,15 @@ mocha = (args) ->
       resolve args
 
 task "express", "Runs tests and shows coverage results for server side code", ->
-  (mocha ["--opts", "./server/mocha.conf"]).then (args) ->
-    spawnSync exec.mocha, args, stdio: "inherit"
+  (invoke "testing").then ->
+    (mocha ["--opts", "./server/mocha.conf"]).then (args) ->
+      spawnSync exec.mocha, args, stdio: "inherit"
 
 task "coverage", "It shows code coverage", ->
   open = require "open"
-  (mocha ["cover", exec._mocha, "--", "--opts", "./server/mocha.conf"]).then (args) ->
-    invoke "angular"
-    spawnSync exec.istanbul, args, stdio: "inherit"
-    open join __dirname, "client/coverage/html/index.html"
-    open join __dirname, "coverage/lcov-report/index.html"
+  (invoke "testing").then ->
+    spawnSync exec.karma, ["start", "client/karma.conf.js"], stdio: "inherit"
+    (mocha ["cover", exec._mocha, "--", "--opts", "./server/mocha.conf"]).then (args) ->
+      spawnSync exec.istanbul, args, stdio: "inherit"
+      open join __dirname, "client/coverage/html/index.html"
+      open join __dirname, "coverage/lcov-report/index.html"

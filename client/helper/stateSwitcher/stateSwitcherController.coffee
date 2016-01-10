@@ -1,6 +1,7 @@
 module.exports = ($scope, $state) ->
+  @$inject = ["$scope", "$state"]
+
   controller = @
-  controller.$inject = ["$scope", "$state"]
 
   init = ->
 
@@ -11,7 +12,8 @@ module.exports = ($scope, $state) ->
     highlight = (state) ->
       index = controller.states.indexOf state
       if index > -1
-        controller.selected = controller.select index
+        controller.selected = (false for [1..controller.states.length])
+        controller.selected[index] = true
 
     allStates = $state.get()
 
@@ -31,12 +33,7 @@ module.exports = ($scope, $state) ->
       state = last toState.name
       highlight state
       if controller.override[state]?
-        $state.go "#{controller.state}.#{controller.override[state]}"
-
-  controller.select = (i = 0) ->
-      select = (false for [1..controller.states.length])
-      select[i] = true
-      select
+        $state.go [controller.state, state, controller.override[state]].join "\."
 
   controller.switchState = (state) ->
       $state.go "#{controller.state}.#{state}"

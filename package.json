@@ -37,7 +37,8 @@
     "karma-mocha-reporter": "1.1.5",
     "karma-browserify": "4.4.2",
     "open": "0.0.5",
-    "extend": "3.0.0"
+    "extend": "3.0.0",
+    "replacestream": "4.0.0"
   },
   "dependencies": {
     "jade": "1.11.0",

@@ -1,5 +1,4 @@
-if not angular?
-  require "safe-angular"
+require "safe-angular"
 require "safe-angular-animate"
 require "safe-angular-aria"
 require "safe-angular-messages"
