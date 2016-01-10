@@ -1,14 +1,15 @@
-{join} = require "path"
-walk = null
 try
   fse = require "fs-extra"
 catch error
   console.log "npm install is required"
   return
-
+fse = require "fs-extra"
+{join} = require "path"
 {walk} = require "walk"
 clientDir = join __dirname, "client"
-appDir = join clientDir, "app"
+sendDir = join __dirname, "deploy/send"
+deployDir = join __dirname, "deploy"
+compileDir = join __dirname, "compile"
 nodeModules = "./node_modules"
 {spawn, spawnSync} = require "child_process"
 Promise = require "promise"
@@ -32,35 +33,41 @@ task "mongodb", "Setups mongodb on 0.0.0.0:27017/db", ->
   spawn "mongod", args, stdio: "inherit"
 
 task "coffee", "Compiles coffee to js", ->
-  spawnSync exec.coffee, ["-c", "-b", "./client"], stdio: "inherit"
-  spawnSync exec.coffee, ["-c", "-b", "server"], stdio: "inherit"
+  spawnSync exec.coffee, ["-c", "-b", "-o", "./compile", "./client"], stdio: "inherit"
+  spawnSync exec.coffee, ["-c", "-b", "-o", "./deploy", "./server"], stdio: "inherit"
 
 task "jade", "Compiles jade to html", ->
-  spawnSync exec.jade, ["./client"], stdio: "inherit"
+  spawnSync exec.jade, ["./client", "-o", "./compile"], stdio: "inherit"
 
 task "browserify", "Wraps everything up", ->
-  spawnSync exec.browserify, ["#{clientDir}/main.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
+  fse.ensureFileSync join sendDir, "bundle.js"
+  spawnSync exec.browserify, ["./compile/main.js", "-o", "./deploy/send/bundle.js"], stdio: "inherit"
 
 task "bundle", "Compiles jade and coffee and bundles into single bundle.js file", ->
-  invoke "coffee"
-  invoke "style"
   invoke "jade"
-  walker = walk clientDir
+  walker = walk compileDir
   map = {}
   walker.on "file", (root, file, next) ->
-    info = file.name.split "."
-    if info[1] is "html" and info[0] not in ["index", "error"]
-      path = join root, file.name
+    info = file.name.split "\."
+    path = join root, file.name
+    if info[0] not in ["index", "error"]
       map[info[0]] = fse.readFileSync path, "utf8"
-      next()
+    else
+      dest = join sendDir, file.name
+      fse.ensureFileSync dest
+      fse.copySync path, dest
+    next()
   walker.on "end", ->
+    fse.emptyDirSync compileDir
     file = join clientDir, "helper/template.coffee"
     fse.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
+    invoke "coffee"
     invoke "browserify"
-    #spawnSync "uglifyjs", ["#{appDir}/bundle.js", "-o", "#{appDir}/final.js"], stdio: "inherit"
-    style = join appDir, "style.css"
-    bundle = join appDir, "final.js"
-    index = join appDir, "index.html"
+    invoke "style"
+    #spawnSync "uglifyjs", ["#{sendDir}/bundle.js", "-o", "#{sendDir}/final.js"], stdio: "inherit"
+    style = join sendDir, "style.css"
+    bundle = join sendDir, "bundle.js"
+    index = join sendDir, "index.html"
     styleContent = fse.readFileSync style, "utf8"
     bundleContent = fse.readFileSync bundle, "utf8"
     indexContent = fse.readFileSync index, "utf8"
@@ -83,13 +90,14 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
     .use nib()
     .render (cssErr, css) ->
       if cssErr then console.log cssErr
-      cssFile = join appDir, "style.css"
+      cssFile = join sendDir, "style.css"
       cssContent = "#{materialContent}\n#{css}"
-      uglified = uglify.processString cssContent,
+      opts =
         maxLineLen: 0
         expandVars: false
         uglyComments:true
         cuteComments: false
+      uglified = uglify.processString cssContent, opts
       fse.ensureFileSync cssFile
       fse.writeFileSync cssFile, uglified, "utf8"
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
@@ -131,7 +139,7 @@ task "build", "Wraps up the building proccess", ->
 task "start", "Starts the server and stops it on entering 'stop'", ->
   invoke "bundle" #testing only
   console.log "Starting server..."
-  server = spawn "node", ["server/server.js"], stdio: "inherit"
+  server = spawn "node", ["./deploy/server.js"], stdio: "inherit"
   console.log "Starting server    done"
   process.stdin.setEncoding 'utf8'
   server.on "exit", (code, signal) ->
