@@ -2,11 +2,10 @@ module.exports = (RESTHelperService) ->
   @$inject = ["RESTHelperService"]
 
   controller = @
-  controller.error = false
   controller.session = true
 
-  controller.login = (invalid) ->
-    if not invalid
+  controller.login = (valid) ->
+    if valid
       RESTHelperService.login user: controller.user, (res) ->
         if res.login
           controller.hide
@@ -15,6 +14,5 @@ module.exports = (RESTHelperService) ->
               session: controller.session
               admin: res.admin
         else controller.hide "fail"
-    else controller.error = true
-      
+
   controller

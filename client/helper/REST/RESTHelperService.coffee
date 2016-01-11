@@ -1,5 +1,5 @@
 module.exports = (REST, uploadService, errorHandleService) ->
-  @$inject = ["REST", "uploadService"]
+  @$inject = ["REST", "uploadService", "errorHandleService"]
 
   loginREST = REST "login"
   userREST = REST "user"
