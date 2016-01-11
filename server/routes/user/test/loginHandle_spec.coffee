@@ -72,12 +72,11 @@ describe "loginHandle", ->
           "./admin/isAdmin": isAdmin
           "./../../lib/send": send
 
-      it "sends {login: false, user: {}, admin:{admin: false}} if session is empty (thre is no session)", ->
+      it "sends {login: false} if session is empty (thre is no session)", ->
 
         handle.get req, res, next
 
-        expect(send).to.have.been.calledWithExactly res,
-          login: false, user: {}, admin: admin: false
+        expect(send).to.have.been.calledWithExactly res, login: false
 
         expect(next).to.have.not.been.called
 

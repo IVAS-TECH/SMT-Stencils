@@ -1,4 +1,3 @@
-{angular} = require "dependencies"
 Promise = require "promise"
 
 module.exports = ($rootScope, RESTHelperService, transitionService) ->
@@ -10,7 +9,7 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
   _async = false
   _admin = null
 
-  isAdmin = -> _admin.admin
+  isAdmin = -> if _admin? then _admin.admin else false
 
   $rootScope.$on "authentication", (event, authentication) ->
     _authenticated = true
@@ -25,9 +24,10 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
     _user = null
     _session = true
     _async = true
-    _admin = false
+    _admin = null
 
   authenticate: (authentication) ->
+
     broadcast = (auth) ->
       $rootScope.$broadcast "authentication", auth
 
@@ -46,7 +46,8 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
 
   getUser: -> _user
 
-  getAdminAccess: -> _admin.access ? -1
+  getAdminAccess: ->
+    if isAdmin() then _admin.access ? -1 else -1
 
   isAuthenticated: -> _authenticated
 

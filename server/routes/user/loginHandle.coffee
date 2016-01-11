@@ -14,7 +14,7 @@ module.exports =
             send res, login: true, user: doc, admin: admin
           isAdmin(id).then resolve, next
         else next err
-    else send res, login: false, user: {}, admin: admin: false
+    else send res, login: false
 
   post: (req, res, next) ->
     userModel.findOne req.body.user, (err, doc) ->
