@@ -4,6 +4,9 @@ describe "homeController -> init", ->
 
   homeController = $scope = $location = authenticationService = loginService = transitionService = undefined
 
+  test = ->
+    tested.call {},  $scope, $location, authenticationService, loginService, transitionService
+
   beforeEach ->
 
     $scope = $on: jasmine.createSpy()
@@ -27,7 +30,7 @@ describe "homeController -> init", ->
 
       $location.path.and.callFake -> ""
 
-      homeController = tested $scope, $location, authenticationService, loginService, transitionService
+      homeController = test()
 
       expect(transitionService.toHome).toHaveBeenCalled()
 
@@ -35,7 +38,7 @@ describe "homeController -> init", ->
 
       $location.path.and.callFake -> "/order"
 
-      homeController = tested $scope, $location, authenticationService, loginService, transitionService
+      homeController = test()
 
       expect(transitionService.toHome).not.toHaveBeenCalled()
 
@@ -47,7 +50,7 @@ describe "homeController -> init", ->
 
       $scope.$on.and.callFake (event, cb) -> cb()
 
-      homeController = tested $scope, $location, authenticationService, loginService, transitionService
+      homeController = test()
 
       expect(loginService).toHaveBeenCalled()
 
@@ -57,7 +60,7 @@ describe "homeController -> init", ->
 
     it "shouldn't open login dialog if current path isn't under restriction", ->
 
-      homeController = tested $scope, $location, authenticationService, loginService, transitionService
+      homeController = test()
 
       expect(loginService).not.toHaveBeenCalled()
 
@@ -67,6 +70,6 @@ describe "homeController -> init", ->
 
       authenticationService.isAuthenticated.and.callFake -> true
 
-      homeController = tested $scope, $location, authenticationService, loginService, transitionService
+      homeController = test()
 
       expect(homeController.admin).toBe true

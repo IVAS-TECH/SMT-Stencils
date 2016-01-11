@@ -1,11 +1,13 @@
-module.exports = (registerService, loginService, authenticationService, $scope, $window, transitionService) ->
+module.exports = ($scope, $window, registerService, loginService, authenticationService, transitionService) ->
+  @$inject = ["$scope", "$window", "registerService", "loginService", "authenticationService", "transitionService"]
+
   controller = @
-  controller.$inject = ["registerService", "loginService", "authenticationService", "$scope", "$window", "transitionService"]
 
   authenticateUser = ->
-    controller.user = authenticationService.getUser()
     controller.authenticated = authenticationService.isAuthenticated()
-    if authenticationService.isAsync() then $scope.$digest()
+    controller.user = authenticationService.getUser()
+    if authenticationService.isAsync()
+      $scope.$digest()
 
   init = ->
 
@@ -15,7 +17,7 @@ module.exports = (registerService, loginService, authenticationService, $scope, 
       if not authenticationService.isSession()
         $window.onbeforeunload = (event) ->
           event.preventDefault()
-          authenticationService.unauthenticate ->
+          authenticationService.unauthenticate()
           return
 
   controller.register = (event) -> registerService event

@@ -42,7 +42,7 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
   unauthenticate: (callback) ->
     RESTHelperService.logout ->
       $rootScope.$broadcast "unauthentication"
-      callback()
+      if callback? then callback()
 
   getUser: -> _user
 
