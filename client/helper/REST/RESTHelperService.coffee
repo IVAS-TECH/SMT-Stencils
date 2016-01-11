@@ -1,4 +1,4 @@
-module.exports = (REST, uploadService) ->
+module.exports = (REST, uploadService, errorHandleService) ->
   @$inject = ["REST", "uploadService"]
 
   loginREST = REST "login"
@@ -9,7 +9,7 @@ module.exports = (REST, uploadService) ->
   addressesREST = REST "addresses"
   orderREST = REST "order"
 
-  resolve = (resolver) -> (res) -> if res.statusCode is 200 then resolver res.data else console.log res
+  resolve = (resolver) -> (res) -> if res.statusCode is 200 then resolver res.data else errorHandleService()
 
   email: (email, resolver) -> userREST.get(email).then resolve resolver
   register: (user, resolver) -> userREST.post(user).then resolve resolver

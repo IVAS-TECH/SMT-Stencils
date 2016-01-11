@@ -2,7 +2,7 @@ tested = require "./../RESTHelperService"
 
 describe "RESTHelperService", ->
 
-  request = REST = RESTHelperService = uploadService = undefined
+  errorHandleService = request = REST = RESTHelperService = uploadService = undefined
 
   data = someData: "data"
 
@@ -36,7 +36,28 @@ describe "RESTHelperService", ->
     uploadService.and.callFake (upload) ->
       request
 
-    RESTHelperService = tested REST, uploadService
+    errorHandleService = jasmine.createSpy()
+
+    RESTHelperService = tested REST, uploadService, errorHandleService
+
+  describe "when error", ->
+
+    beforeEach ->
+
+      request.and.callFake (send) ->
+        then: (callback) ->
+          callback
+            statusCode: 500
+
+    it "should call errorHandleService", ->
+
+      spy = jasmine.createSpy()
+
+      RESTHelperService.logged spy
+
+      expect(spy).not.toHaveBeenCalled()
+
+      expect(errorHandleService).toHaveBeenCalled()
 
   describe "all request makers", ->
 
