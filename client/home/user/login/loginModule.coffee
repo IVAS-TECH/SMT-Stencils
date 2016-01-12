@@ -5,6 +5,7 @@ bg = require "./language-bg"
 
 angular
     .module moduleName, []
+      .factory "circularDialogService", require "./circularDialogService"
       .factory "loginService", require "./loginService"
       .controller "loginController", require "./loginController"
       .config (translateProvider) ->

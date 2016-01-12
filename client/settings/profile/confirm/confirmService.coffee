@@ -1,18 +1,4 @@
-module.exports = (showDialogService, tryAgainService) ->
-  @$inject = ["showDialogService", "tryAgainService"]
+module.exports = (circularDialogService) ->
+  @$inject = ["circularDialogService"]
 
-  confirm = (event, extend) ->
-
-    handle =
-
-      "fail": ->
-
-        extendIt =
-          "success": -> confirm event, extend
-
-        tryAgainService event, "title-wrong-password", extendIt
-
-    showDialogService
-      .showDialog event, "confirm", {}, handle, extend
-
-  confirm
+  circularDialogService "confirm", "password"
