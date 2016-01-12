@@ -66,8 +66,8 @@ describe "loginService", ->
 
           extnd.success()
 
-          expect(showDialogService.showDialog).toHaveBeenCalledWith event, "login", {}, handle, extend
-
-          expect(showDialogService.showDialog.calls.count()).toEqual 2
-
         loginService event, extend
+
+        expect(showDialogService.showDialog).toHaveBeenCalledWith event, "login", {}, handle, extend
+
+        expect(showDialogService.showDialog.calls.count()).toEqual 2

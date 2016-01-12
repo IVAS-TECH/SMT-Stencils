@@ -12,7 +12,7 @@ md-dialog
             span(translate="error-email-email")
           div(ng-message="email-taken")
             span(translate="error-email-taken")
-          div(ng-message="required" ng-if="registerCtrl.error")
+          div(ng-message="required")
             span(translate="error-email-required")
       md-input-container
         label(translate="label-password")
@@ -22,7 +22,7 @@ md-dialog
             span(translate="error-password-minlength")
           div(ng-message="maxlength")
             span(translate="error-password-maxlength")
-          div(ng-message="required" ng-if="registerCtrl.error")
+          div(ng-message="required")
             span(translate="error-password-required")
       md-input-container
         label(translate="label-repassword")
@@ -30,8 +30,8 @@ md-dialog
         div(ng-messages="register.repassword.$error")
           div(ng-message="pattern")
             span(translate="error-repassword-pattern")
-          div(ng-message="required" ng-if="registerCtrl.error")
+          div(ng-message="required")
             span(translate="error-repassword-required")
       md-dialog-actions(layout="row" layout-sm="column" layout-align="center center")
-        md-button(ng-click="registerCtrl.register(register.$invalid || register.$pending)" class="md-warn" aria-label="register" md-autofocus="true" translate="button-register")
+        md-button(ng-click="registerCtrl.register(register.$valid || register.$pending)" class="md-warn" aria-label="register" md-autofocus="true" translate="button-register")
         md-button(ng-click="registerCtrl.hide('success')" class="md-primary" aria-label="login" translate="button-login")
