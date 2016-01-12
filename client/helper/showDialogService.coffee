@@ -1,9 +1,11 @@
-module.exports = ($mdDialog, template) ->
-  @$inject = ["$mdDialog", "template"]
+module.exports = ($mdDialog, showErrorService, template) ->
+  @$inject = ["$mdDialog", "showErrorService", "template"]
 
   showDialog: (event, action, locals, handle = {}, extend) ->
 
     locals.hide = $mdDialog.hide
+
+    locals.error = showErrorService
 
     if extend
       handle[key] = value for key, value of extend
@@ -14,11 +16,11 @@ module.exports = ($mdDialog, template) ->
         targetEvent: if event.target? then event else undefined
         controller: "#{action}Controller"
         controllerAs: "#{action}Ctrl"
-        bindToController: true
+        bindToController: yes
         locals: locals
         openFrom: "body"
         closeFrom: "body"
-        escapeToClose: false
+        escapeToClose: no
       .then (val) ->
 
         if typeof val is "object"

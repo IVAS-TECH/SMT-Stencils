@@ -1,6 +1,6 @@
 form(name="profile" novalidate layout="column")
   div(layout="column" layout-align="start center")
-    md-input-container
+    md-input-container(md-is-error="profileCtrl.error(profile.email.$error)")
       label(translate="label-new-email")
       input(ng-model="profileCtrl.user.email" name="email" type="email" ivo-email-taken required)
       div(ng-messages="profile.email.$error")
@@ -17,7 +17,7 @@ form(name="profile" novalidate layout="column")
       translate="button-change-email"
     )
   div(layout="column" layout-align="start center")
-    md-input-container
+    md-input-container(md-is-error="profileCtrl.error(profile.password.$error)")
       label(translate="label-new-password")
       input(ng-model="profileCtrl.user.password" name="password" type="password" ng-minlength="6" ng-maxlength="35" required)
       div(ng-messages="profile.password.$error")

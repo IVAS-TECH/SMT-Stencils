@@ -8,6 +8,8 @@ describe "showDialogService", ->
 
   hide = ->
 
+  showErrorService = ->
+
   describe "showing and hiding without object", ->
 
     beforeEach ->
@@ -20,7 +22,11 @@ describe "showDialogService", ->
 
           resolve "action"
 
-      showDialogService = tested show: show, hide: hide, template
+      $mdDialog =
+        show: show
+        hide: hide
+
+      showDialogService = tested $mdDialog, showErrorService, template
 
     describe "showing", ->
 
@@ -33,11 +39,13 @@ describe "showDialogService", ->
           targetEvent: undefined
           controller: "testController"
           controllerAs: "testCtrl"
-          bindToController: true
-          locals: hide: hide
+          bindToController: yes
+          locals:
+            hide: hide
+            error: showErrorService
           openFrom: "body"
           closeFrom: "body"
-          escapeToClose: false
+          escapeToClose: no
 
         event = target: {}
 
@@ -48,11 +56,13 @@ describe "showDialogService", ->
           targetEvent: event
           controller: "testController"
           controllerAs: "testCtrl"
-          bindToController: true
-          locals: hide: hide
+          bindToController: yes
+          locals:
+            hide: hide
+            error: showErrorService
           openFrom: "body"
           closeFrom: "body"
-          escapeToClose: false
+          escapeToClose: no
 
     describe "hiding without object", ->
 
@@ -86,7 +96,7 @@ describe "showDialogService", ->
             "action1": "val1"
             "action2": "val2"
 
-      showDialogService = tested show: show, hide: hide, template
+      showDialogService = tested show: show, hide: hide, showErrorService, template
 
     it "hides with single action passed from extend", ->
 

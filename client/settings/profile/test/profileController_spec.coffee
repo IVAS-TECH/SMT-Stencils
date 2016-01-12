@@ -6,6 +6,8 @@ describe "profileController", ->
 
   profileController = confirmService = RESTHelperService = simpleDialogService = undefined
 
+  showErrorService = ->
+
   beforeEach ->
 
     confirmService = jasmine.createSpy()
@@ -19,7 +21,7 @@ describe "profileController", ->
 
     simpleDialogService = jasmine.createSpy()
 
-    profileController = tested.call {}, confirmService, RESTHelperService, simpleDialogService
+    profileController = tested.call {}, showErrorService, confirmService, RESTHelperService, simpleDialogService
 
   it "shouldn't change profile's email if form is invalid", ->
 

@@ -1,7 +1,9 @@
-module.exports = (confirmService, RESTHelperService, simpleDialogService) ->
-  @$inject = ["confirmService", "RESTHelperService", "simpleDialogService"]
+module.exports = (showErrorService, confirmService, RESTHelperService, simpleDialogService) ->
+  @$inject = ["showErrorService", "confirmService", "RESTHelperService", "simpleDialogService"]
 
   controller = @
+
+  controller.error = showErrorService
 
   controller.change = (event, type, valid) ->
     if valid
