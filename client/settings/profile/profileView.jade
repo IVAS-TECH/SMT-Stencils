@@ -8,9 +8,14 @@ form(name="profile" novalidate layout="column")
           span(translate="error-email-email")
         div(ng-message="email-taken")
           span(translate="error-email-taken")
-        div(ng-message="required" ng-if="profileCtrl.error.email")
+        div(ng-message="required")
           span(translate="error-email-required")
-    md-button(ng-click="profileCtrl.change($event, 'email', profile.email.$invalid)" class="md-warn" aria-label="change email" translate="button-change-email")
+    md-button(
+      ng-click="profileCtrl.change($event, 'email', profile.email.$valid)"
+      class="md-warn"
+      aria-label="change email"
+      translate="button-change-email"
+    )
   div(layout="column" layout-align="start center")
     md-input-container
       label(translate="label-new-password")
@@ -20,6 +25,11 @@ form(name="profile" novalidate layout="column")
           span(translate="error-password-minlength")
         div(ng-message="maxlength")
           span(translate="error-password-maxlength")
-        div(ng-message="required" ng-if="profileCtrl.error.password")
+        div(ng-message="required")
           span(translate="error-password-required")
-    md-button(ng-click="profileCtrl.change($event, 'password', profile.password.$invalid)" class="md-warn" aria-label="change password" translate="button-change-password")
+    md-button(
+      ng-click="profileCtrl.change($event, 'password', profile.password.$valid)"
+      class="md-warn"
+      aria-label="change password"
+      translate="button-change-password"
+    )
