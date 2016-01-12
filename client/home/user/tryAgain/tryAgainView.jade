@@ -1,6 +1,17 @@
 md-dialog
   md-dialog-content(class="md-dialog-content")
     p(align="center" class="md-title" translate="{{tryAgainCtrl.title}}")
-      div(class="md-actions" layout="row" layout-sm="column" layout-align="center center")
-        md-button(ng-click="tryAgainCtrl.hide('success')" class="md-primary" aria-label="login" md-autofocus="true" translate="button-tryAgain")
-        md-button(ng-click="tryAgainCtrl.hide('cancel')" class="md-warn" aria-label="login" translate="button-cancel")
+      md-dialog-actions(layout="row" layout-sm="column" layout-align="center center")
+        md-button(
+          ng-click="tryAgainCtrl.hide('success')"
+          class="md-primary"
+          aria-label="login"
+          md-autofocus="true"
+          translate="button-tryAgain"
+        )
+        md-button(
+          ng-click="tryAgainCtrl.hide('cancel')"
+          class="md-warn"
+          aria-label="login"
+          translate="button-cancel"
+        )
