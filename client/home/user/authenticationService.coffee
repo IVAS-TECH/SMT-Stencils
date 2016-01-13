@@ -34,13 +34,13 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
     if authentication? then broadcast authentication
     else
       new Promise (resolve, reject) ->
-        RESTHelperService.logged (res) ->
+        RESTHelperService.login.logged (res) ->
           res.async_ = true
           if res.login then broadcast res
           resolve()
 
   unauthenticate: (callback) ->
-    RESTHelperService.logout ->
+    RESTHelperService.login.logout ->
       $rootScope.$broadcast "unauthentication"
       if callback? then callback()
 

@@ -11,7 +11,9 @@ describe "authenticationService", ->
 
     $rootScope = jasmine.createSpyObj "$rootScope", ["$on", "$broadcast"]
 
-    RESTHelperService = jasmine.createSpyObj "RESTHelperService", ["logged", "logout"]
+    login = jasmine.createSpyObj "login", ["logged", "logout"]
+
+    RESTHelperService = login: login
 
     transitionService = toAdmin: jasmine.createSpy()
 
@@ -86,7 +88,7 @@ describe "authenticationService", ->
 
       beforeEach ->
 
-        RESTHelperService.logged.and.callFake (cb) ->
+        RESTHelperService.login.logged.and.callFake (cb) ->
           cb res
 
         $rootScope.$on.and.callFake (evnt, cb) ->
@@ -124,7 +126,7 @@ describe "authenticationService", ->
 
       beforeEach ->
 
-        RESTHelperService.logged.and.callFake (cb) ->
+        RESTHelperService.login.logged.and.callFake (cb) ->
             cb res
 
       it "shouldn't broadcast a login", (done) ->
@@ -145,7 +147,7 @@ describe "authenticationService", ->
 
       spy = jasmine.createSpy()
 
-      RESTHelperService.logout.and.callFake (cb) -> cb()
+      RESTHelperService.login.logout.and.callFake (cb) -> cb()
 
       $rootScope.$on.and.callFake (evnt, cb) ->
 

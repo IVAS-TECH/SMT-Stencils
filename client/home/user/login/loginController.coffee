@@ -6,7 +6,7 @@ module.exports = (RESTHelperService) ->
 
   controller.login = (valid) ->
     if valid
-      RESTHelperService.login user: controller.user, (res) ->
+      RESTHelperService.login.login user: controller.user, (res) ->
         if res.login
           controller.hide
             "success":

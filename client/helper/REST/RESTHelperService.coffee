@@ -1,40 +1,43 @@
+requests = require "./requests"
+
 module.exports = (REST, uploadService, errorHandleService) ->
   @$inject = ["REST", "uploadService", "errorHandleService"]
 
-  loginREST = REST "login"
-  userREST = REST "user"
-  configREST = REST "config"
-  previewUpload = uploadService "preview"
-  orderUpload = uploadService "order"
-  addressesREST = REST "addresses"
-  orderREST = REST "order"
+  handle = (req, arg) ->
 
-  resolve = (resolver) -> (res) -> if res.statusCode is 200 then resolver res.data else errorHandleService()
+    resolve = (resolver) ->
+      (res) ->
+        if res.statusCode is 200
+          resolver res.data
+        else errorHandleService()
 
-  email: (email, resolver) -> userREST.get(email).then resolve resolver
-  register: (user, resolver) -> userREST.post(user).then resolve resolver
-  logged: (resolver) -> loginREST.get().then resolve resolver
-  login: (user, resolver) -> loginREST.post(user).then resolve resolver
-  logout: (resolver) -> loginREST.delete().then resolve resolver
-  profile: (change, resolver) -> userREST.patch(change).then resolve resolver
+    if arg
+      (argument, resolver) ->
+        req(argument).then (resolve resolver), errorHandleService
+    else
+      (resolver) ->
+        req().then (resolve resolver), errorHandleService
 
-  config:
-    create: (config, resolver) -> configREST.post(config).then resolve resolver
-    find: (resolver) -> configREST.get().then resolve resolver
-    delete: (config, resolver) -> configREST.delete(config).then resolve resolver
-    update: (config, resolver) -> configREST.patch(config).then resolve resolver
+  service = {}
 
-  upload:
-    preview: (files, resolver) -> previewUpload(files).then resolve resolver
-    order: (files, resolver) -> orderUpload(files).then resolve resolver
+  for key, value of requests
 
-  addresses:
-    create: (addresses, resolver) -> addressesREST.post(addresses).then resolve resolver
-    find: (resolver) -> addressesREST.get().then resolve resolver
-    delete: (addresses, resolver) -> addressesREST.delete(addresses).then resolve resolver
-    update: (addresses, resolver) -> addressesREST.patch(addresses).then resolve resolver
+    service[key] = {}
 
-  order:
-    create: (order, resolver) -> orderREST.post(order).then resolve resolver
-    find: (resolver) -> orderREST.get().then resolve resolver
-    view: (order, resolver) -> orderREST.put(order).then resolve resolver
+    if key is "upload"
+
+      for upload in value
+
+        uploader = uploadService upload
+
+        service[key][upload] = handle uploader, yes
+
+    else
+
+      rest = REST key
+
+      for i of value.arg
+
+        service[key][value.alias[i]] = handle rest[value.method[i]], value.arg[i]
+
+  service

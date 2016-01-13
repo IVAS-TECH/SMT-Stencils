@@ -6,7 +6,7 @@ describe "loginController", ->
 
   beforeEach ->
 
-    RESTHelperService = login: jasmine.createSpy()
+    RESTHelperService = login: login: jasmine.createSpy()
 
     hide = jasmine.createSpy()
 
@@ -26,11 +26,11 @@ describe "loginController", ->
 
       loginController.login false
 
-      expect(RESTHelperService.login).not.toHaveBeenCalled()
+      expect(RESTHelperService.login.login).not.toHaveBeenCalled()
 
     it "should make a login if form is valid", ->
 
-      RESTHelperService.login.and.callFake (obj, cb) ->
+      RESTHelperService.login.login.and.callFake (obj, cb) ->
         cb login: true, admin: admin
 
       loginController.user = user
@@ -45,7 +45,7 @@ describe "loginController", ->
 
     it "should hide with 'fail'", ->
 
-      RESTHelperService.login.and.callFake (obj, cb) ->
+      RESTHelperService.login.login.and.callFake (obj, cb) ->
         cb login: false
 
       loginController.login true

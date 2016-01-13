@@ -14,7 +14,7 @@ module.exports = ->
     (resource) ->
       _path = "#{_base}/#{resource}"
 
-      make: (method, send) ->
+      rest = make: (method, send) ->
         json = "application/json"
         path = _path
         if method in ["GET", "DELETE"] and send isnt ""
@@ -48,8 +48,10 @@ module.exports = ->
 
           req.end()
 
-      get: (send = "") -> @make "GET", send
-      post: (send = {}) -> @make "POST", send
-      put: (send = {}) -> @make "PUT", send
-      delete: (send = "") -> @make "DELETE", send
-      patch: (send = {}) -> @make "PATCH", send
+      rest.get = (send = "") -> rest.make "GET", send
+      rest.post = (send = {}) -> rest.make "POST", send
+      rest.put = (send = {}) -> rest.make "PUT", send
+      rest.delete = (send = "") -> rest.make "DELETE", send
+      rest.patch = (send = {}) -> rest.make "PATCH", send
+
+      rest

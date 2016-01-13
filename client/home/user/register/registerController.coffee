@@ -5,7 +5,7 @@ module.exports = (RESTHelperService) ->
 
   controller.register = (valid) ->
     if valid
-      RESTHelperService.register user: controller.user, (res) ->
+      RESTHelperService.user.register user: controller.user, (res) ->
         controller.hide "success"
 
   controller

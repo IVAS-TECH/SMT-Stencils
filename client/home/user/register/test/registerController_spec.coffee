@@ -6,9 +6,9 @@ describe "registerController", ->
 
   beforeEach ->
 
-    RESTHelperService = register: jasmine.createSpy()
+    RESTHelperService = user: register: jasmine.createSpy()
 
-    RESTHelperService.register.and.callFake (obj, cb) -> cb()
+    RESTHelperService.user.register.and.callFake (obj, cb) -> cb()
 
     hide = jasmine.createSpy()
 
@@ -18,7 +18,7 @@ describe "registerController", ->
 
     registerController.register false
 
-    expect(RESTHelperService.register).not.toHaveBeenCalled()
+    expect(RESTHelperService.user.register).not.toHaveBeenCalled()
 
   it "should hide if successful register has been made", ->
 
@@ -30,6 +30,6 @@ describe "registerController", ->
 
     registerController.register true
 
-    expect(RESTHelperService.register).toHaveBeenCalledWith user: user, jasmine.any Function
+    expect(RESTHelperService.user.register).toHaveBeenCalledWith user: user, jasmine.any Function
 
     expect(hide).toHaveBeenCalledWith "success"

@@ -15,9 +15,9 @@ describe "profileController", ->
     confirmService.and.callFake (evnt, extnd) ->
       extnd.success()
 
-    RESTHelperService = profile: jasmine.createSpy()
+    RESTHelperService = user: profile: jasmine.createSpy()
 
-    RESTHelperService.profile.and.callFake (obj, cb) -> cb()
+    RESTHelperService.user.profile.and.callFake (obj, cb) -> cb()
 
     simpleDialogService = jasmine.createSpy()
 
@@ -37,6 +37,6 @@ describe "profileController", ->
 
     expect(confirmService).toHaveBeenCalledWith event, success: jasmine.any Function
 
-    expect(RESTHelperService.profile).toHaveBeenCalledWith type: "password", value: "password", jasmine.any Function
+    expect(RESTHelperService.user.profile).toHaveBeenCalledWith type: "password", value: "password", jasmine.any Function
 
     expect(simpleDialogService).toHaveBeenCalledWith event, "title-changed-password"

@@ -12,7 +12,7 @@ module.exports = ($scope, $state) ->
     highlight = (state) ->
       index = controller.states.indexOf state
       if index > -1
-        controller.selected = (false for [1..controller.states.length])
+        controller.selected = (false for i of controller.states)
         controller.selected[index] = true
 
     allStates = $state.get()

@@ -42,18 +42,35 @@ describe "RESTHelperService", ->
 
   describe "when error", ->
 
+    spy = undefined
+
+    reject = (callback) ->
+      callback
+        statusCode: 500
+
     beforeEach ->
-
-      request.and.callFake (send) ->
-        then: (callback) ->
-          callback
-            statusCode: 500
-
-    it "should call errorHandleService", ->
 
       spy = jasmine.createSpy()
 
-      RESTHelperService.logged spy
+      request.and.callFake (send) ->
+        then: reject
+
+    it "should call errorHandleService if status isn't 200", ->
+
+      spy = jasmine.createSpy()
+
+      RESTHelperService.login.logged spy
+
+      expect(spy).not.toHaveBeenCalled()
+
+      expect(errorHandleService).toHaveBeenCalled()
+
+    it "should call errorHandleService if request failed due to an error", ->
+
+      request.and.callFake (send) ->
+        then: (res, rej) -> rej()
+
+      RESTHelperService.login.logged spy
 
       expect(spy).not.toHaveBeenCalled()
 
@@ -92,7 +109,7 @@ describe "RESTHelperService", ->
 
     it "checks if email is taken", ->
 
-      RESTHelperService.email email, callback
+      RESTHelperService.user.email email, callback
 
       expect(request).toHaveBeenCalledWith email
 
@@ -106,7 +123,9 @@ describe "RESTHelperService", ->
 
     run = (test) ->
 
-      describe "RESTHelperService.#{test}", ->
+      key = if test isnt "login" then "user" else test
+
+      describe "RESTHelperService.#{key}.#{test}", ->
 
         message = "#{test} a new user"
 
@@ -115,7 +134,7 @@ describe "RESTHelperService", ->
 
         it message, ->
 
-          RESTHelperService[test] user , callback
+          RESTHelperService[key][test] user , callback
 
           expect(request).toHaveBeenCalledWith user
 
@@ -125,7 +144,7 @@ describe "RESTHelperService", ->
 
   testLog = (log) ->
 
-    describe "RESTHelperService.#{log}", ->
+    describe "RESTHelperService.login.#{log}", ->
 
       message = "checks if a user is currrently logged (for session)"
 
@@ -134,7 +153,7 @@ describe "RESTHelperService", ->
 
       it message, ->
 
-        RESTHelperService[log] callback
+        RESTHelperService.login[log] callback
 
         expect(callback).toHaveBeenCalled()
 

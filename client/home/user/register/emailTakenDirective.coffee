@@ -11,6 +11,6 @@ module.exports = (RESTHelperService) ->
 
       new Promise (resolve, reject) ->
 
-        RESTHelperService.email newValue, (res) ->
+        RESTHelperService.user.email newValue, (res) ->
 
           if res.taken then reject() else resolve()

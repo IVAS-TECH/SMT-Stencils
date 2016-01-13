@@ -111,7 +111,7 @@ describe "RESTProvider", ->
 
         done()
 
-    run = (expected) ->
+    runDef = (expected) ->
 
       (test) ->
 
@@ -125,11 +125,33 @@ describe "RESTProvider", ->
 
               done()
 
-    withParam = run ""
+    withParam = runDef ""
 
     withParam test for test in ["get", "delete"]
 
-    withObject = run {}
+    withObject = runDef {}
+
+    withObject test for test in ["post", "put", "patch"]
+
+    run = (passed, def) ->
+
+      (test) ->
+
+        describe "REST.#{test}", ->
+
+          it "makes #{test} request if argument is passed it shouldn't use default argument value", (done) ->
+
+            resource[test](passed).then (data) ->
+
+              expect(resource.make).not.toHaveBeenCalledWith test.toUpperCase(), def
+
+              done()
+
+    withParam = run "string", ""
+
+    withParam test for test in ["get", "delete"]
+
+    withObject = run object: true, {}
 
     withObject test for test in ["post", "put", "patch"]
 
