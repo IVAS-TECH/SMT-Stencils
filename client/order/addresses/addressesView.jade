@@ -10,6 +10,8 @@ div(layout="column" layout-align="center strech" layout-wrap)
         md-button(ng-click="addressesCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="addressesCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")    
   div(ng-if="addressesCtrl.information" layout="column" layout-align="center strech" layout-wrap)
+  
+  
     ivo-address(disabled="addressesCtrl.disabled" address="addressesCtrl.information.delivery" name="delivery")
     div(ng-if="addressesCtrl.action !== 'preview'" layout="row" layout-align="center center")
       md-checkbox(ng-model="addressesCtrl.sameAsAbove" ng-click="addressesCtrl.fill('delivery', 'invoice')" class="md-primary" aria-label="as-above")
@@ -25,6 +27,8 @@ div(layout="column" layout-align="center strech" layout-wrap)
       md-input-container
         label(translate="information-name")
         input(ng-disabled="addressesCtrl.disabled" ng-model="addressesCtrl.information.name" required)
+        
+        
       div(layout="column")
         md-button(
           ng-if="addressesCtrl.settings && addressesCtrl.action !== 'preview'"

@@ -12,8 +12,8 @@ module.exports = (RESTHelperService, $scope, progressService) ->
       controller.top.view = res.top
       controller.bottom.view = res.bottom
 
-  controller.back = -> progress "configuration"
+  controller.back = -> progress no
 
-  controller.next = -> progress "addresses"
+  controller.next = -> progress yes
 
   controller

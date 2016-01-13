@@ -18,10 +18,7 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyServic
         controller.listOfAddresses = res.addressesList
 
   controller.reset = ->
-    controller.information =
-      delivery: {}
-      invoice: {}
-      firm: {}
+    controller.information = {}
     controller.disabled = false
     controller.action = "create"
 

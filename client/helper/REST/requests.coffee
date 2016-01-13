@@ -15,7 +15,7 @@ module.exports =
     method: ["get", "post", "delete"]
     arg: [no, yes, no]
 
-  config: crud
+  configuration: crud
 
   addresses: crud
 

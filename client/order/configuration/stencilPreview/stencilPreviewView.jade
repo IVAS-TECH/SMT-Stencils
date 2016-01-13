@@ -5,6 +5,10 @@ div(layout-margin layout-padding layout-wrap)
         div(ng-class="scopeCtrl.style.frame ? 'stencil-inner-shadow' : 'stencil'" layout-fill layout="column")
           div(ng-class="scopeCtrl.style.frame ? 'stencil-glued' : 'stencil'" layout-fill layout="column")
             div(class="stencil-view" layout-fill layout="column")
-              span(ng-repeat="t in text track by $index" class="stencil-text" ng-class="scopeCtrl.changeText(scopeCtrl.configuration.text)") {{t}}
+              span(
+                ng-repeat="t in text track by $index"
+                class="stencil-text"
+                ng-class="scopeCtrl.changeText(scopeCtrl.configuration.text)"
+              ) {{t}}
               div(ng-class="scopeCtrl.style.mode || 'portrait-centered'")
                 ivo-include(include="view" controller="controller")

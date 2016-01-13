@@ -1,6 +1,16 @@
 Promise = require "promise"
 
-module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
+module.exports = ($controller, template, $scope, RESTHelperService, simpleDialogService, progressService) ->
+  @$inject = ["$controller", "template", "$scope", "RESTHelperService", "simpleDialogService", "progressService"]
+
+  injectable =
+    "$scope": $scope
+    "RESTHelperService": RESTHelperService
+    "simpleDialogService": simpleDialogService
+    "progressService": progressService
+    "link": "configuration"
+
+  controller = $controller "baseInterface", injectable
 
   textPosition = ->
     options = []
@@ -19,9 +29,6 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
     if position.match /-center/
       return ["bottom", "top"]
 
-  controller = @
-  controller.$inject = ["$scope", "RESTHelperService", "simpleDialogService", "template"]
-  controller.controller = "configCtrl"
   controller.text = "Text"
   controller.view = template "top"
   controller.style = {}
@@ -34,39 +41,17 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
 
   controller.listen = ->
     stop = $scope.$on "config-validity", (event, value) ->
-      controller.invalid = value
+      controller.valid = [value]
     $scope.$on "$destroy", stop
-
-  controller.getConfigs = ->
-    RESTHelperService.config.find (res) ->
-          controller.listOfConfigs = res.configList
-
-  controller.reset = ->
-      controller.disabled = false
-      controller.action = "create"
-      delete controller.config
-      controller.configuration = {}
-      controller.change()
 
   controller.change = ->
     position = ""
-    if controller.configuration.text
-         position = controller.configuration.text.position
+    if controller.configurationObject.text
+         position = controller.configurationObject.text.position
     controller.options.textAngle =  textAngle position
-    controller.changeText controller.configuration.text
+    controller.changeText controller.configurationObject.text
     controller.changeStencilTransitioning()
     controller.changeStencilPosition()
-
-  controller.choose = ->
-    controller.disabled = true
-    controller.action = "preview"
-    controller.configuration = controller.listOfConfigs[controller.config]
-    controller.change()
-
-  controller.save = ->
-    new Promise (resolve, reject) ->
-      RESTHelperService.config.create config: controller.configuration, (res) ->
-          resolve()
 
   controller.changeText = (text) ->
     color = "pcb-side"
@@ -86,19 +71,19 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
     return [color, (["text", text.position, angle].join "-")].join " "
 
   controller.changeStencilTransitioning = ->
-    if not controller.configuration.stencil?
+    if not controller.configurationObject.stencil?
       controller.style.frame = false
       return
-    controller.style.frame = (controller.configuration.stencil.transitioning.match /frame/)?
+    controller.style.frame = (controller.configurationObject.stencil.transitioning.match /frame/)?
 
   controller.changeStencilPosition = ->
-    if not controller.configuration.position?
+    if not controller.configurationObject.position?
       controller.style.outline = false
       controller.style.layout = false
       controller.style.mode = ["portrait", "centered"].join "-"
       return
-    aligment = controller.configuration.position.aligment ? "portrait"
-    position = controller.configuration.position.position
+    aligment = controller.configurationObject.position.aligment ? "portrait"
+    position = controller.configurationObject.position.position
     mode = ""
     if position isnt "pcb-centered"
       controller.style.outline = false

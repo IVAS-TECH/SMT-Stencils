@@ -1,5 +1,6 @@
 module.exports = ($compile, template, scopeControllerService) ->
   @$inject = ["$compile", "template", "scopeControllerService"]
+
   restrict: "E"
   scope:
     include: "="

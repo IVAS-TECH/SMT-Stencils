@@ -1,0 +1,33 @@
+div(layout="column" layout-align="center center" layout-wrap)
+  div(layout="row" layout-align="center center" layout-wrap)
+    md-button(ng-click="baseCtrl.reset()" class="md-primary" aria-label="new" translate="button-new-configuration")
+    div(layout="row" layout-align="center center" layout-wrap)
+      md-input-container(flex="auto")
+        label(translate="label-choose")
+        md-select(ng-model="baseCtrl[baseCtrl.link + baseCtrl.common[2]]" ng-change="baseCtrl.choose()")
+          md-option(ng-repeat="object in baseCtrl[baseCtrl.link + baseCtrl.common[1]]" ng-value="$index") {{object.name}}
+      div(ng-if="baseCtrl.settings" layout="row" layout-align="center center")
+        md-button(ng-click="baseCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
+        md-button(ng-click="baseCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")
+  div(ng-if="true" layout="column" layout-align="center stretch" layout-wrap)
+    ivo-include(include="'configurationView'" template="true" controller="baseCtrl.controller")
+    div(layout="column")
+      md-button(
+        ng-if="baseCtrl.settings && baseCtrl[baseCtrl.link + baseCtrl.common[3]] !== 'preview'"
+        ng-click="baseCtrl.doAction($event)"
+        class="md-primary"
+        aria-label="baseCtrl[baseCtrl.link + baseCtrl.common[3]]"
+        translate="baseCtrl[baseCtrl.link + baseCtrl.common[3]]"
+      )
+      div(ng-if="!baseCtrl.settings" layout="column" layout-align="end end" layout-wrap)
+        md-checkbox(
+          ng-if="baseCtrlbaseCtrl[baseCtrl.link + baseCtrl.common[3]] === 'create'"
+          ng-model="baseCtrl.saveIt"
+          ng-init="baseCtrl.saveIt=true"
+          class="md-primary"
+          aria-label="save"
+        )
+          p(translate="checkbox-save-configuration")
+        div(layout="row" layout-align="center center")
+          md-button(ng-disabled="true" aria-label="void" class="fake-button")
+          md-button(ng-click="baseCtrl.next($event)" class="md-primary" aria-label="next" translate="button-next")
