@@ -108,6 +108,8 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
   new Promise (resolve, reject) ->
+    fse.emptyDirSync compileDir
+    fse.emptyDirSync deployDir
     invoke "coffee"
     GerberToSVG = require "./server/lib/GerberToSVG"
     favicon = "favicon.ico"

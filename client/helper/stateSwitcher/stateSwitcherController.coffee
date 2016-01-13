@@ -27,13 +27,15 @@ module.exports = ($scope, $state) ->
 
     controller.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
 
-    highlight last $state.current.name
-
-    $scope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) ->
+    override = (event, toState, toParams, fromState, fromParams) ->
       state = last toState.name
       highlight state
       if controller.override[state]?
         $state.go [controller.state, state, controller.override[state]].join "\."
+
+    $scope.$on "$stateChangeSuccess", override
+
+    override null, $state.current
 
   controller.switchState = (state) ->
       $state.go "#{controller.state}.#{state}"
