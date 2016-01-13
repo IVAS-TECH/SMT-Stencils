@@ -51,6 +51,7 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
     map = {}
     walker.on "file", (root, file, next) ->
       info = file.name.split "\."
+      if info[1] isnt "html" then return next()
       path = join root, file.name
       if info[0] not in ["index", "error"]
         map[info[0]] = fse.readFileSync path, "utf8"
@@ -106,30 +107,33 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
   console.log "Compiling all Stylus files and @angular-material.css into single CSS3 file    done"
 
 task "resources", "Pulls all resource files & Generates default stencil SVG", ->
-  GerberToSVG = require "./server/lib/GerberToSVG"
-  favicon = "favicon.ico"
-  console.log "Pulling resources..."
-  fse.removeSync resourceDir
-  clone = spawnSync "git", ["clone", "https://github.com/IVAS-TECH/SMT-Stencils_resources.git", resourceDir], stdio: "inherit"
-  fse.removeSync join resourceDir, ".git"
-  console.log "Pulling resources    done"
-  console.log "Moving favicon.ico..."
-  src = join resourceDir, favicon
-  dst = join sendDir, favicon
-  fse.move src, dst, (err) ->
-    if err? then console.log err
-    console.log "Moving favicon.ico    done"
-  console.log "Generating default stencil SVG..."
-  files = []
-  walker = walk join resources, "samples"
-  walker.on "file", (root, file, next) ->
-    files.push join root, file.name
-    next()
-  walker.on "end", ->
-    GerberToSVG(files).then (svg) ->
-      top = join resources, "top.html"
-      fse.writeFileSync top, svg.top, "utf8"
-      console.log "Generating default stencil SVG    done"
+  new Promise (resolve, reject) ->
+    invoke "coffee"
+    GerberToSVG = require "./server/lib/GerberToSVG"
+    favicon = "favicon.ico"
+    console.log "Pulling resources..."
+    fse.removeSync resourceDir
+    clone = spawnSync "git", ["clone", "https://github.com/IVAS-TECH/SMT-Stencils_resources.git", resourceDir], stdio: "inherit"
+    console.log "Pulling resources    done"
+    console.log "Generating default stencil SVG..."
+    files = []
+    walker = walk join resourceDir, "samples"
+    walker.on "file", (root, file, next) ->
+      files.push join root, file.name
+      next()
+    walker.on "end", ->
+      GerberToSVG(files).then (svg) ->
+        top = join compileDir, "top.html"
+        fse.writeFileSync top, svg.top, "utf8"
+        console.log "Generating default stencil SVG    done"
+        console.log "Moving favicon.ico..."
+        src = join resourceDir, favicon
+        dst = join sendDir, favicon
+        fse.move src, dst, (err) ->
+          fse.removeSync resourceDir
+          if err? then console.log err
+          console.log "Moving favicon.ico    done"
+          resolve()
 
 task "clean", "Returns repo as it was pulled", ->
   client = join __dirname, "client"
@@ -142,8 +146,7 @@ task "clean", "Returns repo as it was pulled", ->
 
 task "build", "Wraps up the building proccess", ->
   #invoke "clean"
-  (invoke "bundle").then ->
-    invoke "resources"
+  (invoke "resources").then -> invoke "bundle"
 
 task "start", "Starts the server and stops it on entering 'stop'", ->
   console.log "Starting server..."
