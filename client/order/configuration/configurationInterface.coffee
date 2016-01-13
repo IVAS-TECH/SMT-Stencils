@@ -39,8 +39,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
 
   controller.getConfigs = ->
     RESTHelperService.config.find (res) ->
-        if res.success
-          controller.configs = res.configs
+          controller.listOfConfigs = res.configList
 
   controller.reset = ->
       controller.disabled = false
@@ -61,15 +60,12 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, template) ->
   controller.choose = ->
     controller.disabled = true
     controller.action = "preview"
-    controller.configuration = controller.configs[controller.config]
+    controller.configuration = controller.listOfConfigs[controller.config]
     controller.change()
 
   controller.save = ->
     new Promise (resolve, reject) ->
       RESTHelperService.config.create config: controller.configuration, (res) ->
-        if res.success
-          controller.configuration._id = res._id
-          controller.configuration.user = res.user
           resolve()
 
   controller.changeText = (text) ->

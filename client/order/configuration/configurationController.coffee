@@ -1,7 +1,7 @@
 module.exports = module.exports = ($controller, progressService, $scope, RESTHelperService, simpleDialogService, template) ->
   @inject = ["$controller", "progressService", "$scope", "RESTHelperService", "simpleDialogService", "template"]
 
-  properties = ["configuration", "configs", "config", "disabled", "action"]
+  properties = ["configuration", "listOfConfigs", "config", "disabled", "action"]
 
   injectable =
     "$scope": $scope

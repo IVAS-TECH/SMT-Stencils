@@ -217,5 +217,5 @@ task "coverage", "It shows code coverage", ->
     spawnSync exec.karma, ["start", "./compile/karma.conf.js"], stdio: "inherit"
     (mocha ["cover", exec._mocha, "--", "--opts", "./server/mocha.conf"]).then (args) ->
       spawnSync exec.istanbul, args, stdio: "inherit"
-      open join __dirname, "client/coverage/html/index.html"
+      open join  compileDir, "coverage/html/index.html"
       open join __dirname, "coverage/lcov-report/index.html"

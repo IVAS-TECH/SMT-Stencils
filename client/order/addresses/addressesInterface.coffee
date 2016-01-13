@@ -15,8 +15,7 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyServic
 
   controller.getAddresses = ->
     RESTHelperService.addresses.find (res) ->
-      if res.success
-        controller.listOfAddresses = res.addresses
+        controller.listOfAddresses = res.addressesList
 
   controller.reset = ->
     controller.information =
