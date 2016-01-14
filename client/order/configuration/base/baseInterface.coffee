@@ -71,14 +71,15 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
         RESTHelperService[controller.link].update "#{controller.link}": update, (res) ->
 
   controller.doAction = (event) ->
-    if controller.action is "create"
+    action = controller[controller.link + controller.common[3]]
+    if action is "create"
       controller.save event
-    if controller.action is "edit"
+    if action is "edit"
       controller.update event
 
   properties = (controller.link + prop for prop in controller.common)
 
-  progress = progressService $scope, "orderCtrl", controller.controller, ["link", "template"], properties
+  progress = progressService $scope, "orderCtrl", controller.controller, ["link", "template", "valid", "btnBack"], properties
 
   controller.restore = ->
     if not $scope.$parent.orderCtrl[controller.link + controller.common[0]]?

@@ -3,9 +3,6 @@ div(layout="column" layout-align="space-between strech" layout-margin layout-wra
   ivo-files(files="order.files" remove="false")
   ivo-order-texts(order="order")
   ivo-config-info(controller="controller")
-  ivo-address(disabled="order.disabled" address="order.information.delivery" name="delivery")
-  ivo-address(disabled="order.disabled" address="order.information.invoice" name="invoice")
-  ivo-address(disabled="order.disabled" address="order.information.firm"  name="firm")
-  md-input-container
-    label(translate="information-name")
-    input(ng-disabled="order.disabled" ng-model="order.information.name" required)
+  ivo-address(disabled="order.disabled" address="order.addressesObject.delivery" name="delivery")
+  ivo-address(disabled="order.disabled" address="order.addressesObject.invoice" name="invoice")
+  ivo-address(disabled="order.disabled" address="order.addressesObject.firm"  name="firm")

@@ -8,6 +8,6 @@ module.exports = (template, scopeControllerService) ->
 
     scopeControllerService scope
 
-    stop = scope.$watch "configuration.$invalid", (value) ->
+    stop = scope.$watch "configuration.$valid", (value) ->
       scope.$emit "config-validity", value
     scope.$on "$destroy", stop

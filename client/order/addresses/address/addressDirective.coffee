@@ -11,6 +11,6 @@ module.exports = (template) ->
 
     scope.address = scope.address ? {}
 
-    stop = scope.$watch "addressForm.$invalid", (value) ->
+    stop = scope.$watch "addressForm.$valid", (value) ->
       scope.$emit "address-validity", scope.name, value
     scope.$on "$destroy", stop

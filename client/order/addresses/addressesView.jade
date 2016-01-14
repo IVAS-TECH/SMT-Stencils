@@ -9,7 +9,3 @@ div(ng-if="scopeCtrl.addressesAction !== 'preview'" layout="row" layout-align="c
   md-checkbox(ng-model="scopeCtrl.sameAsInvoice" ng-click="scopeCtrl.fill('firm', 'invoice')" class="md-primary" aria-label="as-invoice")
     p(translate="same-as-above")
 ivo-address(disabled="scopeCtrl.addressesDisabled" address="scopeCtrl.addressesObject.firm" name="firm")
-form(name="addresses" layout="column" layout-align="center strech" novalidate)
-  md-input-container
-    label(translate="information-name")
-    input(ng-disabled="scopeCtrl.addressesDisabled" ng-model="scopeCtrl.addressesObject.name" required)

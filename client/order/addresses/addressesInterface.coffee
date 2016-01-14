@@ -11,6 +11,8 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
 
   controller = $controller "baseInterface", injectable
 
+  controller.btnBack = yes
+
   controller.listen = ->
     stop = $scope.$on "address-validity", (event, wich, value) ->
       index = -1
@@ -22,7 +24,6 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
     $scope.$on "$destroy", stop
 
   controller.fill = (src, dst) ->
-    console.log src, dst
     info = [
       "country"
       "city"
