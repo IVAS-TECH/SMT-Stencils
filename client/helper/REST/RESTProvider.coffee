@@ -36,7 +36,7 @@ module.exports = ->
               resolve
                 headers: res.headers
                 data: JSON.parse response
-                statusCode: res.statusCode
+                status: res.statusCode
 
             res.on "error", reject
 

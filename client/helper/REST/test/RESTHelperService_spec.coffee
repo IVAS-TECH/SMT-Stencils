@@ -14,7 +14,7 @@ describe "RESTHelperService", ->
 
     resolve = (callback) ->
       callback
-        statusCode: 200
+        status: 200
         data: data
 
     request = jasmine.createSpy()
@@ -46,7 +46,7 @@ describe "RESTHelperService", ->
 
     reject = (callback) ->
       callback
-        statusCode: 500
+        status: 500
 
     beforeEach ->
 
@@ -80,7 +80,7 @@ describe "RESTHelperService", ->
 
     it "creates restfull 'apis'", ->
 
-      for called in ["login", "user", "config", "addresses", "order"]
+      for called in ["login", "user", "configuration", "addresses", "order"]
 
         expect(REST).toHaveBeenCalledWith called
 
@@ -163,15 +163,11 @@ describe "RESTHelperService", ->
 
     describe "RESTHelperService.#{what}.[]", ->
 
-      wich = what
-
-      if wich is "config" then wich += "urations"
-
       run = (test) ->
-
+        
         if test is "find"
 
-          it "gets all user related #{wich}", ->
+          it "gets all user related #{what}", ->
 
             RESTHelperService[what].find callback
 
@@ -179,7 +175,7 @@ describe "RESTHelperService", ->
 
         else
 
-          it "#{test}s #{wich}", ->
+          it "#{test}s #{what}", ->
 
             RESTHelperService[what][test] {}, callback
 
@@ -189,6 +185,6 @@ describe "RESTHelperService", ->
 
       run test for test in tests
 
-  testWhat what, ["create", "find", "delete", "update"] for what in ["config", "addresses"]
+  testWhat what, ["create", "find", "delete", "update"] for what in ["configuration", "addresses"]
 
   testWhat "order", ["create", "find", "view"]

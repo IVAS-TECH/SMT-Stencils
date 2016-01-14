@@ -71,7 +71,7 @@ describe "RESTProvider", ->
           responseType: headers["Content-Type"],
           jasmine.any Function
 
-        expect(data.statusCode).toEqual 200
+        expect(data.status).toEqual 200
 
         expect(data.data).toEqual ivo: 9
 

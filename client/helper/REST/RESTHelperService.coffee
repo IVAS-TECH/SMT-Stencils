@@ -7,7 +7,7 @@ module.exports = (REST, uploadService, errorHandleService) ->
 
     resolve = (resolver) ->
       (res) ->
-        if res.statusCode is 200
+        if res.status is 200
           resolver res.data
         else errorHandleService()
 
