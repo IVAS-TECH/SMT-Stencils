@@ -3,7 +3,7 @@
 makeAdmin = require "./server/routes/user/admin/makeAdmin"
 mongoose = require "mongoose"
 
-mongoose.connect "0.0.0.0:27017/db"
+mongoose.connect require "./deploy/mongo"
 
 admin = makeAdmin process.argv[2], Number process.argv[3]
 
