@@ -3,7 +3,9 @@ module.exports = (template, scopeControllerService) ->
 
   template: template "configurationInfoView"
   restrict: "E"
-  scope: controller: "="
+  scope:
+    controller: "="
+    disabled: "="
   link: (scope, element, attrs) ->
 
     scopeControllerService scope

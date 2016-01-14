@@ -8,6 +8,7 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
     "progressService": progressService
     "confirmService": confirmService
     "link": "addresses"
+    "settings": @settings
 
   controller = $controller "baseInterface", injectable
 

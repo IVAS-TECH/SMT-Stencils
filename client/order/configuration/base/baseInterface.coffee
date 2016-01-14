@@ -1,13 +1,15 @@
 Promise = require "promise"
 
-module.exports = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link) ->
-  @$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link"]
+module.exports = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings) ->
+  @$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings"]
 
   controller = @
 
   controller.link = link
 
-  controller.template = link + "View"
+  controller.settings = settings
+
+  controller.template = link + "PanelView"
 
   controller.controller = "baseCtrl"
 
@@ -77,23 +79,27 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
     if action is "edit"
       controller.update event
 
-  properties = (controller.link + prop for prop in controller.common)
+  if not controller.settings
 
-  progress = progressService $scope, "orderCtrl", controller.controller, ["link", "template", "valid", "btnBack"], properties
+    properties = (controller.link + prop for prop in controller.common)
 
-  controller.restore = ->
-    if not $scope.$parent.orderCtrl[controller.link + controller.common[0]]?
-      controller.getObjects()
-    else
-      stop = $scope.$on "update-view", ->
-        controller.choose()
-        stop()
+    exclude = ["link", "template", "valid", "btnBack", "settings"]
 
-  controller.next = (event) ->
-    if controller.saveIt
-      controller.save().then -> progress yes
-    else progress yes
+    progress = progressService $scope, "orderCtrl", controller.controller, exclude, properties
 
-  controller.back = -> progress no
+    controller.restore = ->
+      if not $scope.$parent.orderCtrl[controller.link + controller.common[0]]?
+        controller.getObjects()
+      else
+        stop = $scope.$on "update-view", ->
+          controller.choose()
+          stop()
+
+    controller.next = (event) ->
+      if controller.saveIt and controller[controller.link + controller.common[3]] is "create"
+        controller.save().then -> progress yes
+      else progress yes
+
+    controller.back = -> progress no
 
   controller
