@@ -1,7 +1,7 @@
 Promise = require "promise"
 
-module.exports = ($scope, RESTHelperService, simpleDialogService, progressService, link) ->
-  @$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "link"]
+module.exports = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link) ->
+  @$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link"]
 
   controller = @
 
@@ -32,11 +32,45 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
     controller[controller.link + controller.common[0]] = controller[controller.link + controller.common[1]][index]
     controller.change()
 
+  controller.isValid = (resolve, reject) ->
+    if (controller.valid.every (e) -> e is yes)
+      resolve()
+    else
+      reject()
+      simpleDialogService event, "required-fields"
+
   controller.save = ->
     new Promise (resolve, reject) ->
-      RESTHelperService[controller.link]
-        .create "#{controller.link}": controller[controller.link + controller.common[0]], (res) ->
+      create = ->
+        save = controller[controller.link + controller.common[0]]
+        RESTHelperService[controller.link].create "#{controller.link}": save, (res) ->
+          controller[controller.link + controller.common[0]]._id = res.id
           resolve()
+      controller.isValid create, reject
+
+  controller.edit = ->
+    controller[controller.link + controller.common[4]] = no
+    controller[controller.link + controller.common[3]] = "edit"
+
+  controller.delete = (event) ->
+    controller.isValid ->
+      confirmService event, success: ->
+        id = controller[controller.link + controller.common[0]]._id
+        RESTHelperService[controller.link].delete id, (res) ->
+          controller.reset()
+          $scope.$digest()
+
+  controller.update = (event) ->
+    controller.isValid ->
+      confirmService event, success: ->
+        update = controller[controller.link + controller.common[0]]
+        RESTHelperService[controller.link].update "#{controller.link}": update, (res) ->
+
+  controller.doAction = (event) ->
+    if controller.action is "create"
+      controller.save event
+    if controller.action is "edit"
+      controller.update event
 
   properties = (controller.link + prop for prop in controller.common)
 
@@ -51,11 +85,10 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
         stop()
 
   controller.next = (event) ->
-    if (controller.valid.every (element) -> element is yes)
-      if controller.saveIt
-        controller.save().then ->
-          progress yes
-      else progress yes
-    else simpleDialogService event, "required-fields"
+    if controller.saveIt
+      controller.save().then -> progress yes
+    else progress yes
+
+  controller.back = -> progress no
 
   controller

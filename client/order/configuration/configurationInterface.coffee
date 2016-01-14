@@ -1,13 +1,14 @@
 Promise = require "promise"
 
-module.exports = ($controller, template, $scope, RESTHelperService, simpleDialogService, progressService) ->
-  @$inject = ["$controller", "template", "$scope", "RESTHelperService", "simpleDialogService", "progressService"]
+module.exports = ($controller, template, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
+  @$inject = ["$controller", "template", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
 
   injectable =
     "$scope": $scope
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
     "progressService": progressService
+    "confirmService": confirmService
     "link": "configuration"
 
   controller = $controller "baseInterface", injectable
@@ -29,6 +30,7 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     if position.match /-center/
       return ["bottom", "top"]
 
+  controller.btnBack = no
   controller.text = "Text"
   controller.view = template "top"
   controller.style = {}

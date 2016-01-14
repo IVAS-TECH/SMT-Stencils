@@ -28,6 +28,12 @@ div(layout="column" layout-align="center center" layout-wrap)
           aria-label="save"
         )
           p(translate="checkbox-save-configuration")
-        div(layout="row" layout-align="center center")
-          md-button(ng-disabled="true" aria-label="void" class="fake-button")
+        div(layout="row" layout-align="center center" layout-wrap)
+          md-button(
+            ng-disabled="!baseCtrl.btnBack"
+            ng-click="baseCtrl.back()"
+            ng-class="!baseCtrl.btnBack ? 'fake-button' : 'md-warn'"
+            aria-label="back"
+            translate="{{!baseCtrl.btnBack ? '' : 'button-back'}}"
+          )
           md-button(ng-click="baseCtrl.next($event)" class="md-primary" aria-label="next" translate="button-next")
