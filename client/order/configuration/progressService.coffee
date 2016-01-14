@@ -35,8 +35,8 @@ module.exports = ->
 
         restored()
 
-       (progress) ->
-         
+      (progress) ->
+
         for property in properties
           parentScope[property] = currentScope[property]
 

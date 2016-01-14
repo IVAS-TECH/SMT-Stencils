@@ -54,8 +54,9 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
       create = ->
         save = controller[controller.link + controller.common[0]]
         RESTHelperService[controller.link].create "#{controller.link}": save, (res) ->
-          controller[controller.link + controller.common[0]]._id = res.id
+          index = controller[controller.link + controller.common[1]].length
           controller[controller.link + controller.common[1]].push save
+          controller[controller.link + controller.common[2]] = index
           resolve()
       controller.isValid create, reject
 
