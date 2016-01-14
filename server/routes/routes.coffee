@@ -4,3 +4,4 @@ module.exports =
   configuration: require "./order/config/configHandle"
   addresses: require "./order/addresses/addressesHandle"
   file: require "./order/file/fileRouter"
+  order: require "./order/orderHandle"

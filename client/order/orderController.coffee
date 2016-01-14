@@ -1,6 +1,7 @@
 module.exports = ($scope, $state, RESTHelperService, infoOnlyService) ->
+  @$inject = ["$scope", "$state", "RESTHelperService", "infoOnlyService"]
+
   controller = @
-  controller.$inject = ["$scope", "$state", "RESTHelperService", "infoOnlyService"]
 
   controller.back = -> $state.go "home.order.addresses"
 
