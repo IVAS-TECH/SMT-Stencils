@@ -35,3 +35,7 @@ module.exports =
 
     GerberToSVG(files).then (svg) ->
       send res, svg
+
+  patch: ->
+
+  delete: ->

@@ -41,7 +41,7 @@ formSVG = (paste, outline) ->
   ($ "g").append outHTML
   svg.attr "width", "80%"
   svg.attr "height", "90%"
-  svg.attr attr, "[(scopeCtrl.configuration.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
+  svg.attr attr, "[(scopeCtrl.configurationObject.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
   (filter paths, /100%,100%,100%/).css "fill", ""
   replaceAll (removeAll $.html(), "\n"), "&apos;", "'"
 
