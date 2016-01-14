@@ -31,15 +31,19 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
 
   controller.change = ->
 
+  controller.preview = ->
+      controller[controller.link + controller.common[4]] = yes
+      controller[controller.link + controller.common[3]] = "preview"
+
   controller.choose = ->
-    controller[controller.link + controller.common[4]] = yes
-    controller[controller.link + controller.common[3]] = "preview"
+    controller.preview()
     index = controller[controller.link + controller.common[2]]
     controller[controller.link + controller.common[0]] = controller[controller.link + controller.common[1]][index]
     controller.change()
 
   controller.isValid = (resolve, reject) ->
-    if (controller.valid.every (e) -> e is yes)
+    validForm = (controller.valid.every (e) -> e is yes)
+    if validForm and controller[controller.link + controller.common[0]].name
       resolve()
     else
       reject()
@@ -51,6 +55,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
         save = controller[controller.link + controller.common[0]]
         RESTHelperService[controller.link].create "#{controller.link}": save, (res) ->
           controller[controller.link + controller.common[0]]._id = res.id
+          controller[controller.link + controller.common[1]].push save
           resolve()
       controller.isValid create, reject
 
@@ -63,6 +68,8 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
       confirmService event, success: ->
         id = controller[controller.link + controller.common[0]]._id
         RESTHelperService[controller.link].delete id, (res) ->
+          controller[controller.link + controller.common[1]]
+            .splice  controller[controller.link + controller.common[2]], 1
           controller.reset()
           $scope.$digest()
 
@@ -71,6 +78,8 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
       confirmService event, success: ->
         update = controller[controller.link + controller.common[0]]
         RESTHelperService[controller.link].update "#{controller.link}": update, (res) ->
+          controller.preview()
+          $scope.$digest()
 
   controller.doAction = (event) ->
     action = controller[controller.link + controller.common[3]]

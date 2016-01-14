@@ -14,5 +14,9 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
       url: "/profile"
       controller: "profileController as profileCtrl"
       template: templateProvider.provide "profileView"
-    .state "home.settings.configurations", template: templateProvider.provide "configurationSettingsView"
-    .state "home.settings.addresses", template: templateProvider.provide "addressesSettingsView"
+    .state "home.settings.configurations",
+      url: "/configurations"
+      template: templateProvider.provide "configurationSettingsView"
+    .state "home.settings.addresses",
+      url: "/addresses"
+      template: templateProvider.provide "addressesSettingsView"

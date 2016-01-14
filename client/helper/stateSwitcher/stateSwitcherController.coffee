@@ -5,16 +5,6 @@ module.exports = ($scope, $state) ->
 
   init = ->
 
-    last = (stateName) ->
-      name = stateName.split "\."
-      name[name.length - 1]
-
-    highlight = (state) ->
-      index = controller.states.indexOf state
-      if index > -1
-        controller.selected = (false for i of controller.states)
-        controller.selected[index] = true
-
     allStates = $state.get()
 
     if not controller.override? then controller.override = {}
@@ -28,18 +18,21 @@ module.exports = ($scope, $state) ->
     controller.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
 
     override = (event, toState, toParams, fromState, fromParams) ->
-      state = last toState.name
-      highlight state
-      if controller.override[state]?
-        $state.go [controller.state, state, controller.override[state]].join "\."
+      current = toState.name
+      name = current.split "\."
+      check = name[name.length - 1]
+      change = controller.override[check]
+      controller.selected = (Boolean current.match state for state in controller.states)
+      if change? and current is "#{controller.state}.#{check}"
+        $state.go [controller.state, check, change].join "\."
 
     $scope.$on "$stateChangeSuccess", override
 
     override null, $state.current
 
+  init()
+
   controller.switchState = (state) ->
       $state.go "#{controller.state}.#{state}"
-
-  init()
 
   controller

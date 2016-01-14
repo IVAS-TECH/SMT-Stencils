@@ -19,6 +19,7 @@ module.exports = (model, route) ->
   patch: (req, res, next) ->
     update = req.body[route]
     id = update._id
+    delete update._id
     model.findByIdAndUpdate id, $set: update, {new: true}, (err, doc) ->
       query.basicHandle err, doc, res, next
 

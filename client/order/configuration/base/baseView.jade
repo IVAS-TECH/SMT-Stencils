@@ -17,7 +17,7 @@ div(layout="column" layout-align="center center" layout-wrap)
         ng-click="baseCtrl.doAction($event)"
         class="md-primary"
         aria-label="baseCtrl[baseCtrl.link + baseCtrl.common[3]]"
-        translate="baseCtrl[baseCtrl.link + baseCtrl.common[3]]"
+        translate="{{baseCtrl[baseCtrl.link + baseCtrl.common[3]]}}"
       )
       div(ng-if="!baseCtrl.settings" layout="column" layout-wrap)
         md-checkbox(
