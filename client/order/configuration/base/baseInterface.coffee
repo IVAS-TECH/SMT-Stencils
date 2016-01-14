@@ -7,7 +7,11 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
 
   controller.link = link
 
+  controller.template = link + "View"
+
   controller.controller = "baseCtrl"
+
+  controller.valid = []
 
   controller.common = ["Object", "List", "Index", "Action", "Disabled"]
 
@@ -74,7 +78,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
 
   properties = (controller.link + prop for prop in controller.common)
 
-  progress = progressService $scope, "orderCtrl", controller.controller, ["link"], properties
+  progress = progressService $scope, "orderCtrl", controller.controller, ["link", "template"], properties
 
   controller.restore = ->
     if not $scope.$parent.orderCtrl[controller.link + controller.common[0]]?

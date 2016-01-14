@@ -11,8 +11,18 @@ module.exports = ($stateProvider, templateProvider, translateProvider, progressS
   progressServiceProvider.setMove ["configuration", "specific", "addresses", "finalizate"]
 
   $stateProvider
-    .state "home.order", url: "/order", controller: "orderController as orderCtrl", template: templateProvider.provide "orderView"
-    .state "home.order.configuration", controller: "configurationController as baseCtrl", template: templateProvider.provide "baseView"
-    .state "home.order.specific", controller: "specificController as specificCtrl", template: templateProvider.provide "specificView"
-    .state "home.order.addresses", controller: "addressesController as addressesCtrl", template: templateProvider.provide "addressesView"
-    .state "home.order.finalizate", template: templateProvider.provide "finalizateView"
+    .state "home.order",
+      url: "/order"
+      controller: "orderController as orderCtrl"
+      template: templateProvider.provide "orderView"
+    .state "home.order.configuration",
+      controller: "configurationController as baseCtrl"
+      template: templateProvider.provide "baseView"
+    .state "home.order.specific",
+      controller: "specificController as specificCtrl"
+      template: templateProvider.provide "specificView"
+    .state "home.order.addresses",
+      controller: "addressesController as baseCtrl"
+      template: templateProvider.provide "baseView"
+    .state "home.order.finalizate",
+      template: templateProvider.provide "finalizateView"

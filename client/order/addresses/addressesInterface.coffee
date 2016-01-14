@@ -1,7 +1,15 @@
-module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyService) ->
-  controller = @
-  controller.$inject = ["$scope", "simpleDialogService", "RESTHelperService", "infoOnlyService"]
-  controller.invalid = []
+module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+
+  injectable =
+    "$scope": $scope
+    "RESTHelperService": RESTHelperService
+    "simpleDialogService": simpleDialogService
+    "progressService": progressService
+    "confirmService": confirmService
+    "link": "addresses"
+
+  controller = $controller "baseInterface", injectable
 
   controller.listen = ->
     stop = $scope.$on "address-validity", (event, wich, value) ->
@@ -10,32 +18,11 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyServic
         when "delivery" then index = 0
         when "invoice" then index = 1
         when "firm" then index = 2
-      controller.invalid[index] = value
+      controller.valid[index] = value
     $scope.$on "$destroy", stop
 
-  controller.getAddresses = ->
-    RESTHelperService.addresses.find (res) ->
-        controller.listOfAddresses = res.addressesList
-
-  controller.reset = ->
-    controller.information = {}
-    controller.disabled = false
-    controller.action = "create"
-
-  controller.choose = ->
-    controller.disabled = true
-    controller.action = "preview"
-    controller.information = controller.listOfAddresses[controller.address]
-
-  controller.save = ->
-    new Promise (resolve, reject) ->
-      RESTHelperService.addresses.create addresses: (infoOnlyService controller.information), (res) ->
-        if res.success
-          controller.information._id = res._id
-          controller.information.user = res.user
-          resolve()
-
-  controller.fill = (dst, src) ->
+  controller.fill = (src, dst) ->
+    console.log src, dst
     info = [
       "country"
       "city"
@@ -46,7 +33,7 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, infoOnlyServic
       "lastname"
     ]
     for key in info
-      controller.information[src][key] =  controller.information[dst][key]
+      controller.addressesObject[src][key] =  controller.addressesObject[dst][key]
 
   controller.listen()
 

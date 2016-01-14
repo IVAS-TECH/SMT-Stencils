@@ -1,40 +1,16 @@
-module.exports = ($controller, progressService, $scope, simpleDialogService, RESTHelperService, infoOnlyService) ->
-  @$inject = ["$controller", "progressService", "$scope", "simpleDialogService", "RESTHelperService", "infoOnlyService"]
+module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+
   injectable =
-    "infoOnlyService": infoOnlyService
+    "$controller": $controller
+    "$scope": $scope
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
-    "$scope": $scope
-  properties = [
-    "address"
-    "listOfAddresses"
-    "information"
-    "sameAsAbove"
-    "sameAsDelivery"
-    "sameAsInvoice"
-  ]
-  progress = progressService $scope, "orderCtrl", "addressesCtrl", properties
+    "progressService": progressService
+    "confirmService": confirmService
+
   controller = $controller "addressesInterface", injectable
-  controller.settings = false
 
-  controller.init = ->
-    if not $scope.$parent.orderCtrl.information?
-      controller.getAddresses()
-    else
-      stop = $scope.$on "update-view", ->
-        controller.choose()
-        stop()
-
-  controller.back = -> progress "specific"
-
-  controller.next = (event) ->
-    if (controller.invalid.every (element) -> element is false)
-      if controller.saveIt
-        controller.save().then ->
-          progress "finalizate"
-      else progress "finalizate"
-    else simpleDialogService event, "required-fields"
-
-  controller.init()
+  controller.restore()
 
   controller

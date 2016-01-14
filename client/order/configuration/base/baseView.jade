@@ -1,6 +1,6 @@
 div(layout="column" layout-align="center center" layout-wrap)
   div(layout="row" layout-align="center center" layout-wrap)
-    md-button(ng-click="baseCtrl.reset()" class="md-primary" aria-label="new" translate="button-new-configuration")
+    md-button(ng-click="baseCtrl.reset()" class="md-primary" aria-label="new" translate="{{'button-new-' + baseCtrl.link}}")
     div(layout="row" layout-align="center center" layout-wrap)
       md-input-container(flex="auto")
         label(translate="label-choose")
@@ -10,7 +10,7 @@ div(layout="column" layout-align="center center" layout-wrap)
         md-button(ng-click="baseCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="baseCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")
   div(ng-if="true" layout="column" layout-align="center stretch" layout-wrap)
-    ivo-include(include="'configurationView'" template="true" controller="baseCtrl.controller")
+    ivo-include(include="baseCtrl.template" template="true" controller="baseCtrl.controller")
     div(layout="column")
       md-button(
         ng-if="baseCtrl.settings && baseCtrl[baseCtrl.link + baseCtrl.common[3]] !== 'preview'"
