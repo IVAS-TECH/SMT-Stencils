@@ -9,7 +9,6 @@ module.exports = ($stateProvider, $mdDateLocaleProvider, templateProvider, trans
   $stateProvider
     .state "home.orders",
       url: "/orders"
-      controller: "ordersController as ordersCtrl"
       template: templateProvider.provide "ordersView"
 
   $mdDateLocaleProvider.formatDate = (date) ->

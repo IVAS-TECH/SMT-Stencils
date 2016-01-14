@@ -1,6 +1,7 @@
 module.exports = ($scope, RESTHelperService) ->
+  @$inject = ["$scope", "RESTHelperService"]
+
   controller = @
-  controller.$inject = ["$scope", "RESTHelperService"]
 
   controller.init = ->
     RESTHelperService.order.find (res) ->
@@ -13,6 +14,8 @@ module.exports = ($scope, RESTHelperService) ->
       controller.listOfOrders = (dates order for order in res.orders)
 
       $scope.$digest()
+
+  controller.panel = "notAdminPanelView"
 
   controller.labels =
     _id: 40

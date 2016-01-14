@@ -4,8 +4,8 @@ moduleName = "ordersModule"
 angular
   .module moduleName, []
     .controller "ordersInterface", require "./ordersInterface"
-    .controller "ordersController", require "./ordersController"
     .filter "ifDate", require "./ifDateFilter"
+    .directive "ivoOrders", require "./ordersDirective"
     .config require "./ordersConfig"
 
 module.exports = moduleName

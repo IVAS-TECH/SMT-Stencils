@@ -1,16 +1,1 @@
-div(layout="column" layout-align="center strech" layout-wrap)
-  div(layout="row" layout-align="center center")
-    md-input-container
-      label(translate="label-filter")
-      input(ng-model="ordersCtrl.filter")
-  div(layout="row" flex="auto")
-    span(
-      ng-repeat="(key, value) in ordersCtrl.labels"
-      flex="{{value}}"
-      ng-class="key === '_id' ? 'md-primary' : 'md-warn'"
-      class="md-button fake-button"
-      translate="{{'label-' + key}}"
-    )
-  ivo-include(include="ordersCtrl.panel" template="true" controller="'ordersCtrl'")
-  div(layout="row" layout-align="center center")
-    ivo-view-order(ng-if="order" order="order" controller="'order'")
+ivo-orders(orders-controller="ordersInterface")

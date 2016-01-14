@@ -9,5 +9,4 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
   $stateProvider
     .state "home.admin",
       url: "/admin"
-      controller: "adminController as ordersCtrl"
-      template: templateProvider.provide "ordersView"
+      template: templateProvider.provide "adminView"

@@ -24,7 +24,7 @@ schema = new mongoose.Schema
   files: [String]
   topText: [String]
   bottomText: [String]
-  configuration: require "./config/configSchem"
-  information: require "./addresses/addressesSchem"
+  configurationObject: require "./config/configSchem"
+  addressesObject: require "./addresses/addressesSchem"
 
 module.exports = mongoose.model "Order", schema

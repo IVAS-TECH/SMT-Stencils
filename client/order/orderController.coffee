@@ -1,5 +1,5 @@
-module.exports = ($scope, $state, RESTHelperService, infoOnlyService) ->
-  @$inject = ["$scope", "$state", "RESTHelperService", "infoOnlyService"]
+module.exports = ($scope, $state, RESTHelperService, simpleDialogService) ->
+  @$inject = ["$scope", "$state", "RESTHelperService", "simpleDialogService"]
 
   controller = @
 
@@ -12,9 +12,9 @@ module.exports = ($scope, $state, RESTHelperService, infoOnlyService) ->
         files: res.files
         topText: controller.top.text
         bottomText: controller.bottom.text
-        configuration: controller.configuration
-        information: infoOnlyService controller.information
+        configurationObject: controller.configurationObject
+        addressesObject: controller.addressesObject
       RESTHelperService.order.create order: order, (res) ->
-        console.log res
+        simpleDialogService event, "title-order-created"
 
   controller

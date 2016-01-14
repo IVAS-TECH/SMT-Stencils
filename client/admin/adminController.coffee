@@ -9,23 +9,14 @@ module.exports = ($controller, $scope, RESTHelperService) ->
 
   controller.panel = "adminPanelView"
 
-  controller.status = [
-    "__new__"
-    "__accepted__"
-    "__rejected__"
-    "__done__"
-    "__sent__"
-    "__delivered__"
-    "__$remove$__"
-    "__$delete$__"
-    "__$block$__"
-  ]
-
   controller.addDiscription = (order) ->
     controller.choose order
     controller.order = order
 
   controller.update = ->
+    console.log controller.discription
+
+  controller.delete = ->
     console.log controller.discription
 
   controller
