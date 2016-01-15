@@ -20,7 +20,8 @@ module.exports =
 
   get: (req, res, next) ->
     id = req.session.get.uid
-    isAdmin(id).then (admin) ->
+
+    resolve = (admin) ->
       find = user: id
       if admin.admin
         find = {}
@@ -28,6 +29,8 @@ module.exports =
         if query.successful err, docs
           send res, orders: docs
         else next err
+
+    isAdmin(id).then resolve, next
 
   put: (req, res, next) ->
 
