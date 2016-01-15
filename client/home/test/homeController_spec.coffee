@@ -24,7 +24,7 @@ describe "homeController -> init", ->
   describe "going to home", ->
 
     beforeEach ->
-      authenticationService.isAuthenticated.and.callFake -> false
+      authenticationService.isAuthenticated.and.callFake -> no
 
     it "should go home if current location is just the socket", ->
 
@@ -48,7 +48,8 @@ describe "homeController -> init", ->
 
       $location.path.and.callFake -> "/order"
 
-      $scope.$on.and.callFake (event, cb) -> cb()
+      $scope.$on.and.callFake (event, cb) ->
+        if event is "$locationChangeStart" then cb()
 
       homeController = test()
 
@@ -66,10 +67,21 @@ describe "homeController -> init", ->
 
     it "should set admin if user is authenticated", ->
 
-      authenticationService.isAdmin.and.callFake -> true
+      authenticationService.isAdmin.and.callFake -> yes
 
-      authenticationService.isAuthenticated.and.callFake -> true
+      authenticationService.isAuthenticated.and.callFake -> yes
 
       homeController = test()
 
-      expect(homeController.admin).toBe true
+      expect(homeController.admin).toBe yes
+
+  describe "awhen dmin logouts", ->
+
+    it "should reset admin status", ->
+
+      $scope.$on.and.callFake (event, cb) ->
+        if event is "unauthentication" then cb()
+
+      homeController = test()
+
+      expect(homeController.admin).toBe no

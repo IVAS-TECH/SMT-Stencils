@@ -24,6 +24,8 @@ module.exports = ($scope, $location, authenticationService, loginService, transi
 
       $scope.$on "$locationChangeStart", restrict
 
+      $scope.$on "unauthentication", -> controller.admin = no
+
   init()
 
   controller
