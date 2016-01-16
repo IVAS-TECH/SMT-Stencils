@@ -6,10 +6,11 @@ module.exports = (template, scopeControllerService) ->
   scope:
     controller: "="
     disabled: "="
-  link: (scope, element, attrs) ->
+  link: (scope) ->
 
     scopeControllerService scope
 
     stop = scope.$watch "configuration.$valid", (value) ->
       scope.$emit "config-validity", value
+
     scope.$on "$destroy", stop
