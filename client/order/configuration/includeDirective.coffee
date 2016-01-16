@@ -14,7 +14,9 @@ module.exports = ($compile, template, scopeControllerService) ->
     if scope.controller?
       scopeControllerService scope
 
-    if attrs.template is "true"
-      compile template scope.include
-    else
-      scope.$watch "include", compile
+    if scope.include?
+
+      if attrs.template is "true"
+        compile template scope.include
+      else
+        scope.$watch "include", compile
