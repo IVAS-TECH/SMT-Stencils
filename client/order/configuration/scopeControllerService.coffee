@@ -3,13 +3,12 @@ module.exports = ->
   (scope) ->
 
     findAndAssign = (current) ->
-      for k, v of current
-        if k is ctrl and typeof current[k] is "object"
-          scope["scopeCtrl"] = current[k]
+      for key, value of current
+        if key is scope.controller and typeof value is "object"
+          scope["scopeCtrl"] = value
           return yes
       return no
 
-    ctrl = scope.controller
     search = scope
 
     while not findAndAssign search
