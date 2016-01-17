@@ -334,6 +334,48 @@ describe "baseInterface", ->
           next: jasmine.any Function
           back: jasmine.any Function
 
+    describe "restore", ->
+
+      it "should call ::getObjects if state is visited for first time", ->
+
+        $scope.$parent = orderCtrl: {}
+
+        spyOn baseInterface, "getObjects"
+
+        baseInterface.restore()
+
+        expect(baseInterface.getObjects).toHaveBeenCalled()
+
+      it "should wait for 'update-view' event and then call ::choose", (done) ->
+
+        $scope.$parent = orderCtrl: testObject: {}
+
+        spyOn baseInterface, "choose"
+
+        stop = jasmine.createSpy()
+
+        $scope.$on.and.callFake (event, cb) ->
+          
+          simulate = ->
+
+            cb {}
+
+            expects()
+
+            done()
+
+          setTimeout simulate, 1
+
+          stop
+
+        baseInterface.restore()
+
+        expects = ->
+
+          expect(baseInterface.choose).toHaveBeenCalled()
+
+          expect(stop).toHaveBeenCalled()
+
     describe "next", ->
 
       beforeEach ->
