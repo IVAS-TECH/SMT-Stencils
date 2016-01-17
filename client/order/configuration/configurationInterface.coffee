@@ -18,43 +18,38 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     options = []
     directionX = ["left", "right", "center"]
     directionY = ["top", "bottom", "center"]
-    for x in directionX
-      for y in directionY
+    for y in directionY
+      for x in directionX
         options.push "#{y}-#{x}"
+    options.pop()
     options
 
   textAngle = (position = "") ->
-    if not position or not position.match /center/
-      return ["left", "right", "bottom", "top"]
     if position.match /center-/
       return ["left", "right"]
     if position.match /-center/
       return ["bottom", "top"]
+    ["left", "right", "bottom", "top"]
+
+  listen = ->
+    stop = $scope.$on "config-validity", (event, value) ->
+      controller.valid = [value]
+    $scope.$on "$destroy", stop
 
   controller.btnBack = no
+
   controller.text = "Text"
+
   controller.view = template "top"
+
   controller.style = {}
+
   controller.options =
     side: ["pcb-side", "squeegee-side"]
     textPosition: textPosition()
     textAngle: textAngle()
 
   controller.textAngle = textAngle
-
-  controller.listen = ->
-    stop = $scope.$on "config-validity", (event, value) ->
-      controller.valid = [value]
-    $scope.$on "$destroy", stop
-
-  controller.change = ->
-    position = ""
-    if controller.configurationObject.text
-         position = controller.configurationObject.text.position
-    controller.options.textAngle =  textAngle position
-    controller.changeText controller.configurationObject.text
-    controller.changeStencilTransitioning()
-    controller.changeStencilPosition()
 
   controller.changeText = (text) ->
     color = "pcb-side"
@@ -66,40 +61,50 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
       color = text.side
     if text.type is "drilled"
       color = text.type
-    if not text.position
+    if not text.position?
       return [color, def]
-    if not text.angle? or not text.angle in controller.options.textAngle
+    if text.angle in controller.options.textAngle
+      angle = text.angle
+    else
       angle = controller.options.textAngle[0]
-    else angle = text.angle
-    return [color, (["text", text.position, angle].join "-")].join " "
+    [color, (["text", text.position, angle].join "-")]
 
   controller.changeStencilTransitioning = ->
     if not controller.configurationObject.stencil?
-      controller.style.frame = false
-      return
-    controller.style.frame = (controller.configurationObject.stencil.transitioning.match /frame/)?
+      controller.style.frame = no
+    else
+      controller.style.frame = (controller.configurationObject.stencil.transitioning.match /frame/)?
 
   controller.changeStencilPosition = ->
     if not controller.configurationObject.position?
-      controller.style.outline = false
-      controller.style.layout = false
+      controller.style.outline = no
+      controller.style.layout = no
       controller.style.mode = ["portrait", "centered"].join "-"
-      return
-    aligment = controller.configurationObject.position.aligment ? "portrait"
-    position = controller.configurationObject.position.position
-    mode = ""
-    if position isnt "pcb-centered"
-      controller.style.outline = false
-      controller.style.layout = position is "layout-centered"
-      if controller.style.layout
-        mode = "centered"
-      else mode = "no"
-      controller.style.mode = [aligment, mode].join "-"
-      return
-    controller.style.outline = true
-    controller.style.layout = false
-    controller.style.mode = [aligment, "centered"].join "-"
+    else
+      aligment = controller.configurationObject.position.aligment ? "portrait"
+      position = controller.configurationObject.position.position
+      mode = ""
+      if position isnt "pcb-centered"
+        controller.style.outline = no
+        controller.style.layout = position is "layout-centered"
+        if controller.style.layout
+          mode = "centered"
+        else mode = "no"
+        controller.style.mode = [aligment, mode].join "-"
+      else
+        controller.style.outline = yes
+        controller.style.layout = no
+        controller.style.mode = [aligment, "centered"].join "-"
 
-  controller.listen()
+  controller.change = ->
+    position = ""
+    if controller.configurationObject.text?
+         position = controller.configurationObject.text.position
+    controller.options.textAngle =  controller.textAngle position
+    controller.changeText controller.configurationObject.text
+    controller.changeStencilTransitioning()
+    controller.changeStencilPosition()
+
+  listen()
 
   controller

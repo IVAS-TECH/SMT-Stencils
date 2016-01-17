@@ -14,7 +14,7 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
 
   controller.btnBack = yes
 
-  controller.listen = ->
+  listen = ->
     stop = $scope.$on "address-validity", (event, wich, value) ->
       index = -1
       switch wich
@@ -37,6 +37,6 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
     for key in info
       controller.addressesObject[src][key] =  controller.addressesObject[dst][key]
 
-  controller.listen()
+  listen()
 
   controller

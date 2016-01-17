@@ -38,19 +38,13 @@ describe "baseInterface", ->
 
         expect(progressService).not.toHaveBeenCalled()
 
-        expect(baseInterface.link).toEqual link
-
-        expect(baseInterface.settings).toBe settings
-
-        expect(baseInterface.template).toEqual "testPanelView"
-
-        expect(baseInterface.valid).toEqual []
-
-        expect(baseInterface.common).toEqual properties[0..4]
-
-        expect(baseInterface.choose).toEqual jasmine.any Function
-
         expect(baseInterface).toEqual jasmine.objectContaining
+          link: link
+          settings: settings
+          template: "testPanelView"
+          valid: []
+          common: properties[0..4]
+          choose: jasmine.any Function
           edit: jasmine.any Function
           delete: jasmine.any Function
           update: jasmine.any Function
@@ -78,7 +72,6 @@ describe "baseInterface", ->
         baseInterface.getObjects()
 
         expect(baseInterface.testList).toEqual list
-
 
     describe "reset", ->
 
@@ -293,7 +286,6 @@ describe "baseInterface", ->
 
         expect(baseInterface.save).toHaveBeenCalledWith event
 
-
       it "should call ::update if action is 'edit'", ->
 
         spyOn baseInterface, "update"
@@ -355,7 +347,7 @@ describe "baseInterface", ->
         stop = jasmine.createSpy()
 
         $scope.$on.and.callFake (event, cb) ->
-          
+
           simulate = ->
 
             cb {}
