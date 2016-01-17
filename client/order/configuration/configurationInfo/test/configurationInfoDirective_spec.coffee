@@ -26,12 +26,12 @@ describe "configurationInfoDirective", ->
 
   describe "link", ->
 
-    it "should emit 'config-validity' and current value and when scope is destroied to stop emiting", ->
+    it "should emit 'configuration-validity' and current value and when scope is destroied to stop emiting", ->
 
       configurationInfoDirective.link scope
 
       expect(scopeControllerService).toHaveBeenCalledWith scope
 
-      expect(scope.$emit).toHaveBeenCalledWith "config-validity", value
+      expect(scope.$emit).toHaveBeenCalledWith "configuration-validity", value
 
       expect(stop).toHaveBeenCalled()

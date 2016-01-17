@@ -11,7 +11,7 @@ describe "configurationInterface", ->
     stop = jasmine.createSpy()
 
     $scope.$on.and.callFake (event, cb) ->
-      if event is "config-validity"
+      if event is "configuration-validity"
         cb null, yes
         return stop
       else cb()

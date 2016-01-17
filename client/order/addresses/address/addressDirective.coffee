@@ -1,5 +1,6 @@
 module.exports = (template) ->
   @$inject = ["template"]
+
   template: template "addressView"
   controller: "addressController"
   controllerAs: "addressCtrl"
@@ -13,4 +14,5 @@ module.exports = (template) ->
 
     stop = scope.$watch "addressForm.$valid", (value) ->
       scope.$emit "address-validity", scope.name, value
+
     scope.$on "$destroy", stop

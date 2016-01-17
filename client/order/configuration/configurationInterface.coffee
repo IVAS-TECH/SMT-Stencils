@@ -32,7 +32,7 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     ["left", "right", "bottom", "top"]
 
   listen = ->
-    stop = $scope.$on "config-validity", (event, value) ->
+    stop = $scope.$on "configuration-validity", (event, value) ->
       controller.valid = [value]
     $scope.$on "$destroy", stop
 

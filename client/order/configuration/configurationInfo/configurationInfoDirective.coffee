@@ -11,6 +11,6 @@ module.exports = (template, scopeControllerService) ->
     scopeControllerService scope
 
     stop = scope.$watch "configuration.$valid", (value) ->
-      scope.$emit "config-validity", value
+      scope.$emit "configuration-validity", value
 
     scope.$on "$destroy", stop
