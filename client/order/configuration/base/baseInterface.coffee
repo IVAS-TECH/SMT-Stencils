@@ -90,14 +90,13 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
       controller[controller.link + controller.common[3]] = "edit"
 
     controller.delete = (event) ->
-      controller.isValid event, ->
-        confirmService event, success: ->
-          id = controller[controller.link + controller.common[0]]._id
-          RESTHelperService[controller.link].delete id, (res) ->
-            controller[controller.link + controller.common[1]]
-              .splice  controller[controller.link + controller.common[2]], 1
-            controller.reset()
-            $scope.$digest()
+      confirmService event, success: ->
+        id = controller[controller.link + controller.common[0]]._id
+        RESTHelperService[controller.link].delete id, (res) ->
+          controller[controller.link + controller.common[1]]
+            .splice  controller[controller.link + controller.common[2]], 1
+          controller.reset()
+          $scope.$digest()
 
     controller.update = (event) ->
       controller.isValid event, ->

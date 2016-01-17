@@ -227,3 +227,79 @@ describe "baseInterface", ->
         expect(baseInterface.testDisabled).toBe no
 
         expect(baseInterface.testAction).toEqual "edit"
+
+    describe "delete and update", ->
+
+      beforeEach ->
+
+        confirmService.and.callFake (event, handle) ->
+          handle.success()
+
+      describe "delete", ->
+
+        id = "id"
+
+        obj = _id: id
+
+        beforeEach ->
+
+          RESTHelperService.test.delete.and.callFake (id, cb) -> cb()
+
+        it "should delete the selected object but first will ask for confirmation", ->
+
+          baseInterface.testObject = obj
+
+          baseInterface.testList = [obj]
+
+          spyOn baseInterface, "reset"
+
+          baseInterface.delete event
+
+          expect(baseInterface.testList).toEqual []
+
+          expect(baseInterface.reset).toHaveBeenCalled()
+
+          expect($scope.$digest).toHaveBeenCalled()
+
+      describe "update", ->
+
+        beforeEach ->
+
+          RESTHelperService.test.update.and.callFake (send, cb) -> cb()
+
+        it "should update view Object if it's valid", ->
+
+          spyOn baseInterface, "isValid"
+
+          spyOn baseInterface, "preview"
+
+          baseInterface.isValid.and.callFake (evnt, cb) -> cb()
+
+          baseInterface.update event
+
+          expect(baseInterface.preview).toHaveBeenCalled()
+
+          expect($scope.$digest).toHaveBeenCalled()
+
+    describe "doAction", ->
+
+      it "should call ::save if action is 'create'", ->
+
+        spyOn baseInterface, "save"
+
+        baseInterface.testAction = "create"
+
+        baseInterface.doAction event
+
+        expect(baseInterface.save).toHaveBeenCalledWith event
+
+
+      it "should call ::update if action is 'edit'", ->
+
+        spyOn baseInterface, "update"
+
+        baseInterface.testAction = "edit"
+
+        baseInterface.doAction event
+
+        expect(baseInterface.update).toHaveBeenCalledWith event
