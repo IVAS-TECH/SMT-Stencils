@@ -41,7 +41,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
     controller[controller.link + controller.common[0]] = controller[controller.link + controller.common[1]][index]
     controller.change()
 
-  controller.isValid = (resolve, reject) ->
+  controller.isValid = (event, resolve, reject) ->
     validForm = (controller.valid.every (e) -> e is yes)
     if validForm and controller[controller.link + controller.common[0]].name
       resolve()
@@ -49,7 +49,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
       reject()
       simpleDialogService event, "required-fields"
 
-  controller.save = ->
+  controller.save = (event) ->
     new Promise (resolve, reject) ->
       create = ->
         save = controller[controller.link + controller.common[0]]
@@ -58,36 +58,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
           controller[controller.link + controller.common[1]].push save
           controller[controller.link + controller.common[2]] = index
           resolve()
-      controller.isValid create, reject
-
-  controller.edit = ->
-    controller[controller.link + controller.common[4]] = no
-    controller[controller.link + controller.common[3]] = "edit"
-
-  controller.delete = (event) ->
-    controller.isValid ->
-      confirmService event, success: ->
-        id = controller[controller.link + controller.common[0]]._id
-        RESTHelperService[controller.link].delete id, (res) ->
-          controller[controller.link + controller.common[1]]
-            .splice  controller[controller.link + controller.common[2]], 1
-          controller.reset()
-          $scope.$digest()
-
-  controller.update = (event) ->
-    controller.isValid ->
-      confirmService event, success: ->
-        update = controller[controller.link + controller.common[0]]
-        RESTHelperService[controller.link].update "#{controller.link}": update, (res) ->
-          controller.preview()
-          $scope.$digest()
-
-  controller.doAction = (event) ->
-    action = controller[controller.link + controller.common[3]]
-    if action is "create"
-      controller.save event
-    if action is "edit"
-      controller.update event
+      controller.isValid event, create, reject
 
   if not controller.settings
 
@@ -107,9 +78,40 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
 
     controller.next = (event) ->
       if controller.saveIt and controller[controller.link + controller.common[3]] is "create"
-        controller.save().then -> progress yes
+        controller.save(event).then -> progress yes
       else progress yes
 
     controller.back = -> progress no
+
+  else
+
+    controller.edit = ->
+      controller[controller.link + controller.common[4]] = no
+      controller[controller.link + controller.common[3]] = "edit"
+
+    controller.delete = (event) ->
+      controller.isValid event, ->
+        confirmService event, success: ->
+          id = controller[controller.link + controller.common[0]]._id
+          RESTHelperService[controller.link].delete id, (res) ->
+            controller[controller.link + controller.common[1]]
+              .splice  controller[controller.link + controller.common[2]], 1
+            controller.reset()
+            $scope.$digest()
+
+    controller.update = (event) ->
+      controller.isValid event, ->
+        confirmService event, success: ->
+          update = controller[controller.link + controller.common[0]]
+          RESTHelperService[controller.link].update "#{controller.link}": update, (res) ->
+            controller.preview()
+            $scope.$digest()
+
+    controller.doAction = (event) ->
+      action = controller[controller.link + controller.common[3]]
+      if action is "create"
+        controller.save event
+      if action is "edit"
+        controller.update event
 
   controller
