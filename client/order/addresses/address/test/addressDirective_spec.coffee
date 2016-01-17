@@ -22,6 +22,22 @@ describe "addressDirective", ->
 
   describe "link", ->
 
+    it "should set scope.address to {} if it's undefined", ->
+
+      addressDirective.link scope
+
+      expect(scope.address).toEqual {}
+
+    it "shouldn't change address if it is defined", ->
+
+      address = city: "Sofia"
+
+      scope.address = address
+
+      addressDirective.link scope
+
+      expect(scope.address).toEqual address
+
     it "should emit 'address-validity' and current value and when scope is destroied to stop emiting", ->
 
       scope.name = "delivery"
