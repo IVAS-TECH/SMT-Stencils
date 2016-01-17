@@ -303,3 +303,78 @@ describe "baseInterface", ->
         baseInterface.doAction event
 
         expect(baseInterface.update).toHaveBeenCalledWith event
+
+  describe "when settings is falsly value", ->
+
+    progress = undefined
+
+    beforeEach ->
+
+      progress = jasmine.createSpy()
+
+      progressService.and.callFake (scope, parent, child, excl, await) ->
+        progress
+
+      baseInterface = tested.call {}, $scope, RESTHelperService, simpleDialogService, progressService, confirmService, link
+
+    describe "once instanced", ->
+
+      properties = ["testObject", "testList", "testIndex", "testAction", "testDisabled"]
+
+      exclude = ["link", "template", "valid", "btnBack", "settings"]
+
+      it "supposed to call progressService", ->
+
+        expect(progressService).toHaveBeenCalledWith $scope, "orderCtrl", "baseCtrl", exclude, properties
+
+        expect(baseInterface.settings).toBeUndefined()
+
+        expect(baseInterface).toEqual jasmine.objectContaining
+          restore: jasmine.any Function
+          next: jasmine.any Function
+          back: jasmine.any Function
+
+    describe "next", ->
+
+      beforeEach ->
+
+        spyOn baseInterface, "save"
+
+        baseInterface.save.and.callFake (evnt) ->
+          then: (cb) -> cb()
+
+      it "should call progress yes if no save is requested", ->
+
+        baseInterface.next event
+
+        expect(progress).toHaveBeenCalledWith yes
+
+      it "should call progress yes and dont call ::save if action isn't 'create'", ->
+
+        baseInterface.saveIt = yes
+
+        baseInterface.next event
+
+        expect(baseInterface.save).not.toHaveBeenCalled()
+
+        expect(progress).toHaveBeenCalledWith yes
+
+      it "should call ::save and then progress", ->
+
+        baseInterface.saveIt = yes
+
+        baseInterface.testAction = "create"
+
+        baseInterface.next event
+
+        expect(baseInterface.save).toHaveBeenCalled()
+
+        expect(progress).toHaveBeenCalledWith yes
+
+    describe "back", ->
+
+      it "moves to previus state", ->
+
+        baseInterface.back event
+
+        expect(progress).toHaveBeenCalledWith no
