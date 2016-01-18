@@ -1,12 +1,16 @@
-div(layout="column" layout-align="space-between strech" layout-margin layout-wrap)  
+form(name="upload" novalidate layout="column" layout-align="space-between strech" layout-margin layout-wrap)  
   ivo-order-preview(order="specificCtrl", controller="'orderCtrl'")
   div(
     ng-model="specificCtrl.files"
-    ng-change="specificCtrl.upload()"
+    ng-change="specificCtrl.upload(upload.files.$error)"
+    name="files"
     ngf-select
     ngf-drop
     ngf-multiple="true"
     ngf-keep="'distinct'"
+    ngf-max-files="12"
+    ngf-max-total-size="'1KB'"
+    ngf-pattern="'.pho,!.drl'"
     layout="column"
     layout-align="center center"
     )
