@@ -1,5 +1,13 @@
 mongoose = require "mongoose"
 
+file =
+  type: String
+  default: ""
+
+date =
+  type: Date
+  default: Date.now
+
 schema = new mongoose.Schema
   style:
     frame: Boolean
@@ -12,16 +20,15 @@ schema = new mongoose.Schema
   price:
     type: Number
     default: 0
-  orderDate:
-    type: Date
-    default: Date.now
-  sendingDate:
-    type: Date
-    default: Date.now
+  orderDate: date
+  sendingDate: date
   user:
     type: mongoose.Schema.Types.ObjectId
     ref: "User"
-  files: [String]
+  files:
+    top: file
+    bottom: file
+    outline: file
   topText: [String]
   bottomText: [String]
   configurationObject: require "./config/configSchem"

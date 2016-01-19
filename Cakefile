@@ -128,7 +128,6 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
       next()
     walker.on "end", ->
       SVG = (svg) ->
-        console.log svg.length
         top = join compileDir, "top.html"
         fse.writeFileSync top, svg.top, "utf8"
         console.log "Generating default stencil SVG    done"

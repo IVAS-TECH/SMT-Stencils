@@ -7,7 +7,7 @@ module.exports = (paste, outline) ->
   new Promise (resolve, reject) ->
     output = "./files/tmp/#{randomString()}.svg"
     args = ["-x", "svg", "-o", output, "-a", "--foreground=#FFFFFFFF", paste]
-    if outline?
+    if outline? and outline.length
       args.push "--foreground=#000000FF"
       args.push outline
     gerbv = spawn "gerbv", args, stdio: "inherit"

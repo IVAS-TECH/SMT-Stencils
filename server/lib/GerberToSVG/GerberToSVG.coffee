@@ -4,8 +4,8 @@ transform = require "./transform"
 module.exports = (files) ->
   new Promise (resolve, reject) ->
     res = {}
-    top = files.top?
-    bottom = files.bottom?
+    top = files.top? and files.top.length
+    bottom = files.bottom? and files.bottom.length
     send = -> resolve res
     transformLayer = (layer, cb) ->
       (transform files[layer], files.outline).then (svg) ->

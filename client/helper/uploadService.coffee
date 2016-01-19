@@ -16,7 +16,11 @@ module.exports = (RESTProvider) ->
       if _base is "" then url.splice 1, 1
       if base is "" then url.splice 0, 1
       URL = url.join "\/"
-      (data) ->
+      (files) ->
+        data = map: {}, files: []
+        for layer, file of files
+          data.map[file.name] = layer
+          data.files.push file
         Upload.upload
           url: URL
           data: data
