@@ -6,7 +6,7 @@ errorHandler = require "./errorHandler"
 sendDir = join __dirname, 'send'
 
 sendFile = (file) ->
-  (req, res) -> res.sendFile file
+  (req, res) -> res.status(200).sendFile file
 
 module.exports =
 

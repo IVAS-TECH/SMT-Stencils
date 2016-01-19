@@ -1,6 +1,6 @@
 div(layout="column" layout-align="space-between strech" layout-margin layout-wrap)
   ivo-order-preview(order="order", controller="controller")
-  ivo-files(files="order.files" remove="false")
+  ivo-files(order="order" remove="false")
   ivo-order-texts(order="order")
   ivo-config-info(controller="controller" disabled="true")
   ivo-address(disabled="true" address="order.addressesObject.delivery" name="delivery")

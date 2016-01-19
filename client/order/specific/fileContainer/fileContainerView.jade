@@ -7,8 +7,8 @@ div(
   layout="column"
   layout-align="center center"
 )
+  div(translate="{{'layer-' + fileCnrCtrl.layer}}")
   div(ng-if="!fileCnrCtrl.file" layout="column" layout-align="center center" layout-margin layout-padding)
-    div(translate="{{'layer-' + fileCnrCtrl.layer}}")
     div(translate="div-select-files")
     div(translate="div-drop-files")
   div(ng-if="fileCnrCtrl.file" layout="column")
@@ -16,4 +16,9 @@ div(
       div(translate="div-selected-files")
       div(translate="div-remove-files")
     div(layout="column" layout-align="center center")
-      ivo-file(name="fileCnrCtrl.fileName()" ng-click="fileCnrCtrl.removeFile($event)")
+      ivo-file(
+        name="fileCnrCtrl.fileName()"
+        ng-click="fileCnrCtrl.removeFile($event)"
+        preview="!fileCnrCtrl.remove"
+        view="fileCnrCtrl.viewFile()"
+      )

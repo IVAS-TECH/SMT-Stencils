@@ -16,6 +16,13 @@ filePaths = (files) ->
 
 module.exports =
 
+  download:
+
+    get: (req, res, next) ->
+      res.status(200).sendFile join dir, req.params.file
+
+    params: "file"
+
   post: (req, res, next) ->
     order = req.body.order
     order.user = req.session.get.uid
