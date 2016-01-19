@@ -1,7 +1,7 @@
 {join} = require "path"
 orderModel = require "./orderModel"
 isAdmin = require "./../user/admin/isAdmin"
-GerberToSVG = require "./../../lib/GerberToSVG"
+GerberToSVG = require "./../../lib/GerberToSVG/GerberToSVG"
 query = require "./../../lib/query"
 send = require "./../../lib/send"
 block = (uid) -> null

@@ -1,7 +1,7 @@
 {join} = require "path"
 fs = require "fs"
 config = require "./multerConfig"
-GerberToSVG = require "./../../../lib/GerberToSVG"
+GerberToSVG = require "./../../../lib/GerberToSVG/GerberToSVG"
 send = require "./../../../lib/send"
 multerConfig = config join __dirname, "../../../../files"
 
@@ -17,14 +17,15 @@ module.exports =
 
   preview:
 
-    post: (req, res) ->
+    post: (req, res, next) ->
       map = req.body.map
       transform = {}
       for file in req.files
         transform[map[file.originalname]] = file.path
-      GerberToSVG(transform).then (svg) ->
+      converted = (svg) ->
         send res, svg
         for layer, file of transform
-         fs.unlink file, ->
+         fs.unlink file, next
+      GerberToSVG(transform).then converted, next
 
     beforeEach: multerConfig.preview().any()

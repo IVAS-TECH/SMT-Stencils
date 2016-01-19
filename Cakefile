@@ -111,20 +111,24 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
     fse.emptyDirSync compileDir
     fse.emptyDirSync deployDir
     invoke "coffee"
-    GerberToSVG = require "./server/lib/GerberToSVG"
+    GerberToSVG = require "./server/lib/GerberToSVG/GerberToSVG"
     favicon = "favicon.ico"
     console.log "Pulling resources..."
     fse.removeSync resourceDir
     clone = spawnSync "git", ["clone", "https://github.com/IVAS-TECH/SMT-Stencils_resources.git", resourceDir], stdio: "inherit"
     console.log "Pulling resources    done"
     console.log "Generating default stencil SVG..."
-    files = []
+    files = {}
     walker = walk join resourceDir, "samples"
     walker.on "file", (root, file, next) ->
-      files.push join root, file.name
+      if file.name.match /F_Paste/
+        files.top = join root, file.name
+      if file.name.match /Edge_Cuts/
+        files.outline = join root, file.name
       next()
     walker.on "end", ->
-      GerberToSVG(files).then (svg) ->
+      SVG = (svg) ->
+        console.log svg.length
         top = join compileDir, "top.html"
         fse.writeFileSync top, svg.top, "utf8"
         console.log "Generating default stencil SVG    done"
@@ -136,6 +140,7 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
           if err? then console.log err
           console.log "Moving favicon.ico    done"
           resolve()
+      GerberToSVG(files).then SVG, (err) -> console.log "error", err
 
 task "clean", "Returns repo as it was pulled", ->
   client = join __dirname, "client"
