@@ -44,8 +44,13 @@ module.exports =
     isAdmin(id).then resolve, next
 
   put: (req, res, next) ->
-    (GerberToSVG filePaths req.body.files).then (svg) ->
-      send res, svg
+    id = req.session.get.uid
+
+    resolve = (admin) ->
+      (GerberToSVG (filePaths req.body.files), admin.admin).then (svg) ->
+        send res, svg
+
+    isAdmin(id).then resolve, next
 
   patch: ->
 

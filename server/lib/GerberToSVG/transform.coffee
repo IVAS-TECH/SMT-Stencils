@@ -19,6 +19,7 @@ module.exports = (paste, outline) ->
       SVG = (svg) ->
         $ = cheerio.load svg
         paths = $ "path"
+        price = paths.length
         svg =  $ "svg"
         attr = "ng-class"
         out = filter paths, /0%,0%,0%/
@@ -31,6 +32,8 @@ module.exports = (paste, outline) ->
         svg.attr "height", "90%"
         svg.attr attr, "[(scopeCtrl.configurationObject.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
         (filter paths, /100%,100%,100%/).css "fill", ""
-        resolve replaceAll (removeAll $.html(), "\n"), "&apos;", "'"
+        resolve
+          preview: replaceAll (removeAll $.html(), "\n"), "&apos;", "'"
+          price: price
 
       (convert paste, outline).then SVG, reject
