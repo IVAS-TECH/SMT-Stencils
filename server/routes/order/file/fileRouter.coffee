@@ -6,7 +6,7 @@ send = require "./../../../lib/send"
 multerConfig = config join __dirname, "../../../../files"
 
 module.exports =
-  
+
   order:
 
     post: (req, res) ->
@@ -18,10 +18,13 @@ module.exports =
   preview:
 
     post: (req, res) ->
-      files = (file.path for file in req.files)
-      GerberToSVG(files).then (svg) ->
+      map = req.body.map
+      transform = {}
+      for file in req.files
+        transform[map[file.originalname]] = file.path
+      GerberToSVG(transform).then (svg) ->
         send res, svg
-        for file in files
-          fs.unlink file, ->
+        for layer, file of transform
+         fs.unlink file, ->
 
     beforeEach: multerConfig.preview().any()

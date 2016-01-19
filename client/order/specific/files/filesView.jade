@@ -1,15 +1,7 @@
-div(layout="column" class="dashed-border")
-  div(ng-if="filesCtrl.files.length === 0" layout="column" layout-align="center center" layout-margin layout-padding)
-    div(translate="div-select-files")
-    div(translate="div-drop-files")
-  div(ng-if="filesCtrl.files.length > 0" layout="column")
-    div(ng-if="filesCtrl.remove" layout="column" layout-align="center center")
-      div(translate="div-selected-files")
-      div(translate="div-remove-files")
-    div(layout-gt-xs="column" layout-xs="row" layout-align="center center" ng-repeat="i in filesCtrl.columns()")
-      div(layout-gt-xs="row" layout-xs="column" layout-margin)
-        ivo-file(
-          ng-repeat="j in filesCtrl.rows"
-          name="filesCtrl.fileName(i * j - 1)"
-          ng-click="filesCtrl.removeFile($event, i * j - 1)"
-        )
+div(layout="row" layout-align="center-center" layout-wrap layout-padding)
+  ivo-file-container(
+    ng-repeat="layer in ['top', 'bottom', 'outline']"
+    layer="layer"
+    order="order"
+    remove="remove"
+  )
