@@ -46,11 +46,9 @@ formSVG = (paste, outline) ->
 
 module.exports = (files) ->
   new Promise (resolve, reject) ->
-    console.log files
     res = {}
-    if files[0]?
-      res.top = formSVG files[0], files[2]
-    if files[1]?
-        res.bottom = formSVG files[1], files[2]
-    console.log Object.keys res
+    if files.top?
+      res.top = formSVG files.top, files.outline
+    if files.bottom?
+        res.bottom = formSVG files.bottom, files.outline
     resolve res
