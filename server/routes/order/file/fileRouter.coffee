@@ -25,7 +25,8 @@ module.exports =
       converted = (svg) ->
         send res, svg
         for layer, file of transform
-         fs.unlink file, next
+         fs.unlink file, (err) ->
+           if err then next err
       GerberToSVG(transform).then converted, next
 
     beforeEach: multerConfig.preview().any()

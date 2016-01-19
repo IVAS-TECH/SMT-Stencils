@@ -2,7 +2,7 @@ multer = require "multer"
 randomString = require "random-string"
 
 limits =
-  files: 15
+  files: 3
   fileSize: 40000000000
 
 fileName = (name) ->

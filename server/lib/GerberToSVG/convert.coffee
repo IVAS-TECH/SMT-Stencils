@@ -1,11 +1,12 @@
 {spawn} = require "child_process"
 fs = require "fs-extra"
 Promise = require "promise"
+randomString = require "random-string"
 
 module.exports = (paste, outline) ->
   new Promise (resolve, reject) ->
-    output = "output.svg"
-    args = ["-x", "svg", "-a", "--foreground=#FFFFFFFF", paste]
+    output = "./files/tmp/#{randomString()}.svg"
+    args = ["-x", "svg", "-o", output, "-a", "--foreground=#FFFFFFFF", paste]
     if outline?
       args.push "--foreground=#000000FF"
       args.push outline
