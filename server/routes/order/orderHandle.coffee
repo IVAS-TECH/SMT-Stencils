@@ -8,7 +8,11 @@ block = (uid) -> null
 
 dir = join __dirname, "../../../files"
 
-filePath = (f) -> join dir, f
+filePaths = (files) ->
+  paths = {}
+  for layer, file of files
+    paths[layer] = join dir, file
+  paths
 
 module.exports =
 
@@ -33,10 +37,7 @@ module.exports =
     isAdmin(id).then resolve, next
 
   put: (req, res, next) ->
-
-    files = (filePath file for file in req.body.files)
-
-    GerberToSVG(files).then (svg) ->
+    (GerberToSVG filePaths req.body.files).then (svg) ->
       send res, svg
 
   patch: ->

@@ -5,10 +5,10 @@ GerberToSVG = require "./../../../lib/GerberToSVG/GerberToSVG"
 send = require "./../../../lib/send"
 multerConfig = config join __dirname, "../../../../files"
 
-transformReq = (req) ->
+transformReq = (req, info) ->
   transform = {}
   for file in req.files
-    transform[req.body.map[file.originalname]] = file.path
+    transform[req.body.map[file.originalname]] = file[info]
   transform
 
 module.exports =
@@ -16,14 +16,14 @@ module.exports =
   order:
 
     post: (req, res) ->
-      send res, files: transformReq req
+      send res, files: transformReq req, "filename"
 
     beforeEach: multerConfig.order().any()
 
   preview:
 
     post: (req, res, next) ->
-      transform = transformReq req
+      transform = transformReq req, "path"
       converted = (svg) ->
         send res, svg
         for layer, file of transform
