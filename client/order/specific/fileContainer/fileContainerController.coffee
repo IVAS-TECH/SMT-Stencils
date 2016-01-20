@@ -12,6 +12,9 @@ module.exports = (simpleDialogService, RESTHelperService, $window) ->
       delete controller.order.files[controller.layer]
       delete controller.file
       controller.preview()
+    else
+      $window.open "api/order/download/#{controller.file}", controller.fileName()
+      return
 
   controller.fileName = ->
     if typeof controller.file is "object"
@@ -23,10 +26,6 @@ module.exports = (simpleDialogService, RESTHelperService, $window) ->
     RESTHelperService.upload.preview controller.order.files, (res) ->
       controller.order.top.view = res.top
       controller.order.bottom.view = res.bottom
-
-  controller.viewFile = ->
-    $window.open "api/order/download/#{controller.file}", controller.fileName()
-    return
 
   controller.upload = () ->
     if typeof controller.file is "object" and controller.file?

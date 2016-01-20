@@ -4,5 +4,3 @@ module.exports = (template) ->
   template: template "fileView"
   scope:
     name: "="
-    preview: "="
-    view: "&"

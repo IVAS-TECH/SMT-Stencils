@@ -16,9 +16,4 @@ div(
       div(translate="div-selected-files")
       div(translate="div-remove-files")
     div(layout="column" layout-align="center center")
-      ivo-file(
-        name="fileCnrCtrl.fileName()"
-        ng-click="fileCnrCtrl.removeFile($event)"
-        preview="!fileCnrCtrl.remove"
-        view="fileCnrCtrl.viewFile()"
-      )
+      ivo-file(name="fileCnrCtrl.fileName()" ng-click="fileCnrCtrl.removeFile($event)")
