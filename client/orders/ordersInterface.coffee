@@ -1,4 +1,4 @@
-module.exports = ($scope, RESTHelperService) ->
+module.exports = ($scope, RESTHelperService, formatDateService) ->
   @$inject = ["$scope", "RESTHelperService"]
 
   controller = @
@@ -7,8 +7,8 @@ module.exports = ($scope, RESTHelperService) ->
     RESTHelperService.order.find (res) ->
 
       dates = (order) ->
-        order.orderDate = new Date order.orderDate
-        order.sendingDate = new Date order.sendingDate
+        order.orderDate = formatDateService order.orderDate
+        order.sendingDate = formatDateService order.sendingDate
         order
 
       controller.listOfOrders = (dates order for order in res.orders)

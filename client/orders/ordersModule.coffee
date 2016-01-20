@@ -4,7 +4,7 @@ moduleName = "ordersModule"
 angular
   .module moduleName, []
     .controller "ordersInterface", require "./ordersInterface"
-    .filter "ifDate", require "./ifDateFilter"
+    .service "formatDateService", require "./formatDateService"
     .directive "ivoOrders", require "./ordersDirective"
     .config require "./ordersConfig"
 

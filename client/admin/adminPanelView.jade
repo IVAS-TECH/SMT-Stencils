@@ -1,5 +1,5 @@
 div(lauout="column" flex="auto")
-  div(ng-repeat="order in scopeCtrl.listOfOrders" layout="row" flex="auto")
+  div(ng-repeat="order in scopeCtrl.listOfOrders | filter:scopeCtrl.filter" layout="row" flex="auto")
     span(flex="{{scopeCtrl.labels._id}}" ng-click="scopeCtrl.choose(order)" class="md-primary md-button") {{order._id}}
     md-input-container(flex="{{scopeCtrl.labels.status}}")
       label(translate="label-status")
@@ -12,7 +12,7 @@ div(lauout="column" flex="auto")
       ng-repeat="date in ['orderDate', 'sendingDate']"
       flex="{{scopeCtrl.labels[date]}}"
       class="md-primary md-button fake-button"
-    ) {{order[date] | ifDate}}
+    ) {{order[date]}
   div(ng-if="scopeCtrl.order" layout="column" layout-align="center center")
     ivo-order-text(text="scopeCtrl.discription" label="'label-desctiption'" disabled="false")
     md-button(ng-click="scopeCtrl.update()" class="md-warn" aria-label="update" translate="button-update")

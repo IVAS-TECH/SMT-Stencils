@@ -1,9 +1,9 @@
-div(ng-repeat="order in scopeCtrl.listOfOrders" layout="row" flex="auto")
+div(ng-repeat="order in scopeCtrl.listOfOrders | filter:scopeCtrl.filter" layout="row" flex="auto")
   span(
     ng-repeat="(key, value) in scopeCtrl.labels"
     ng-click="key === '_id' ? scopeCtrl.choose(order) : null"
     flex="{{value}}"
     ng-class="key === '_id' ? 'md-primary' : 'md-warn fake-button'"
     class="md-button"
-    translate="{{order[key] | ifDate}}"
+    translate="{{order[key]}}"
   )

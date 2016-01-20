@@ -1,8 +1,8 @@
 en = require "./language-en"
 bg = require "./language-bg"
 
-module.exports = ($stateProvider, $mdDateLocaleProvider, templateProvider, translateProvider) ->
-  @$inject = ["$stateProvider", "$mdDateLocaleProvider", "templateProvider", "translateProvider"]
+module.exports = ($stateProvider, templateProvider, translateProvider) ->
+  @$inject = ["$stateProvider", "templateProvider", "translateProvider"]
 
   translateProvider.add en, bg
 
@@ -10,6 +10,3 @@ module.exports = ($stateProvider, $mdDateLocaleProvider, templateProvider, trans
     .state "home.orders",
       url: "/orders"
       template: templateProvider.provide "ordersView"
-
-  $mdDateLocaleProvider.formatDate = (date) ->
-    [date.getDate(), date.getDay(), date.getFullYear()].join "\/"
