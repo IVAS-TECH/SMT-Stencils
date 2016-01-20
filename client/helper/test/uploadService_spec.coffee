@@ -2,7 +2,21 @@ describe "uploadService", ->
 
   uploadService = undefined
 
-  files = ["file1", "file2"]
+  files = {
+    top: name: "top.gbr"
+    outline: name: "outline.gbr"
+  }
+
+  expected = {
+    files: [
+      {name: "top.gbr"}
+      {name: "outline.gbr"}
+    ]
+    map: {
+      "top.gbr": "top"
+      "outline.gbr": "outline"
+    }
+  }
 
   upload = jasmine.createSpy()
 
@@ -21,8 +35,8 @@ describe "uploadService", ->
     it "upload files on passed url", ->
 
       expect(upload).toHaveBeenCalledWith
-        url: "order"
-        data: files: files
+        url: "/order"
+        data: expected
 
   describe "with chained url", ->
 
@@ -52,4 +66,4 @@ describe "uploadService", ->
 
         expect(upload).toHaveBeenCalledWith
           url: "api/file/order"
-          data: files: files
+          data: expected

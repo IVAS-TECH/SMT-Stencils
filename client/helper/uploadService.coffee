@@ -11,11 +11,18 @@ module.exports = (RESTProvider) ->
     @$inject = ["Upload"]
 
     (url) ->
+
       base = RESTProvider.getBase()
-      url = [base, _base, url]
-      if _base is "" then url.splice 1, 1
-      if base is "" then url.splice 0, 1
-      URL = url.join "\/"
+      chain = [base, _base, url]
+      noBase = _base is ""
+      noUpload = base is ""
+      if noBase then chain.splice 1, 1
+      if noUpload then chain.splice 0, 1
+      URL = ""
+      if noBase and noUpload
+        URL = "\/" + url
+      else URL = chain.join "\/"
+
       (files) ->
         data = map: {}, files: []
         for layer, file of files

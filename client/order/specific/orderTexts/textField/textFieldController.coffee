@@ -1,6 +1,6 @@
-module.exports = ($scope) ->
+module.exports = ->
+
   controller = @
-  controller.$inject = ["$scope"]
 
   controller.action = (event) ->
     if event.keyCode is 13
