@@ -1,28 +1,28 @@
 {join} = require "path"
 bodyParser = require "body-parser"
-session = require "./lib/session/session"
 errorHandler = require "./errorHandler"
 
 sendDir = join __dirname, 'send'
 
 sendFile = (file) ->
-  (req, res) -> res.status(200).sendFile file
+  send = join sendDir, file
+  (req, res) -> res.status(200).sendFile send
 
 module.exports =
 
-  beforeEach: [bodyParser.json(), session()]
+  beforeEach: bodyParser.json()
 
   afterEach: [
     (req, res, next) -> next "Not Found"
     errorHandler join sendDir, "error.html"
   ]
 
-  get: sendFile join sendDir, "index.html"
+  get: sendFile "index.html"
 
   api: require "./routes/routes"
 
   script:
-    get: sendFile join sendDir, "bundle.js"
+    get: sendFile "bundle.js"
 
   "favicon.ico":
-    get: sendFile join sendDir, "favicon.ico"
+    get: sendFile "favicon.ico"

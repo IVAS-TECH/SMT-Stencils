@@ -3,7 +3,9 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
 
   controller = @
 
-  controller.fromDate = controller.toDate = new Date()
+  controller.fromDate = new Date()
+
+  controller.toDate = new Date()
 
   controller.init = ->
     RESTHelperService.order.find (res) ->
@@ -14,7 +16,10 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
           order[date] = $mdDateLocale.formatDate new Date order[date]
         order
 
-      controller.listOfOrders = (dates order for order in res.orders)
+      orders = res.orders
+      controller.fromDate = new Date orders[0].orderDate
+      controller.toDate = new Date orders[orders.length - 1].orderDate
+      controller.listOfOrders = (dates order for order in orders)
 
       $scope.$digest()
 
