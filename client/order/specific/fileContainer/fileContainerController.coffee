@@ -6,8 +6,7 @@ module.exports = (simpleDialogService, RESTHelperService, $window) ->
   controller.file = controller.order.files[controller.layer]
 
   controller.removeFile = (event) ->
-    if controller.file?
-      event.stopPropagation()
+    event.stopPropagation()
     if controller.remove
       delete controller.order.files[controller.layer]
       delete controller.file

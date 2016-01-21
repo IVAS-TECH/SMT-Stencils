@@ -36,10 +36,14 @@ module.exports =
       find = user: id
       if admin.admin
         find = {}
-      orderModel.find find, (err, docs) ->
-        if query.successful err, docs
-          send res, orders: docs
-        else next err
+      orderModel
+        .find find
+        .populate "user"
+        .sort orderDate: "asc"
+        .exec (err, docs) ->
+          if query.successful err, docs
+            send res, orders: docs
+          else next err
 
     isAdmin(id).then resolve, next
 

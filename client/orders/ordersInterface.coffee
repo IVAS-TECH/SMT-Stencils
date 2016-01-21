@@ -1,14 +1,17 @@
-module.exports = ($scope, RESTHelperService, formatDateService) ->
-  @$inject = ["$scope", "RESTHelperService"]
+module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
+  @$inject = ["$scope", "RESTHelperService", "$mdDateLocale"]
 
   controller = @
+
+  controller.fromDate = controller.toDate = new Date()
 
   controller.init = ->
     RESTHelperService.order.find (res) ->
 
       dates = (order) ->
-        order.orderDate = formatDateService order.orderDate
-        order.sendingDate = formatDateService order.sendingDate
+        for type in ["order", "sending"]
+          date = type + "Date"
+          order[date] = $mdDateLocale.formatDate new Date order[date]
         order
 
       controller.listOfOrders = (dates order for order in res.orders)
