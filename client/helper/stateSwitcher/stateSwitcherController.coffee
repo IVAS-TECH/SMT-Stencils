@@ -1,6 +1,8 @@
 module.exports = ($scope, $state) ->
   @$inject = ["$scope", "$state"]
 
+  fromUI = no
+
   controller = @
 
   init = ->
@@ -22,9 +24,11 @@ module.exports = ($scope, $state) ->
       name = current.split "\."
       check = name[name.length - 1]
       change = controller.override[check]
-      controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states).indexOf yes
-      if change? and current is controller.state + "\." + check
+      if not fromUI
+        controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states).indexOf yes
+      if change? and fromUI
         $state.go [controller.state, check, change].join "\."
+      fromUI = no
 
     $scope.$on "$stateChangeSuccess", override
 
@@ -33,6 +37,8 @@ module.exports = ($scope, $state) ->
   init()
 
   controller.switchState = (state) ->
-      $state.go "#{controller.state}.#{state}"
+    fromUI = yes
+    controller.selected = controller.states.indexOf state
+    $state.go "#{controller.state}.#{state}"
 
   controller
