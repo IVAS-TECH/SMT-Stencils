@@ -8,7 +8,8 @@ module.exports = ->
 
   formater: ->
     (date) ->
-      (date["get" + what]() for what in ["Day", "Date", "FullYear"]).join separator
+      info = new Date date
+      [info.getDate(), info.getMonth() + 1, info.getFullYear()].join separator
 
   parser: ->
     (date) ->

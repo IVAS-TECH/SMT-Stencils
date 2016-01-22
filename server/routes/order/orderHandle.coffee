@@ -39,7 +39,7 @@ module.exports =
       orderModel
         .find find
         .populate "user"
-        .sort orderDate: "asc"
+        .sort orderDate: "desc"
         .exec (err, docs) ->
           if query.successful err, docs
             send res, orders: docs

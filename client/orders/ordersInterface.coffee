@@ -13,12 +13,12 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
       dates = (order) ->
         for type in ["order", "sending"]
           date = type + "Date"
-          order[date] = $mdDateLocale.formatDate new Date order[date]
+          order[date] = $mdDateLocale.formatDate order[date]
         order
 
       orders = res.orders
-      controller.fromDate = new Date orders[0].orderDate
-      controller.toDate = new Date orders[orders.length - 1].orderDate
+      controller.fromDate = new Date orders[orders.length - 1].orderDate
+      controller.toDate = new Date orders[0].orderDate
       controller.listOfOrders = (dates order for order in orders)
 
       $scope.$digest()
