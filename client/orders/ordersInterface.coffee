@@ -1,5 +1,5 @@
-module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
-  @$inject = ["$scope", "RESTHelperService", "$mdDateLocale"]
+module.exports = ($scope, RESTHelperService, $mdDateLocale, $filter) ->
+  @$inject = ["$scope", "RESTHelperService", "$mdDateLocale", "$filter"]
 
   controller = @
 
@@ -9,7 +9,7 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
 
   controller.status = ["new", "accepted", "send", "delivered", "rejected"]
 
-  controller.init = ->
+  init = ->
     RESTHelperService.order.find (res) ->
 
       dates = (order) ->
@@ -21,10 +21,23 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
       orders = res.orders
       controller.fromDate = new Date orders[orders.length - 1].orderDate
       controller.toDate = new Date orders[0].orderDate
-      controller.listOfOrders = (dates order for order in orders).sort (a, b) ->
+      controller.fullListOfOrders = (dates order for order in orders).sort (a, b) ->
         indexA = controller.status.indexOf a.status
         indexB = controller.status.indexOf b.status
         indexA - indexB
+      controller.listOfOrders = controller.fullListOfOrders
+
+      filter = $filter "filter"
+
+      filterFn = (newValue) ->
+        filtered = filter controller.fullListOfOrders, controller.filter
+        controller.listOfOrders = filter filtered, (order) ->
+          date = $mdDateLocale.parseDate order.orderDate
+          controller.toDate >= date >= controller.fromDate
+
+      listeners = ($scope.$watch "ordersCtrl." + watch, filterFn for watch in ["filter", "fromDate", "toDate"])
+
+      $scope.$on "$destroy", -> listener() for listener in listeners
 
       $scope.$digest()
 
@@ -40,10 +53,6 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
   controller.compareableDate = (wich) ->
     controller[wich + "Date"] = $mdDateLocale.parseDate $mdDateLocale.formatDate controller[wich + "Date"]
 
-  controller.datesFilter = (order) ->
-    date = $mdDateLocale.parseDate order.orderDate
-    controller.toDate >= date >= controller.fromDate
-
   controller.choose = (order) ->
     RESTHelperService.order.view files: order.files, (res) ->
       set = (wich) -> text: order[wich + "Text"], view: res[wich]
@@ -52,6 +61,6 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
       $scope.order.bottom = set "bottom"
       $scope.$digest()
 
-  controller.init()
+  init()
 
   controller
