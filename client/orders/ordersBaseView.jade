@@ -11,16 +11,18 @@ div(layout="column" layout-align="center stretch" layout-wrap)
             ng-model="ordersCtrl[wich + 'Date']"
             ng-change="ordersCtrl.compareableDate(wich)"
           )
-      div(layout="row" flex="auto")
-        span(
-          ng-repeat="(key, value) in ordersCtrl.labels"
-          flex="{{value}}"
-          ng-class="key === '_id' ? 'md-primary' : 'md-warn'"
-          class="md-button fake-button"
-          translate="{{'label-' + key}}"
-        )
-      ivo-include(include="ordersCtrl.panel" template="true" controller="'ordersCtrl'")
-      div(layout="row" layout-align="center center")
+      div(layout="row" layout-align="center stretch" layout-wrap)
+        div(layout="column" flex="100" flex-offset="15")
+          div(layout="row" flex="auto")
+            span(
+              ng-repeat="(key, value) in ordersCtrl.labels"
+              flex="{{value}}"
+              ng-class="key === '_id' ? 'md-primary' : 'md-warn'"
+              class="md-button fake-button"
+              translate="{{'label-' + key}}"
+            )
+          ivo-include(include="ordersCtrl.panel" template="true" controller="'ordersCtrl'")
+      div(layout="column" layout-align="center center" layout-wrap)
         ivo-view-order(ng-if="order" order="order" controller="'order'")
     md-tab(ng-if="ordersCtrl.panel === 'adminPanelView'" label="statistics")
       md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)

@@ -22,8 +22,8 @@ module.exports = ($scope, $state) ->
       name = current.split "\."
       check = name[name.length - 1]
       change = controller.override[check]
-      controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states)
-      if change? and current is "#{controller.state}.#{check}"
+      controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states).indexOf yes
+      if change? and current is controller.state + "\." + check
         $state.go [controller.state, check, change].join "\."
 
     $scope.$on "$stateChangeSuccess", override

@@ -22,10 +22,16 @@ deps = [
 
 angular
   .module moduleName, deps
-    .config (RESTProvider, uploadServiceProvider) ->
-      @$inject = ["RESTProvider", "uploadServiceProvider"]
+    .config (RESTProvider, uploadServiceProvider, $mdThemingProvider) ->
+      @$inject = ["RESTProvider", "uploadServiceProvider", "$mdThemingProvider"]
+
       RESTProvider.setBase "api"
+
       uploadServiceProvider.setBase "file"
+
+      $mdThemingProvider
+        .theme "default"
+        .accentPalette "deep-purple"
 
 angular
   .element document

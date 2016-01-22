@@ -46,7 +46,7 @@ module.exports = ($scope, RESTHelperService, $filter, dateService) ->
   controller.panel = "notAdminPanelView"
 
   controller.labels =
-    _id: 40
+    _id: 20
     status: 15
     price: 15
     orderDate: 15
