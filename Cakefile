@@ -88,14 +88,16 @@ task "style", "Compiles all Stylus files into single CSS3 file", ->
   styl = join styles, "styl-style.styl"
   stylContent = fse.readFileSync styl, "utf8"
   material = join __dirname, "node_modules/angular-material/angular-material.min.css"
+  chartJs = join __dirname, "node_modules/angular-chart.js/dist/angular-chart.min.css"
   materialContent = fse.readFileSync material, "utf8"
+  chartJsContent = fse.readFileSync chartJs, "utf8"
   stylus stylContent
     .include styles
     .use nib()
     .render (cssErr, css) ->
       if cssErr then console.log cssErr
       cssFile = join sendDir, "style.css"
-      cssContent = "#{materialContent}\n#{css}"
+      cssContent = "#{materialContent}\n#{chartJsContent}\n#{css}"
       opts =
         maxLineLen: 0
         expandVars: false

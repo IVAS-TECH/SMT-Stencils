@@ -1,5 +1,5 @@
-module.exports = ($controller, $scope, RESTHelperService, dateService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService"]
+module.exports = ($controller, $scope, RESTHelperService, dateService, showStatisticsService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService", "showStatisticsService"]
 
   injectable =
     "$scope": $scope
@@ -9,9 +9,8 @@ module.exports = ($controller, $scope, RESTHelperService, dateService) ->
 
   controller.panel = "adminPanelView"
 
-  controller.statistics = ->
+  $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
     it = dateService.iterator controller.fromDate, controller.toDate
-    orders = controller.listOfOrders
 
     statisticData = (search) ->
       count = 0
@@ -45,7 +44,7 @@ module.exports = ($controller, $scope, RESTHelperService, dateService) ->
 
     addToChart dateService.format it.value while it.inc()
 
-    #controller.chart = chart
+    controller.chart = chart
 
   controller.addDiscription = (order) ->
     controller.choose order

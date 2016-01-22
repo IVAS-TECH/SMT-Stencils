@@ -9,6 +9,8 @@ module.exports = ($scope, RESTHelperService, $filter, dateService) ->
 
   controller.status = ["new", "accepted", "send", "delivered", "rejected"]
 
+  controller.listOfOrders = []
+
   init = ->
     RESTHelperService.order.find (res) ->
 

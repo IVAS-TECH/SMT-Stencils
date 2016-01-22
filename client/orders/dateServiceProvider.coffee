@@ -8,12 +8,12 @@ module.exports = ->
     compatible: (date,end) ->
       @parse @format date
     iterator: (start, end) ->
-      begging = @compatible date
+      begging = @compatible start
+      begging.setDate begging.getDate() - 1
       value: begging
       inc: ->
         begging.setDate begging.getDate() + 1
         begging <= end
-
 
   formater: ->
     (date) ->

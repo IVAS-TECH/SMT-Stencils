@@ -8,6 +8,7 @@ deps = [
   dependencies["angular-messages"]
   dependencies["angular-material"]
   dependencies["ng-file-upload"]
+  dependencies["angular-chart.js"]
   require "ui-router"
   require "angular-translate"
   require "./helper/helperModule"
