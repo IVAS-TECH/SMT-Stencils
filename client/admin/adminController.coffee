@@ -1,5 +1,5 @@
-module.exports = ($controller, $scope, RESTHelperService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService"]
+module.exports = ($controller, $scope, RESTHelperService, dateService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService"]
 
   injectable =
     "$scope": $scope
@@ -8,6 +8,44 @@ module.exports = ($controller, $scope, RESTHelperService) ->
   controller = $controller "ordersInterface", injectable
 
   controller.panel = "adminPanelView"
+
+  controller.statistics = ->
+    it = dateService.iterator controller.fromDate, controller.toDate
+    orders = controller.listOfOrders
+
+    statisticData = (search) ->
+      count = 0
+      delivered = 0
+      revenue = 0
+      for order in orders
+        if order.orderDate is search
+          count++
+          revenue += order.price
+          if order.status is "delivered"
+            delivered++
+      count: count
+      delivered: delivered
+      revenue: revenue
+
+    chart =
+      series: [
+        "line-orders-count"
+        "line-delivered"
+        "line-revenue"
+      ]
+      data: [[], [], []]
+      labels:[]
+
+    addToChart = (label) ->
+      data = statisticData label
+      chart.labels.push label
+      chart.data[0].push data.count
+      chart.data[1].push data.delivered
+      chart.data[2].push data.revenue
+
+    addToChart dateService.format it.value while it.inc()
+
+    #controller.chart = chart
 
   controller.addDiscription = (order) ->
     controller.choose order

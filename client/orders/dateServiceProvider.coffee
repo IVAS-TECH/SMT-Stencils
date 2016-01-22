@@ -5,6 +5,15 @@ module.exports = ->
   $get: ->
     format: @formater()
     parse: @parser()
+    compatible: (date,end) ->
+      @parse @format date
+    iterator: (start, end) ->
+      begging = @compatible date
+      value: begging
+      inc: ->
+        begging.setDate begging.getDate() + 1
+        begging <= end
+
 
   formater: ->
     (date) ->

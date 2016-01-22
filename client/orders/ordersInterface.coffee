@@ -1,5 +1,5 @@
-module.exports = ($scope, RESTHelperService, $mdDateLocale, $filter) ->
-  @$inject = ["$scope", "RESTHelperService", "$mdDateLocale", "$filter"]
+module.exports = ($scope, RESTHelperService, $filter, dateService) ->
+  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService"]
 
   controller = @
 
@@ -15,7 +15,7 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale, $filter) ->
       dates = (order) ->
         for type in ["order", "sending"]
           date = type + "Date"
-          order[date] = $mdDateLocale.formatDate order[date]
+          order[date] = dateService.format order[date]
         order
 
       orders = res.orders
@@ -32,7 +32,7 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale, $filter) ->
       filterFn = (newValue) ->
         filtered = filter controller.fullListOfOrders, controller.filter
         controller.listOfOrders = filter filtered, (order) ->
-          date = $mdDateLocale.parseDate order.orderDate
+          date = dateService.parse order.orderDate
           controller.toDate >= date >= controller.fromDate
 
       listeners = ($scope.$watch "ordersCtrl." + watch, filterFn for watch in ["filter", "fromDate", "toDate"])
@@ -51,7 +51,7 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale, $filter) ->
     sendingDate: 15
 
   controller.compareableDate = (wich) ->
-    controller[wich + "Date"] = $mdDateLocale.parseDate $mdDateLocale.formatDate controller[wich + "Date"]
+    controller[wich + "Date"] = dateService.compatible controller[wich + "Date"]
 
   controller.choose = (order) ->
     RESTHelperService.order.view files: order.files, (res) ->
