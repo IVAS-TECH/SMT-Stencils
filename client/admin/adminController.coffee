@@ -9,10 +9,14 @@ module.exports = ($controller, $scope, RESTHelperService, dateService) ->
 
   controller.panel = "adminPanelView"
 
-  $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
+  stop = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
     it = dateService.iterator controller.fromDate, controller.toDate
 
-    diff = 5 * (controller.toDate.getMonth() - controller.fromDate.getMonth())
+    gap = controller.toDate.getMonth() - controller.fromDate.getMonth()
+
+    years = controller.toDate.getFullYear() - controller.fromDate.getFullYear() + 1
+
+    diff = 5 * gap * years
 
     interval =
       current: diff
@@ -76,6 +80,8 @@ module.exports = ($controller, $scope, RESTHelperService, dateService) ->
       charts
 
     controller.charts = buildCharts()
+
+  $scope.$on "$destroy", stop
 
   controller.addDiscription = (order) ->
     controller.choose order
