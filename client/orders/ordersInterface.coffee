@@ -7,6 +7,8 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
 
   controller.toDate = new Date()
 
+  controller.status = ["new", "accepted", "send", "delivered", "rejected"]
+
   controller.init = ->
     RESTHelperService.order.find (res) ->
 
@@ -19,7 +21,10 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
       orders = res.orders
       controller.fromDate = new Date orders[orders.length - 1].orderDate
       controller.toDate = new Date orders[0].orderDate
-      controller.listOfOrders = (dates order for order in orders)
+      controller.listOfOrders = (dates order for order in orders).sort (a, b) ->
+        indexA = controller.status.indexOf a.status
+        indexB = controller.status.indexOf b.status
+        indexA - indexB
 
       $scope.$digest()
 

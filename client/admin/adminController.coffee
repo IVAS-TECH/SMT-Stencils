@@ -9,8 +9,6 @@ module.exports = ($controller, $scope, RESTHelperService) ->
 
   controller.panel = "adminPanelView"
 
-  controller.status = ["new", "accepted", "send", "delivered", "rejected"]
-
   controller.addDiscription = (order) ->
     controller.choose order
     controller.order = order
