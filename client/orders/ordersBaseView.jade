@@ -4,8 +4,11 @@ div(layout="column" layout-align="center strech" layout-wrap)
       label(translate="label-filter")
       input(ng-model="ordersCtrl.filter")
     div(layout="row" layout-align="center center")
-      md-datepicker(ng-model="ordersCtrl.fromDate")
-      md-datepicker(ng-model="ordersCtrl.toDate")
+      md-datepicker(
+        ng-repeat="wich in ['from', 'to']"  
+        ng-model="ordersCtrl[wich + 'Date']"
+        ng-change="ordersCtrl.compareableDate(wich)"
+      )
   div(layout="row" flex="auto")
     span(
       ng-repeat="(key, value) in ordersCtrl.labels"

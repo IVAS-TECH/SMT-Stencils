@@ -14,4 +14,4 @@ module.exports = ->
   parser: ->
     (date) ->
       info = date.split separator
-      new Date info[2], info[1], info[0]
+      new Date info[2], info[1] - 1, info[0]

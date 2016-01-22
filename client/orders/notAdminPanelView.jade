@@ -1,4 +1,4 @@
-div(ng-repeat="order in scopeCtrl.listOfOrders | filter:scopeCtrl.filter" layout="row" flex="auto")
+div(ng-repeat="order in scopeCtrl.listOfOrders | filter:scopeCtrl.filter | filter:scopeCtrl.datesFilter" layout="row" flex="auto")
   span(
     ng-repeat="(key, value) in scopeCtrl.labels"
     ng-click="key === '_id' ? scopeCtrl.choose(order) : null"

@@ -37,6 +37,13 @@ module.exports = ($scope, RESTHelperService, $mdDateLocale) ->
     orderDate: 15
     sendingDate: 15
 
+  controller.compareableDate = (wich) ->
+    controller[wich + "Date"] = $mdDateLocale.parseDate $mdDateLocale.formatDate controller[wich + "Date"]
+
+  controller.datesFilter = (order) ->
+    date = $mdDateLocale.parseDate order.orderDate
+    controller.toDate >= date >= controller.fromDate
+
   controller.choose = (order) ->
     RESTHelperService.order.view files: order.files, (res) ->
       set = (wich) -> text: order[wich + "Text"], view: res[wich]
