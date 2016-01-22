@@ -23,15 +23,11 @@ div(layout="column" layout-align="center stretch" layout-wrap)
       div(layout="row" layout-align="center center")
         ivo-view-order(ng-if="order" order="order" controller="'order'")
     md-tab(ng-if="ordersCtrl.panel === 'adminPanelView'" label="statistics")
-      md-content
-        canvas(
-          width="50%"
-          height="25%"
-          class="chart chart-line"
-          chart-data="ordersCtrl.chart.data"
-          chart-labels="ordersCtrl.chart.labels"
-          chart-legend="true"
-          chart-series="ordersCtrl.chart.series"  
-        )
+      md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)
+        md-tab(label="revenue")
+          ivo-line-chart(chart="ordersCtrl.charts.revenue")
+        md-tab(label="count")
+          ivo-line-chart(chart="ordersCtrl.charts.count")
+        
   
   

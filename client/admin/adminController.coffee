@@ -1,5 +1,5 @@
-module.exports = ($controller, $scope, RESTHelperService, dateService, showStatisticsService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService", "showStatisticsService"]
+module.exports = ($controller, $scope, RESTHelperService, dateService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService"]
 
   injectable =
     "$scope": $scope
@@ -11,6 +11,14 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showStati
 
   $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
     it = dateService.iterator controller.fromDate, controller.toDate
+
+    diff = 5 * (controller.toDate.getMonth() - controller.fromDate.getMonth())
+
+    interval =
+      current: diff
+      label: ""
+
+    intervals = {}
 
     statisticData = (search) ->
       count = 0
@@ -26,25 +34,48 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showStati
       delivered: delivered
       revenue: revenue
 
-    chart =
-      series: [
-        "line-orders-count"
-        "line-delivered"
-        "line-revenue"
-      ]
-      data: [[], [], []]
-      labels:[]
-
-    addToChart = (label) ->
+    buildIntervals = (date) ->
+      label = dateService.format date
       data = statisticData label
-      chart.labels.push label
-      chart.data[0].push data.count
-      chart.data[1].push data.delivered
-      chart.data[2].push data.revenue
+      if interval.current is diff
+        interval.current = 0
+        interval.label = label
+        intervals[label] =
+          count: 0
+          delivered: 0
+          revenue: 0
+      else
+        label = interval.label
+        interval.current++
+      for info in ["count", "delivered", "revenue"]
+        intervals[label][info] += data[info]
 
-    addToChart dateService.format it.value while it.inc()
+    buildIntervals it.value while it.inc()
 
-    controller.chart = chart
+    buildCharts = ->
+
+      labels = []
+
+      charts =
+        count:
+          series: ["line-orders-count", "line-delivered"]
+          data: [[], []]
+        revenue:
+          series: ["line-revenue"]
+          data: [[]]
+
+      for label, data of intervals
+        labels.push label
+        charts.count.data[0].push data.count
+        charts.count.data[1].push data.delivered
+        charts.revenue.data[0].push data.revenue
+
+      charts.count.labels = labels
+      charts.revenue.labels = labels
+
+      charts
+
+    controller.charts = buildCharts()
 
   controller.addDiscription = (order) ->
     controller.choose order

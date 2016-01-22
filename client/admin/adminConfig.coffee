@@ -11,4 +11,6 @@ module.exports = ($stateProvider, templateProvider, translateProvider, ChartJsPr
       url: "/admin"
       template: templateProvider.provide "adminView"
 
-  ChartJsProvider.setOptions responsive: yes
+  ChartJsProvider.setOptions
+    responsive: no
+    colours: ["#FF0000", "#0000FF"]
