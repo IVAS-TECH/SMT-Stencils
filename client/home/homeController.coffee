@@ -3,6 +3,8 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
   controller = @
 
+  controller.admin = no
+
   init = ->
 
     restrict = (event, toState, toParams, fromState, fromParams) ->
@@ -14,15 +16,14 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
         loginService event,
           login: -> setTimeout (-> $state.go toState.name), 1
           close: transitionService.toHome
-          cancel: transitionService.toHome
 
     if $state.current.name is "home" then transitionService.toHome()
 
     authenticationService.authenticate().then ->
 
-      stopRestriction = ->
+      stopRestriction = null
 
-      stopAuth = ->
+      stopAuth = null
 
       if authenticationService.isAuthenticated()
         if authenticationService.isAdmin()
@@ -39,9 +40,10 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
       stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
 
       $scope.$on "$destroy", ->
-        stopRestriction()
+        if stopRestriction?
+          stopRestriction()
+          stopAuth()
         stopUnAuth()
-        stopAuth()
 
   init()
 

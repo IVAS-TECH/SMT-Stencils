@@ -38,6 +38,7 @@ describe "loginController", ->
       loginController.login true
 
       expect(hide).toHaveBeenCalledWith
+        login: null
         success:
           user: user
           session: true

@@ -37,9 +37,16 @@ describe "userController", ->
 
   describe "-> init", ->
 
+    stop = undefined
+
     beforeEach ->
 
-      $scope.$on.and.callFake (event, cb) -> cb()
+      stop = jasmine.createSpy()
+
+      $scope.$on.and.callFake (event, cb) ->
+        cb()
+        if event is "authentication"
+          stop
 
     describe "init without destoing session", ->
 
@@ -56,6 +63,8 @@ describe "userController", ->
         expect(userController.user).toEqual user
 
         expect(userController.authenticated).toBe true
+
+        expect(stop).toHaveBeenCalled()
 
       it "re-renders userView if authentication values are comming from request", ->
 

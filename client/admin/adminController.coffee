@@ -31,8 +31,6 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showDescr
 
     diff = Math.abs (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
 
-    console.log diff, normalizate
-
     interval =
       current: diff
       label: ""

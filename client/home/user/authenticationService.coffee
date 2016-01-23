@@ -40,7 +40,7 @@ module.exports = ($rootScope, RESTHelperService) ->
   getUser: -> _user
 
   getAdminAccess: ->
-    if isAdmin() then _admin.access ? -1 else -1
+    if @isAdmin() then _admin.access ? -1 else -1
 
   isAuthenticated: -> _authenticated
 

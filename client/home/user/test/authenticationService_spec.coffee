@@ -4,38 +4,32 @@ describe "authenticationService", ->
 
   authenticationService = $rootScope = RESTHelperService = transitionService = undefined
 
-  test = ->
-    authenticationService = tested.call {}, $rootScope, RESTHelperService, transitionService
+  expectState = (state) ->
+
+    for method, expected of state
+      expect(authenticationService[method]()).toEqual expected
 
   beforeEach ->
 
-    $rootScope = jasmine.createSpyObj "$rootScope", ["$on", "$broadcast"]
+    $rootScope = $broadcast: jasmine.createSpy()
 
     login = jasmine.createSpyObj "login", ["logged", "logout"]
 
     RESTHelperService = login: login
 
-    transitionService = toAdmin: jasmine.createSpy()
+    authenticationService = tested $rootScope, RESTHelperService
 
   describe "default behaviour", ->
 
     it "should be in default state", ->
 
-      test()
-
-      expect(authenticationService.getUser()).toBe null
-
-      expect(authenticationService.isAuthenticated()).toBe false
-
-      expect(authenticationService.isSession()).toBe true
-
-      expect(authenticationService.isAsync()).toBe false
-
-      expect(authenticationService.isAdmin()).toBe false
-
-      expect(authenticationService.getAdminAccess()).toEqual -1
-
-      expect(transitionService.toAdmin).not.toHaveBeenCalled()
+      expectState
+        getUser: null
+        isAuthenticated: no
+        isSession: yes
+        isAsync: no
+        isAdmin: no
+        getAdminAccess: -1
 
   describe "authenticate", ->
 
@@ -47,34 +41,19 @@ describe "authenticationService", ->
 
       auth = user: user, admin: admin: true
 
-      beforeEach ->
-
-        $rootScope.$on.and.callFake (evnt, cb) ->
-
-          if evnt is "authentication"
-            cb event, auth
-
       it "sets user, and admin if only they were set from login dialog", ->
-
-        test()
 
         authenticationService.authenticate auth
 
-        expect($rootScope.$broadcast).toHaveBeenCalledWith "authentication", auth
+        expect($rootScope.$broadcast).toHaveBeenCalledWith "authentication"
 
-        expect(authenticationService.getUser()).toEqual user
-
-        expect(authenticationService.isAuthenticated()).toBe true
-
-        expect(authenticationService.isSession()).toBe true
-
-        expect(authenticationService.isAsync()).toBe false
-
-        expect(authenticationService.isAdmin()).toBe true
-
-        expect(authenticationService.getAdminAccess()).toEqual -1
-
-        expect(transitionService.toAdmin).toHaveBeenCalled()
+        expectState
+          getUser: user
+          isAuthenticated: yes
+          isSession: yes
+          isAsync: no
+          isAdmin: yes
+          getAdminAccess: -1
 
     describe "when called after bootsraping to check user satus who is logged", ->
 
@@ -91,32 +70,19 @@ describe "authenticationService", ->
         RESTHelperService.login.logged.and.callFake (cb) ->
           cb res
 
-        $rootScope.$on.and.callFake (evnt, cb) ->
-
-          res.async_ = true
-
-          if evnt is "authentication"
-            cb event, res
-
       it "sets all with the result of performing request to check login status", (done) ->
-
-          test()
 
           authenticationService.authenticate().then ->
 
-            expect($rootScope.$broadcast).toHaveBeenCalledWith "authentication", res
+            expect($rootScope.$broadcast).toHaveBeenCalledWith "authentication"
 
-            expect(authenticationService.getUser()).toEqual user
-
-            expect(authenticationService.isAuthenticated()).toBe true
-
-            expect(authenticationService.isSession()).toBe true
-
-            expect(authenticationService.isAsync()).toBe true
-
-            expect(authenticationService.isAdmin()).toBe true
-
-            expect(authenticationService.getAdminAccess()).toEqual 2
+            expectState
+              getUser: user
+              isAuthenticated: yes
+              isSession: yes
+              isAsync: yes
+              isAdmin: yes
+              getAdminAccess: 2
 
             done()
 
@@ -126,12 +92,9 @@ describe "authenticationService", ->
 
       beforeEach ->
 
-        RESTHelperService.login.logged.and.callFake (cb) ->
-            cb res
+        RESTHelperService.login.logged.and.callFake (cb) -> cb res
 
       it "shouldn't broadcast a login", (done) ->
-
-          test()
 
           authenticationService.authenticate().then ->
 
@@ -149,31 +112,21 @@ describe "authenticationService", ->
 
       RESTHelperService.login.logout.and.callFake (cb) -> cb()
 
-      $rootScope.$on.and.callFake (evnt, cb) ->
-
-        if evnt is "unauthentication" then cb {}
-
-    it "logouts restoring sate but setting asyn to true", ->
-
-      test()
+    it "logouts restoring sate but setting async to true", ->
 
       authenticationService.unauthenticate()
 
-      expect(authenticationService.getUser()).toBe null
-
-      expect(authenticationService.isAuthenticated()).toBe false
-
-      expect(authenticationService.isSession()).toBe true
-
-      expect(authenticationService.isAsync()).toBe true
-
-      expect(authenticationService.isAdmin()).toBe false
+      expectState
+        getUser: null
+        isAuthenticated: no
+        isSession: yes
+        isAsync: yes
+        isAdmin: no
+        getAdminAccess: -1
 
       expect(spy).not.toHaveBeenCalled()
 
     it "should call provided callback after logouting", ->
-
-      test()
 
       authenticationService.unauthenticate spy
 
