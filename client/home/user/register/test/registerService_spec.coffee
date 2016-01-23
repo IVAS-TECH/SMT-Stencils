@@ -10,7 +10,7 @@ describe "registerService", ->
 
   beforeEach ->
 
-    showDialogService = showDialog: jasmine.createSpy()
+    showDialogService = jasmine.createSpy()
 
     loginService = jasmine.createSpy()
 
@@ -24,11 +24,11 @@ describe "registerService", ->
 
     registerService event, extend
 
-    expect(showDialogService.showDialog).toHaveBeenCalledWith event, "register", locals, handle, extend
+    expect(showDialogService).toHaveBeenCalledWith event, "register", locals, handle, extend
 
   it "should open login dialog on success", ->
 
-    showDialogService.showDialog.and.callFake (evnt, dlg, lcls, hndl, extnd) ->
+    showDialogService.and.callFake (evnt, dlg, lcls, hndl, extnd) ->
       hndl.success()
 
     registerService event, extend

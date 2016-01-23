@@ -32,7 +32,7 @@ describe "showDialogService", ->
 
       it "should open dialog", ->
 
-        showDialogService.showDialog {}, "test", {}
+        showDialogService {}, "test", {}
 
         expect(show).toHaveBeenCalledWith
           template: "html"
@@ -49,7 +49,7 @@ describe "showDialogService", ->
 
         event = target: {}
 
-        showDialogService.showDialog event, "test", {}
+        showDialogService event, "test", {}
 
         expect(show).toHaveBeenCalledWith
           template: "html"
@@ -70,7 +70,7 @@ describe "showDialogService", ->
 
         spy = jasmine.createSpy()
 
-        showDialogService.showDialog {}, "test", {}, "action": spy
+        showDialogService {}, "test", {}, "action": spy
 
         expect(spy).toHaveBeenCalled()
 
@@ -78,7 +78,7 @@ describe "showDialogService", ->
 
         spy = jasmine.createSpy()
 
-        showDialogService.showDialog {}, "test", {}, {}, "action": spy
+        showDialogService {}, "test", {}, {}, "action": spy
 
         expect(spy).toHaveBeenCalled()
 
@@ -104,7 +104,7 @@ describe "showDialogService", ->
 
       handle = jasmine.createSpyObj "handle", ["action1", "action2"]
 
-      showDialogService.showDialog {}, "test", {}, handle
+      showDialogService {}, "test", {}, handle
 
       expect(handle.action1).toHaveBeenCalledWith "val1"
 

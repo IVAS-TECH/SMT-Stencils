@@ -12,7 +12,7 @@ describe "circularDialogService", ->
 
   beforeEach ->
 
-    showDialogService = showDialog: jasmine.createSpy()
+    showDialogService = jasmine.createSpy()
 
     tryAgainService = jasmine.createSpy()
 
@@ -28,7 +28,7 @@ describe "circularDialogService", ->
 
     dialogService event, extend
 
-    expect(showDialogService.showDialog).toHaveBeenCalledWith event, "dialog", locals, handle, extend
+    expect(showDialogService).toHaveBeenCalledWith event, "dialog", locals, handle, extend
 
   describe "handling", ->
 
@@ -50,7 +50,7 @@ describe "circularDialogService", ->
 
       beforeEach ->
 
-        showDialogService.showDialog.and.callFake (evnt, dlg, lcls, hndl, xtnd) ->
+        showDialogService.and.callFake (evnt, dlg, lcls, hndl, xtnd) ->
           hndl.success arg
 
       it "should call provided on success function", ->
@@ -63,7 +63,7 @@ describe "circularDialogService", ->
 
       beforeEach ->
 
-        showDialogService.showDialog.and.callFake (evnt, dlg, lcls, hndl, xtnd) ->
+        showDialogService.and.callFake (evnt, dlg, lcls, hndl, xtnd) ->
           hndl.fail()
 
       it "should create a tryAgain dialog", ->
@@ -78,12 +78,12 @@ describe "circularDialogService", ->
 
         tryAgainService.and.callFake (evnt, title, extnd) ->
 
-          showDialogService.showDialog.and.stub()
+          showDialogService.and.stub()
 
           extnd.success()
 
         dialogService event, extend
 
-        expect(showDialogService.showDialog).toHaveBeenCalledWith event, "dialog", locals, handle, extend
+        expect(showDialogService).toHaveBeenCalledWith event, "dialog", locals, handle, extend
 
-        expect(showDialogService.showDialog.calls.count()).toEqual 2
+        expect(showDialogService.calls.count()).toEqual 2

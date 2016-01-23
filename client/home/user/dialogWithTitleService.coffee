@@ -3,5 +3,4 @@ module.exports = (showDialogService) ->
 
   (dialog) ->
     (event, title, extend) ->
-      showDialogService
-        .showDialog event, dialog, title: title, {}, extend
+      showDialogService event, dialog, title: title, {}, extend

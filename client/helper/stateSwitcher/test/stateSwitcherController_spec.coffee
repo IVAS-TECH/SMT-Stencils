@@ -61,7 +61,7 @@ describe "stateSwitcherController", ->
 
       stateCtrl = tested.call $, $scope, $state
 
-      expect(stateCtrl.selected).toEqual [true, false, false]
+      expect(stateCtrl.selected).toEqual 0
 
       expect(stateCtrl.states).toEqual ["about", "order", "settings"]
 
@@ -73,18 +73,30 @@ describe "stateSwitcherController", ->
 
         stateCtrl.switchState "order"
 
+        expect(stateCtrl.selected).toEqual 1
+
         expect($state.go).toHaveBeenCalledWith "home.order"
 
     describe "listening for $state change", ->
 
       it "should override current state", ->
 
-        $scope.$on.and.callFake (eventType, callback) ->
+        simulate = undefined
 
-          callback {}, name: "home.settings"
+        stop = jasmine.createSpy()
+
+        $scope.$on.and.callFake (eventType, callback) ->
+          if eventType is "$stateChangeSuccess"
+            simulate = callback
+            stop
+          else callback()
 
         stateCtrl = tested.call $, $scope, $state
 
         stateCtrl.switchState "settings"
 
+        simulate {}, name: "home.settings"
+
         expect($state.go).toHaveBeenCalledWith "home.settings.profile"
+
+        expect(stop).toHaveBeenCalled()

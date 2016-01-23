@@ -30,7 +30,9 @@ module.exports = ($scope, $state) ->
         $state.go [controller.state, check, change].join "\."
       fromUI = no
 
-    $scope.$on "$stateChangeSuccess", override
+    stop = $scope.$on "$stateChangeSuccess", override
+
+    $scope.$on "$destroy", stop
 
     override null, $state.current
 

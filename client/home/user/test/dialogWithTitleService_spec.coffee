@@ -10,7 +10,7 @@ describe "dialogWithTitleService", ->
 
   it "should return function for creating new dialog service", ->
 
-    showDialogService = showDialog: jasmine.createSpy()
+    showDialogService = jasmine.createSpy()
 
     dialogWithTitleService = tested showDialogService
 
@@ -18,5 +18,5 @@ describe "dialogWithTitleService", ->
 
     dialogService event, title, extend
 
-    expect(showDialogService.showDialog)
+    expect(showDialogService)
       .toHaveBeenCalledWith event, "dialog", title: title, {}, extend

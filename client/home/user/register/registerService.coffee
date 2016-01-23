@@ -2,9 +2,8 @@ module.exports = (showDialogService, loginService) ->
   @$inject = ["showDialogService", "loginService"]
 
   (event, extend) ->
-    
+
     handle = "success": ->
       loginService event
 
-    showDialogService
-      .showDialog event, "register", {}, handle, extend
+    showDialogService event, "register", {}, handle, extend

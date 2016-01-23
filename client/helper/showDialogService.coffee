@@ -1,7 +1,7 @@
 module.exports = ($mdDialog, showErrorService, template) ->
   @$inject = ["$mdDialog", "showErrorService", "template"]
 
-  showDialog: (event, action, locals, handle = {}, extend) ->
+  (event, action, locals, handle = {}, extend) ->
 
     locals.hide = $mdDialog.hide
 

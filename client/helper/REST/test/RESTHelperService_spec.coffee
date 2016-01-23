@@ -80,7 +80,7 @@ describe "RESTHelperService", ->
 
     it "creates restfull 'apis'", ->
 
-      for called in ["login", "user", "configuration", "addresses", "order"]
+      for called in ["login", "user", "configuration", "addresses", "order", "description"]
 
         expect(REST).toHaveBeenCalledWith called
 
@@ -164,7 +164,7 @@ describe "RESTHelperService", ->
     describe "RESTHelperService.#{what}.[]", ->
 
       run = (test) ->
-        
+
         if test is "find"
 
           it "gets all user related #{what}", ->
@@ -188,3 +188,30 @@ describe "RESTHelperService", ->
   testWhat what, ["create", "find", "delete", "update"] for what in ["configuration", "addresses"]
 
   testWhat "order", ["create", "find", "view"]
+
+  describe "RESTHelperService.description.[]", ->
+
+    tests = [
+      {
+        msg: "tries to get"
+        arg: "id"
+      }
+      {
+        msg: "creates"
+        arg:
+          id: "id"
+          text: ["some", "text"]
+      }
+    ]
+
+    run = (test) ->
+
+      it "#{test.msg} order description", ->
+
+        RESTHelperService.description.find test.arg , callback
+
+        expect(request).toHaveBeenCalledWith test.arg
+
+        expect(callback).toHaveBeenCalled()
+
+    run test for test in tests
