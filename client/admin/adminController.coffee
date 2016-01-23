@@ -1,9 +1,11 @@
-module.exports = ($controller, $scope, RESTHelperService, dateService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService"]
+module.exports = ($controller, $scope, RESTHelperService, dateService, showDescriptionService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService", "showDescriptionService"]
 
   injectable =
     "$scope": $scope
     "RESTHelperService": RESTHelperService
+    "dateService": dateService
+    "showDescriptionService": showDescriptionService
 
   controller = $controller "ordersInterface", injectable
 
@@ -83,12 +85,14 @@ module.exports = ($controller, $scope, RESTHelperService, dateService) ->
 
   $scope.$on "$destroy", stop
 
-  controller.addDiscription = (order) ->
-    controller.choose order
-    controller.order = order
+  controller.addDiscription = (order) -> controller.order = order
 
   controller.update = ->
-    console.log controller.discription
+    description =
+      order: controller.order._id
+      text: controller.description
+    RESTHelperService.description.add description: description, (res) ->
+      console.log "desc"
 
   controller.delete = ->
     console.log controller.discription

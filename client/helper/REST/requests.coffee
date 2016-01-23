@@ -24,4 +24,9 @@ module.exports =
     method: ["get", "post", "put"]
     arg: [no, yes, yes]
 
+  description:
+    alias: ["find", "add"]
+    method: ["get", "post"]
+    arg: [yes, yes]
+
   upload: ["preview", "order"]

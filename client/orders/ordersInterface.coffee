@@ -1,5 +1,5 @@
-module.exports = ($scope, RESTHelperService, $filter, dateService) ->
-  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService"]
+module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService) ->
+  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService"]
 
   controller = @
 
@@ -59,14 +59,22 @@ module.exports = ($scope, RESTHelperService, $filter, dateService) ->
 
   controller.showAll = -> delete controller.showing
 
-  controller.choose = (order) ->
+  controller.choose = (event, order) ->
+
+    choose = ->
+      RESTHelperService.order.view files: order.files, (res) ->
+        set = (wich) -> text: order[wich + "Text"], view: res[wich]
+        $scope.order = order
+        $scope.order.top = set "top"
+        $scope.order.bottom = set "bottom"
+        $scope.$digest()
+
     controller.showing = order._id
-    RESTHelperService.order.view files: order.files, (res) ->
-      set = (wich) -> text: order[wich + "Text"], view: res[wich]
-      $scope.order = order
-      $scope.order.top = set "top"
-      $scope.order.bottom = set "bottom"
-      $scope.$digest()
+
+    RESTHelperService.description.find order._id, (res) ->
+      if res.description?
+        showDescriptionService event, res.description, success: -> choose()
+      else choose()
 
   init()
 

@@ -6,5 +6,6 @@ module.exports =
   login: require "./user/loginHandle"
   configuration: require "./order/config/configHandle"
   addresses: require "./order/addresses/addressesHandle"
+  description: require "./order/description/descriptionHandle"
   file: require "./order/file/fileHandle"
   order: require "./order/orderHandle"

@@ -23,6 +23,9 @@ div(layout="column" layout-align="center stretch" layout-wrap)
             )
           ivo-include(include="ordersCtrl.panel" template="true" controller="'ordersCtrl'")
       div(layout="column" layout-align="center center" layout-wrap)
+        div(ng-if="ordersCtrl.order" layout="column" layout-align="center center" layout-wrap)
+          ivo-order-text(text="ordersCtrl.description" label="'label-desctiption'" disabled="false")
+          md-button(ng-click="ordersCtrl.update()" class="md-warn" aria-label="update" translate="button-update")
         md-button(
           ng-if="ordersCtrl.showing"
           ng-click="ordersCtrl.showAll()"
