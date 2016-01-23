@@ -13,15 +13,25 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showDescr
 
   stop = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
 
-    it = dateService.iterator controller.fromDate, controller.toDate
+    beggin = controller.fromDate
 
-    gap = controller.toDate.getMonth() - controller.fromDate.getMonth()
+    end = controller.toDate
 
-    years = controller.toDate.getFullYear() - controller.fromDate.getFullYear() + 1
+    if end < beggin then [beggin, end] = [end, beggin]
 
-    normalizate = (Math.floor controller.toDate.getDate() / 3) - (Math.floor controller.fromDate.getDate() / 3)
+    [controller.fromDate, controller.toDate] = [beggin, end]
 
-    diff = (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
+    it = dateService.iterator beggin, end
+
+    gap = end.getMonth() - beggin.getMonth()
+
+    years = end.getFullYear() - beggin.getFullYear() + 1
+
+    normalizate =  Math.abs (Math.floor end.getDate() / 3) - (Math.floor beggin.getDate() / 3)
+
+    diff = Math.abs (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
+
+    console.log diff, normalizate
 
     interval =
       current: diff
