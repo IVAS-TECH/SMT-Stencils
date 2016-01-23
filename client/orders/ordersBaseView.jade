@@ -23,6 +23,13 @@ div(layout="column" layout-align="center stretch" layout-wrap)
             )
           ivo-include(include="ordersCtrl.panel" template="true" controller="'ordersCtrl'")
       div(layout="column" layout-align="center center" layout-wrap)
+        md-button(
+          ng-if="ordersCtrl.showing"
+          ng-click="ordersCtrl.showAll()"
+          class="md-primary"
+          aria-label="show all"
+          translate="button-show-all"
+        )
         ivo-view-order(ng-if="order" order="order" controller="'order'")
     md-tab(ng-if="ordersCtrl.panel === 'adminPanelView'" label="statistics")
       md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)

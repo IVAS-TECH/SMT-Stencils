@@ -36,8 +36,10 @@ module.exports = ($scope, RESTHelperService, $filter, dateService) ->
         controller.listOfOrders = filter filtered, (order) ->
           date = dateService.parse order.orderDate
           controller.toDate >= date >= controller.fromDate
+        if controller.showing?
+          controller.listOfOrders = filter controller.listOfOrders, _id: controller.showing
 
-      listeners = ($scope.$watch "ordersCtrl." + watch, filterFn for watch in ["filter", "fromDate", "toDate"])
+      listeners = ($scope.$watch "ordersCtrl." + watch, filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
 
       $scope.$on "$destroy", -> listener() for listener in listeners
 
@@ -55,7 +57,10 @@ module.exports = ($scope, RESTHelperService, $filter, dateService) ->
   controller.compareableDate = (wich) ->
     controller[wich + "Date"] = dateService.compatible controller[wich + "Date"]
 
+  controller.showAll = -> delete controller.showing
+
   controller.choose = (order) ->
+    controller.showing = order._id
     RESTHelperService.order.view files: order.files, (res) ->
       set = (wich) -> text: order[wich + "Text"], view: res[wich]
       $scope.order = order
