@@ -12,13 +12,16 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showDescr
   controller.panel = "adminPanelView"
 
   stop = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
+
     it = dateService.iterator controller.fromDate, controller.toDate
 
     gap = controller.toDate.getMonth() - controller.fromDate.getMonth()
 
     years = controller.toDate.getFullYear() - controller.fromDate.getFullYear() + 1
 
-    diff = 5 * gap * years
+    normalizate = (Math.floor controller.toDate.getDate() / 3) - (Math.floor controller.fromDate.getDate() / 3)
+
+    diff = (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
 
     interval =
       current: diff

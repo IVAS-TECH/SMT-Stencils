@@ -1,7 +1,7 @@
 Promise = require "promise"
 
-module.exports = ($rootScope, RESTHelperService, transitionService) ->
-  @$inject = ["$rootScope", "RESTHelperService", "transitionService"]
+module.exports = ($rootScope, RESTHelperService) ->
+  @$inject = ["$rootScope", "RESTHelperService"]
 
   _authenticated = false
   _user = null
@@ -9,27 +9,15 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
   _async = false
   _admin = null
 
-  isAdmin = -> if _admin? then _admin.admin else false
-
-  $rootScope.$on "authentication", (event, authentication) ->
-    _authenticated = true
-    _user = authentication.user
-    _session = authentication.session ? true
-    _async = authentication.async_ ? false
-    _admin = authentication.admin
-    if isAdmin() then transitionService.toAdmin()
-
-  $rootScope.$on "unauthentication", (event) ->
-    _authenticated = false
-    _user = null
-    _session = true
-    _async = true
-    _admin = null
-
   authenticate: (authentication) ->
 
     broadcast = (auth) ->
-      $rootScope.$broadcast "authentication", auth
+      _authenticated = true
+      _user = auth.user
+      _session = auth.session ? true
+      _async = auth.async_ ? false
+      _admin = auth.admin
+      $rootScope.$broadcast "authentication"
 
     if authentication? then broadcast authentication
     else
@@ -41,6 +29,11 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
 
   unauthenticate: (callback) ->
     RESTHelperService.login.logout ->
+      _authenticated = false
+      _user = null
+      _session = true
+      _async = true
+      _admin = null
       $rootScope.$broadcast "unauthentication"
       if callback? then callback()
 
@@ -55,4 +48,4 @@ module.exports = ($rootScope, RESTHelperService, transitionService) ->
 
   isAsync: -> _async
 
-  isAdmin: isAdmin
+  isAdmin: -> if _admin? then _admin.admin else false

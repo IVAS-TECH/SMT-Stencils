@@ -11,7 +11,8 @@ module.exports = ($scope, $window, registerService, loginService, authentication
 
   init = ->
 
-    $scope.$on "authentication", ->
+    stop = $scope.$on "authentication", ->
+
       authenticateUser()
 
       if not authenticationService.isSession()
@@ -19,6 +20,8 @@ module.exports = ($scope, $window, registerService, loginService, authentication
           event.preventDefault()
           authenticationService.unauthenticate()
           return
+
+    $scope.$on "$destroy", stop
 
   controller.register = (event) -> registerService event
 

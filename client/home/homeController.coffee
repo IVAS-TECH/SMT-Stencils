@@ -1,30 +1,47 @@
-module.exports = ($scope, $location, authenticationService, loginService, transitionService) ->
-  @$inject = ["$scope", "$location", "authenticationService", "loginService", "transitionService"]
+module.exports = ($scope, $state, authenticationService, loginService, transitionService) ->
+  @$inject = ["$scope", "$state", "authenticationService", "loginService", "transitionService"]
 
   controller = @
 
   init = ->
 
-    restrict = ->
+    restrict = (event, toState, toParams, fromState, fromParams) ->
 
-      if not authenticationService.isAuthenticated()
+      if not authenticationService.isAuthenticated() and toState.url not in ["/about", "/technologies", "/contacts"]
 
-        if $location.path() not in ["/about", "/technologies", "/contacts"]
-          loginService {},
-            close: transitionService.toHome
-            cancel: transitionService.toHome
-      else
-          controller.admin = authenticationService.isAdmin()
+        event.preventDefault()
 
-    if $location.path() is "" then transitionService.toHome()
+        loginService event,
+          login: -> setTimeout (-> $state.go toState.name), 1
+          close: transitionService.toHome
+          cancel: transitionService.toHome
+
+    if $state.current.name is "home" then transitionService.toHome()
 
     authenticationService.authenticate().then ->
 
-      restrict()
+      stopRestriction = ->
 
-      $scope.$on "$locationChangeStart", restrict
+      stopAuth = ->
 
-      $scope.$on "unauthentication", -> controller.admin = no
+      if authenticationService.isAuthenticated()
+        if authenticationService.isAdmin()
+          controller.admin = yes
+          $scope.$digest()
+          transitionService.toAdmin()
+
+      else
+        stopAuth = $scope.$on "authentication", ->
+          controller.admin = authenticationService.isAdmin()
+
+        stopRestriction = $scope.$on "$stateChangeStart", restrict
+
+      stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
+
+      $scope.$on "$destroy", ->
+        stopRestriction()
+        stopUnAuth()
+        stopAuth()
 
   init()
 

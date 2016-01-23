@@ -9,6 +9,7 @@ module.exports = (RESTHelperService) ->
       RESTHelperService.login.login user: controller.user, (res) ->
         if res.login
           controller.hide
+            "login": null
             "success":
               user: controller.user
               session: controller.session

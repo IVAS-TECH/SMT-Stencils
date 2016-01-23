@@ -7,6 +7,5 @@ module.exports = (template) ->
   controllerAs: "stateSwitcherCtrl"
   bindToController:
     state: "@"
-    menu: "@"
     override: "="
     remove: "="
