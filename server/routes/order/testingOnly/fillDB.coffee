@@ -86,13 +86,15 @@ fake = {
 	}
 }
 
+randomN = (n) -> Math.floor Math.random() * n
+
 dates = []
 
-range = [1..3]
+range = [0..2]
 
 for i in range
   for j in range
-    dates.push new Date 2016, i, j * 8
+    dates.push new Date 2016, i, j * 8, (randomN 12), (randomN 60), (randomN 60), (randomN 60)
 
 sendingDates = dates
 
@@ -100,16 +102,16 @@ orderDates = dates
 
 prices = (k for k in [10..100] by 20)
 
-statuses = ["new", "accepted", "send", "delivered", "rejected"]
+statuses = ["new", "accepted", "sent", "delivered", "rejected"]
 
 created = []
 
-for i in [0..29]
+for i in [0..1]
   order = JSON.parse JSON.stringify fake
-  order.sendingDate = sendingDates[Math.floor Math.random() * sendingDates.length]
-  order.orderDate = orderDates[Math.floor Math.random() * orderDates.length]
-  order.price = prices[Math.floor Math.random() * prices.length]
-  order.status = statuses[Math.floor Math.random() * statuses.length]
+  order.sendingDate = sendingDates[randomN sendingDates.length]
+  order.orderDate = orderDates[randomN orderDates.length]
+  order.price = prices[randomN prices.length]
+  order.status = statuses[randomN statuses.length]
   created.push fill order
 
 Promise

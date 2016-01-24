@@ -75,7 +75,9 @@ module.exports =
 
     if req.body.price?
       order.price = req.body.price
-      order.orderDate = Date.now()
+
+    if order.status is "sent"
+      order.sendingDate = new Date()
 
     orderModel.findByIdAndUpdate id, $set: order, {new: true}, (err, doc) ->
 

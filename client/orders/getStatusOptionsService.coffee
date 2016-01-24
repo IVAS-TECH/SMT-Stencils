@@ -1,1 +1,1 @@
-module.exports = -> -> ["new", "accepted", "send", "delivered", "rejected"]
+module.exports = -> -> ["new", "accepted", "sent", "delivered", "rejected"]

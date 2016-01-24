@@ -15,15 +15,15 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
     RESTHelperService.order.find (res) ->
 
       dates = (order) ->
-        if order._id is "56a1ca2563b896e3183030bb" then console.log order
+
         for type in ["order", "sending"]
           date = type + "Date"
           order[date] = dateService.format order[date]
         order
 
       orders = res.orders
-      controller.fromDate = new Date orders[orders.length - 1].orderDate
-      controller.toDate = new Date orders[0].orderDate
+      controller.fromDate = dateService.compatible orders[orders.length - 1].orderDate
+      controller.toDate = dateService.compatible orders[0].orderDate
       controller.fullListOfOrders = (dates order for order in orders).sort (a, b) ->
         indexA = controller.status.indexOf a.status
         indexB = controller.status.indexOf b.status
