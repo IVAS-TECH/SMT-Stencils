@@ -3,6 +3,7 @@ orderModel = require "./orderModel"
 isAdmin = require "./../user/admin/isAdmin"
 GerberToSVG = require "./../../lib/GerberToSVG/GerberToSVG"
 descriptionModel = require "./description/descriptionModel"
+resolveDescriptionBindings = require "./description/resolveDescriptionBindings"
 getDescriptionTemplate = require "./description/getDescriptionTemplate"
 query = require "./../../lib/query"
 send = require "./../../lib/send"
@@ -61,7 +62,8 @@ module.exports =
   patch: (req, res, next) ->
 
     save = (txt) ->
-      descriptionModel.update order: id, {text: txt}, {upsert: yes}, (err, doc) ->
+      binded = resolveDescriptionBindings text, req.body
+      descriptionModel.update order: id, {text: binded}, {upsert: yes}, (err, doc) ->
         query.basicHandle err, doc, res, next
 
     text = req.body.text
@@ -82,7 +84,7 @@ module.exports =
 
       if query.successful err, doc
         if text[0] is ""
-          (getDescriptionTemplate order.status, req.body.language, [id, order.price]).then save, next
+          (getDescriptionTemplate order.status, req.body.language).then save, next
         else save text
       else next err
 

@@ -16,9 +16,4 @@ module.exports = (status, lenguage, populate) ->
 
         tmp = template.split "\n"
         tmp.pop()
-
-        switch status
-          when "accepted"
-            tmp[1] = populate[0]
-            tmp[4] = populate[1]
-            resolve tmp
+        resolve tmp

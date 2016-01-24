@@ -1,6 +1,6 @@
 Your order with id
-id
+&@id
 has been accepted.
 It's calculated price is
-0
+&@price
 You can pay to continue.
