@@ -46,7 +46,7 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
       $scope.$digest()
 
   controller.labels =
-    _id: 20
+    _id: 25
     status: 15
     price: 15
     orderDate: 15

@@ -15,7 +15,7 @@ div(layout="column" layout-align="center stretch" layout-wrap)
               ng-change="ordersCtrl.compareableDate(wich)"
             )
         div(layout="row" layout-align="center stretch" layout-wrap)
-          div(layout="column" flex="100" flex-offset="15")
+          md-content(layout="column" flex="auto" layout-wrap)
             div(layout="row" flex="auto")
               span(
                 ng-repeat="(key, value) in ordersCtrl.labels"
@@ -24,6 +24,7 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                 class="md-button fake-button"
                 translate="{{'label-' + key}}"
               )
+              span(flex="15" class="md-button md-primary fake-button" translate="label-action")
             div(ng-repeat="order in ordersCtrl.listOfOrders" layout="row" flex="auto")
               span(
                 ng-repeat="(key, value) in ordersCtrl.labels"
@@ -32,6 +33,14 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                 ng-class="key === '_id' ? 'md-primary' : 'md-warn fake-button'"
                 class="md-button"
                 translate="{{order[key]}}"
+              )
+              span(
+                flex="15"
+                class="md-button md-raised"
+                ng-click="ordersCtrl.doAction($event)"
+                ng-if="ordersCtrl.adminPanel || true"
+                ng-class="ordersCtrl.adminPanel ? 'md-warn' : 'md-primary'"
+                translate="{{'button-' + (ordersCtrl.adminPanel ? 'update' : 'pay')}}"
               )
         div(layout="column" layout-align="center center" layout-wrap)
           md-button(
