@@ -61,6 +61,8 @@ module.exports =
 
   patch: (req, res, next) ->
 
+    console.log req.body
+
     save = (txt) ->
       binded = resolveDescriptionBindings text, req.body
       descriptionModel.update order: id, {text: binded}, {upsert: yes}, (err, doc) ->

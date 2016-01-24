@@ -98,9 +98,10 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showDescr
 
   controller.doAction = (event, order) ->
     showDescriptionService event,
-      id: order._id
-      status: order.status
-      admin: yes
-      user: order.user._id
+      info:
+        id: order._id
+        status: order.status
+        admin: yes
+        user: order.user._id
 
   controller

@@ -3,19 +3,23 @@ module.exports = ($scope, RESTHelperService, getStatusOptionsService) ->
 
   controller = @
 
-  if controller.admin
-    controller.adminPanel = "orderMenageView"
-    controller.statusOptions = getStatusOptionsService()
-    RESTHelperService.language.find user: controller.user, (res) ->
-      controller.language = res.language
-      $scope.$digest()
+  controller.info = controller.info
+
+  init = ->
+    if controller.info.admin
+
+      controller.adminPanel = "orderMenageView"
+      controller.statusOptions = getStatusOptionsService()
+
+      RESTHelperService.language.find user: controller.info.user, (res) ->
+        controller.info.language = res.language
+        $scope.$digest()
 
   controller.action = ->
-    if controller.admin
-      description = {}
-      for copy in ["id", "text", "status", "user", "language", "price"]
-        description[copy] = controller[copy]
-      RESTHelperService.order.update description, (res) ->
+    if controller.info.admin
+      RESTHelperService.order.update controller.info, (res) ->
     controller.hide "success"
+
+  init()
 
   controller

@@ -8,7 +8,7 @@ md-dialog-actions
 div(layout="column")
   md-input-container
     label(translate="label-status")
-    md-select(ng-model="scopeCtrl.status")
+    md-select(ng-model="scopeCtrl.info.status")
       md-option(
         ng-repeat="status in scopeCtrl.statusOptions"
         ng-value="status" 
@@ -16,11 +16,11 @@ div(layout="column")
       )
   md-input-container
     label(translate="label-price")
-    input(ng-model="scopeCtrl.price" type="number")
+    input(ng-model="scopeCtrl.info.price" type="number")
   md-input-container
     label(translate="label-user-language")
     input(
-      ng-model="scopeCtrl.language"
+      ng-model="scopeCtrl.info.language"
       disabled="true"
-      translate="{{'option-language-' + scopeCtrl.language}}"
+      translate="{{'option-language-' + scopeCtrl.info.language}}"
     ) 

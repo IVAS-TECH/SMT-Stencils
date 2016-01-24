@@ -1,2 +1,9 @@
 div(layout="column" layout-wrap)
-  ivo-text-field(ng-repeat="t in text track by $index" label="label" text="text[$index]" index="$index" texts="text" disabled="disabled")
+  ivo-text-field(
+    ng-repeat="t in orderTextCtrl.text track by $index"
+    label="orderTextCtrl.label"
+    text="orderTextCtrl.text[$index]"
+    index="$index"
+    texts="orderTextCtrl.text"
+    disabled="orderTextCtrl.disabled"
+  )

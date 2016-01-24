@@ -2,10 +2,13 @@ module.exports = (template) ->
   @$inject = ["template"]
 
   template: template "orderTextView"
-  scope:
+  scope: yes
+  controller: ->
+  controllerAs: "orderTextCtrl"
+  bindToController:
     text: "="
     label: "="
     disabled: "="
-  link: (scope) ->
-    if not scope.text?
-      scope.text = [""]
+  link: (scope, element, attrs, controller) ->
+    if not controller.text?
+      controller.text = [""]
