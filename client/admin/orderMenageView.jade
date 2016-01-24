@@ -1,0 +1,18 @@
+md-dialog-actions
+  md-button(
+    ng-click="scopeCtrl.hide('close')"
+    class="md-warn"
+    aria-label="close"
+    translate="button-close"
+  )
+md-input-container
+  label(translate="label-status")
+  md-select(ng-model="scopeCtrl.status")
+    md-option(
+      ng-repeat="status in scopeCtrl.statusOptions"
+      ng-value="status" 
+      translate="{{'option-' + status}}"
+    )
+md-input-container
+  label(translate="label-price")
+  input(ng-model="scopeCtrl.price" type="number")

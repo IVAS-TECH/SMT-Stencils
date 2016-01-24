@@ -1,13 +1,10 @@
 {angular} = require "dependencies"
 moduleName = "ordersModule"
 
-noController = ->
-
 angular
-  .module moduleName, []
-    .factory "showDescriptionService", require "./showDescription/showDescriptionService"
+  .module moduleName, [require "./showDescription/showDescriptionModule"]
+    .factory "getStatusOptionsService", require "./getStatusOptionsService"
     .provider "dateService", require "./dateServiceProvider"
-    .controller "showDescriptionController", noController
     .controller "ordersInterface", require "./ordersInterface"
     .directive "ivoOrders", require "./ordersDirective"
     .config require "./ordersConfig"

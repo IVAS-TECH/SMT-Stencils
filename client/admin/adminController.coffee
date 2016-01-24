@@ -96,16 +96,11 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showDescr
 
   $scope.$on "$destroy", stop
 
-  controller.addDiscription = (order) -> controller.order = order
-
-  controller.update = ->
-    description =
-      order: controller.order._id
-      text: controller.description
-    RESTHelperService.description.add description: description, (res) ->
-      console.log "desc"
-
-  controller.delete = ->
-    console.log controller.discription
+  controller.doAction = (event, order) ->
+    showDescriptionService event,
+      id: order._id
+      status: order.status
+      admin: yes
+      user: order.user._id
 
   controller

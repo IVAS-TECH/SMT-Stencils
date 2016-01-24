@@ -1,11 +1,20 @@
 md-dialog
   md-dialog-content(class="md-dialog-content")
-    ivo-order-text(text="showDescriptionCtrl.text" label="'label-desctiption'" disabled="true")
+    ivo-include(
+      include="showDescriptionCtrl.adminPanel"
+      controller="'showDescriptionCtrl'"
+      template="true"
+    )
+    ivo-order-text(
+      text="showDescriptionCtrl.text"
+      label="'label-desctiption'"
+      disabled="!showDescriptionCtrl.admin"
+    )
     md-dialog-actions(layout="row" layout-align="center center")
       md-button(
-        ng-click="showDescriptionCtrl.hide('success')"
+        ng-click="showDescriptionCtrl.action()"
         class="md-primary"
-        aria-label="ok"
+        aria-label="action"
         md-autofocus="true"
-        translate="button-ok"
+        translate="{{'button-' + (showDescriptionCtrl.admin ? 'update' : ok)}}"
       )

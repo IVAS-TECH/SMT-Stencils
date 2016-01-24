@@ -1,5 +1,5 @@
-module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService) ->
-  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService"]
+module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService) ->
+  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService"]
 
   controller = @
 
@@ -7,7 +7,7 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
   controller.toDate = new Date()
 
-  controller.status = ["new", "accepted", "send", "delivered", "rejected"]
+  controller.status = getStatusOptionsService()
 
   controller.listOfOrders = []
 

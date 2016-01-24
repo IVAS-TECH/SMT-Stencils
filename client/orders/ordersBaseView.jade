@@ -37,7 +37,7 @@ div(layout="column" layout-align="center stretch" layout-wrap)
               span(
                 flex="15"
                 class="md-button md-raised"
-                ng-click="ordersCtrl.doAction($event)"
+                ng-click="ordersCtrl.doAction($event, order)"
                 ng-if="ordersCtrl.adminPanel || true"
                 ng-class="ordersCtrl.adminPanel ? 'md-warn' : 'md-primary'"
                 translate="{{'button-' + (ordersCtrl.adminPanel ? 'update' : 'pay')}}"
