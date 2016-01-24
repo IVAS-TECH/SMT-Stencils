@@ -61,10 +61,7 @@ module.exports =
   patch: (req, res, next) ->
 
     save = (txt) ->
-      description =
-        order: id
-        text: txt
-      descriptionModel.create description, (err, doc) ->
+      descriptionModel.update order: id, {text: txt}, {upsert: yes}, (err, doc) ->
         query.basicHandle err, doc, res, next
 
     text = req.body.text
@@ -85,7 +82,7 @@ module.exports =
 
       if query.successful err, doc
         if text[0] is ""
-          (getDescriptionTemplate order.status, req.body.lenguage, [id, order.price]).then save, next
+          (getDescriptionTemplate order.status, req.body.language, [id, order.price]).then save, next
         else save text
       else next err
 

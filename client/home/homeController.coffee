@@ -7,15 +7,28 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
   init = ->
 
+    becomeAdmin = ->
+      if authenticationService.isAdmin()
+        controller.admin = yes
+        transitionService.toAdmin()
+        $scope.$digest()
+
     restrict = (event, toState, toParams, fromState, fromParams) ->
 
       if not authenticationService.isAuthenticated() and toState.url not in ["/about", "/technologies", "/contacts"]
 
         event.preventDefault()
 
+        proceed = ->
+          becomeAdmin()
+          if not controller.admin
+            $state.go toState.name
+
         loginService event,
-          login: -> setTimeout (-> $state.go toState.name), 1
+          login: -> setTimeout proceed, 1
           close: transitionService.toHome
+          
+      else becomeAdmin()
 
     if $state.current.name is "home" then transitionService.toHome()
 
@@ -25,11 +38,7 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
       stopAuth = null
 
-      if authenticationService.isAuthenticated()
-        if authenticationService.isAdmin()
-          controller.admin = yes
-          $scope.$digest()
-          transitionService.toAdmin()
+      if authenticationService.isAuthenticated() then becomeAdmin()
 
       else
         stopAuth = $scope.$on "authentication", ->

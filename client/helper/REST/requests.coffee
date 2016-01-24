@@ -29,4 +29,9 @@ module.exports =
     method: ["get"]
     arg: [yes]
 
+  language:
+    alias: ["get", "find", "set"]
+    method: ["get", "put", "post"]
+    arg: [no, yes, yes]
+
   upload: ["preview", "order"]

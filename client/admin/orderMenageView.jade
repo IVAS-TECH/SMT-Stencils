@@ -17,3 +17,10 @@ div(layout="column")
   md-input-container
     label(translate="label-price")
     input(ng-model="scopeCtrl.price" type="number")
+  md-input-container
+    label(translate="label-user-language")
+    input(
+      ng-model="scopeCtrl.language"
+      disabled="true"
+      translate="{{'option-language-' + scopeCtrl.language}}"
+    ) 

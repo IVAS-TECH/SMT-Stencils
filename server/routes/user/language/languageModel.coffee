@@ -1,9 +1,9 @@
 mongoose = require "mongoose"
 
 schema = new mongoose.Schema
-  order:
+  user:
     type: mongoose.Schema.Types.ObjectId
-    ref: "Order"
-  text: [String]
+    ref: "User"
+  language: String
 
-module.exports = mongoose.model "Description", schema
+module.exports = mongoose.model "Language", schema
