@@ -9,13 +9,10 @@ module.exports = (RESTHelperService, getStatusOptionsService) ->
 
   controller.action = ->
     if controller.admin
-      description =
-        order: controller.id
-        text: controller.text
-        status: controller.status
-        price: controller.price
-      console.log description
-      #RESTHelperService.description.add description: description, (res) ->
+      description = lenguage: "en"
+      for copy in ["id", "text", "status", "price"]
+        description[copy] = controller[copy]
+      RESTHelperService.order.update description, (res) ->
     controller.hide "success"
 
   controller

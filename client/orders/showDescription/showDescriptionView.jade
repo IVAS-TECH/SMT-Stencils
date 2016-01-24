@@ -6,6 +6,7 @@ md-dialog
       template="true"
     )
     ivo-order-text(
+      flex="100"
       text="showDescriptionCtrl.text"
       label="'label-desctiption'"
       disabled="!showDescriptionCtrl.admin"
@@ -16,5 +17,5 @@ md-dialog
         class="md-primary"
         aria-label="action"
         md-autofocus="true"
-        translate="{{'button-' + (showDescriptionCtrl.admin ? 'update' : ok)}}"
+        translate="{{'button-' + (showDescriptionCtrl.admin ? 'update' : 'ok')}}"
       )

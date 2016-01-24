@@ -1,0 +1,6 @@
+Your order with id
+id
+has been accepted.
+It's calculated price is
+0
+You can pay to continue.

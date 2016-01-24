@@ -20,13 +20,13 @@ module.exports =
   addresses: crud
 
   order:
-    alias: ["find", "create", "view"]
-    method: ["get", "post", "put"]
-    arg: [no, yes, yes]
+    alias: ["find", "create", "update", "view"]
+    method: ["get", "post", "patch", "put"]
+    arg: [no, yes, yes, yes]
 
   description:
-    alias: ["find", "add"]
-    method: ["get", "post"]
-    arg: [yes, yes]
+    alias: ["find"]
+    method: ["get"]
+    arg: [yes]
 
   upload: ["preview", "order"]

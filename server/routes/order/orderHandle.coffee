@@ -2,6 +2,8 @@
 orderModel = require "./orderModel"
 isAdmin = require "./../user/admin/isAdmin"
 GerberToSVG = require "./../../lib/GerberToSVG/GerberToSVG"
+descriptionModel = require "./description/descriptionModel"
+getDescriptionTemplate = require "./description/getDescriptionTemplate"
 query = require "./../../lib/query"
 send = require "./../../lib/send"
 block = (uid) -> null
@@ -56,6 +58,33 @@ module.exports =
 
     isAdmin(id).then resolve, next
 
-  patch: ->
+  patch: (req, res, next) ->
+
+    save = (txt) ->
+      description =
+        order: id
+        text: txt
+      descriptionModel.create description, (err, doc) ->
+        query.basicHandle err, doc, res, next
+
+    text = req.body.text
+
+    order = status: req.body.status
+
+    id = req.body.id
+
+    if req.body.price?
+      order.price = req.body.price
+      order.orderDate = Date.now()
+
+    orderModel.findByIdAndUpdate id, $set: order, {new: true}, (err, doc) ->
+
+      console.log id, order, doc
+
+      if query.successful err, doc
+        if text[0] is ""
+          (getDescriptionTemplate order.status, req.body.lenguage, [id, order.price]).then save, next
+        else save text
+      else next err
 
   delete: ->
