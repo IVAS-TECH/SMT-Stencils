@@ -3,6 +3,7 @@ orderModel = require "./orderModel"
 isAdmin = require "./../user/admin/isAdmin"
 GerberToSVG = require "./../../lib/GerberToSVG/GerberToSVG"
 descriptionModel = require "./description/descriptionModel"
+notificationModel = require "./notification/notificationModel"
 resolveDescriptionBindings = require "./description/resolveDescriptionBindings"
 getDescriptionTemplate = require "./description/getDescriptionTemplate"
 query = require "./../../lib/query"
@@ -44,9 +45,7 @@ module.exports =
         .populate "user"
         .sort orderDate: "desc"
         .exec (err, docs) ->
-          if query.successful err, docs
-            send res, orders: docs
-          else next err
+          query.basicHandle err, docs, res, next, "orders"
 
     isAdmin(id).then resolve, next
 
@@ -61,12 +60,13 @@ module.exports =
 
   patch: (req, res, next) ->
 
-    console.log req.body
-
     save = (txt) ->
       binded = resolveDescriptionBindings text, req.body
       descriptionModel.update order: id, {text: binded}, {upsert: yes}, (err, doc) ->
-        query.basicHandle err, doc, res, next
+        if not query.successful err, doc then next err
+        else
+          notificationModel.create order: id, user: req.body.user, (Err, Doc) ->
+            query.basicHandle Err, Doc, res, next
 
     text = req.body.text
 

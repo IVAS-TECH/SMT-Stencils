@@ -6,7 +6,9 @@ module.exports =
 
   noErr: (err) -> not err?
 
-  basicHandle: (err, doc, res, next) ->
+  basicHandle: (err, doc, res, next, key) ->
     if @successful err, doc
-      send res
+      if key?
+        send res, "#{key}": doc
+      else send res
     else next err

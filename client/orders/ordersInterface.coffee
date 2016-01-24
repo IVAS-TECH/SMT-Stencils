@@ -1,5 +1,5 @@
-module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService) ->
-  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService"]
+module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService) ->
+  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService"]
 
   controller = @
 
@@ -15,6 +15,8 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
     RESTHelperService.order.find (res) ->
 
       dates = (order) ->
+
+        order.notify = notificationService.notificationFor order._id
 
         for type in ["order", "sending"]
           date = type + "Date"

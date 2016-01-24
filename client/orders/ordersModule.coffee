@@ -1,8 +1,13 @@
 {angular} = require "dependencies"
 moduleName = "ordersModule"
 
+deps = [
+  require "./showDescription/showDescriptionModule"
+  require "./notification/notificationModule"
+]
+
 angular
-  .module moduleName, [require "./showDescription/showDescriptionModule"]
+  .module moduleName, deps
     .factory "getStatusOptionsService", require "./getStatusOptionsService"
     .provider "dateService", require "./dateServiceProvider"
     .controller "ordersInterface", require "./ordersInterface"

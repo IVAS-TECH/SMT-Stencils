@@ -6,9 +6,7 @@ module.exports = (model, route) ->
   get: (req, res, next) ->
     id = req.session.get.uid
     model.find user: id, (err, docs) ->
-      if query.successful err, docs
-        send res, "#{route}List": docs
-      else next err
+      query.basicHandle err, docs, res, next, "#{route}List"
 
   post: (req, res, next) ->
     obj = req.body[route]
@@ -25,7 +23,7 @@ module.exports = (model, route) ->
 
   delete: (req, res, next) ->
     model.remove _id: req.params.id, (err) ->
-      if (query.noErr err)
+      if query.noErr err
         send res
       else next err
 

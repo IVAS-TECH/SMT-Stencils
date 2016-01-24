@@ -1,5 +1,5 @@
-module.exports = ($scope, $state, authenticationService, loginService, transitionService) ->
-  @$inject = ["$scope", "$state", "authenticationService", "loginService", "transitionService"]
+module.exports = ($scope, $state, authenticationService, loginService, transitionService, notificationService) ->
+  @$inject = ["$scope", "$state", "authenticationService", "loginService", "transitionService", "notificationService"]
 
   controller = @
 
@@ -27,7 +27,7 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
         loginService event,
           login: -> setTimeout proceed, 1
           close: transitionService.toHome
-          
+
       else becomeAdmin()
 
     if $state.current.name is "home" then transitionService.toHome()
@@ -48,11 +48,14 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
       stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
 
+      stopNotifing = notificationService.listenForNotification()
+
       $scope.$on "$destroy", ->
         if stopRestriction?
           stopRestriction()
           stopAuth()
         stopUnAuth()
+        clearTimeout stopNotifing
 
   init()
 

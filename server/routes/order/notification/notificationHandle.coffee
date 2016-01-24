@@ -5,7 +5,8 @@ send = require "./../../../lib/send"
 module.exports =
 
   get: (req, res, next) ->
-    descriptionModel.findOne order: req.params.order, (err, doc) ->
-      query.basicHandle err, doc, res, next, "description"
+    id = req.session.get.uid
+    descriptionModel.find user: id , (err, doc) ->
+      query.basicHandle err, doc, res, next, "notifications"
 
-  params: "order"
+  params: "user"

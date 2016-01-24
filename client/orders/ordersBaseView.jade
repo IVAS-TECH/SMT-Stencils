@@ -30,7 +30,7 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                 ng-repeat="(key, value) in ordersCtrl.labels"
                 ng-click="key === '_id' ? ordersCtrl.choose($event, order) : null"
                 flex="{{value}}"
-                ng-class="key === '_id' ? 'md-primary' : 'md-warn fake-button'"
+                ng-class="[(key === '_id' ? 'md-primary' : 'md-warn fake-button'), (order.notify ? 'md-raised': '')]"
                 class="md-button"
                 translate="{{order[key]}}"
               )
