@@ -45,8 +45,6 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
       $scope.$digest()
 
-  controller.panel = "notAdminPanelView"
-
   controller.labels =
     _id: 20
     status: 15

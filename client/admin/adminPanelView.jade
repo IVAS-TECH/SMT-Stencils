@@ -1,19 +1,10 @@
-div(ng-repeat="order in scopeCtrl.listOfOrders" layout="row" flex="auto")
-  span(
-    flex="{{scopeCtrl.labels._id}}"
-    ng-click="scopeCtrl.choose($event, order)"
-    class="md-primary md-button"
-  ) {{order._id}}
-  md-input-container(flex="{{scopeCtrl.labels.status}}")
-    label(translate="label-status")
-    md-select(ng-model="order.status" ng-change="scopeCtrl.addDiscription(order)")
-      md-option(ng-repeat="option in scopeCtrl.status") {{option}}
-  md-input-container(flex="{{scopeCtrl.labels.price}}")
-    label(translate="label-price")
-    input(ng-model="order.price")
-  span(
-    ng-repeat="date in ['order', 'sending']"
-    flex="{{scopeCtrl.labels[date + 'Date']}}"
-    class="md-primary md-button fake-button"
-  ) {{order[date + "Date"]}}
-    
+md-tab
+  md-tab-label
+    span(translate="label-statistics")
+  md-tab-body
+    md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)
+      md-tab(ng-repeat="chart in ['revenue', 'count']")
+        md-tab-label
+          span(translate="{{'label-' + chart}}")
+        md-tab-body
+          ivo-line-chart(chart="scopeCtrl.charts[chart]")

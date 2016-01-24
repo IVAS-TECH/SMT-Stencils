@@ -1,45 +1,48 @@
 div(layout="column" layout-align="center stretch" layout-wrap)
   md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)
-    md-tab(label="label-orders")
-      div(layout="column" layout-align="center center")
-        md-input-container
-          label(translate="label-filter")
-          input(ng-model="ordersCtrl.filter")
-        div(layout="row" layout-align="center center")
-          md-datepicker(
-            ng-repeat="wich in ['from', 'to']"  
-            ng-model="ordersCtrl[wich + 'Date']"
-            ng-change="ordersCtrl.compareableDate(wich)"
-          )
-      div(layout="row" layout-align="center stretch" layout-wrap)
-        div(layout="column" flex="100" flex-offset="15")
-          div(layout="row" flex="auto")
-            span(
-              ng-repeat="(key, value) in ordersCtrl.labels"
-              flex="{{value}}"
-              ng-class="key === '_id' ? 'md-primary' : 'md-warn'"
-              class="md-button fake-button"
-              translate="{{'label-' + key}}"
+    md-tab
+      md-tab-label
+        span(translate="label-orders")
+      md-tab-body
+        div(layout="column" layout-align="center center")
+          md-input-container
+            label(translate="label-filter")
+            input(ng-model="ordersCtrl.filter")
+          div(layout="row" layout-align="center center")
+            md-datepicker(
+              ng-repeat="wich in ['from', 'to']"  
+              ng-model="ordersCtrl[wich + 'Date']"
+              ng-change="ordersCtrl.compareableDate(wich)"
             )
-          ivo-include(include="ordersCtrl.panel" template="true" controller="'ordersCtrl'")
-      div(layout="column" layout-align="center center" layout-wrap)
-        div(ng-if="ordersCtrl.order" layout="column" layout-align="center center" layout-wrap)
-          ivo-order-text(text="ordersCtrl.description" label="'label-desctiption'" disabled="false")
-          md-button(ng-click="ordersCtrl.update()" class="md-warn" aria-label="update" translate="button-update")
-        md-button(
-          ng-if="ordersCtrl.showing"
-          ng-click="ordersCtrl.showAll()"
-          class="md-primary"
-          aria-label="show all"
-          translate="button-show-all"
-        )
-        ivo-view-order(ng-if="order" order="order" controller="'order'")
-    md-tab(ng-if="ordersCtrl.panel === 'adminPanelView'" label="statistics")
-      md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)
-        md-tab(label="revenue")
-          ivo-line-chart(chart="ordersCtrl.charts.revenue")
-        md-tab(label="count")
-          ivo-line-chart(chart="ordersCtrl.charts.count")
+        div(layout="row" layout-align="center stretch" layout-wrap)
+          div(layout="column" flex="100" flex-offset="15")
+            div(layout="row" flex="auto")
+              span(
+                ng-repeat="(key, value) in ordersCtrl.labels"
+                flex="{{value}}"
+                ng-class="key === '_id' ? 'md-primary' : 'md-warn'"
+                class="md-button fake-button"
+                translate="{{'label-' + key}}"
+              )
+            div(ng-repeat="order in ordersCtrl.listOfOrders" layout="row" flex="auto")
+              span(
+                ng-repeat="(key, value) in ordersCtrl.labels"
+                ng-click="key === '_id' ? ordersCtrl.choose($event, order) : null"
+                flex="{{value}}"
+                ng-class="key === '_id' ? 'md-primary' : 'md-warn fake-button'"
+                class="md-button"
+                translate="{{order[key]}}"
+              )
+        div(layout="column" layout-align="center center" layout-wrap)
+          md-button(
+            ng-if="ordersCtrl.showing"
+            ng-click="ordersCtrl.showAll()"
+            class="md-primary"
+            aria-label="show all"
+            translate="button-show-all"
+          )
+          ivo-view-order(ng-if="order" order="order" controller="'order'")
+    ivo-include(include="ordersCtrl.adminPanel" controller="'ordersCtrl'" template="true")
         
   
   

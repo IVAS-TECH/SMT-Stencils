@@ -9,7 +9,7 @@ module.exports = ($controller, $scope, RESTHelperService, dateService, showDescr
 
   controller = $controller "ordersInterface", injectable
 
-  controller.panel = "adminPanelView"
+  controller.adminPanel = "adminPanelView"
 
   stop = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
 
