@@ -10,7 +10,7 @@ module.exports = ($state, RESTHelperService, authenticationService, showNotifica
     notify = ->
       if authenticationService.isAuthenticated() and not authenticationService.isAdmin()
         RESTHelperService.notification.find (res) ->
-          if res.notifications and res.notification.length
+          if res.notifications and res.notifications.length
             notifications = {}
             for notification in res.notifications
               notifications[notification.order] = notification._id
