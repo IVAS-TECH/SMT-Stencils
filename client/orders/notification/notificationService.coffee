@@ -1,23 +1,21 @@
-module.exports = (RESTHelperService, authenticationService, showNotificationService) ->
-  @$inject = ["RESTHelperService", "authenticationService", "showNotificationService"]
+module.exports = ($state, RESTHelperService, authenticationService, showNotificationService) ->
+  @$inject = ["$state", "RESTHelperService", "authenticationService", "showNotificationService"]
 
   notifications = {}
 
-  notificationFor: (order) ->
-    notification = notifications[order]
-
-    notification is yes
+  notificationFor: (order) -> notifications[order]
 
   listenForNotification: ->
 
     notify = ->
       if authenticationService.isAuthenticated() and not authenticationService.isAdmin()
         RESTHelperService.notification.find (res) ->
-          console.log res
-          if res.notifications?
+          if res.notifications and res.notification.length
             notifications = {}
             for notification in res.notifications
-              notifications[notification.order] = yes
+              notifications[notification.order] = notification._id
             showNotificationService()
 
-    setInterval notify, 6000
+    if $state.current.name isnt "home.orders"
+      notify()
+    setInterval notify, 60000

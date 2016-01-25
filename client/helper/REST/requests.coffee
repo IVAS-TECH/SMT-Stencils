@@ -3,17 +3,12 @@ crud =
   method: ["get", "post", "delete", "patch"]
   arg: [no, yes, yes, yes]
 
-simpleGet =
-  alias: ["find"]
-  method: ["get"]
-  arg: [yes]
-
 module.exports =
 
   user:
     alias: ["email", "register", "profile"]
     method: ["get", "post", "patch"]
-    arg: (yes for i in [0..2])
+    arg: [yes, yes, yes]
 
   login:
     alias: ["logged", "login", "logout"]
@@ -29,9 +24,15 @@ module.exports =
     method: ["get", "post", "patch", "put"]
     arg: [no, yes, yes, yes]
 
-  description: simpleGet
+  description:
+    alias: ["find"]
+    method: ["get"]
+    arg: [yes]
 
-  notification: simpleGet 
+  notification:
+    alias: ["find", "remove"]
+    method: ["get", "delete"]
+    arg: [no, yes]
 
   language:
     alias: ["get", "find", "set"]

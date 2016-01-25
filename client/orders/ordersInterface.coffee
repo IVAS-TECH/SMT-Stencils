@@ -60,6 +60,11 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
   controller.showAll = -> delete controller.showing
 
+  controller.removeNotifcation = (order) ->
+    if order.notify?
+      RESTHelperService.notification.remove order.notify, (res) ->
+        delete order.notify
+
   controller.choose = (event, order) ->
 
     choose = ->

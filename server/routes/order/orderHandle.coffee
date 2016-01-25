@@ -82,7 +82,7 @@ module.exports =
 
     orderModel.findByIdAndUpdate id, $set: order, {new: true}, (err, doc) ->
 
-      console.log id, order, doc
+      #console.log id, order, doc
 
       if query.successful err, doc
         if text[0] is ""

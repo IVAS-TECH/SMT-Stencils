@@ -7,6 +7,6 @@ angular
   .module moduleName, []
     .factory "showNotificationService", require "./showNotificationService"
     .factory "notificationService", require "./notificationService"
-    .controller "showNotificatioController", noController
+    .controller "showNotificationController", noController
 
 module.exports = moduleName

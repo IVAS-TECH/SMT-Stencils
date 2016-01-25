@@ -13,7 +13,7 @@ module.exports = ($translate, $scope, RESTHelperService, authenticationService) 
       RESTHelperService.language.get (res) ->
         if res.language?
           controller.current = res.language
-          controller.change controller.current
+          $translate.use controller.current
           $scope.$digest()
 
     if authenticationService.isAuthenticated()

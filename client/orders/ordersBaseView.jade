@@ -25,7 +25,12 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                 translate="{{'label-' + key}}"
               )
               span(flex="15" class="md-button md-primary fake-button" translate="label-action")
-            div(ng-repeat="order in ordersCtrl.listOfOrders" layout="row" flex="auto")
+            div(
+              ng-repeat="order in ordersCtrl.listOfOrders"
+              ng-mouseover="ordersCtrl.removeNotifcation(order)"
+              layout="row"
+              flex="auto"
+            )
               span(
                 ng-repeat="(key, value) in ordersCtrl.labels"
                 ng-click="key === '_id' ? ordersCtrl.choose($event, order) : null"

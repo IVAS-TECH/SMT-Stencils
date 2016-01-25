@@ -8,5 +8,6 @@ module.exports =
   configuration: require "./order/config/configHandle"
   addresses: require "./order/addresses/addressesHandle"
   description: require "./order/description/descriptionHandle"
+  notification: require "./order/notification/notificationHandle"
   file: require "./order/file/fileHandle"
   order: require "./order/orderHandle"
