@@ -79,7 +79,7 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
     RESTHelperService.description.find order._id, (res) ->
       if res.description?
-        showDescriptionService event, {info: res.description}, success: -> #choose()
+        showDescriptionService event, {info: res.description}, success: -> choose()
       else choose()
 
   init()

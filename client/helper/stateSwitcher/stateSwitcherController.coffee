@@ -1,5 +1,5 @@
-module.exports = ($scope, $state) ->
-  @$inject = ["$scope", "$state"]
+module.exports = ($scope, $state, $window) ->
+  @$inject = ["$scope", "$state", "$window"]
 
   fromUI = no
 
@@ -19,6 +19,9 @@ module.exports = ($scope, $state) ->
 
     controller.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
 
+    if ($window.navigator.userAgent.match /firefox/i)? and controller.state is "home"
+      controller.states.push "" # Material uses canvas for md-tabs and it seems like firefox have problem with it's max length so this force it to be bigger
+
     override = (event, toState, toParams, fromState, fromParams) ->
       current = toState.name
       name = current.split "\."
@@ -26,9 +29,7 @@ module.exports = ($scope, $state) ->
       change = controller.override[check]
       if not fromUI
         controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states).indexOf yes
-      if change? and fromUI
-        $state.go [controller.state, check, change].join "\."
-      fromUI = no
+      if change? then $state.go [controller.state, check, change].join "\."
 
     stop = $scope.$on "$stateChangeSuccess", override
 
@@ -38,9 +39,10 @@ module.exports = ($scope, $state) ->
 
   init()
 
-  controller.switchState = (state) ->
+  controller.switchState = (index) ->
     fromUI = yes
-    controller.selected = controller.states.indexOf state
+    controller.selected = index
+    state = controller.states[index]
     $state.go "#{controller.state}.#{state}"
 
   controller

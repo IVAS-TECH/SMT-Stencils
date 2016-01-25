@@ -1,4 +1,5 @@
-md-tabs(md-dynamic-height="true" md-selected="stateSwitcherCtrl.selected" md-center-tabs) 
-  md-tab(ng-repeat="state in stateSwitcherCtrl.states" ng-click="stateSwitcherCtrl.switchState(state)")
-    md-tab-label
-      span(translate="{{'button-' + state}}")
+div(layout="column" layout-wrap)
+  md-tabs(md-dynamic-height="true" md-selected="stateSwitcherCtrl.selected" md-center-tabs) 
+    md-tab(ng-repeat="state in stateSwitcherCtrl.states" ng-click="stateSwitcherCtrl.switchState($index)")
+      md-tab-label
+        span(translate="{{'button-' + state}}")
