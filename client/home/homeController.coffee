@@ -7,55 +7,46 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
   init = ->
 
-    becomeAdmin = ->
-      if authenticationService.isAdmin()
-        controller.admin = yes
-        transitionService.toAdmin()
-        $scope.$digest()
-
-    restrict = (event, toState, toParams, fromState, fromParams) ->
-
-      if not authenticationService.isAuthenticated() and toState.url not in ["/about", "/technologies", "/contacts"]
-
-        event.preventDefault()
-
-        proceed = ->
-          becomeAdmin()
-          if not controller.admin
-            $state.go toState.name
-
-        loginService event,
-          login: -> setTimeout proceed, 1
-          close: transitionService.toHome
-
-      else becomeAdmin()
-
     if $state.current.name is "home" then transitionService.toHome()
 
     authenticationService.authenticate().then ->
+
+      becomeAdmin = ->
+        controller.admin = authenticationService.isAdmin()
+        if controller.admin
+          transitionService.toAdmin()
+        controller.admin
 
       stopRestriction = null
 
       stopAuth = null
 
-      if authenticationService.isAuthenticated() then becomeAdmin()
+      if authenticationService.isAuthenticated()
+        if becomeAdmin() then $scope.$digest()
 
       else
-        stopAuth = $scope.$on "authentication", ->
-          controller.admin = authenticationService.isAdmin()
+        stopAuth = $scope.$on "authentication", becomeAdmin
 
-        stopRestriction = $scope.$on "$stateChangeStart", restrict
+        stopRestriction = $scope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
+
+          if not authenticationService.isAuthenticated() and toState.url not in ["/about", "/technologies", "/contacts"]
+
+            event.preventDefault()
+
+            loginService event,
+              login: -> setTimeout (-> $state.go toState.name), 1
+              close: transitionService.toHome
 
       stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
 
-      stopNotifing = notificationService.listenForNotification()
+      notifing = notificationService.listenForNotification()
 
       $scope.$on "$destroy", ->
         if stopRestriction?
           stopRestriction()
           stopAuth()
         stopUnAuth()
-        clearTimeout stopNotifing
+        clearTimeout notifing
 
   init()
 
