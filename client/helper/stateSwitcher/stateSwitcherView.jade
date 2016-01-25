@@ -1,5 +1,27 @@
-div(layout="column" layout-wrap)
-  md-tabs(md-dynamic-height="true" md-selected="stateSwitcherCtrl.selected" md-center-tabs) 
-    md-tab(ng-repeat="state in stateSwitcherCtrl.states" ng-click="stateSwitcherCtrl.switchState($index)")
-      md-tab-label
-        span(translate="{{'button-' + state}}")
+div(hide-xs layout="row" layout-align="center center")
+  md-button(
+    ng-repeat="state in stateSwitcherCtrl.states"
+    ng-click="stateSwitcherCtrl.switchState($index)"
+    class="md-primary"
+    ng-class="stateSwitcherCtrl.selected === $index ? 'md-raised' : ''"
+    aria-label="{{state}}"
+    translate="{{'button-' + state}}"
+  )
+div(show-xs hide layout="column" layout-align="start end")
+  md-menu
+    md-button(
+      md-menu-origin
+      ng-click="$mdOpenMenu($event)"
+      class="md-warn"
+      aria-label="{{stateSwitcherCtrl.menu}}"
+      translate="{{'button-menu-' + stateSwitcherCtrl.menu}}"
+    )
+    md-menu-content
+      md-menu-item(ng-repeat="state in stateSwitcherCtrl.states")
+        md-button(
+          md-menu-align-target 
+          ng-click="stateSwitcherCtrl.switchState($index)"
+          class="md-primary"
+          aria-label="{{state}}"
+          translate="{{'button-' + state}}"
+        )

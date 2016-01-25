@@ -1,5 +1,5 @@
-module.exports = ($scope, $state, $window) ->
-  @$inject = ["$scope", "$state", "$window"]
+module.exports = ($scope, $state) ->
+  @$inject = ["$scope", "$state"]
 
   fromUI = no
 
@@ -18,9 +18,6 @@ module.exports = ($scope, $state, $window) ->
         if name not in controller.remove and not name.match /\./ then return name
 
     controller.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
-
-    if ($window.navigator.userAgent.match /firefox/i)? and controller.state is "home"
-      controller.states.push "" # Material uses canvas for md-tabs and it seems like firefox have problem with it's max length so this force it to be bigger
 
     override = (event, toState, toParams, fromState, fromParams) ->
       current = toState.name
