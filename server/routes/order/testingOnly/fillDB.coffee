@@ -90,7 +90,7 @@ randomN = (n) -> Math.floor Math.random() * n
 
 dates = []
 
-range = [0..2]
+range = [0..3]
 
 for i in range
   for j in range
@@ -106,7 +106,7 @@ statuses = ["new", "accepted", "sent", "delivered", "rejected"]
 
 created = []
 
-for i in [0..1]
+for i in [0..99]
   order = JSON.parse JSON.stringify fake
   order.sendingDate = sendingDates[randomN sendingDates.length]
   order.orderDate = orderDates[randomN orderDates.length]
