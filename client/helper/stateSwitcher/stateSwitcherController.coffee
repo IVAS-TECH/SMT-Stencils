@@ -27,6 +27,7 @@ module.exports = ($scope, $state) ->
       if not fromUI
         controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states).indexOf yes
       if change? then $state.go [controller.state, check, change].join "\."
+      fromUI = no
 
     stop = $scope.$on "$stateChangeSuccess", override
 
@@ -34,12 +35,12 @@ module.exports = ($scope, $state) ->
 
     override null, $state.current
 
-  init()
-
   controller.switchState = (index) ->
     fromUI = yes
     controller.selected = index
     state = controller.states[index]
     $state.go "#{controller.state}.#{state}"
+
+  init()
 
   controller
