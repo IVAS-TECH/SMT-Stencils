@@ -3,8 +3,6 @@ module.exports = ($scope, RESTHelperService, getStatusOptionsService) ->
 
   controller = @
 
-  controller.info = controller.info
-
   init = ->
     if controller.info.admin
 

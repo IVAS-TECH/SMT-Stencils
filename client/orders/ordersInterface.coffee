@@ -24,12 +24,21 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
         order
 
       orders = res.orders
+
       controller.fromDate = dateService.compatible orders[orders.length - 1].orderDate
+
       controller.toDate = dateService.compatible orders[0].orderDate
+
       controller.fullListOfOrders = (dates order for order in orders).sort (a, b) ->
         indexA = controller.status.indexOf a.status
         indexB = controller.status.indexOf b.status
-        indexA - indexB
+        notifyA = if a.notify? then 1 else 0
+        notifyB = if b.notify? then 1 else 0
+        index = indexA - indexB
+        if not index
+          notifyB - notifyA
+        else index
+
       controller.listOfOrders = controller.fullListOfOrders
 
       filter = $filter "filter"
@@ -79,7 +88,7 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
     RESTHelperService.description.find order._id, (res) ->
       if res.description?
-        showDescriptionService event, {info: res.description}, success: -> choose()
+        showDescriptionService event, {info: res.description}, success: choose
       else choose()
 
   init()

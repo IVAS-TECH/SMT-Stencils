@@ -49,8 +49,9 @@ div(layout="column" layout-align="center stretch" layout-wrap)
               )
               span(
                   flex="15"
-                  class="md-button fake-button md-raised"
-                  ng-if="order.status === 'new' || order.status === 'sent' || order.status === 'delivered'"
+                  disabled="true"
+                  class="md-button fake-button"
+                  ng-if="!ordersCtrl.adminPanel && (order.status === 'new' || order.status === 'sent' || order.status === 'delivered')"
               )
         div(layout="column" layout-align="center center" layout-wrap)
           md-button(

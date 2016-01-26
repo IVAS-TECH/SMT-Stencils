@@ -3,11 +3,14 @@ module.exports = ($state, RESTHelperService, authenticationService, showNotifica
 
   notifications = {}
 
+  protect = off
+
   notificationFor: (order) -> notifications[order]
 
   listenForNotification: ->
 
     notify = ->
+      if not protect then protect = on
       if authenticationService.isAuthenticated() and not authenticationService.isAdmin()
         RESTHelperService.notification.find (res) ->
           if res.notifications and res.notifications.length
@@ -16,6 +19,6 @@ module.exports = ($state, RESTHelperService, authenticationService, showNotifica
               notifications[notification.order] = notification._id
             showNotificationService()
 
-    if $state.current.name isnt "home.orders"
-      notify()
+    if not protect or $state.current.name isnt "home.orders" then notify()
+
     setInterval notify, 60000
