@@ -47,6 +47,11 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                 ng-class="ordersCtrl.adminPanel || order.status === 'rejected' ? 'md-warn' : 'md-primary'"
                 translate="{{'button-' + (ordersCtrl.adminPanel ? 'update' : (order.status === 'accepted' ? 'pay' : 'delete'))}}"
               )
+              span(
+                  flex="15"
+                  class="md-button fake-button md-raised"
+                  ng-if="order.status === 'new' || order.status === 'sent' || order.status === 'delivered'"
+              )
         div(layout="column" layout-align="center center" layout-wrap)
           md-button(
             ng-if="ordersCtrl.showing"
