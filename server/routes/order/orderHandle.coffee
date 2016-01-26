@@ -1,6 +1,7 @@
 {join} = require "path"
 orderModel = require "./orderModel"
 isAdmin = require "./../user/admin/isAdmin"
+basicCRUDHandle = require "./basicCRUDHandle"
 GerberToSVG = require "./../../lib/GerberToSVG/GerberToSVG"
 descriptionModel = require "./description/descriptionModel"
 notificationModel = require "./notification/notificationModel"
@@ -18,22 +19,16 @@ filePaths = (files) ->
     paths[layer] = join dir, file
   paths
 
-module.exports =
+handle = basicCRUDHandle orderModel, "order"
 
-  download:
+handle.download =
 
     get: (req, res, next) ->
       res.status(200).sendFile join dir, req.params.file
 
     params: "file"
 
-  post: (req, res, next) ->
-    order = req.body.order
-    order.user = req.session.get.uid
-    orderModel.create order, (err, doc) ->
-      query.basicHandle err, doc, res, next
-
-  get: (req, res, next) ->
+handle.get = (req, res, next) ->
     id = req.session.get.uid
 
     resolve = (admin) ->
@@ -49,7 +44,7 @@ module.exports =
 
     isAdmin(id).then resolve, next
 
-  put: (req, res, next) ->
+handle.put = (req, res, next) ->
     id = req.session.get.uid
 
     resolve = (admin) ->
@@ -58,7 +53,7 @@ module.exports =
 
     isAdmin(id).then resolve, next
 
-  patch: (req, res, next) ->
+handle.patch = (req, res, next) ->
 
     save = (txt) ->
       binded = resolveDescriptionBindings txt, req.body
@@ -90,4 +85,4 @@ module.exports =
         else save text
       else next err
 
-  delete: ->
+module.exports = handle

@@ -12,6 +12,7 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
   controller.listOfOrders = []
 
   init = ->
+
     RESTHelperService.order.find (res) ->
 
       dates = (order) ->
@@ -72,6 +73,8 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
   controller.removeNotifcation = (order) ->
     if order.notify?
       RESTHelperService.notification.remove order.notify, (res) ->
+        index = controller.fullListOfOrders.indexOf order
+        delete controller.fullListOfOrders[index].notify
         delete order.notify
 
   controller.choose = (event, order) ->
@@ -90,6 +93,15 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
       if res.description?
         showDescriptionService event, {info: res.description}, success: choose
       else choose()
+
+  controller.doAction = (event, order) ->
+
+    if order.status is "rejected"
+      RESTHelperService.order.delete order._id, (res) ->
+        remove = (list) ->
+          index = controller[list].indexOf order
+          controller[list].splice index, 1
+        remove list for list in ["listOfOrders", "fullListOfOrders"]
 
   init()
 

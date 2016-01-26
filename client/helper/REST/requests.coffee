@@ -3,6 +3,14 @@ crud =
   method: ["get", "post", "delete", "patch"]
   arg: [no, yes, yes, yes]
 
+order = {}
+
+order[key] = value for key, value of crud
+
+order.alias.push "view"
+order.method.push "put"
+order.arg.push yes
+
 module.exports =
 
   user:
@@ -19,10 +27,7 @@ module.exports =
 
   addresses: crud
 
-  order:
-    alias: ["find", "create", "update", "view"]
-    method: ["get", "post", "patch", "put"]
-    arg: [no, yes, yes, yes]
+  order: order
 
   description:
     alias: ["find"]
