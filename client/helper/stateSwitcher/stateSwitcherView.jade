@@ -1,9 +1,9 @@
 div(hide-xs layout="row" layout-align="center center")
   md-button(
     ng-repeat="state in stateSwitcherCtrl.states"
-    ng-click="stateSwitcherCtrl.switchState($index)"
+    ng-click="stateSwitcherCtrl.switchState(state)"
     class="md-primary"
-    ng-class="stateSwitcherCtrl.selected === $index ? 'md-raised' : ''"
+    ng-class="stateSwitcherCtrl.selected[$index] ? 'md-raised' : ''"
     aria-label="{{state}}"
     translate="{{'button-' + state}}"
   )
@@ -20,7 +20,7 @@ div(show-xs hide layout="column" layout-align="start end")
       md-menu-item(ng-repeat="state in stateSwitcherCtrl.states")
         md-button(
           md-menu-align-target 
-          ng-click="stateSwitcherCtrl.switchState($index)"
+          ng-click="stateSwitcherCtrl.switchState(state)"
           class="md-primary"
           aria-label="{{state}}"
           translate="{{'button-' + state}}"

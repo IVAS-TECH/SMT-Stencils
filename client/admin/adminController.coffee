@@ -1,5 +1,5 @@
-module.exports = ($controller, $scope, RESTHelperService, dateService, showDescriptionService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService", "dateService", "showDescriptionService"]
+module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService"]
 
   injectable =
     "$scope": $scope

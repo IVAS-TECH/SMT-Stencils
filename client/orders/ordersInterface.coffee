@@ -1,5 +1,5 @@
-module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService) ->
-  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService"]
+module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService) ->
+  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService"]
 
   controller = @
 
@@ -97,11 +97,12 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
   controller.doAction = (event, order) ->
 
     if order.status is "rejected"
-      RESTHelperService.order.delete order._id, (res) ->
-        remove = (list) ->
-          index = controller[list].indexOf order
-          controller[list].splice index, 1
-        remove list for list in ["listOfOrders", "fullListOfOrders"]
+      confirmService event, success: ->
+        RESTHelperService.order.delete order._id, (res) ->
+          remove = (list) ->
+            index = controller[list].indexOf order
+            controller[list].splice index, 1
+          remove list for list in ["listOfOrders", "fullListOfOrders"]
 
   init()
 

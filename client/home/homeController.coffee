@@ -9,44 +9,70 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
     if $state.current.name is "home" then transitionService.toHome()
 
-    authenticationService.authenticate().then ->
+    stop = {}
 
-      becomeAdmin = ->
-        controller.admin = authenticationService.isAdmin()
-        if controller.admin
-          transitionService.toAdmin()
-        controller.admin
+    prevent = (event, going) ->
 
-      stopRestriction = null
+      notRestricted = ["/about", "/technologies", "/contacts"]
 
-      stopAuth = null
+      if going.url not in notRestricted then  event.preventDefault()
 
-      if authenticationService.isAuthenticated()
-        if becomeAdmin() then $scope.$digest()
+      stop.start()
 
-      else
-        stopAuth = $scope.$on "authentication", becomeAdmin
+      stop.success()
 
-        stopRestriction = $scope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
+      authenticationService.authenticate().then ->
 
-          if not authenticationService.isAuthenticated() and toState.url not in ["/about", "/technologies", "/contacts"]
+        tryBecomeAdmin = ->
+          admin = controller.admin
+          controller.admin = authenticationService.isAdmin()
+          if controller.admin is admin then return admin
+          if controller.admin then transitionService.toAdmin()
+          else notificationService.reListenForNotification()
+          controller.admin
 
-            event.preventDefault()
+        stopRestriction = null
 
-            loginService event,
-              login: -> setTimeout (-> $state.go toState.name), 1
-              close: transitionService.toHome
+        stopAuth = null
 
-      stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
+        goTo = null
 
-      notifing = notificationService.listenForNotification()
+        if authenticationService.isAuthenticated()
+          if tryBecomeAdmin() then $scope.$digest()
+          else goTo = going.name
+        else
+          loginService event,
+            login: -> $state.go going.name
+            close: transitionService.toHome
 
-      $scope.$on "$destroy", ->
-        if stopRestriction?
-          stopRestriction()
-          stopAuth()
-        stopUnAuth()
-        clearTimeout notifing
+          stopAuth = $scope.$on "authentication", tryBecomeAdmin
+
+          stopRestriction = $scope.$on "$stateChangeStart", (event, toState) ->
+
+            if not authenticationService.isAuthenticated() and toState.url not in notRestricted
+
+              event.preventDefault()
+
+              loginService event,
+                login: -> setTimeout (-> if not tryBecomeAdmin() then $state.go toState.name), 1
+                close: transitionService.toHome
+
+        stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
+
+        notificationService.listenForNotification()
+
+        $scope.$on "$destroy", ->
+          if stopRestriction?
+            stopRestriction()
+            stopAuth()
+          stopUnAuth()
+          notificationService.stopListen()
+
+        if goTo? then $state.go goTo
+
+    stop.start = $scope.$on "$stateChangeStart", prevent
+
+    stop.success = $scope.$on "$stateChangeSuccess", prevent
 
   init()
 
