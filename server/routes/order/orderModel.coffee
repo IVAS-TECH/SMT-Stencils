@@ -31,7 +31,7 @@ schema = new mongoose.Schema
     outline: file
   topText: [String]
   bottomText: [String]
-  configurationObject: require "./config/configSchem"
+  configurationObject: require "./configuration/configurationSchem"
   addressesObject: require "./addresses/addressesSchem"
 
 module.exports = mongoose.model "Order", schema

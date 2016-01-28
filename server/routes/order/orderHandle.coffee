@@ -9,7 +9,6 @@ resolveDescriptionBindings = require "./description/resolveDescriptionBindings"
 getDescriptionTemplate = require "./description/getDescriptionTemplate"
 query = require "./../../lib/query"
 send = require "./../../lib/send"
-block = (uid) -> null
 
 dir = join __dirname, "../../../files"
 
