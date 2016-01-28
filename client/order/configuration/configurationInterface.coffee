@@ -32,8 +32,10 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     ["left", "right", "bottom", "top"]
 
   listen = ->
+
     stop = $scope.$on "configuration-validity", (event, value) ->
       controller.valid = [value]
+
     $scope.$on "$destroy", stop
 
   controller.btnBack = no
@@ -48,6 +50,36 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     side: ["pcb-side", "squeegee-side"]
     textPosition: textPosition()
     textAngle: textAngle()
+
+  controller.changeStencilTransitioning = ->
+    if not controller.configurationObject.stencil?
+      controller.style.frame = no
+    else
+      controller.style.frame = (controller.configurationObject.stencil.transitioning.match /frame/)?
+
+  controller.changeDimenstions = (stencil) ->
+
+    base =
+      width: 120
+      height: 170
+
+    if not stencil?
+      stencil =
+        width: 1
+        height: 1
+
+    ratio = stencil.height / stencil.width
+
+    if ratio > 1 then ratio = 1 / ratio
+
+    calculate = (wich) ->
+      current = base[wich]
+      if controller.style.frame
+        current += 70
+      current * ratio
+
+    width: (calculate "width") + "px"
+    height: (calculate "height") + "px"
 
   controller.textAngle = textAngle
 
@@ -68,12 +100,6 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     else
       angle = controller.options.textAngle[0]
     [color, (["text", text.position, angle].join "-")]
-
-  controller.changeStencilTransitioning = ->
-    if not controller.configurationObject.stencil?
-      controller.style.frame = no
-    else
-      controller.style.frame = (controller.configurationObject.stencil.transitioning.match /frame/)?
 
   controller.changeStencilPosition = ->
     if not controller.configurationObject.position?
