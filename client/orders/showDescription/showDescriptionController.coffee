@@ -9,7 +9,7 @@ module.exports = ($scope, RESTHelperService, getStatusOptionsService) ->
       controller.adminPanel = "orderMenageView"
       controller.statusOptions = getStatusOptionsService()
 
-      RESTHelperService.language.find user: controller.info.user, (res) ->
+      RESTHelperService.language.find controller.info.user, (res) ->
         controller.info.language = res.language
         $scope.$digest()
 

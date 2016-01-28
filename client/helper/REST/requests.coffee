@@ -40,8 +40,8 @@ module.exports =
     arg: [no, yes]
 
   language:
-    alias: ["get", "find", "set"]
-    method: ["get", "put", "post"]
-    arg: [no, yes, yes]
+    alias: ["find", "change"]
+    method: ["get", "post"]
+    arg: [yes, yes]
 
   upload: ["preview", "order"]

@@ -10,7 +10,7 @@ module.exports = ($translate, $scope, RESTHelperService, authenticationService) 
   init = ->
 
     getLanguage = ->
-      RESTHelperService.language.get (res) ->
+      RESTHelperService.language.find "id", (res) ->
         if res.language?
           controller.current = res.language
           $translate.use controller.current
@@ -26,7 +26,7 @@ module.exports = ($translate, $scope, RESTHelperService, authenticationService) 
   controller.change = (len) ->
     $translate.use len
     if authenticationService.isAuthenticated()
-      RESTHelperService.language.set language: len, (res) ->
+      RESTHelperService.language.change language: len, (res) ->
 
   init()
 

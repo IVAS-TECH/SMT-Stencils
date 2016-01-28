@@ -25,6 +25,8 @@ module.exports = ($scope, $state) ->
       controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states)
       if change? then $state.go [controller.state, check, change].join "\."
 
+    override null, $state.current
+
     stop = $scope.$on "$stateChangeSuccess", override
 
     $scope.$on "$destroy", stop

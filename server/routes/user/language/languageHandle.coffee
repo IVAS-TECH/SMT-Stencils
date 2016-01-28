@@ -6,6 +6,8 @@ module.exports =
 
   get: (req, res, next) ->
     id = req.session.get.uid
+    if req.params.id isnt "id"
+      id = req.params.id
     languageModel.findOne user: id, (err, doc) ->
       if query.noErr err
         language = null
@@ -20,8 +22,4 @@ module.exports =
     languageModel.update user: id, update, {upsert: yes}, (err, doc) ->
       query.basicHandle err, doc, res, next
 
-  put: (req, res, next) ->
-    languageModel.findOne user: req.body.user, (err, doc) ->
-      if query.noErr err
-        send res, language: doc.language
-      else next err
+  params: get: "id"

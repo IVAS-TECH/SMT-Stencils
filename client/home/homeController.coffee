@@ -59,6 +59,8 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
         stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
 
+        if goTo? then $state.go goTo
+
         notificationService.listenForNotification()
 
         $scope.$on "$destroy", ->
@@ -67,8 +69,6 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
             stopAuth()
           stopUnAuth()
           notificationService.stopListen()
-
-        if goTo? then $state.go goTo
 
     stop.start = $scope.$on "$stateChangeStart", prevent
 

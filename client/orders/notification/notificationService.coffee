@@ -21,7 +21,7 @@ module.exports = ($state, $rootScope, RESTHelperService, authenticationService, 
 
   listenForNotification: ->
 
-    @notify()
+    setTimeout @notify, 10
 
     listening = setInterval @notify, 60000
 
