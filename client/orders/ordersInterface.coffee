@@ -15,30 +15,41 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
     RESTHelperService.order.find (res) ->
 
-      dates = (order) ->
-
-        order.notify = notificationService.notificationFor order._id
-
-        for type in ["order", "sending"]
-          date = type + "Date"
-          order[date] = dateService.format order[date]
-        order
-
       orders = res.orders
 
       controller.fromDate = dateService.compatible orders[orders.length - 1].orderDate
 
       controller.toDate = dateService.compatible orders[0].orderDate
 
-      controller.fullListOfOrders = (dates order for order in orders).sort (a, b) ->
-        indexA = controller.status.indexOf a.status
-        indexB = controller.status.indexOf b.status
-        notifyA = if a.notify? then 1 else 0
-        notifyB = if b.notify? then 1 else 0
-        index = indexA - indexB
-        if not index
-          notifyB - notifyA
-        else index
+      transform = (full) ->
+
+        addNotify = (order) ->
+          order.notify = notificationService.notificationFor order._id
+
+        transformFn = (full) ->
+
+          (order) ->
+
+            addNotify order
+
+            if full
+              for type in ["order", "sending"]
+                date = type + "Date"
+                order[date] = dateService.format order[date]
+
+            order
+
+        fn = transformFn full
+
+        controller.fullListOfOrders = (fn order for order in orders).sort (a, b) ->
+          indexA = controller.status.indexOf a.status
+          indexB = controller.status.indexOf b.status
+          notifyA = if a.notify? then 1 else 0
+          notifyB = if b.notify? then 1 else 0
+          index = indexA - indexB
+          if not index
+            notifyB - notifyA
+          else index
 
       controller.listOfOrders = controller.fullListOfOrders
 
@@ -52,7 +63,13 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
         if controller.showing?
           controller.listOfOrders = filter controller.listOfOrders, _id: controller.showing
 
+      transform yes
+
       listeners = ($scope.$watch "ordersCtrl." + watch, filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
+
+      $scope.$on "notification", ->
+        transform no
+        filterFn()
 
       $scope.$on "$destroy", -> listener() for listener in listeners
 
