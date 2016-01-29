@@ -17,7 +17,7 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
 
       controller.listOfVisits = res.visits
 
-      stop = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
+      stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
 
         if not orders? then return
 
@@ -117,7 +117,15 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
 
         controller.charts = buildCharts()
 
-        $scope.$on "$destroy", stop
+      $scope.$on "user-removed", (event, user) ->
+        controller.fullListOfOrders.filter (element) ->
+          element.user isnt user
+
+        controller.filterFn()
+
+      $scope.$on "$destroy", ->
+        stopStatistics()
+        stopRemove()
 
   controller.doAction = (event, order) ->
     showDescriptionService event,

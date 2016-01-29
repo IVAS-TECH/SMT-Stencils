@@ -14,7 +14,7 @@ module.exports = ($scope, showErrorService, confirmService, RESTHelperService, s
   controller.remove = (event) ->
     confirmService event, success: ->
       RESTHelperService.user.remove "id", (res) ->
-        simpleDialogService event, "title-deleted", success: ->
+        simpleDialogService event, "title-account-deleted", success: ->
           $scope.$emit "remove-account"
 
   controller

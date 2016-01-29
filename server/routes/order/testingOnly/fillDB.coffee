@@ -5,7 +5,7 @@ mongoose.connect require "./../../../mongo"
 dateHelper = require "./../../../share/dateHelper"
 date = dateHelper.$get()
 
-user = "56abc1e2dce4dabc2ba9c15e"
+user = "56abcb72609838822e126371"
 
 fake =
 	user : user

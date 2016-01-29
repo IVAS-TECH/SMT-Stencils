@@ -1,6 +1,8 @@
 module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService) ->
   @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService"]
 
+  filter = $filter "filter"
+
   controller = @
 
   controller.fromDate = new Date()
@@ -53,23 +55,13 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
       controller.listOfOrders = controller.fullListOfOrders
 
-      filter = $filter "filter"
-
-      filterFn = (newValue) ->
-        filtered = filter controller.fullListOfOrders, controller.filter
-        controller.listOfOrders = filter filtered, (order) ->
-          date = dateService.parse order.orderDate
-          controller.toDate >= date >= controller.fromDate
-        if controller.showing?
-          controller.listOfOrders = filter controller.listOfOrders, _id: controller.showing
-
       transform yes
 
-      listeners = ($scope.$watch "ordersCtrl." + watch, filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
+      listeners = ($scope.$watch "ordersCtrl." + watch, controller.filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
 
       $scope.$on "notification", ->
         transform no
-        filterFn()
+        controller.filterFn()
 
       $scope.$on "$destroy", -> listener() for listener in listeners
 
@@ -81,6 +73,14 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
     price: 15
     orderDate: 15
     sendingDate: 15
+
+  controller.filterFn = (newValue) ->
+    filtered = filter controller.fullListOfOrders, controller.filter
+    controller.listOfOrders = filter filtered, (order) ->
+      date = dateService.parse order.orderDate
+      controller.toDate >= date >= controller.fromDate
+    if controller.showing?
+      controller.listOfOrders = filter controller.listOfOrders, _id: controller.showing
 
   controller.compareableDate = (wich) ->
     controller[wich + "Date"] = dateService.compatible controller[wich + "Date"]

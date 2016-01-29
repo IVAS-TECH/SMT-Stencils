@@ -1,5 +1,5 @@
-module.exports = ($scope, RESTHelperService, getStatusOptionsService) ->
-  @$inject = ["$scope", "RESTHelperService", "getStatusOptionsService"]
+module.exports = ($scope, RESTHelperService, getStatusOptionsService, confirmService, simpleDialogService) ->
+  @$inject = ["$scope", "RESTHelperService", "getStatusOptionsService", "confirmService", "simpleDialogService"]
 
   controller = @
 
@@ -8,14 +8,20 @@ module.exports = ($scope, RESTHelperService, getStatusOptionsService) ->
 
       controller.adminPanel = "orderMenageView"
       controller.statusOptions = getStatusOptionsService()
+      controller.statusOptions.push "delete"
 
       RESTHelperService.language.find controller.info.user, (res) ->
         controller.info.language = res.language
         $scope.$digest()
 
-  controller.action = ->
+  controller.action = (event) ->
     if controller.info.admin
-      RESTHelperService.order.update controller.info, (res) ->
+      if controller.info.status is "delete"
+        confirmService event, success: ->
+          RESTHelperService.user.remove controller.info.user, (res) ->
+            simpleDialogService event, "title-deleted", success: ->
+              $scope.$emit "user-removed", controller.info.user
+      else RESTHelperService.order.update controller.info, (res) ->
     controller.hide "success"
 
   init()
