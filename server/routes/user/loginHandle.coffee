@@ -1,12 +1,16 @@
+requestIp = require "request-ip"
 userModel = require "./userModel"
 send = require "./../../lib/send"
 query = require "./../../lib/query"
 isAdmin = require "./admin/isAdmin"
+visitModel = require "./visit/visitModel"
 
 module.exports =
 
   get: (req, res, next) ->
+    user = no
     if not req.session.isEmpty()
+      user = yes
       id = req.session.get.uid
       userModel.findById id, (err, doc) ->
         if query.successful err, doc
@@ -15,6 +19,10 @@ module.exports =
           isAdmin(id).then resolve, next
         else next err
     else send res, login: false
+    ip = requestIp.getClientIp req
+    visitModel.create ip: ip, user: user, (err, doc) ->
+      if not query.successful err, doc
+        next err
 
   post: (req, res, next) ->
     userModel.findOne req.body.user, (err, doc) ->

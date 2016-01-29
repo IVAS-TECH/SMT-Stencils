@@ -3,7 +3,7 @@ md-tab
     span(translate="label-statistics")
   md-tab-body
     md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)
-      md-tab(ng-repeat="chart in ['revenue', 'count']")
+      md-tab(ng-repeat="chart in ['revenue', 'count', 'visit']")
         md-tab-label
           span(translate="{{'label-' + chart}}")
         md-tab-body

@@ -1,90 +1,70 @@
 model = require "./../orderModel"
+visits = require "./../../user/visit/visitModel"
 mongoose = require "mongoose"
 mongoose.connect require "./../../../mongo"
 
-fill = (order) ->
-  new Promise (resolve, reject) ->
-    model.create order, (err, doc) ->
-      if not err? and doc?
-        resolve()
-      else reject err
-
-fake = {
-	"user" : "566483d4dfdf6681796776a0",
-	"addressesObject" : {
-		"name" : "test",
-		"user" : "566483d4dfdf6681796776a0",
-		"firm" : {
-			"country" : "bulgaria",
-			"city" : "romania",
-			"postcode" : "100",
-			"address1" : "Str. Str1",
-			"address2" : "Str. Str2",
-			"firstname" : "Ivo",
-			"lastname" : "Stratev"
-		},
-		"invoice" : {
-			"country" : "bulgaria",
-			"city" : "romania",
-			"postcode" : "100",
-			"address1" : "Str. Str1",
-			"address2" : "Str. Str2",
-			"firstname" : "Ivo",
-			"lastname" : "Stratev"
-		},
-		"delivery" : {
-			"country" : "bulgaria",
-			"city" : "romania",
-			"postcode" : "100",
-			"address1" : "Str. Str1",
-			"address2" : "Str. Str2",
-			"firstname" : "Ivo",
-			"lastname" : "Stratev"
-		}
-	},
-	"configurationObject" : {
-		"name" : "test",
-		"user" : "566483d4dfdf6681796776a0",
-		"text" : {
-			"position" : "center-right",
-			"angle" : "left",
-			"type" : "engraved",
-			"side" : "squeegee-side"
-		},
-		"stencil" : {
-			"transitioning" : "glued-in-frame",
-			"tickness" : "120 μm         ",
-			"type" : "smd-stencil",
-			"size" : "750 x 750"
-		},
-		"position" : {
-			"side" : "squeegee-side",
-			"position" : "like-layout-file",
-			"aligment" : "landscape"
-		},
-		"fudical" : {
-			"marks" : "engraved",
-			"side" : "pcb-side"
-		}
-	},
-	"bottomText" : [
-		"bottom"
-	],
-	"topText" : [
-		"top"
-	],
-	"files" : {
-		"outline" : "566483d4dfdf6681796776a0___F4OQGXL2___Border_Milling.pho",
-		"bottom" : "566483d4dfdf6681796776a0___b1g4tZV8___PasteMask_Bottom.pho",
-		"top" : "566483d4dfdf6681796776a0___es73xbvr___PasteMask_Top.pho"
-	},
-	"style" : {
-		"frame" : true,
-		"outline" : false,
-		"layout" : false,
-		"mode" : "landscape-no"
-	}
-}
+fake =
+	user : "566483d4dfdf6681796776a0"
+	addressesObject :
+		name : "test"
+		user : "566483d4dfdf6681796776a0"
+		firm :
+			country : "bulgaria"
+			city : "romania"
+			postcode : "100"
+			address1 : "Str. Str1"
+			address2 : "Str. Str2"
+			firstname : "Ivo"
+			lastname : "Stratev"
+		invoice :
+			country : "bulgaria"
+			city : "romania"
+			postcode : "100"
+			address1 : "Str. Str1"
+			address2 : "Str. Str2"
+			firstname : "Ivo"
+			lastname : "Stratev"
+		delivery :
+			country : "bulgaria"
+			city : "romania"
+			postcode : "100"
+			address1 : "Str. Str1"
+			address2 : "Str. Str2"
+			firstname : "Ivo"
+			lastname : "Stratev"
+	configurationObject :
+		name : "test"
+		user : "566483d4dfdf6681796776a0"
+		text :
+			position : "center-right"
+			angle : "left"
+			type : "engraved"
+			side : "squeegee-side"
+		stencil :
+			transitioning : "glued-in-frame"
+			tickness : "120 μm         ",
+			type : "smd-stencil"
+			height : 270
+			width : 220
+			size : "750 x 750"
+	position :
+			side : "squeegee-side"
+			position : "like-layout-file"
+			aligment : "landscape"
+		fudical :
+			marks : "engraved"
+			side : "pcb-side"
+	bottomText : ["bottom"]
+	topText : ["top"]
+	files :
+		outline : "566483d4dfdf6681796776a0___F4OQGXL2___Border_Milling.pho"
+		bottom : "566483d4dfdf6681796776a0___b1g4tZV8___PasteMask_Bottom.pho"
+		top : "566483d4dfdf6681796776a0___es73xbvr___PasteMask_Top.pho"
+	style :
+		frame : true
+		outline : false
+		layout : false
+		mode : "landscape-no"
 
 randomN = (n) -> Math.floor Math.random() * n
 
@@ -106,6 +86,20 @@ statuses = ["new", "accepted", "sent", "delivered", "rejected"]
 
 created = []
 
+fill = (order) ->
+  new Promise (resolve, reject) ->
+    model.create order, (err, doc) ->
+      if not err? and doc?
+        resolve()
+      else reject err
+
+add = (visit) ->
+  new Promise (resolve, reject) ->
+    visits.create visit, (err, doc) ->
+      if not err? and doc?
+        resolve()
+      else reject err
+
 for i in [0..99]
   order = JSON.parse JSON.stringify fake
   order.sendingDate = sendingDates[randomN sendingDates.length]
@@ -113,6 +107,11 @@ for i in [0..99]
   order.price = prices[randomN prices.length]
   order.status = statuses[randomN statuses.length]
   created.push fill order
+  visit =
+    date: order.orderDates
+    user: Math.random() >= 0.5
+    ip: "ip"
+  created.push add visit
 
 Promise
   .all created

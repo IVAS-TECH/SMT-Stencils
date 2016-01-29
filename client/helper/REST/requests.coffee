@@ -34,6 +34,11 @@ module.exports =
     method: ["get"]
     arg: [yes]
 
+  visit:
+    alias: ["find"]
+    method: ["get"]
+    arg: [no]
+
   notification:
     alias: ["find", "remove"]
     method: ["get", "delete"]

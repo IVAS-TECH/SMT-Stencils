@@ -20,6 +20,8 @@ module.exports =
     transitioning: String
     type:
       type: String
+    height: Number
+    width: Number
   text:
     angle: String
     position: String

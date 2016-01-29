@@ -59,27 +59,21 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
 
   controller.changeDimenstions = (stencil) ->
 
+    if not stencil or stencil.width < 100 or stencil.height < 100
+      return {}
+
     base =
-      width: 120
-      height: 170
-
-    if not stencil?
-      stencil =
-        width: 1
-        height: 1
-
-    ratio = stencil.height / stencil.width
-
-    if ratio > 1 then ratio = 1 / ratio
+      width: 115
+      height: 145
 
     calculate = (wich) ->
-      current = base[wich]
+      value = stencil[wich] - 100
       if controller.style.frame
-        current += 70
-      current * ratio
+        value += 70
+      base[wich] + (value / 9)
 
-    width: (calculate "width") + "px"
     height: (calculate "height") + "px"
+    width: (calculate "width") + "px"
 
   controller.textAngle = textAngle
 
