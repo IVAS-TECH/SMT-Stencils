@@ -14,9 +14,9 @@ order.arg.push yes
 module.exports =
 
   user:
-    alias: ["email", "register", "profile"]
-    method: ["get", "post", "patch"]
-    arg: [yes, yes, yes]
+    alias: ["email", "register", "profile", "remove"]
+    method: ["get", "post", "patch", "delete"]
+    arg: [yes, yes, yes, yes]
 
   login:
     alias: ["logged", "login", "logout"]

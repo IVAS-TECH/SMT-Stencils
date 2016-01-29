@@ -17,7 +17,9 @@ module.exports =
 
   formater: ->
     (date) ->
-      info = new Date date
+      info = new Date()
+      if date?
+        info = new Date date
       [info.getDate(), info.getMonth() + 1, info.getFullYear()].join separator
 
   parser: ->
