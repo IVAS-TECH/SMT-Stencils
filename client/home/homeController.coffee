@@ -41,7 +41,8 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
           if tryBecomeAdmin() then $scope.$digest()
           else goTo = going.name
         else
-          loginService event,
+
+          if event.defaultPrevented then loginService event,
             login: -> $state.go going.name
             close: transitionService.toHome
 

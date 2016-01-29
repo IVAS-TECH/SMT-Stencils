@@ -25,7 +25,7 @@ module.exports =
 
   post: (req, res, next) ->
     userModel.create req.body.user, (err, doc) ->
-    query.basicHandle err, doc, res, next
+      query.basicHandle err, doc, res, next
 
   patch: (req, res, next) ->
     update = {}
@@ -44,18 +44,22 @@ module.exports =
             if query.noErr err
               resolve()
             else reject err
-      (remove dbModel for name, dbModel of model)
+      Promise.all (remove dbModel for name, dbModel of model)
         .then ->
           userModel.remove _id: id, (err, doc) ->
             if query.successful err, doc
               walker = walk files
               deleted = []
-              walker.on "file", (root, file, next) ->
-                fs.unlink join root, file, (err) ->
+              walker.on "file", (root, file, following) ->
+                pathTo = join root, file.name
+                if pathTo.match id
                   deleted.push new Promise (resolve, reject) ->
-                    if err then reject err
-                    else resolve()
-              walker.on "end", -> deleted.then (-> send res), next
+                    fs.unlink pathTo, (err) ->
+                      if err then reject err
+                      else resolve()
+                following()
+              walker.on "end", ->
+                (Promise.all deleted).then (-> send res), next
               walker.on "error", next
             else next err
         .catch next

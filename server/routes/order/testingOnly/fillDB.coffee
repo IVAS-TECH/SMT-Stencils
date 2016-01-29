@@ -5,11 +5,13 @@ mongoose.connect require "./../../../mongo"
 dateHelper = require "./../../../share/dateHelper"
 date = dateHelper.$get()
 
+user = "56abc1e2dce4dabc2ba9c15e"
+
 fake =
-	user : "566483d4dfdf6681796776a0"
+	user : user
 	addressesObject :
 		name : "test"
-		user : "566483d4dfdf6681796776a0"
+		user : user
 		firm :
 			country : "bulgaria"
 			city : "romania"
@@ -36,7 +38,7 @@ fake =
 			lastname : "Stratev"
 	configurationObject :
 		name : "test"
-		user : "566483d4dfdf6681796776a0"
+		user : user
 		text :
 			position : "center-right"
 			angle : "left"
@@ -59,9 +61,9 @@ fake =
 	bottomText : ["bottom"]
 	topText : ["top"]
 	files :
-		outline : "566483d4dfdf6681796776a0___F4OQGXL2___Border_Milling.pho"
-		bottom : "566483d4dfdf6681796776a0___b1g4tZV8___PasteMask_Bottom.pho"
-		top : "566483d4dfdf6681796776a0___es73xbvr___PasteMask_Top.pho"
+		outline : "#{user}___F4OQGXL2___Border_Milling.pho"
+		bottom : "#{user}___b1g4tZV8___PasteMask_Bottom.pho"
+		top : "#{user}___es73xbvr___PasteMask_Top.pho"
 	style :
 		frame : true
 		outline : false

@@ -11,7 +11,7 @@ module.exports = ($scope, $window, registerService, loginService, authentication
 
   init = ->
 
-    stop = $scope.$on "authentication", ->
+    stopAuth = $scope.$on "authentication", ->
 
       authenticateUser()
 
@@ -21,7 +21,11 @@ module.exports = ($scope, $window, registerService, loginService, authentication
           authenticationService.unauthenticate()
           return
 
-    $scope.$on "$destroy", stop
+    stopRemove = $scope.$on "remove-account", controller.logout
+
+    $scope.$on "$destroy", ->
+      stopAuth()
+      stopRemove()
 
   controller.register = (event) -> registerService event
 

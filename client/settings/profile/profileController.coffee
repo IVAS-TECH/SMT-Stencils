@@ -1,5 +1,5 @@
-module.exports = (showErrorService, confirmService, RESTHelperService, simpleDialogService) ->
-  @$inject = ["showErrorService", "confirmService", "RESTHelperService", "simpleDialogService"]
+module.exports = ($scope, showErrorService, confirmService, RESTHelperService, simpleDialogService) ->
+  @$inject = ["$scope", "showErrorService", "confirmService", "RESTHelperService", "simpleDialogService"]
 
   controller = @
 
@@ -14,6 +14,7 @@ module.exports = (showErrorService, confirmService, RESTHelperService, simpleDia
   controller.remove = (event) ->
     confirmService event, success: ->
       RESTHelperService.user.remove "id", (res) ->
-        simpleDialogService event, "title-deleted"
+        simpleDialogService event, "title-deleted", success: ->
+          $scope.$emit "remove-account"
 
   controller

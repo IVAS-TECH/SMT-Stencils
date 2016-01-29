@@ -29,7 +29,6 @@ handle.download =
 
 handle.get = (req, res, next) ->
     id = req.session.get.uid
-
     resolve = (admin) ->
       find = user: id
       if admin.admin
@@ -75,8 +74,6 @@ handle.patch = (req, res, next) ->
       order.sendingDate = new Date()
 
     orderModel.findByIdAndUpdate id, $set: order, {new: true}, (err, doc) ->
-
-      #console.log id, order, doc
 
       if query.successful err, doc
         if text[0] is ""
