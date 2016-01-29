@@ -2,6 +2,8 @@ model = require "./../orderModel"
 visits = require "./../../user/visit/visitModel"
 mongoose = require "mongoose"
 mongoose.connect require "./../../../mongo"
+dateHelper = require "./../../../share/dateHelper"
+date = dateHelper.$get()
 
 fake =
 	user : "566483d4dfdf6681796776a0"
@@ -108,7 +110,7 @@ for i in [0..99]
   order.status = statuses[randomN statuses.length]
   created.push fill order
   visit =
-    date: order.orderDates
+    date: date.format orderDates[randomN orderDates.length]
     user: Math.random() >= 0.5
     ip: "ip"
   created.push add visit

@@ -4,6 +4,8 @@ send = require "./../../lib/send"
 query = require "./../../lib/query"
 isAdmin = require "./admin/isAdmin"
 visitModel = require "./visit/visitModel"
+dateHelper = require "./../../share/dateHelper"
+date = dateHelper.$get()
 
 module.exports =
 
@@ -19,8 +21,10 @@ module.exports =
           isAdmin(id).then resolve, next
         else next err
     else send res, login: false
-    ip = requestIp.getClientIp req
-    visitModel.create ip: ip, user: user, (err, doc) ->
+    find =
+      ip: requestIp.getClientIp req
+      date: date.format()
+    visitModel.update find, user: user, {upsert: yes}, (err, doc) ->
       if not query.successful err, doc
         next err
 

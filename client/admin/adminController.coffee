@@ -15,12 +15,7 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
 
     RESTHelperService.visit.find (res) ->
 
-      compatible = (visit) ->
-        visit.date = dateService.format visit.date
-        console.log visit.date
-        visit
-
-      controller.listOfVisits = (compatible visit for visit in res.visits)
+      controller.listOfVisits = res.visits
 
       stop = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
 

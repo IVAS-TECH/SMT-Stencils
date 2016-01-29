@@ -84,6 +84,8 @@
     "angular-translate": "./node_modules/angular-translate/dist/angular-translate.min.js",
     "angular-chart.js": "./node_modules/angular-chart.js/dist/angular-chart.min.js",
     "chart.js": "./node_modules/chart.js/Chart.min.js",
-    "dependencies": "./compile/dependencies.js"
+    "dependencies": "./compile/dependencies.js",
+    "share": "./compile/share.js",
+    "dateHelper": "./deploy/share/dateHelper.js"
   }
 }
