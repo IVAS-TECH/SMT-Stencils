@@ -1,30 +1,20 @@
-mongoose = require "mongoose"
+makeModel = require "./../../lib/makeModel"
 
-file =
-  type: String
-  default: ""
+file = [String, ""]
 
-date =
-  type: Date
-  default: Date.now
+date = [Date, Date.now]
 
-schema = new mongoose.Schema
+module.exports = makeModel "Order",
   style:
     frame: Boolean
     outline: Boolean
     layout: Boolean
     mode: String
-  status:
-    type: String
-    default: "__new__"
-  price:
-    type: Number
-    default: 0
+  status: [String, "new"]
+  price: [Number, 0]
   orderDate: date
   sendingDate: date
-  user:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "User"
+  user: "User"
   files:
     top: file
     bottom: file
@@ -33,5 +23,3 @@ schema = new mongoose.Schema
   bottomText: [String]
   configurationObject: require "./configuration/configurationSchem"
   addressesObject: require "./addresses/addressesSchem"
-
-module.exports = mongoose.model "Order", schema

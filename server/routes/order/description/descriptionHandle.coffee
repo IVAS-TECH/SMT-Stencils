@@ -6,8 +6,6 @@ module.exports =
 
   get: (req, res, next) ->
     descriptionModel.findOne order: req.params.order, (err, doc) ->
-      if query.noErr err
-        send res, description: doc
-      else next err
+      query.noErrHandle err, doc, res, next, "description"
 
   params: "order"

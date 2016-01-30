@@ -1,5 +1,3 @@
-mongoose = require "mongoose"
+makeModel = require "./../../../lib/makeModel"
 
-schema = new mongoose.Schema require "./configurationSchem"
-
-module.exports = mongoose.model "Configuration", schema
+module.exports = makeModel "Configuration", require "./configurationSchem"

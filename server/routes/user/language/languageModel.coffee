@@ -1,9 +1,3 @@
-mongoose = require "mongoose"
+makeModel = require "./../../../lib/makeModel"
 
-schema = new mongoose.Schema
-  user:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "User"
-  language: String
-
-module.exports = mongoose.model "Language", schema
+module.exports = makeModel "Language", language: String, user: "User"

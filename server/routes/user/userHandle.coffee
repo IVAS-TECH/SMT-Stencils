@@ -41,8 +41,7 @@ module.exports =
       remove = (dbModel) ->
         new Promise (resolve, reject) ->
           dbModel.remove user: id, (err) ->
-            if query.noErr err
-              resolve()
+            if query.noErr err then resolve()
             else reject err
       Promise.all (remove dbModel for name, dbModel of model)
         .then ->

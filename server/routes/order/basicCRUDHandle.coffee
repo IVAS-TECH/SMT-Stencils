@@ -23,8 +23,6 @@ module.exports = (model, route) ->
 
   delete: (req, res, next) ->
     model.remove _id: req.params.id, (err) ->
-      if query.noErr err
-        send res
-      else next err
+      query.noErrHandle err, doc, res, next
 
   params: delete: "id"

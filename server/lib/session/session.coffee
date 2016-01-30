@@ -5,6 +5,4 @@ module.exports = ->
   (req, res, next) ->
     ip = requestIp.getClientIp req
     req.session = new Session ip
-    resolve = -> next()
-    reject = (err) -> next err
-    req.session.restore().then resolve, reject
+    req.session.restore().then next, next

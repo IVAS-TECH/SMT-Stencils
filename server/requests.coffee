@@ -8,13 +8,9 @@ sendFile = (file) ->
   send = join sendDir, file
   (req, res) -> res.status(200).sendFile send
 
-###log = (req, res, next) ->
-  console.log req.method, req.url
-  next()###
-
 module.exports =
 
-  beforeEach: bodyParser.json()#, log]
+  beforeEach: bodyParser.json()
 
   afterEach: [
     (req, res, next) -> next "Not Found"

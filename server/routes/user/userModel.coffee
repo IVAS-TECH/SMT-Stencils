@@ -1,7 +1,3 @@
-mongoose = require "mongoose"
+makeModel = require "./../../lib/makeModel"
 
-schema = new mongoose.Schema
-  email: String
-  password: String
-
-module.exports = mongoose.model "User", schema
+module.exports = makeModel "User", email: String, password: String

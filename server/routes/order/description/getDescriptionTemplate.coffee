@@ -13,7 +13,6 @@ module.exports = (status, lenguage, populate) ->
 
       if err then reject err
       else
-
         tmp = template.split "\n"
         tmp.pop()
         resolve tmp

@@ -1,5 +1,6 @@
-{join} = require "path"
 fs = require "fs"
+{join} = require "path"
+Promise = require "promise"
 config = require "./multerConfig"
 GerberToSVG = require "./../../../lib/GerberToSVG/GerberToSVG"
 send = require "./../../../lib/send"
@@ -15,20 +16,24 @@ module.exports =
 
   order:
 
+    beforeEach: multerConfig.order().any()
+
     post: (req, res) ->
       send res, files: transformReq req, "filename"
 
-    beforeEach: multerConfig.order().any()
-
   preview:
+
+    beforeEach: multerConfig.preview().any()
 
     post: (req, res, next) ->
       transform = transformReq req, "path"
-      converted = (svg) ->
-        send res, svg
-        for layer, file of transform
-         fs.unlink file, (err) ->
-           if err then next err
-      GerberToSVG(transform).then converted, next
 
-    beforeEach: multerConfig.preview().any()
+      (GerberToSVG transform)
+        .then (svg) ->
+          (Promise.all (for layer, file of transform
+            new Promise (resolve, reject) ->
+             fs.unlink file, (err) ->
+               if err then reject err
+               else resolve()
+          )).then (-> send res, svg), next
+        .catch next

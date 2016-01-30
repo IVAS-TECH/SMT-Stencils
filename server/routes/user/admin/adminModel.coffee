@@ -1,11 +1,3 @@
-mongoose = require "mongoose"
+makeModel = require "./../../../lib/makeModel"
 
-schema = new mongoose.Schema
-  user:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "User"
-  access:
-    type: Number
-    default: 0
-
-module.exports = mongoose.model "Admin", schema
+module.exports = makeModel "Admin", user: "User", access: [Number, 0]

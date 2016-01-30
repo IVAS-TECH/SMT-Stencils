@@ -1,11 +1,3 @@
-mongoose = require "mongoose"
+makeModel = require "./../../../lib/makeModel"
 
-schema = new mongoose.Schema
-  order:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "Order"
-  user:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "User"
-
-module.exports = mongoose.model "Notification", schema
+module.exports = makeModel "Notification", order: "Order", user: "User"

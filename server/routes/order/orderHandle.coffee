@@ -43,13 +43,11 @@ handle.get = (req, res, next) ->
     isAdmin(id).then resolve, next
 
 handle.put = (req, res, next) ->
-    id = req.session.get.uid
-
-    resolve = (admin) ->
-      (GerberToSVG (filePaths req.body.files), admin.admin).then (svg) ->
-        send res, svg
-
-    isAdmin(id).then resolve, next
+    (isAdmin req.session.get.uid)
+      .then (admin) ->
+        (GerberToSVG (filePaths req.body.files), admin.admin).then (svg) ->
+          send res, svg
+      .catch next
 
 handle.patch = (req, res, next) ->
 

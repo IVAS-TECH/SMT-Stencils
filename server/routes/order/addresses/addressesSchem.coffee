@@ -1,5 +1,3 @@
-mongoose = require "mongoose"
-
 address =
   country: String
   city: String
@@ -11,9 +9,7 @@ address =
 
 module.exports =
   name: String
-  user:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "User"
+  user: "User"
   delivery: address
   invoice: address
   firm: address

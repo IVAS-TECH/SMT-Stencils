@@ -1,10 +1,6 @@
-mongoose = require "mongoose"
-
 module.exports =
   name: String
-  user:
-    type: mongoose.Schema.Types.ObjectId
-    ref: "User"
+  user: "User"
   fudical:
     marks: String
     side: String
@@ -13,20 +9,14 @@ module.exports =
     position: String
     side: String
   stencil:
-    size:
-      type: String
-      default: "default"
+    size: [String, "default"]
     tickness: String
     transitioning: String
-    type:
-      type: String
+    type: String
     height: Number
     width: Number
   text:
     angle: String
     position: String
-    side:
-      type: String
-      default: "default"
-    type:
-      type: String
+    side: [String, "default"]
+    type: String

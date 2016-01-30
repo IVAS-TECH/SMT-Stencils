@@ -1,8 +1,6 @@
-mongoose = require "mongoose"
+makeModel = require "./../makeModel"
 
-schema = new mongoose.Schema
+module.exports = makeModel "Session",
   ip: String
   key: String
   value: String
-
-module.exports = mongoose.model "Session", schema

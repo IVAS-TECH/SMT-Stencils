@@ -9,8 +9,7 @@ module.exports = (email, access) ->
 
     userModel.findOne email: email, (err, user) ->
 
-      if not query.successful err, user
-        resolve err
+      if not query.successful err, user then resolve err
 
       adminModel.create user: user._id, access: access, (error, doc) ->
 

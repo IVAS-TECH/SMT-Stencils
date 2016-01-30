@@ -11,8 +11,6 @@ module.exports =
 
   delete: (req, res, next) ->
     notificationModel.remove _id: req.params.id, (err) ->
-      if query.noErr err
-        send res
-      else next err
+      query.noErrHandle err, doc, res, next
 
   params: delete: "id"
