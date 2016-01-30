@@ -117,10 +117,9 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
 
         controller.charts = buildCharts()
 
-      $scope.$on "user-removed", (event, user) ->
-        controller.fullListOfOrders.filter (element) ->
-          element.user isnt user
-
+      stopRemove = $scope.$on "user-removed", (event, user) ->
+        controller.fullListOfOrders = controller.fullListOfOrders.filter (element) ->
+          element.user._id isnt user
         controller.filterFn()
 
       $scope.$on "$destroy", ->
