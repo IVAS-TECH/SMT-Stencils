@@ -10,23 +10,24 @@ date = dateHelper.$get()
 module.exports =
 
   get: (req, res, next) ->
-    user = no
-    if not req.session.isEmpty()
-      user = yes
-      id = req.session.get.uid
-      userModel.findById id, (err, doc) ->
-        if query.successful err, doc
-          resolve = (admin) ->
-            send res, login: true, user: doc, admin: admin
-          isAdmin(id).then resolve, next
-        else next err
-    else send res, login: false
     find =
       ip: requestIp.getClientIp req
       date: date.format()
-    visitModel.update find, user: user, {upsert: yes}, (err, doc) ->
-      if not query.successful err, doc
-        next err
+    updateVisits = (user, callback) ->
+      visitModel.update find, user: user, {upsert: yes}, (err, doc) ->
+        if query.successful err, doc
+          callback()
+        else next err
+    if not req.session.isEmpty()
+      updateVisits yes, ->
+        id = req.session.get.uid
+        userModel.findById id, (err, doc) ->
+          if query.successful err, doc
+            resolve = (admin) ->
+              send res, login: yes, user: doc, admin: admin
+            isAdmin(id).then resolve, next
+          else next err
+    else updateVisits no, -> send res, login: no
 
   post: (req, res, next) ->
     userModel.findOne req.body.user, (err, doc) ->
@@ -34,10 +35,10 @@ module.exports =
         if doc?
           create = ->
             resolve = (admin) ->
-              send res, login: true, admin: admin
+              send res, login: yes, admin: admin
             isAdmin(doc._id).then resolve, next
           req.session.create(uid: doc._id).then create, next
-        else send res, login: false
+        else send res, login: no
       else next err
 
   delete: (req, res, next) ->
