@@ -1,7 +1,7 @@
 module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
   @$inject = ["$controller", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
 
-  injectable =
+  controller = $controller "baseInterface",
     "$scope": $scope
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
@@ -9,8 +9,6 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
     "confirmService": confirmService
     "link": "addresses"
     "settings": @settings
-
-  controller = $controller "baseInterface", injectable
 
   controller.btnBack = yes
 

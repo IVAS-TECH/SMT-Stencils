@@ -26,11 +26,11 @@ module.exports = (simpleDialogService, RESTHelperService, $window) ->
       controller.order.top.view = res.top
       controller.order.bottom.view = res.bottom
 
-  controller.upload = () ->
+  controller.upload = (event) ->
     if typeof controller.file is "object" and controller.file?
       if controller.file.size < 100000
         controller.order.files[controller.layer] = controller.file
         controller.preview()
-      else simpleDialogService {}, "title-wrong-file-size"
+      else simpleDialogService event, "title-wrong-file-size"
 
   controller

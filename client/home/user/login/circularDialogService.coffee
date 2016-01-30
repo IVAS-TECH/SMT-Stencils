@@ -11,10 +11,8 @@ module.exports = (showDialogService, tryAgainService) ->
 
         "fail": ->
 
-          extendIt =
-            "success": -> circular event, extend
-
-          tryAgainService event, "title-wrong-#{wrong}", extendIt
+          tryAgainService event, "title-wrong-#{wrong}", "success": ->
+            circular event, extend
 
       showDialogService event, dialog, {}, handle, extend
 

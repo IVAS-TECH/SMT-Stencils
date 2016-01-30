@@ -23,10 +23,10 @@ module.exports = ($translate, $scope, RESTHelperService, authenticationService) 
 
     $scope.$on "$destroy", stop
 
-  controller.change = (len) ->
-    $translate.use len
+  controller.change = (language) ->
+    $translate.use language
     if authenticationService.isAuthenticated()
-      RESTHelperService.language.change language: len, (res) ->
+      RESTHelperService.language.change language: language, (res) ->
 
   init()
 

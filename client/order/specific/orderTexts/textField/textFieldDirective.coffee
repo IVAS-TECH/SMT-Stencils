@@ -2,7 +2,7 @@ module.exports = (template) ->
   @$inject = ["template"]
 
   template: template "textFieldView"
-  scope: true
+  scope: yes
   controller: "textFieldController"
   controllerAs: "textFieldCtrl"
   bindToController:

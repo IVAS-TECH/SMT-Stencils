@@ -3,7 +3,7 @@ Promise = require "promise"
 module.exports = ($controller, template, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
   @$inject = ["$controller", "template", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
 
-  injectable =
+  controller = $controller "baseInterface",
     "$scope": $scope
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
@@ -11,8 +11,6 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     "confirmService": confirmService
     "link": "configuration"
     "settings": @settings
-
-  controller = $controller "baseInterface", injectable
 
   textPosition = ->
     options = []
@@ -99,7 +97,7 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
     if not controller.configurationObject.position?
       controller.style.outline = no
       controller.style.layout = no
-      controller.style.mode = ["portrait", "centered"].join "-"
+      controller.style.mode = "portrait-centered"
     else
       aligment = controller.configurationObject.position.aligment ? "portrait"
       position = controller.configurationObject.position.position

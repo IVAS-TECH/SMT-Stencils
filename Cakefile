@@ -67,15 +67,16 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
       invoke "coffee"
       invoke "browserify"
       invoke "style"
-      #spawnSync "uglifyjs", ["#{sendDir}/bundle.js", "-o", "#{sendDir}/final.js"], stdio: "inherit"
+      spawnSync exec.uglifyJS, ["#{sendDir}/bundle.js", "-o", "#{sendDir}/final.js"], stdio: "inherit"
       style = join sendDir, "style.css"
-      bundle = join sendDir, "bundle.js"
+      bundle = join sendDir, "final.js"
       index = join sendDir, "index.html"
       styleContent = fse.readFileSync style, "utf8"
-      bundleContent = fse.readFileSync bundle, "utf8"
+      finalContent = fse.readFileSync bundle, "utf8"
       indexContent = fse.readFileSync index, "utf8"
       styled = indexContent.replace "@@@", styleContent
-      bundled = styled.replace "!!!", JSON.stringify bundleContent
+      bundled = styled
+      #bundled = styled.replace "!!!", finalContent
       fse.writeFileSync index, bundled, "utf8"
       resolve()
 

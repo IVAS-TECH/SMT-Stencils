@@ -36,8 +36,7 @@ module.exports = (REST, uploadService, errorHandleService) ->
 
       rest = REST key
 
-      for i of value.arg
-
-        service[key][value.alias[i]] = handle rest[value.method[i]], value.arg[i]
+      for index of value.arg
+        service[key][value.alias[index]] = handle rest[value.method[index]], value.arg[index]
 
   service

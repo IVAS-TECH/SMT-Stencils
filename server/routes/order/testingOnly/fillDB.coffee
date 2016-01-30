@@ -5,7 +5,7 @@ mongoose.connect require "./../../../mongo"
 dateHelper = require "./../../../share/dateHelper"
 date = dateHelper.$get()
 
-user = "56ac77fc809b14461a487b64"
+user = "56ac8222d3da878a1efe8d68"
 
 fake =
 	user : user
@@ -61,9 +61,9 @@ fake =
 	bottomText : ["bottom"]
 	topText : ["top"]
 	files :
-		outline : "#{user}___F4OQGXL2___Border_Milling.pho"
-		bottom : "#{user}___b1g4tZV8___PasteMask_Bottom.pho"
-		top : "#{user}___es73xbvr___PasteMask_Top.pho"
+		outline : user + "___F4OQGXL2___Border_Milling.pho"
+		bottom : user + "___b1g4tZV8___PasteMask_Bottom.pho"
+		top : user + "___es73xbvr___PasteMask_Top.pho"
 	style :
 		frame : true
 		outline : false

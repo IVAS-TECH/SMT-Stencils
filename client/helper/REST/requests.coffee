@@ -1,5 +1,5 @@
 crud =
-  alias: ["find", "create", "delete", "update"]
+  alias: ["find", "create", "remove", "update"]
   method: ["get", "post", "delete", "patch"]
   arg: [no, yes, yes, yes]
 

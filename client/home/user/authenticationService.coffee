@@ -3,19 +3,19 @@ Promise = require "promise"
 module.exports = ($rootScope, RESTHelperService) ->
   @$inject = ["$rootScope", "RESTHelperService"]
 
-  _authenticated = false
+  _authenticated = no
   _user = null
-  _session = true
-  _async = false
+  _session = yes
+  _async = no
   _admin = null
 
   authenticate: (authentication) ->
 
     broadcast = (auth) ->
-      _authenticated = true
+      _authenticated = yes
       _user = auth.user
-      _session = auth.session ? true
-      _async = auth.async_ ? false
+      _session = auth.session ? yes
+      _async = auth.async_ ? no
       _admin = auth.admin
       $rootScope.$broadcast "authentication"
 
@@ -23,16 +23,16 @@ module.exports = ($rootScope, RESTHelperService) ->
     else
       new Promise (resolve, reject) ->
         RESTHelperService.login.logged (res) ->
-          res.async_ = true
+          res.async_ = yes
           if res.login then broadcast res
           resolve()
 
   unauthenticate: (callback) ->
     RESTHelperService.login.logout ->
-      _authenticated = false
+      _authenticated = no
       _user = null
-      _session = true
-      _async = true
+      _session = yes
+      _async = yes
       _admin = null
       $rootScope.$broadcast "unauthentication"
       if callback? then callback()
@@ -48,4 +48,4 @@ module.exports = ($rootScope, RESTHelperService) ->
 
   isAsync: -> _async
 
-  isAdmin: -> if _admin? then _admin.admin else false
+  isAdmin: -> if _admin? then _admin.admin else no

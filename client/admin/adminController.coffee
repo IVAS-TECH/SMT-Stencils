@@ -1,13 +1,15 @@
 module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService) ->
   @$inject = ["$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService"]
 
-  injectable =
+  controller = $controller "ordersInterface",
     "$scope": $scope
     "RESTHelperService": RESTHelperService
+    "$filter": $filter
     "dateService": dateService
     "showDescriptionService": showDescriptionService
-
-  controller = $controller "ordersInterface", injectable
+    "getStatusOptionsService": getStatusOptionsService
+    "notificationService": notificationService
+    "confirmService": confirmService
 
   controller.adminPanel = "adminPanelView"
 
@@ -46,30 +48,31 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
         intervals = {}
 
         statisticData = (search) ->
-          count = 0
-          delivered = 0
-          revenue = 0
-          visits = 0
-          users = 0
+          data =
+            count: 0
+            delivered: 0
+            revenue: 0
+            visits: 0
+            users: 0
+
           for order in orders
             if order.orderDate is search
-              count++
-              revenue += order.price
+              data.count++
+              data.revenue += order.price
               if order.status is "delivered"
-                delivered++
+                data.delivered++
+
           for visit in controller.listOfVisits
             if visit.date is search
-              visits++
-              if visit.user then users++
-          count: count
-          delivered: delivered
-          revenue: revenue
-          visits: visits
-          users: users
+              data.visits++
+              if visit.user then data.users++
+
+          data
 
         buildIntervals = (date) ->
           label = dateService.format date
           data = statisticData label
+
           if interval.current is diff
             interval.current = 0
             interval.label = label
@@ -82,6 +85,7 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
           else
             label = interval.label
             interval.current++
+            
           for info in ["count", "delivered", "revenue", "visits", "users"]
             intervals[label][info] += data[info]
 

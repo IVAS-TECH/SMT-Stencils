@@ -31,10 +31,6 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
           else notificationService.reListenForNotification()
           controller.admin
 
-        stopRestriction = null
-
-        stopAuth = null
-
         goTo = null
 
         if authenticationService.isAuthenticated()
@@ -46,17 +42,17 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
             login: -> $state.go going.name
             close: transitionService.toHome
 
-          stopAuth = $scope.$on "authentication", tryBecomeAdmin
+        stopAuth = $scope.$on "authentication", tryBecomeAdmin
 
-          stopRestriction = $scope.$on "$stateChangeStart", (event, toState) ->
+        stopRestriction = $scope.$on "$stateChangeStart", (event, toState) ->
 
-            if not authenticationService.isAuthenticated() and toState.url not in notRestricted
+          if not authenticationService.isAuthenticated() and toState.url not in notRestricted
 
-              event.preventDefault()
+            event.preventDefault()
 
-              loginService event,
-                login: -> setTimeout (-> if not tryBecomeAdmin() then $state.go toState.name), 1
-                close: transitionService.toHome
+            loginService event,
+              login: -> setTimeout (-> if not tryBecomeAdmin() then $state.go toState.name), 1
+              close: transitionService.toHome
 
         stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
 
@@ -65,9 +61,8 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
         notificationService.listenForNotification()
 
         $scope.$on "$destroy", ->
-          if stopRestriction?
-            stopRestriction()
-            stopAuth()
+          stopRestriction()
+          stopAuth()
           stopUnAuth()
           notificationService.stopListen()
 

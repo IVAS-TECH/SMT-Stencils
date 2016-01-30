@@ -25,4 +25,5 @@ module.exports = (template, $compile, $window) ->
         canvas.prop dimenstion, $window.screen[dimenstion] * part[dimenstion] / 5
 
     resize()
+    
     (angular.element $window).on "resize", resize

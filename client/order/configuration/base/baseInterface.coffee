@@ -92,7 +92,7 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
     controller.delete = (event) ->
       confirmService event, success: ->
         id = controller[controller.link + controller.common[0]]._id
-        RESTHelperService[controller.link].delete id, (res) ->
+        RESTHelperService[controller.link].remove id, (res) ->
           controller[controller.link + controller.common[1]]
             .splice  controller[controller.link + controller.common[2]], 1
           controller.reset()

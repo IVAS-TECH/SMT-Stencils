@@ -2,7 +2,7 @@ module.exports = (RESTHelperService) ->
   @$inject = ["RESTHelperService"]
 
   controller = @
-  controller.session = true
+  controller.session = yes
 
   controller.login = (valid) ->
     if valid

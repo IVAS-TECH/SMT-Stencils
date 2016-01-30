@@ -3,9 +3,9 @@ moduleName = "ordersText"
 
 angular
   .module moduleName, []
+    .controller "textFieldController", require "./textField/textFieldController"
     .directive "ivoOrderTexts", require "./orderTextsDirective"
     .directive "ivoOrderText", require "./orderText/orderTextDirective"
     .directive "ivoTextField", require "./textField/textFieldDirective"
-    .controller "textFieldController", require "./textField/textFieldController"
 
 module.exports = moduleName

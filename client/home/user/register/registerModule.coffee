@@ -5,9 +5,9 @@ bg = require "./language-bg"
 
 angular
     .module moduleName, []
-      .directive "ivoEmailTaken", require "./emailTakenDirective"
       .factory "registerService", require "./registerService"
       .controller "registerController", require "./registerController"
+      .directive "ivoEmailTaken", require "./emailTakenDirective"
       .config (translateProvider) ->
         @$inject = ["translateProvider"]
         translateProvider.add en, bg

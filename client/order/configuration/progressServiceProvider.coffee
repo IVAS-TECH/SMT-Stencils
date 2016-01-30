@@ -41,4 +41,5 @@ module.exports = ->
           parentScope[property] = currentScope[property]
 
         change = if progress then 1 else -1
+        
         $state.go fromState + "\." + move[(move.indexOf state) + change]

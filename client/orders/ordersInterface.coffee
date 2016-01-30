@@ -115,7 +115,7 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
     if order.status is "rejected"
       confirmService event, success: ->
-        RESTHelperService.order.delete order._id, (res) ->
+        RESTHelperService.order.remove order._id, (res) ->
           remove = (list) ->
             index = controller[list].indexOf order
             controller[list].splice index, 1

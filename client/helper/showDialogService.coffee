@@ -7,8 +7,7 @@ module.exports = ($mdDialog, showErrorService, template) ->
 
     locals.error = showErrorService
 
-    if extend
-      handle[key] = value for key, value of extend
+    if extend then handle[key] = value for key, value of extend
 
     $mdDialog
       .show
