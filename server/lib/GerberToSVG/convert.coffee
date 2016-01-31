@@ -10,12 +10,12 @@ module.exports = (paste, outline) ->
     if outline? and outline.length
       args.push "--foreground=#000000FF"
       args.push outline
-    gerbv = spawn "gerbv", args, stdio: "inherit"
+    gerbv = spawn "gerbv", args, stdio: "ignore"
     gerbv.on "close", ->
-      fs.readFile output, "utf8", (readErr, data) ->
-        if readErr then reject readErr
-        fs.remove output, (removeErr) ->
-          if removeErr
-            reject removeErr
-          else
-            resolve data.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
+      fs.access output, (err) ->
+        if err then resolve null
+        else fs.readFile output, "utf8", (readErr, data) ->
+          if readErr then reject readErr
+          fs.remove output, (removeErr) ->
+            if removeErr then reject removeErr
+            else resolve data.replace '<?xml version="1.0" encoding="UTF-8"?>', ""

@@ -9,6 +9,7 @@ module.exports = (simpleDialogService, RESTHelperService, $window) ->
     controller.order.invalid = (not controller.order.files.top? and not controller.order.files.bottom?)
     if not controller.order.ifInvalid()
       RESTHelperService.upload.preview controller.order.files, (res) ->
+        console.log res
         controller.order.top.view = res.top
         controller.order.bottom.view = res.bottom
 

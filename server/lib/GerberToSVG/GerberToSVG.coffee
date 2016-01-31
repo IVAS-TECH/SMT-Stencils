@@ -1,21 +1,32 @@
 Promise = require "promise"
 transform = require "./transform"
 
-module.exports = (files, price = no) ->
+module.exports = (files, apertures = no) ->
   new Promise (resolve, reject) ->
     res = {}
-    if price then res.price = 0
+    if apertures then res.apertures = 0
     top = files.top? and files.top.length
     bottom = files.bottom? and files.bottom.length
+
     send = -> resolve res
-    transformLayer = (layer, cb) ->
-      (transform files[layer], files.outline, price).then (svg) ->
-        res[layer] = svg.preview
-        console.log svg.price
-        if price then res.price += svg.price
-        cb()
+
+    transformLayer = (layer) ->
+      new Promise (transfResolve, transfReject) ->
+        (transform files[layer], files.outline, apertures)
+          .then (svg) ->
+            res[layer] = svg.preview
+            if apertures then res.apertures += svg.apertures
+            transfResolve()
+          .catch transfReject
+
     if top and bottom
-      transformLayer "top", -> transformLayer "bottom", send
+      transforms = [
+        transformLayer "top"
+        transformLayer "bottom"
+      ]
+      transforms[0]
+        .then -> transforms[1].then send, send
+        .catch -> transforms[1].then send, reject
     else
-      if top then transformLayer "top", send
-      if bottom then transformLayer "bottom", send
+      if top then (transformLayer "top").then send, reject
+      if bottom then (transformLayer "bottom").then send, reject
