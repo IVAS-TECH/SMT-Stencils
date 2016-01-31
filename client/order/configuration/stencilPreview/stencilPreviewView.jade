@@ -1,18 +1,15 @@
 div(layout-margin layout-padding layout-wrap)
   div(
-    ng-class="scopeCtrl.style.frame ? 'stencil-box-framed' : 'stencil-box-simple'"
-    ng-style="scopeCtrl.changeDimenstions(scopeCtrl.configurationObject.stencil)"
+    ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-box-framed' : 'stencil-box-simple'"
+    ng-style="scopeCtrl.configurationObject.style.stencil ? {width: scopeCtrl.configurationObject.style.stencil.width + 'px', height: scopeCtrl.configurationObject.style.stencil.height + 'px'} : {}"
     layout="column"
   )
-    div(ng-class="scopeCtrl.style.frame ? 'stencil-outer-shadow' : 'stencil'" layout-fill layout="column")
-      div(ng-class="scopeCtrl.style.frame ? 'stencil-frame' : 'stencil'" layout-fill layout="column")
-        div(ng-class="scopeCtrl.style.frame ? 'stencil-inner-shadow' : 'stencil'" layout-fill layout="column")
-          div(ng-class="scopeCtrl.style.frame ? 'stencil-glued' : 'stencil'" layout-fill layout="column")
+    div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-outer-shadow' : 'stencil'" layout-fill layout="column")
+      div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-frame' : 'stencil'" layout-fill layout="column")
+        div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-inner-shadow' : 'stencil'" layout-fill layout="column")
+          div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-glued' : 'stencil'" layout-fill layout="column")
             div(class="stencil-view" layout-fill layout="column")
-              span(
-                ng-repeat="field in text track by $index"
-                class="stencil-text"
-                ng-class="scopeCtrl.changeText(scopeCtrl.configurationObject.text)"
-              ) {{field}}
-              div(ng-class="scopeCtrl.style.mode || 'portrait-centered'")
+              div(class="stencil-text" ng-class="[scopeCtrl.configurationObject.style.text.color, scopeCtrl.configurationObject.style.text.view]" layout="column")
+                span(ng-repeat="field in text track by $index") {{field}}
+              div(ng-class="scopeCtrl.configurationObject.style.mode || 'portrait-centered'")
                 ivo-include(include="view" controller="controller")

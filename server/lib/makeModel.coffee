@@ -4,8 +4,9 @@ module.exports = (model, schema) ->
 
   mongoosify  = (key, value) ->
 
-    if value instanceof Array and value.length > 1
-      return type: value[0], default: value[1]
+    if value instanceof Array
+      if value.length > 1 then return type: value[0], default: value[1]
+      else return value
 
     if typeof value is "string"
       return type: mongoose.Schema.Types.ObjectId, ref: value

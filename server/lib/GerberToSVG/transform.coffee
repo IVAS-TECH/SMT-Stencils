@@ -25,12 +25,12 @@ module.exports = (paste, outline) ->
         out = filter paths, /0%,0%,0%/
         out.css "stroke-width", ""
         out.css "stroke", ""
-        outHTML = "<g #{attr}=\"scopeCtrl.style.outline ? 'stencil-outline' : 'stencil-no-outline'\">#{out.toString()}</g>"
+        outHTML = "<g #{attr}=\"scopeCtrl.configurationObject.style.outline ? 'stencil-outline' : 'stencil-no-outline'\">#{out.toString()}</g>"
         out.remove()
         ($ "g").append outHTML
         svg.attr "width", "80%"
         svg.attr "height", "90%"
-        svg.attr attr, "[(scopeCtrl.configurationObject.position.side || 'pcb-side'), (scopeCtrl.style.layout ? 'stencil-layout' : 'stencil-centered')]"
+        svg.attr attr, "[(scopeCtrl.configurationObject.position.side || 'pcb-side'), (scopeCtrl.configurationObject.style.layout ? 'stencil-layout' : 'stencil-centered')]"
         (filter paths, /100%,100%,100%/).css "fill", ""
         resolve
           preview: replaceAll (removeAll $.html(), "\n"), "&apos;", "'"

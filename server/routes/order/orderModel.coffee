@@ -5,11 +5,6 @@ file = [String, ""]
 date = [Date, Date.now]
 
 module.exports = makeModel "Order",
-  style:
-    frame: Boolean
-    outline: Boolean
-    layout: Boolean
-    mode: String
   status: [String, "new"]
   price: [Number, 0]
   orderDate: date

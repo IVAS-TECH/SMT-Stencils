@@ -20,3 +20,14 @@ module.exports =
     position: String
     side: [String, "default"]
     type: String
+  style:
+    frame: Boolean
+    outline: Boolean
+    layout: Boolean
+    mode: String
+    text:
+      color: String
+      view: String
+    stencil:
+      width: Number
+      height: Number

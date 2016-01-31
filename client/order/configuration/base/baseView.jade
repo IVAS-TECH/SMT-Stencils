@@ -9,14 +9,14 @@ div(layout="column" layout-align="center center" layout-wrap)
       div(ng-if="baseCtrl.settings" layout="row" layout-align="center center")
         md-button(ng-click="baseCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="baseCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")
-  div(ng-if="baseCtrl[baseCtrl.link + baseCtrl.common[0]]" layout="column" layout-align="center stretch" layout-wrap)
+  div(ng-if="baseCtrl[baseCtrl.link + baseCtrl.common[3]]" layout="column" layout-align="center stretch" layout-wrap)
     ivo-include(include="baseCtrl.template" template="true" controller="baseCtrl.controller")
     div(layout="column" layout-wrap flex="auto")
       md-button(
         ng-if="baseCtrl.settings && baseCtrl[baseCtrl.link + baseCtrl.common[3]] !== 'preview'"
         ng-click="baseCtrl.doAction($event)"
         class="md-primary"
-        aria-label="baseCtrl[baseCtrl.link + baseCtrl.common[3]]"
+        aria-label="{{baseCtrl[baseCtrl.link + baseCtrl.common[3]]}}"
         translate="{{baseCtrl[baseCtrl.link + baseCtrl.common[3]]}}"
       )
       div(ng-if="!baseCtrl.settings" layout="column" layout-wrap)

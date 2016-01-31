@@ -10,8 +10,7 @@ date = dateHelper.$get()
 module.exports =
 
   get: (req, res, next) ->
-    find = ip: requestIp.getClientIp req, date: date.format()
-
+    find = date: date.format(), ip: requestIp.getClientIp req
     updateVisits = (user, callback) ->
       visitModel.update find, user: user, {upsert: yes}, (err, doc) ->
         if query.successful err, doc then callback()

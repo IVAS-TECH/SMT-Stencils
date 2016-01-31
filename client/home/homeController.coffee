@@ -7,19 +7,17 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
   init = ->
 
-    if $state.current.name is "home" then transitionService.toHome()
-
     stop = {}
 
     prevent = (event, going) ->
 
       notRestricted = ["/about", "/technologies", "/contacts"]
 
-      if going.url not in notRestricted then  event.preventDefault()
-
       stop.start()
 
       stop.success()
+
+      if going.url not in notRestricted then event.preventDefault()
 
       authenticationService.authenticate().then ->
 

@@ -38,13 +38,12 @@ module.exports =
       id = req.session.get.uid
       if req.params.id isnt "id"
         id = req.params.id
-      remove = (dbModel) ->
+      (Promise.all (for name, dbModel of model
         new Promise (resolve, reject) ->
           dbModel.remove user: id, (err) ->
             if query.noErr err then resolve()
             else reject err
-      Promise.all (remove dbModel for name, dbModel of model)
-        .then ->
+      )).then ->
           userModel.remove _id: id, (err, doc) ->
             if query.successful err, doc
               walker = walk files

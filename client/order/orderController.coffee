@@ -8,7 +8,6 @@ module.exports = ($scope, $state, RESTHelperService, simpleDialogService) ->
   controller.order = (event) ->
     RESTHelperService.upload.order controller.files, (res) ->
       order =
-        style: controller.style
         files: res.files
         topText: controller.top.text
         bottomText: controller.bottom.text

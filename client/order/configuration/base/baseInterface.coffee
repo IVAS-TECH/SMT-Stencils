@@ -1,7 +1,7 @@
 Promise = require "promise"
 
-module.exports = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings) ->
-  @$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings"]
+module.exports = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings, exclude) ->
+  @$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings", "exclude"]
 
   controller = @
 
@@ -17,6 +17,10 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
 
   controller.common = ["Object", "List", "Index", "Action", "Disabled"]
 
+  controller[controller.link + controller.common[0]] = {}
+
+  controller.change = ->
+
   controller.getObjects = ->
     list = controller.link + controller.common[1]
     RESTHelperService[controller.link].find (res) ->
@@ -29,11 +33,9 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
     controller[controller.link + controller.common[0]] = {}
     controller.change()
 
-  controller.change = ->
-
   controller.preview = ->
-      controller[controller.link + controller.common[4]] = yes
-      controller[controller.link + controller.common[3]] = "preview"
+    controller[controller.link + controller.common[4]] = yes
+    controller[controller.link + controller.common[3]] = "preview"
 
   controller.choose = ->
     controller.preview()
@@ -64,9 +66,11 @@ module.exports = ($scope, RESTHelperService, simpleDialogService, progressServic
 
     properties = (controller.link + prop for prop in controller.common)
 
-    exclude = ["link", "template", "valid", "btnBack", "settings"]
+    excludeProperties = ["link", "template", "valid", "btnBack", "settings", "common", "controller"]
 
-    progress = progressService $scope, "orderCtrl", controller.controller, exclude, properties
+    excludeProperties.push excld for excld in exclude
+
+    progress = progressService $scope, "orderCtrl", controller.controller, excludeProperties, properties
 
     controller.restore = ->
       if not $scope.$parent.orderCtrl[controller.link + controller.common[0]]?

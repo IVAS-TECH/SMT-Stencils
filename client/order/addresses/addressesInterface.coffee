@@ -9,6 +9,7 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
     "confirmService": confirmService
     "link": "addresses"
     "settings": @settings
+    "exclude": []
 
   controller.btnBack = yes
 
