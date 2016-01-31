@@ -9,8 +9,7 @@ module.exports = ($scope, progressService, simpleDialogService) ->
   progress = progressService $scope, "orderCtrl", "specificCtrl"
 
   controller.ifInvalid = ->
-    if controller.invalid
-      simpleDialogService {}, "title-add-paste-layer"
+    if controller.invalid then simpleDialogService {}, "title-add-paste-layer"
     controller.invalid
 
   controller.back = -> progress no

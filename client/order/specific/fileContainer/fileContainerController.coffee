@@ -1,5 +1,5 @@
-module.exports = ($scope, simpleDialogService, RESTHelperService, $window) ->
-  @$inject = ["$scope", "simpleDialogService", "RESTHelperService", "$window"]
+module.exports = (simpleDialogService, RESTHelperService, $window) ->
+  @$inject = ["simpleDialogService", "RESTHelperService", "$window"]
 
   controller = @
 
@@ -25,10 +25,8 @@ module.exports = ($scope, simpleDialogService, RESTHelperService, $window) ->
       return
 
   controller.fileName = ->
-    if typeof controller.file is "object"
-      return controller.file.name
-    else
-      return (controller.file.split "___")[2]
+    if typeof controller.file is "object" then controller.file.name
+    else (controller.file.split "___")[2]
 
   controller.upload = ->
     if typeof controller.file is "object" and controller.file?
