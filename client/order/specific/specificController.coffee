@@ -1,5 +1,5 @@
-module.exports = ($scope, progressService) ->
-  @$inject = ["$scope", "progressService"]
+module.exports = ($scope, progressService, simpleDialogService) ->
+  @$inject = ["$scope", "progressService", "simpleDialogService"]
 
   controller = @
   controller.files = {}
@@ -8,8 +8,13 @@ module.exports = ($scope, progressService) ->
 
   progress = progressService $scope, "orderCtrl", "specificCtrl"
 
+  controller.ifInvalid = ->
+    if controller.invalid
+      simpleDialogService {}, "title-add-paste-layer"
+    controller.invalid
+
   controller.back = -> progress no
 
-  controller.next = -> progress yes
+  controller.next = -> if not controller.ifInvalid() then progress yes
 
   controller

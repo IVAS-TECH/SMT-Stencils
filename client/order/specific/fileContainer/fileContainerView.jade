@@ -1,6 +1,6 @@
 div(
   ng-model="fileCnrCtrl.file"
-  ng-change="fileCnrCtrl.upload($event)"
+  ng-change="fileCnrCtrl.upload()"
   ngf-select
   ngf-drop
   class="dashed-border"
@@ -16,4 +16,4 @@ div(
       div(translate="div-selected-files")
       div(translate="div-remove-files")
     div(layout="column" layout-align="center center")
-      ivo-file(name="fileCnrCtrl.fileName()" ng-click="fileCnrCtrl.removeFile($event)")
+      ivo-file(name="fileCnrCtrl.fileName()" ng-click="fileCnrCtrl.action($event)")
