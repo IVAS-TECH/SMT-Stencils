@@ -19,20 +19,26 @@ module.exports = (paste, outline) ->
       (convert paste, outline)
         .then (svg) ->
           if not svg? then resolve svg
-          $ = cheerio.load svg
-          paths = $ "path"
-          apertures = paths.length
-          svg =  $ "svg"
-          attr = "ng-class"
-          out = filter paths, /0%,0%,0%/
-          out.css "stroke-width", ""
-          out.css "stroke", ""
-          outHTML = "<g #{attr}=\"scopeCtrl.configurationObject.style.outline ? 'stencil-outline' : 'stencil-no-outline'\">#{out.toString()}</g>"
-          out.remove()
-          ($ "g").append outHTML
-          svg.attr "width", "80%"
-          svg.attr "height", "90%"
-          svg.attr attr, "[(scopeCtrl.configurationObject.position.side || 'pcb-side'), (scopeCtrl.configurationObject.style.layout ? 'stencil-layout' : 'stencil-centered')]"
-          (filter paths, /100%,100%,100%/).css "fill", ""
-          resolve apertures: apertures, preview: replaceAll (removeAll $.html(), "\n"), "&apos;", "'"
+          else
+            $ = cheerio.load svg
+            paths = $ "path"
+            apertures = paths.length
+            if not apertures then resolve no
+            else
+              svg =  $ "svg"
+              attr = "ng-class"
+              out = filter paths, /0%,0%,0%/
+              out.css "stroke-width", ""
+              out.css "stroke", ""
+              outHTML = "<g #{attr}=\"scopeCtrl.configurationObject.style.outline
+                ? 'stencil-outline' : 'stencil-no-outline'\">#{out.toString()}</g>"
+              out.remove()
+              ($ "g").append outHTML
+              svg.attr "width", "80%"
+              svg.attr "height", "90%"
+              svg.attr attr, "[(scopeCtrl.configurationObject.position.side || 'pcb-side'),
+                (scopeCtrl.configurationObject.style.layout ?
+                'stencil-layout' : 'stencil-centered')]"
+              (filter paths, /100%,100%,100%/).css "fill", ""
+              resolve apertures: apertures, preview: replaceAll (removeAll $.html(), "\n"), "&apos;", "'"
         .catch reject

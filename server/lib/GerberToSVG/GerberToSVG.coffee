@@ -14,7 +14,9 @@ module.exports = (files, apertures = no) ->
       new Promise (transfResolve, transfReject) ->
         (transform files[layer], files.outline, apertures)
           .then (svg) ->
-            res[layer] = svg.preview
+            if svg? and typeof svg is "object"
+              res[layer] = svg.preview
+            else res[layer] = svg
             if apertures then res.apertures += svg.apertures
             transfResolve()
           .catch transfReject

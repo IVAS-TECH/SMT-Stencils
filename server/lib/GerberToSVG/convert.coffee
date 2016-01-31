@@ -16,6 +16,6 @@ module.exports = (paste, outline) ->
         if err then resolve null
         else fs.readFile output, "utf8", (readErr, data) ->
           if readErr then reject readErr
-          fs.remove output, (removeErr) ->
+          else fs.remove output, (removeErr) ->
             if removeErr then reject removeErr
             else resolve data.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
