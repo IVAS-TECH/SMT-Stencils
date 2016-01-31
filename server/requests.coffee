@@ -12,11 +12,6 @@ module.exports =
 
   beforeEach: bodyParser.json()
 
-  afterEach: [
-    (req, res, next) -> next "Not Found"
-    errorHandler join sendDir, "error.html"
-  ]
-
   get: sendFile "index.html"
 
   api: require "./routes/routes"
@@ -26,3 +21,8 @@ module.exports =
 
   "favicon.ico":
     get: sendFile "favicon.ico"
+
+  afterEach: [
+    (req, res, next) -> next "Not Found"
+    errorHandler join sendDir, "error.html"
+  ]
