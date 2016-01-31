@@ -61,6 +61,7 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
         fse.copySync path, dest
       next()
     walker.on "end", ->
+      zlib = require "zlib"
       fse.emptyDirSync compileDir
       file = join clientDir, "helper/template.coffee"
       fse.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
@@ -72,12 +73,11 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
       bundle = join sendDir, "final.js"
       index = join sendDir, "index.html"
       styleContent = fse.readFileSync style, "utf8"
-      finalContent = fse.readFileSync bundle, "utf8"
       indexContent = fse.readFileSync index, "utf8"
-      styled = indexContent.replace "@@@", styleContent
-      bundled = styled
-      #bundled = styled.replace "!!!", finalContent
-      fse.writeFileSync index, bundled, "utf8"
+      styled = new Buffer (indexContent.replace "@@@", styleContent), "utf-8"
+      fse.writeFileSync index, (zlib.gzipSync styled), "utf8"
+      finalContent = new Buffer (fse.readFileSync bundle, "utf8"), "utf-8"
+      fse.writeFileSync bundle, (zlib.gzipSync finalContent), "utf-8"
       resolve()
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->

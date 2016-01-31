@@ -4,20 +4,22 @@ errorHandler = require "./errorHandler"
 
 sendDir = join __dirname, 'send'
 
-sendFile = (file) ->
+sendFile = (file, gzip = no) ->
   send = join sendDir, file
-  (req, res) -> res.status(200).sendFile send
+  (req, res) ->
+    if gzip then res.set "Content-Encoding", "gzip"
+    res.status(200).sendFile send
 
 module.exports =
 
   beforeEach: bodyParser.json()
 
-  get: sendFile "index.html"
+  get: sendFile "index.html", yes
 
   api: require "./routes/routes"
 
   script:
-    get: sendFile "final.js"
+    get: sendFile "final.js", yes
 
   "favicon.ico":
     get: sendFile "favicon.ico"
