@@ -96,20 +96,21 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
   controller.choose = (event, order) ->
 
-    choose = ->
-      RESTHelperService.order.view files: order.files, (res) ->
-        set = (wich) -> text: order[wich + "Text"], view: res[wich]
-        $scope.order = order
-        $scope.order.top = set "top"
-        $scope.order.bottom = set "bottom"
-        $scope.$digest()
+    checkForDescription = ->
+      RESTHelperService.description.find order._id, (res) ->
+        if res.description? then showDescriptionService event, info: res.description
 
     controller.showing = order._id
 
-    RESTHelperService.description.find order._id, (res) ->
-      if res.description?
-        showDescriptionService event, {info: res.description}, success: choose
-      else choose()
+    RESTHelperService.order.view files: order.files, (res) ->
+      set = (wich) -> text: order[wich + "Text"], view: res[wich]
+      $scope.order = order
+      $scope.order.top = set "top"
+      $scope.order.bottom = set "bottom"
+      $scope.$digest()
+
+      if controller.afterChoose? then controller.afterChoose event, order, res, checkForDescription
+      else checkForDescription()
 
   controller.doAction = (event, order) ->
 

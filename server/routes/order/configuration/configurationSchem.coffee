@@ -4,6 +4,7 @@ module.exports =
   fudical:
     marks: String
     side: String
+    number: Number
   position:
     aligment: String
     position: String

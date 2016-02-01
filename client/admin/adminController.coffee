@@ -1,5 +1,5 @@
-module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService"]
+module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService, showCalculatedPriceService) ->
+  @$inject = ["$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService", "showCalculatedPriceService"]
 
   controller = $controller "ordersInterface",
     "$scope": $scope
@@ -85,7 +85,7 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
           else
             label = interval.label
             interval.current++
-            
+
           for info in ["count", "delivered", "revenue", "visits", "users"]
             intervals[label][info] += data[info]
 
@@ -137,6 +137,13 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
         status: order.status
         admin: yes
         user: order.user._id
+        price: order.price
+
+  controller.afterChoose = (event, order, stencil, callback) ->
+    if order.status is "new"
+      locals = order: order, stencil: stencil
+      showCalculatedPriceService event, locals, update: -> controller.doAction event, order
+    else callback()
 
   init()
 

@@ -1,0 +1,10 @@
+md-dialog
+  md-dialog-content(class="md-dialog-content")
+    md-dialog-actions(layout="row" layout-align="center center")
+      md-button(ng-click="showCalculatedPriceCtrl.hide('close')" class="md-warn" aria-label="close" translate="button-close")
+    md-input-container
+      label(translate="label-calculted-price")
+      input(ng-model="showCalculatedPriceCtrl.order.price" type="number" ng-disabled="true")
+    md-dialog-actions(layout="row" layout-align="center center")
+      md-button(ng-click="showCalculatedPriceCtrl.hide('ok')" class="md-primary" aria-label="ok" translate="button-ok")
+      md-button(ng-click="showCalculatedPriceCtrl.hide('update')" class="md-warn" aria-label="update" md-autofocus="true" translate="button-update")

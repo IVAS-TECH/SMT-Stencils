@@ -18,11 +18,9 @@ module.exports =
 
   api: require "./routes/routes"
 
-  script:
-    get: sendFile "final.js", yes
+  script: get: sendFile "bundle.js"
 
-  "favicon.ico":
-    get: sendFile "favicon.ico"
+  "favicon.ico": get: sendFile "favicon.ico"
 
   afterEach: [
     (req, res, next) -> next "Not Found"

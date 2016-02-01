@@ -2,7 +2,7 @@
 moduleName = "adminModule"
 
 angular
-  .module moduleName, []
+  .module moduleName, [require "./showCalculatedPrice/showCalculatedPriceModule"]
     .controller "adminController", require "./adminController"
     .directive "ivoLineChart", require "./lineChart/lineChartDirective"
     .config require "./adminConfig"
