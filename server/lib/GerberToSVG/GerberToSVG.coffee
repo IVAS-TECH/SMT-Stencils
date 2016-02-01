@@ -4,7 +4,7 @@ transform = require "./transform"
 module.exports = (files, apertures = no) ->
   new Promise (resolve, reject) ->
     res = {}
-    if apertures then res.apertures = 0
+    if apertures then res.apertures = {}
     top = files.top? and files.top.length
     bottom = files.bottom? and files.bottom.length
 
@@ -17,7 +17,7 @@ module.exports = (files, apertures = no) ->
             if svg? and typeof svg is "object"
               res[layer] = svg.preview
             else res[layer] = svg
-            if apertures then res.apertures += svg.apertures
+            if apertures then res.apertures[layer] = svg.apertures
             transfResolve()
           .catch transfReject
 

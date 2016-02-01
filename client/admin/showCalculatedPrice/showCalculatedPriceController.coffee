@@ -8,15 +8,16 @@ module.exports = ->
 
       price = {}
 
+      stencil = {}
+
       number = 1
 
-      isStencil = (type) -> typeof controller.stencil[type] is "string"
+      for type in ["top", "bottom"]
+        stencil[type] = typeof controller.stencil[type] is "string" and controller.stencil.apertures[type]
 
-      if (isStencil "top") and isStencil "bottom" then number = 2
+      if stencil.top and stencil.bottom then number = 2
 
       configuration = controller.order.configurationObject
-
-      totalApertures = controller.stencil.apertures
 
       fudicals = configuration.fudical.number
 
@@ -43,8 +44,6 @@ module.exports = ->
       category = stencilCategory()
       category++
 
-      baseApertures = category * 500 * number
-
       price.size = 65 * number
 
       for i in [1..category]
@@ -56,21 +55,31 @@ module.exports = ->
 
         price.size += 5 * l * number
 
-      extraApertures = totalApertures - baseApertures
+      baseApertures = category * 500
 
-      if extraApertures > 0
+      calculateExtraAperturesPrice = (wich) ->
 
-        if 3000 < extraApertures <= 5000 then k = 0.0498
+        if not stencil[wich] then return 0
+
+        extraApertures = controller.stencil.apertures[wich] - baseApertures
+
+        if extraApertures > 0
+
+          if 3000 < extraApertures <= 5000 then k = 0.0498
+          else
+            if extraApertures > 5000 then k = 0.03912
+            else k = 0.05867
+
+          return extraApertures * k
+
+        else return 0
+
+      price.apertures = (calculateExtraAperturesPrice "top") + calculateExtraAperturesPrice "bottom"
+
+      calculateTextPrice = (wich) ->
+        if not stencil.wich then return 0
         else
-          if extraApertures > 5000 then k = 0.03912
-          else k = 0.05867
-
-        price.extraApertures = extraApertures * k
-
-      calculateTextPrice = (stencil) ->
-        if not controller.order[stencil]? then return 0
-        else
-          text = controller.order[stencil].text
+          text = controller.order[wich].text
           symbols = (line.match /\S/g for line in text).join().length
           extra = symbols - 120
           if extra > 0 then return extra * 0.04
