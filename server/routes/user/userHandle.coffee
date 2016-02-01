@@ -19,8 +19,7 @@ module.exports =
 
   get: (req, res, next) ->
     userModel.findOne email: req.params.email, (err, doc) ->
-      if query.noErr err
-        send res, taken: doc?
+      if query.noErr err then send res, taken: doc?
       else next err
 
   post: (req, res, next) ->
@@ -28,14 +27,12 @@ module.exports =
       query.basicHandle err, doc, res, next
 
   patch: (req, res, next) ->
-    update = {}
-    update[req.body.type] = req.body.value
-    id = req.session.get.uid
-    userModel.findByIdAndUpdate id, $set: update, {new: true}, (err, doc) ->
+    update = "#{req.body.type}": req.body.value
+    userModel.findByIdAndUpdate req.user._id, $set: update, {new: true}, (err, doc) ->
       query.basicHandle err, doc, res, next
 
   delete: (req, res, next) ->
-      id = req.session.get.uid
+      id = req.user._id
       if req.params.id isnt "id"
         id = req.params.id
       (Promise.all (for name, dbModel of model

@@ -12,7 +12,7 @@ module.exports = ($translate, $scope, RESTHelperService, authenticationService) 
     getLanguage = ->
       RESTHelperService.language.find "id", (res) ->
         if res.language?
-          controller.current = res.language
+          controller.current = res.language.language
           $translate.use controller.current
           $scope.$digest()
 

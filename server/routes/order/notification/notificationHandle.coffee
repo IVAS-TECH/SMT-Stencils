@@ -1,12 +1,10 @@
 notificationModel = require "./notificationModel"
 query = require "./../../../lib/query"
-send = require "./../../../lib/send"
 
 module.exports =
 
   get: (req, res, next) ->
-    id = req.session.get.uid
-    notificationModel.find user: id , (err, doc) ->
+    notificationModel.find user: req.user._id , (err, doc) ->
       query.basicHandle err, doc, res, next, "notifications"
 
   delete: (req, res, next) ->

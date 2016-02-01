@@ -1,6 +1,5 @@
 descriptionModel = require "./descriptionModel"
 query = require "./../../../lib/query"
-send = require "./../../../lib/send"
 
 module.exports =
 

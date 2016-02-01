@@ -1,7 +1,7 @@
-session = require "./../lib/session/session"
+sessionMiddleware = require "./../lib/session/sessionMiddleware"
 
 module.exports =
-  beforeEach: session()
+  beforeEach: sessionMiddleware
   user: require "./user/userHandle"
   login: require "./user/loginHandle"
   visit: require "./user/visit/visitHandle"

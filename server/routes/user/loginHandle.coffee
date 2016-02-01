@@ -1,46 +1,46 @@
-requestIp = require "request-ip"
 userModel = require "./userModel"
 send = require "./../../lib/send"
 query = require "./../../lib/query"
-isAdmin = require "./admin/isAdmin"
 visitModel = require "./visit/visitModel"
 dateHelper = require "./../../share/dateHelper"
+isAdminMiddleware = require "./admin/isAdminMiddleware"
 date = dateHelper.$get()
 
 module.exports =
 
-  get: (req, res, next) ->
-    find = date: date.format(), ip: requestIp.getClientIp req
-    updateVisits = (user, callback) ->
-      visitModel.update find, user: user, {upsert: yes}, (err, doc) ->
-        if query.successful err, doc then callback()
+  get: [
+    isAdminMiddleware
+
+    (req, res, next) ->
+      if not req.user?
+        req.send = login: no
+        next()
+      else
+        userModel.findById req.user._id, (err, doc) ->
+          req.send = login:yes, user: doc, admin: req.admin
+          next()
+
+    (req, res, next) ->
+      find = date: date.format(), ip: req.userIp
+      visitModel.update find, user: req.send.login, {upsert: yes}, (err, doc) ->
+        if query.successful err, doc then send res, req.send
+        else next err
+  ]
+
+  post: [
+    (req, res, next) ->
+      userModel.findOne req.body.user, (err, doc) ->
+        if query.noErr err
+          req.user = doc
+          next()
         else next err
 
-    if not req.session.isEmpty()
-      updateVisits yes, ->
-        id = req.session.get.uid
-        userModel.findById id, (err, doc) ->
-          if query.successful err, doc
-            (isAdmin id)
-              .then (admin) ->
-                send res, login: yes, user: doc, admin: admin
-              .catch next
-          else next err
-    else updateVisits no, -> send res, login: no
+    
 
-  post: (req, res, next) ->
-    userModel.findOne req.body.user, (err, doc) ->
-      if query.noErr err
-        if doc?
-          (req.session.create uid: doc._id)
-            .then ->
-              (isAdmin doc._id)
-                .then (admin) ->
-                  send res, login: yes, admin: admin
-                .catch next
-            .catch next
-        else send res, login: no
-      else next err
+    isAdminMiddleware
+
+    (req, res, next) -> send res, login: req.user?, admin: req.admin
+  ]
 
   delete: (req, res, next) ->
     req.session.destroy().then (-> send res), next

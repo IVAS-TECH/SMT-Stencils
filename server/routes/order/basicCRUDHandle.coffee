@@ -1,16 +1,14 @@
-send = require "./../../lib/send"
 query = require "./../../lib/query"
 
 module.exports = (model, route) ->
 
   get: (req, res, next) ->
-    id = req.session.get.uid
-    model.find user: id, (err, docs) ->
+    model.find user: req.user._id, (err, docs) ->
       query.basicHandle err, docs, res, next, "#{route}List"
 
   post: (req, res, next) ->
     obj = req.body[route]
-    obj.user = req.session.get.uid
+    obj.user = req.user._id
     model.create obj, (err, doc) ->
       query.basicHandle err, doc, res, next
 

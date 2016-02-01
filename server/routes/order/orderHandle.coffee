@@ -1,6 +1,6 @@
 {join} = require "path"
 orderModel = require "./orderModel"
-isAdmin = require "./../user/admin/isAdmin"
+isAdminMiddleware = require "./../user/admin/isAdminMiddleware"
 basicCRUDHandle = require "./basicCRUDHandle"
 GerberToSVG = require "./../../lib/GerberToSVG/GerberToSVG"
 descriptionModel = require "./description/descriptionModel"
@@ -27,43 +27,32 @@ handle.download =
 
     params: "file"
 
-handle.get = (req, res, next) ->
-    id = req.session.get.uid
-    resolve = (admin) ->
-      find = user: id
-      if admin.admin
-        find = {}
-      orderModel
-        .find find
-        .populate "user"
-        .sort orderDate: "desc"
-        .exec (err, docs) ->
-          query.basicHandle err, docs, res, next, "orders"
+handle.get = [
+  isAdminMiddleware
 
-    isAdmin(id).then resolve, next
+  (req, res, next) ->
+    find = if req.admin.admin then user: req.user._id else {}
+    orderModel
+      .find find
+      .populate "user"
+      .sort orderDate: "desc"
+      .exec (err, docs) ->
+        query.basicHandle err, docs, res, next, "orders"
+]
 
-handle.put = (req, res, next) ->
-    (isAdmin req.session.get.uid)
-      .then (admin) ->
-        (GerberToSVG (filePaths req.body.files), admin.admin).then (svg) ->
-          send res, svg
-      .catch next
+handle.put = [
+  isAdminMiddleware
 
-handle.patch = (req, res, next) ->
+  (req, res, next) ->
+    (GerberToSVG (filePaths req.body.files), req.admin.admin).then ((svg) -> send res, svg), next
+]
 
-    save = (txt) ->
-      binded = resolveDescriptionBindings txt, req.body
-      descriptionModel.update order: id, {text: binded}, {upsert: yes}, (err, doc) ->
-        if not query.successful err, doc then next err
-        else
-          notificationModel.create order: id, user: req.body.user, (Err, Doc) ->
-            query.basicHandle Err, Doc, res, next
+handle.patch = [
+  (req, res, next) ->
 
     text = req.body.text
 
     order = status: req.body.status
-
-    id = req.body.id
 
     if req.body.price?
       order.price = req.body.price
@@ -71,12 +60,27 @@ handle.patch = (req, res, next) ->
     if order.status is "sent"
       order.sendingDate = new Date()
 
-    orderModel.findByIdAndUpdate id, $set: order, {new: true}, (err, doc) ->
+    orderModel.findByIdAndUpdate req.body.id, $set: order, {new: true}, (err, doc) ->
 
       if query.successful err, doc
         if text[0] is ""
-          (getDescriptionTemplate order.status, req.body.language).then save, next
-        else save text
+          (getDescriptionTemplate order.status, req.body.language).then (txt) ->
+            req.text = txt
+            next()
+        else
+          req.text = text
+          next()
       else next err
+
+  (req, res, next) ->
+    binded = resolveDescriptionBindings req.text, req.body
+    descriptionModel.update order: req.body.id, {text: binded}, {upsert: yes}, (err, doc) ->
+      if query.successful err, doc then next()
+      else next err
+
+  (req, res, next) ->
+    notificationModel.create order: req.body.id, user: req.body.user, (err, doc) ->
+      query.basicHandle err, doc, res, next
+]
 
 module.exports = handle

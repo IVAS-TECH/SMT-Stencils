@@ -1,6 +1,3 @@
 makeModel = require "./../makeModel"
 
-module.exports = makeModel "Session",
-  ip: String
-  key: String
-  value: String
+module.exports = makeModel "Session", ip: String, user: "User"

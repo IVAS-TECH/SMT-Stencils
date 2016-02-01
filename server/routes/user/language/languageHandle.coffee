@@ -5,21 +5,14 @@ send = require "./../../../lib/send"
 module.exports =
 
   get: (req, res, next) ->
-    id = req.session.get.uid
+    id = req.user._id
     if req.params.id isnt "id"
       id = req.params.id
     languageModel.findOne user: id, (err, doc) ->
-      if query.noErr err
-        language = null
-        if doc?
-          language = doc.language
-        send res, language: language
-      else next err
+      query.noErrHandle err, res, next, doc, "language"
 
   post: (req, res, next) ->
-    id = req.session.get.uid
-    update = language: req.body.language
-    languageModel.update user: id, update, {upsert: yes}, (err, doc) ->
+    languageModel.update user: req.user._id, {language: req.body.language}, {upsert: yes}, (err, doc) ->
       query.basicHandle err, doc, res, next
 
   params: get: "id"
