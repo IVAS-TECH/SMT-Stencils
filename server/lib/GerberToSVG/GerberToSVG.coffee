@@ -5,8 +5,11 @@ module.exports = (files, apertures = no) ->
   new Promise (resolve, reject) ->
     res = {}
     if apertures then res.apertures = {}
-    top = files.top? and files.top.length
-    bottom = files.bottom? and files.bottom.length
+
+    fileForLayer = (layer) -> files[layer]? and files[layer].length
+
+    top = fileForLayer "top"
+    bottom = fileForLayer "bottom"
 
     send = -> resolve res
 

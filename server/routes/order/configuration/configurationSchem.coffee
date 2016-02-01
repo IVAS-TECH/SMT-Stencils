@@ -10,12 +10,15 @@ module.exports =
     position: String
     side: String
   stencil:
-    size: [String, "default"]
     tickness: String
     transitioning: String
     type: String
     height: Number
     width: Number
+    impregnation: Boolean
+    frame:
+      size: [String, "default"]
+      clean: [Boolean, no]
   text:
     angle: String
     position: String

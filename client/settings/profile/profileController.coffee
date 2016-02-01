@@ -1,9 +1,7 @@
-module.exports = ($scope, showErrorService, confirmService, RESTHelperService, simpleDialogService) ->
-  @$inject = ["$scope", "showErrorService", "confirmService", "RESTHelperService", "simpleDialogService"]
+module.exports = ($scope, confirmService, RESTHelperService, simpleDialogService) ->
+  @$inject = ["$scope", "confirmService", "RESTHelperService", "simpleDialogService"]
 
   controller = @
-
-  controller.error = showErrorService
 
   controller.change = (event, type, valid) ->
     if valid

@@ -44,7 +44,7 @@ module.exports = ->
       category = stencilCategory()
       category++
 
-      price.size = 65 * number
+      price.size = 65.89 * number
 
       for i in [1..category]
         l = 1
@@ -53,7 +53,7 @@ module.exports = ->
 
         if i > 4 then l = 8
 
-        price.size += 5 * l * number
+        price.size += 5.021 * l * number
 
       baseApertures = category * 500
 
@@ -77,15 +77,24 @@ module.exports = ->
       price.apertures = (calculateExtraAperturesPrice "top") + calculateExtraAperturesPrice "bottom"
 
       calculateTextPrice = (wich) ->
-        if not stencil.wich then return 0
+        if not stencil[wich] then return 0
         else
           text = controller.order[wich].text
-          symbols = (line.match /\S/g for line in text).join().length
-          extra = symbols - 120
+          symbols = (line.match /\S/g for line in text).join()
+          extra = symbols.length - 120
           if extra > 0 then return extra * 0.04
           else return 0
 
       price.text = (calculateTextPrice "top") + calculateTextPrice "bottom"
+
+      if configuration.stencil.transitioning is "glued-in-frame"
+        frame = 5.23
+        if configuration.stencil.frame.size isnt "custom"
+          if configuration.stencil.frame.clean then frame += 34.12
+          else frame += 24.34
+        price.glued = frame * number
+
+      if configuration.stencil.impregnation then price.impregnation = 29.34 * number
 
       console.log price
 
