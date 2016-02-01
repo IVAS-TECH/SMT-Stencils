@@ -8,6 +8,12 @@ module.exports = ->
 
       price = {}
 
+      number = 1
+
+      isStencil = (type) -> typeof controller.stencil[type] is "string"
+
+      if (isStencil "top") and isStencil "bottom" then number = 2
+
       configuration = controller.order.configurationObject
 
       totalApertures = controller.stencil.apertures
@@ -18,7 +24,7 @@ module.exports = ->
 
       extraFudicals = fudicals - 8
 
-      if extraFudicals > 0 then price.fudicals = extraFudicals * 0.98
+      if extraFudicals > 0 then price.fudicals = extraFudicals * 0.98 * number
 
       stencilCategory = ->
         categories = [
@@ -37,9 +43,9 @@ module.exports = ->
       category = stencilCategory()
       category++
 
-      baseApertures = category * 500
+      baseApertures = category * 500 * number
 
-      price.size = 65
+      price.size = 65 * number
 
       for i in [1..category]
         l = 1
@@ -48,7 +54,7 @@ module.exports = ->
 
         if i > 4 then l = 8
 
-        price.size += (5 * l)
+        price.size += 5 * l * number
 
       extraApertures = totalApertures - baseApertures
 
@@ -61,9 +67,22 @@ module.exports = ->
 
         price.extraApertures = extraApertures * k
 
+      calculateTextPrice = (stencil) ->
+        if not controller.order[stencil]? then return 0
+        else
+          text = controller.order[stencil].text
+          symbols = (line.match /\S/g for line in text).join().length
+          extra = symbols - 120
+          if extra > 0 then return extra * 0.04
+          else return 0
+
+      price.text = (calculateTextPrice "top") + calculateTextPrice "bottom"
+
+      console.log price
+
       (value for key, value of price).reduce (a, b) -> a + b
 
-    controller.order.price = calculatePrice()
+    controller.order.price = parseFloat calculatePrice().toFixed 2
 
   init()
 
