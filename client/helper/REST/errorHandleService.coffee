@@ -1,2 +1,2 @@
 module.exports = ->
-  -> console.log "error"
+  -> console.log "error there was"

@@ -4,7 +4,7 @@ errorHandler = require "./errorHandler"
 
 sendDir = join __dirname, 'send'
 
-sendFile = (file, gzip = no) ->
+sendFile = (file, gzip) ->
   send = join sendDir, file
   (req, res) ->
     if gzip then res.set "Content-Encoding", "gzip"
@@ -18,7 +18,7 @@ module.exports =
 
   api: require "./routes/routes"
 
-  script: get: sendFile "bundle.js"
+  script: get: sendFile "final.js", yes
 
   "favicon.ico": get: sendFile "favicon.ico"
 

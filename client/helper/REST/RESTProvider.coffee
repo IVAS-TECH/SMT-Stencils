@@ -33,10 +33,12 @@ module.exports = ->
             res.on "data", (chunk) -> response += chunk
 
             res.on "end", ->
-              resolve
-                headers: res.headers
-                data: JSON.parse response
-                status: res.statusCode
+              if res.statusCode is 200
+                resolve
+                  headers: res.headers
+                  data: JSON.parse response
+                  status: res.statusCode
+              else reject()
 
             res.on "error", reject
 
