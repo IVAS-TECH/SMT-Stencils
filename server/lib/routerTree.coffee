@@ -43,7 +43,10 @@ routerLeaf = (handle) ->
             param = params
           if param? then uri += "\:" + param
 
-        router[key] uri, value
+        if value instanceof Array
+          value.unshift uri
+          router[key].apply router, value
+        else router[key] uri, value
 
   use 2
 
