@@ -2,21 +2,15 @@
 orderModel = require "./orderModel"
 isAdminMiddleware = require "./../user/admin/isAdminMiddleware"
 basicCRUDHandle = require "./basicCRUDHandle"
-GerberToSVG = require "./../../lib/GerberToSVG/GerberToSVG"
 descriptionModel = require "./description/descriptionModel"
 notificationModel = require "./notification/notificationModel"
+GerberToSVGMiddleware = require "./../../lib/GerberToSVG/GerberToSVGMiddleware"
 resolveDescriptionBindings = require "./description/resolveDescriptionBindings"
 getDescriptionTemplate = require "./description/getDescriptionTemplate"
 query = require "./../../lib/query"
 send = require "./../../lib/send"
 
 dir = join __dirname, "../../../files"
-
-filePaths = (files) ->
-  paths = {}
-  for layer, file of files
-    paths[layer] = join dir, file
-  paths
 
 handle = basicCRUDHandle orderModel, "order"
 
@@ -31,7 +25,8 @@ handle.get = [
   isAdminMiddleware
 
   (req, res, next) ->
-    find = if req.admin.admin then user: req.user._id else {}
+    find = user: req.user.user
+    if req.admin.admin then find = {}
     orderModel
       .find find
       .populate "user"
@@ -41,10 +36,15 @@ handle.get = [
 ]
 
 handle.put = [
-  isAdminMiddleware
-
   (req, res, next) ->
-    (GerberToSVG (filePaths req.body.files), req.admin.admin).then ((svg) -> send res, svg), next
+    req.gerbers = {}
+    for layer, file of req.body.files
+      req.gerbers[layer] = join dir, file
+    next()
+
+  GerberToSVGMiddleware "transform"
+
+  GerberToSVGMiddleware "send"
 ]
 
 handle.patch = [

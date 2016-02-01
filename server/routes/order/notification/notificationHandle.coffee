@@ -4,7 +4,7 @@ query = require "./../../../lib/query"
 module.exports =
 
   get: (req, res, next) ->
-    notificationModel.find user: req.user._id , (err, doc) ->
+    notificationModel.find user: req.user.user , (err, doc) ->
       query.basicHandle err, doc, res, next, "notifications"
 
   delete: (req, res, next) ->

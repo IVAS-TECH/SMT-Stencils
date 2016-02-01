@@ -28,11 +28,11 @@ module.exports =
 
   patch: (req, res, next) ->
     update = "#{req.body.type}": req.body.value
-    userModel.findByIdAndUpdate req.user._id, $set: update, {new: true}, (err, doc) ->
+    userModel.findByIdAndUpdate req.user.user, $set: update, {new: true}, (err, doc) ->
       query.basicHandle err, doc, res, next
 
   delete: (req, res, next) ->
-      id = req.user._id
+      id = req.user.user
       if req.params.id isnt "id"
         id = req.params.id
       (Promise.all (for name, dbModel of model

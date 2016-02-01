@@ -3,12 +3,12 @@ query = require "./../../lib/query"
 module.exports = (model, route) ->
 
   get: (req, res, next) ->
-    model.find user: req.user._id, (err, docs) ->
+    model.find user: req.user.user, (err, docs) ->
       query.basicHandle err, docs, res, next, "#{route}List"
 
   post: (req, res, next) ->
     obj = req.body[route]
-    obj.user = req.user._id
+    obj.user = req.user.user
     model.create obj, (err, doc) ->
       query.basicHandle err, doc, res, next
 

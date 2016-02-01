@@ -2,8 +2,8 @@ fs = require "fs"
 {join} = require "path"
 Promise = require "promise"
 config = require "./multerConfig"
-GerberToSVG = require "./../../../lib/GerberToSVG/GerberToSVG"
 send = require "./../../../lib/send"
+GerberToSVGMiddleware = require "./../../../lib/GerberToSVG/GerberToSVGMiddleware"
 multerConfig = config join __dirname, "../../../../files"
 
 transformReq = (req, info) ->
@@ -14,26 +14,29 @@ transformReq = (req, info) ->
 
 module.exports =
 
-  order:
+  order: post: [
+      multerConfig.order().any()
+      (req, res) -> send res, files: transformReq req, "filename"
+    ]
 
-    beforeEach: multerConfig.order().any()
+  preview: post: [
+    multerConfig.preview().any()
 
-    post: (req, res) ->
-      send res, files: transformReq req, "filename"
+    (req, res, next) ->
+      req.gerbers = transformReq req, "path"
+      next()
 
-  preview:
+    GerberToSVGMiddleware "transform"
 
-    beforeEach: multerConfig.preview().any()
+    (req, res, next) ->
+      remove = (file) ->
+        new Promise (resolve, reject) ->
+          fs.unlink file, (err) ->
+            if err then reject err
+            else resolve()
+      console.log (remove file for layer, file of req.gerbers)
+      next()
 
-    post: (req, res, next) ->
-      transform = transformReq req, "path"
+    GerberToSVGMiddleware "send"
 
-      (GerberToSVG transform)
-        .then (svg) ->
-          (Promise.all (for layer, file of transform
-            new Promise (resolve, reject) ->
-             fs.unlink file, (err) ->
-               if err then reject err
-               else resolve()
-          )).then (-> send res, svg), next
-        .catch next
+  ]

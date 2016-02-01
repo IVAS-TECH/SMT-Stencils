@@ -114,35 +114,19 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
     fse.emptyDirSync compileDir
     fse.emptyDirSync deployDir
     invoke "coffee"
-    GerberToSVG = require "./server/lib/GerberToSVG/GerberToSVG"
     favicon = "favicon.ico"
     console.log "Pulling resources..."
     fse.removeSync resourceDir
     clone = spawnSync "git", ["clone", "https://github.com/IVAS-TECH/SMT-Stencils_resources.git", resourceDir], stdio: "inherit"
     console.log "Pulling resources    done"
-    console.log "Generating default stencil SVG..."
-    files = {}
-    walker = walk join resourceDir, "samples"
-    walker.on "file", (root, file, next) ->
-      if file.name.match /F_Paste/
-        files.top = join root, file.name
-      if file.name.match /Edge_Cuts/
-        files.outline = join root, file.name
-      next()
-    walker.on "end", ->
-      SVG = (svg) ->
-        top = join compileDir, "top.html"
-        fse.writeFileSync top, svg.top, "utf8"
-        console.log "Generating default stencil SVG    done"
-        console.log "Moving favicon.ico..."
-        src = join resourceDir, favicon
-        dst = join sendDir, favicon
-        fse.move src, dst, (err) ->
-          fse.removeSync resourceDir
-          if err? then console.log err
-          console.log "Moving favicon.ico    done"
-          resolve()
-      GerberToSVG(files).then SVG, (err) -> console.log "error", err
+    console.log "Moving favicon.ico..."
+    src = join resourceDir, favicon
+    dst = join sendDir, favicon
+    fse.move src, dst, (err) ->
+    fse.removeSync resourceDir
+    if err? then console.log err
+    console.log "Moving favicon.ico    done"
+    resolve()
 
 task "clean", "Returns repo as it was pulled", ->
   client = join __dirname, "client"

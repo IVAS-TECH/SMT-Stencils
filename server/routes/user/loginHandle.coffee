@@ -4,6 +4,7 @@ query = require "./../../lib/query"
 visitModel = require "./visit/visitModel"
 dateHelper = require "./../../share/dateHelper"
 isAdminMiddleware = require "./admin/isAdminMiddleware"
+sessionMiddleware = require "./../../lib/session/sessionMiddleware"
 date = dateHelper.$get()
 
 module.exports =
@@ -16,8 +17,8 @@ module.exports =
         req.send = login: no
         next()
       else
-        userModel.findById req.user._id, (err, doc) ->
-          req.send = login:yes, user: doc, admin: req.admin
+        userModel.findById req.user.user, (err, doc) ->
+          req.send = login: yes, user: doc, admin: req.admin
           next()
 
     (req, res, next) ->
@@ -35,12 +36,11 @@ module.exports =
           next()
         else next err
 
-    
+    sessionMiddleware "set"
 
     isAdminMiddleware
 
     (req, res, next) -> send res, login: req.user?, admin: req.admin
   ]
 
-  delete: (req, res, next) ->
-    req.session.destroy().then (-> send res), next
+  delete: sessionMiddleware "remove"
