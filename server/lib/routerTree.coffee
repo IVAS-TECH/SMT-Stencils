@@ -35,12 +35,23 @@ routerLeaf = (handle) ->
 
       else
         uri = "\/"
-        if key in methods[0..1] and params?
+        if params?
           param = null
-          if typeof params is "object" and params[key]?
-            param = params[key]
-          if typeof params is "string"
-            param = params
+          paramFn = null
+          if typeof params is "object"
+
+            if typeof params.callback is "function"
+              param = params.name
+              router.param params.name, params.callback
+
+            if params[key]?
+              param = params[key]
+              if typeof param is "object"
+                router.param param.name, param.callback
+                param = param.name
+
+          if typeof params is "string" then param = params
+
           if param? then uri += "\:" + param
 
         if value instanceof Array
