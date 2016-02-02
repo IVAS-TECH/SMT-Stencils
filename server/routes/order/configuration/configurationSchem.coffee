@@ -17,12 +17,12 @@ module.exports =
     width: Number
     impregnation: Boolean
     frame:
-      size: [String, "default"]
-      clean: [Boolean, no]
+      size: String
+      clean: Boolean
   text:
     angle: String
     position: String
-    side: [String, "default"]
+    side: String
     type: String
   style:
     frame: Boolean
