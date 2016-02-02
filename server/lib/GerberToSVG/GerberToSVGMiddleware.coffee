@@ -38,4 +38,4 @@ module.exports = (middleware) ->
       if top then (transformLayer "top").then next, next
       if bottom then (transformLayer "bottom").then next, next
 
-  else (req, res, next) -> send res, req.stencil
+  else (req, res) -> send res, req.stencil
