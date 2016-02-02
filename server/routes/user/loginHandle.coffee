@@ -5,6 +5,7 @@ visitModel = require "./visit/visitModel"
 dateHelper = require "./../../share/dateHelper"
 isAdminMiddleware = require "./admin/isAdminMiddleware"
 sessionMiddleware = require "./../../lib/session/sessionMiddleware"
+session = sessionMiddleware()
 date = dateHelper.$get()
 
 module.exports =
@@ -36,11 +37,11 @@ module.exports =
           next()
         else next err
 
-    sessionMiddleware "set"
+    session "set"
 
     isAdminMiddleware
 
     (req, res, next) -> send res, login: req.user?, admin: req.admin
   ]
 
-  delete: sessionMiddleware "remove"
+  delete: session "remove"

@@ -2,29 +2,32 @@ sessionModel = require "./sessionModel"
 requestIp = require "request-ip"
 query = require "./../query"
 
-module.exports = (what) ->
+module.exports = (field = "user", ipField = "userIp") ->
 
-  if what is "remove" then return (req, res, next) ->
-    sessionModel.remove _id: req.user._id, (err) ->
-      query.noErrHandle err, res, next
+  setIp = (req) -> req[ipField] = requestIp.getClientIp req
 
-  middleware = [(req, res, next) ->
-    req.userIp = requestIp.getClientIp req
-    next()
-  ]
+  (middleware) ->
 
-  if what is "get" then middleware.push (req, res, next) ->
-    console.log req.method, req.url
-    sessionModel.findOne ip: req.userIp, (err, doc) ->
-      if query.noErr err
-        req.user = doc
-        next()
-      else next err
+    switch middleware
 
-  else middleware.push (req, res, next) ->
-    if not req.user? then next()
-    else sessionModel.create user: req.user._id, ip: req.userIp, (err, doc) ->
-      if query.successful err, doc then next()
-      else next err
+      when "remove" then return (req, res, next) ->
+        sessionModel.remove _id: req[field]._id, (err) ->
+          query.noErrHandle err, res, next
 
-  middleware
+      when "get" then return (req, res, next) ->
+          console.log req.method, req.url
+          setIp req
+          sessionModel.findOne ip: req[ipField], (err, doc) ->
+            if query.noErr err
+              req[field] = doc
+              next()
+            else next err
+
+      when "set" then return (req, res, next) ->
+        setIp req
+        if not req.user? then next()
+        else sessionModel.create user: req[field]._id, ip: req[ipField], (err, doc) ->
+          if query.successful err, doc
+            req[field] = doc
+            next()
+          else next err
