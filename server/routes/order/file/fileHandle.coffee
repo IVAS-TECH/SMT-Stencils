@@ -35,7 +35,9 @@ module.exports =
 
     transformReq "path"
 
-    GerberToSVGMiddleware "transform"
+    GerberToSVGMiddleware "top"
+
+    GerberToSVGMiddleware "bottom"
 
     tryClean "top"
 
@@ -44,5 +46,4 @@ module.exports =
     tryClean "outline"
 
     GerberToSVGMiddleware "send"
-
   ]

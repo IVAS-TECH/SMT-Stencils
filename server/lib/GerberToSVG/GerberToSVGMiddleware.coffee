@@ -1,41 +1,21 @@
 send = require "./../send"
-Promise = require "promise"
 transform = require "./transform"
 
 module.exports = (middleware) ->
 
-  if middleware is "transform" then (req, res, next) ->
+  if middleware isnt "send" then (req, res, next) ->
 
-    files = req.gerbers
+    if not req.stencil? then req.stencil = apertures: {}
 
-    req.stencil = apertures: {}
-
-    fileForLayer = (layer) -> files[layer]? and files[layer].length
-
-    top = fileForLayer "top"
-    bottom = fileForLayer "bottom"
-
-    transformLayer = (layer) ->
-      new Promise (resolve, reject) ->
-        (transform files[layer], files.outline)
-          .then (svg) ->
-            if svg? and typeof svg is "object"
-              req.stencil[layer] = svg.preview
-              req.stencil.apertures[layer] = svg.apertures
-            else stencil[layer] = svg
-            resolve()
-          .catch reject
-
-    if top and bottom
-      transforms = [
-        transformLayer "top"
-        transformLayer "bottom"
-      ]
-      transforms[0]
-        .then -> transforms[1].then next, -> next()
-        .catch -> transforms[1].then next, next
-    else
-      if top then (transformLayer "top").then next, next
-      if bottom then (transformLayer "bottom").then next, next
+    if req.gerbers[middleware]? and req.gerbers[middleware].length
+      (transform req.gerbers[middleware], req.gerbers.outline)
+        .then (stencil) ->
+          if stencil? and typeof stencil is "object"
+            req.stencil[middleware] = stencil.preview
+            req.stencil.apertures[middleware] = stencil.apertures
+          else req.stencil[middleware] = stencil
+          next()
+        .catch next
+    else next()
 
   else (req, res) -> send res, req.stencil

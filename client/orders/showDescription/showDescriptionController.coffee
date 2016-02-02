@@ -11,7 +11,7 @@ module.exports = ($rootScope, $scope, RESTHelperService, getStatusOptionsService
       controller.statusOptions.push "delete"
 
       RESTHelperService.language.find controller.info.user, (res) ->
-        controller.info.language = res.language
+        controller.info.language = res.language.language
         $scope.$digest()
 
   controller.action = (event) ->

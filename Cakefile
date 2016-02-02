@@ -115,18 +115,25 @@ task "resources", "Pulls all resource files & Generates default stencil SVG", ->
     fse.emptyDirSync deployDir
     invoke "coffee"
     favicon = "favicon.ico"
+    top = "top.svg"
     console.log "Pulling resources..."
     fse.removeSync resourceDir
     clone = spawnSync "git", ["clone", "https://github.com/IVAS-TECH/SMT-Stencils_resources.git", resourceDir], stdio: "inherit"
     console.log "Pulling resources    done"
-    console.log "Moving favicon.ico..."
-    src = join resourceDir, favicon
-    dst = join sendDir, favicon
+    console.log "moving default SVG..."
+    src = join resourceDir, top
+    dst = join sendDir, top
     fse.move src, dst, (err) ->
-    fse.removeSync resourceDir
-    if err? then console.log err
-    console.log "Moving favicon.ico    done"
-    resolve()
+      if err? then console.log err
+      else console.log "Moving default SVG    done"
+      console.log "Moving favicon.ico..."
+      src = join resourceDir, favicon
+      dst = join sendDir, favicon
+      fse.move src, dst, (err) ->
+        fse.removeSync resourceDir
+        if err? then console.log err
+        else console.log "Moving favicon.ico    done"
+        resolve()
 
 task "clean", "Returns repo as it was pulled", ->
   client = join __dirname, "client"

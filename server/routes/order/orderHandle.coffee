@@ -42,7 +42,9 @@ handle.put = [
       req.gerbers[layer] = join dir, file
     next()
 
-  GerberToSVGMiddleware "transform"
+  GerberToSVGMiddleware "top"
+
+  GerberToSVGMiddleware "bottom"
 
   GerberToSVGMiddleware "send"
 ]
