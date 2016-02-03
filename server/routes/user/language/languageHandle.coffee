@@ -1,6 +1,5 @@
 languageModel = require "./languageModel"
 query = require "./../../../lib/query"
-send = require "./../../../lib/send"
 
 module.exports =
 
@@ -8,11 +7,11 @@ module.exports =
     id = req.user.user
     if req.params.id isnt "id"
       id = req.params.id
-    languageModel.findOne user: id, (err, doc) ->
-      query.noErrHandle err, res, next, doc, "language"
+    (languageModel.findOne user: id)
+      .exec().then ((doc) -> query res, language: doc), next
 
   post: (req, res, next) ->
-    languageModel.update user: req.user.user, {language: req.body.language}, {upsert: yes}, (err, doc) ->
-      query.basicHandle err, doc, res, next
+    (languageModel.update user: req.user.user, {language: req.body.language}, {upsert: yes})
+      .exec().then ((doc) -> query res, doc), next
 
   params: get: "id"

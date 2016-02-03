@@ -1,7 +1,7 @@
 fs = require "fs"
 {join} = require "path"
 config = require "./multerConfig"
-send = require "./../../../lib/send"
+query = require "./../../../lib/query"
 GerberToSVGMiddleware = require "./../../../lib/GerberToSVG/GerberToSVGMiddleware"
 multerConfig = config join __dirname, "../../../../files"
 
@@ -27,7 +27,7 @@ module.exports =
 
       transformReq "filename"
 
-      (req, res) -> send res, files: req.gerbers
+      (req, res) -> query res, files: req.gerbers
     ]
 
   preview: post: [

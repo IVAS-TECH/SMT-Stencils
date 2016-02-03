@@ -1,6 +1,5 @@
-{spawn} = require "child_process"
 fs = require "fs-extra"
-Promise = require "promise"
+{spawn} = require "child_process"
 randomString = require "random-string"
 
 module.exports = (paste, outline) ->

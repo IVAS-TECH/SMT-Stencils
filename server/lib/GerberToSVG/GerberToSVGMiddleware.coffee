@@ -1,4 +1,4 @@
-send = require "./../send"
+query = require "./../query"
 transform = require "./transform"
 
 module.exports = (middleware) ->
@@ -18,4 +18,4 @@ module.exports = (middleware) ->
         .catch next
     else next()
 
-  else (req, res) -> send res, req.stencil
+  else (req, res) -> query res, req.stencil

@@ -10,5 +10,6 @@ server.enable "trust proxy"
 server.use routerTree require "./requests"
 
 mongoose.connect require "./mongo"
+mongoose.Promise = global.Promise
 
 server.listen port, -> console.log "Server started at #{ip.address()}:#{port}"

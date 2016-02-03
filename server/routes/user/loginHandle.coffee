@@ -1,5 +1,4 @@
 userModel = require "./userModel"
-send = require "./../../lib/send"
 query = require "./../../lib/query"
 visitModel = require "./visit/visitModel"
 dateHelper = require "./../../share/dateHelper"
@@ -18,30 +17,31 @@ module.exports =
         req.send = login: no
         next()
       else
-        userModel.findById req.user.user, (err, doc) ->
-          req.send = login: yes, user: doc, admin: req.admin
-          next()
+        (userModel.findById req.user.user).exec()
+          .then (doc) ->
+            req.send = login: yes, user: doc, admin: req.admin
+            next()
+          .catch next
 
     (req, res, next) ->
       find = date: date.format(), ip: req.userIp
-      visitModel.update find, user: req.send.login, {upsert: yes}, (err, doc) ->
-        if query.successful err, doc then send res, req.send
-        else next err
+      (visitModel.update find, user: req.send.login, {upsert: yes})
+        .exec().then (-> query res, req.send), next
   ]
 
   post: [
     (req, res, next) ->
-      userModel.findOne req.body.user, (err, doc) ->
-        if query.noErr err
+      (userModel.findOne req.body.user).exec()
+        .then (doc) ->
           req.user = doc
           next()
-        else next err
+        .catch next
 
     session "set"
 
     isAdminMiddleware
 
-    (req, res, next) -> send res, login: req.user?, admin: req.admin
+    (req, res, next) -> query res, login: req.user?, admin: req.admin
   ]
 
   delete: session "remove"

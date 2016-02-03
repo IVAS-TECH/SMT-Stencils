@@ -1,4 +1,3 @@
-Promise = require "promise"
 cheerio = require "cheerio"
 convert = require "./convert"
 
