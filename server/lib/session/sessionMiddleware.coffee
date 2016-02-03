@@ -2,7 +2,7 @@ sessionModel = require "./sessionModel"
 requestIp = require "request-ip"
 query = require "./../query"
 
-module.exports = (field = "user", ipField = "userIp") ->
+module.exports = (field = "user", ipField = "userIP") ->
 
   setIp = (req) -> req[ipField] = requestIp.getClientIp req
 

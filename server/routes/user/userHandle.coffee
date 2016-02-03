@@ -3,6 +3,7 @@ fs = require "fs"
 {join} = require "path"
 userModel = require "./userModel"
 query = require "./../../lib/query"
+userIDParam = require "./userIDParam"
 models = [
   require "./../order/orderModel"
   require "./language/languageModel"
@@ -30,7 +31,7 @@ wipeFromDB.push (req, res, next) ->
   deleted = []
   walker.on "file", (root, file, following) ->
     pathTo = join root, file.name
-    if pathTo.match req.userId + "___"
+    if pathTo.match req.userID + "___"
       deleted.push new Promise (resolve, reject) ->
         fs.unlink pathTo, (err) ->
           if err then reject err
@@ -59,8 +60,5 @@ module.exports =
   params:
     get: "email"
     delete:
-      name: "id"
-      callback: (req, res, next, id) ->
-        req.userId = req.user.user
-        if id isnt "id" then req.userId = id
-        next()
+      name: "userID"
+      callback: userIDParam

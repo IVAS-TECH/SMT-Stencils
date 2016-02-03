@@ -1,17 +1,17 @@
 languageModel = require "./languageModel"
 query = require "./../../../lib/query"
+userIDParam = require "./../userIDParam"
 
 module.exports =
 
   get: (req, res, next) ->
-    id = req.user.user
-    if req.params.id isnt "id"
-      id = req.params.id
-    (languageModel.findOne user: id)
+    (languageModel.findOne user: req.userID)
       .exec().then ((doc) -> query res, language: doc), next
 
   post: (req, res, next) ->
     (languageModel.update user: req.user.user, {language: req.body.language}, {upsert: yes})
       .exec().then ((doc) -> query res, doc), next
 
-  params: get: "id"
+  params: get:
+    name: "userID"
+    callback: userIDParam

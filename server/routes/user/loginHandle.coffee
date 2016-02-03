@@ -24,7 +24,7 @@ module.exports =
           .catch next
 
     (req, res, next) ->
-      find = date: date.format(), ip: req.userIp
+      find = date: date.format(), ip: req.userIP
       (visitModel.update find, user: req.send.login, {upsert: yes})
         .exec().then (-> query res, req.send), next
   ]
