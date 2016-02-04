@@ -1,11 +1,8 @@
 {angular} = require "dependencies"
-moduleName = "ordersText"
+moduleName = "orderTexts"
 
 angular
-  .module moduleName, []
-    .controller "textFieldController", require "./textField/textFieldController"
+  .module moduleName, [require "./orderText/orderTextModule"]
     .directive "ivoOrderTexts", require "./orderTextsDirective"
-    .directive "ivoOrderText", require "./orderText/orderTextDirective"
-    .directive "ivoTextField", require "./textField/textFieldDirective"
 
 module.exports = moduleName

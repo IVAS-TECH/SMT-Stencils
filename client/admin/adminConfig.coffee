@@ -1,8 +1,7 @@
 en = require "./language-en"
 bg = require "./language-bg"
 
-module.exports = ($stateProvider, templateProvider, translateProvider, ChartJsProvider) ->
-  @$inject = ["$stateProvider", "templateProvider", "translateProvider", "ChartJsProvider"]
+config = ($stateProvider, templateProvider, translateProvider, ChartJsProvider) ->
 
   translateProvider.add en, bg
 
@@ -14,3 +13,7 @@ module.exports = ($stateProvider, templateProvider, translateProvider, ChartJsPr
   ChartJsProvider.setOptions
     responsive: no
     colours: ["#FF0000", "#0000FF"]
+
+config.$inject = ["$stateProvider", "templateProvider", "translateProvider", "ChartJsProvider"]
+
+module.exports = config

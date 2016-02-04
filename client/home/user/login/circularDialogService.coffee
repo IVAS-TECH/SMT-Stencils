@@ -1,5 +1,4 @@
-module.exports = (showDialogService, tryAgainService) ->
-  @$inject = ["showDialogService", "tryAgainService"]
+service = (showDialogService, tryAgainService) ->
 
   (dialog, wrong, success) ->
 
@@ -17,3 +16,7 @@ module.exports = (showDialogService, tryAgainService) ->
       showDialogService event, dialog, {}, handle, extend
 
     circular
+
+service.$inject = ["showDialogService", "tryAgainService"]
+
+module.exports = service

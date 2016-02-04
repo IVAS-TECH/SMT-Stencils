@@ -1,11 +1,10 @@
-module.exports = ($scope, $window, registerService, loginService, authenticationService, transitionService) ->
-  @$inject = ["$scope", "$window", "registerService", "loginService", "authenticationService", "transitionService"]
+controller = ($scope, $window, registerService, loginService, authenticationService, transitionService) ->
 
-  controller = @
+  ctrl = @
 
   authenticateUser = ->
-    controller.authenticated = authenticationService.isAuthenticated()
-    controller.user = authenticationService.getUser()
+    ctrl.authenticated = authenticationService.isAuthenticated()
+    ctrl.user = authenticationService.getUser()
     if authenticationService.isAsync()
       $scope.$digest()
 
@@ -21,21 +20,25 @@ module.exports = ($scope, $window, registerService, loginService, authentication
           authenticationService.unauthenticate()
           return
 
-    stopRemove = $scope.$on "remove-account", controller.logout
+    stopRemove = $scope.$on "remove-account", ctrl.logout
 
     $scope.$on "$destroy", ->
       stopAuth()
       stopRemove()
 
-  controller.register = (event) -> registerService event
+  ctrl.register = (event) -> registerService event
 
-  controller.login = (event) -> loginService event
+  ctrl.login = (event) -> loginService event
 
-  controller.logout = (event) ->
+  ctrl.logout = (event) ->
     authenticationService.unauthenticate ->
       authenticateUser()
       transitionService.toHome()
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = ["$scope", "$window", "registerService", "loginService", "authenticationService", "transitionService"]
+
+module.exports = controller

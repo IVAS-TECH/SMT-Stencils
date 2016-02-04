@@ -1,9 +1,8 @@
 Promise = require "promise"
 
-module.exports = ($controller, template, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
-  @$inject = ["$controller", "template", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+controller = ($controller, template, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
 
-  controller = $controller "baseInterface",
+  ctrl = $controller "baseInterface",
     "$scope": $scope
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
@@ -33,99 +32,103 @@ module.exports = ($controller, template, $scope, RESTHelperService, simpleDialog
   listen = ->
 
     stop = $scope.$on "configuration-validity", (event, value) ->
-      controller.valid = [value]
+      ctrl.valid = [value]
 
     $scope.$on "$destroy", stop
 
-  controller.btnBack = no
+  ctrl.btnBack = no
 
-  controller.text = "Text"
+  ctrl.text = "Text"
 
-  controller.view = template "top"
+  ctrl.view = template "top"
 
-  controller.options =
+  ctrl.options =
     side: ["pcb-side", "squeegee-side"]
     textPosition: textPosition()
     textAngle: textAngle()
 
-  controller.changeStencilTransitioning = ->
-    if not controller.configurationObject.stencil?
-      controller.configurationObject.style.frame = no
+  ctrl.changeStencilTransitioning = ->
+    if not ctrl.configurationObject.stencil?
+      ctrl.configurationObject.style.frame = no
     else
-      controller.configurationObject.style.frame = (controller.configurationObject.stencil.transitioning.match /frame/)?
+      ctrl.configurationObject.style.frame = (ctrl.configurationObject.stencil.transitioning.match /frame/)?
 
-  controller.changeDimenstions = (stencil) ->
+  ctrl.changeDimenstions = (stencil) ->
 
-    stencil = controller.configurationObject.stencil
+    stencil = ctrl.configurationObject.stencil
 
     if not stencil or stencil.width < 100 or stencil.height < 100
-      controller.configurationObject.style.stencil = no
+      ctrl.configurationObject.style.stencil = no
       return
 
     base =
       width: 115
       height: 145
 
-    if controller.configurationObject.style.frame
+    if ctrl.configurationObject.style.frame
       for prop in ["width", "height"]
         base[prop] += 70
 
     calculate = (wich) -> base[wich] + ((stencil[wich] - 90) / 9)
 
-    controller.configurationObject.style.stencil =
+    ctrl.configurationObject.style.stencil =
       height: calculate "height"
       width: calculate "width"
 
-  controller.textAngle = textAngle
+  ctrl.textAngle = textAngle
 
-  controller.changeText = (text) ->
+  ctrl.changeText = (text) ->
     color = "pcb-side"
     angle = ""
     def = "text-top-left-left"
-    text = controller.configurationObject.text
+    text = ctrl.configurationObject.text
     if not text?
-      controller.configurationObject.style.text = color: color, view: def
+      ctrl.configurationObject.style.text = color: color, view: def
       return
     if text.type is "engraved" and text.side
       color = text.side
     if text.type is "drilled"
       color = text.type
     if not text.position?
-      controller.configurationObject.style.text = color: color, view: def
+      ctrl.configurationObject.style.text = color: color, view: def
       return
-    if text.angle in controller.options.textAngle
+    if text.angle in ctrl.options.textAngle
       angle = text.angle
     else
-      angle = controller.options.textAngle[0]
-    controller.configurationObject.style.text =
+      angle = ctrl.options.textAngle[0]
+    ctrl.configurationObject.style.text =
       color: color
       view: ["text", text.position, angle].join "-"
 
-  controller.changeStencilPosition = ->
-    if not controller.configurationObject.position?
-      controller.configurationObject.style.outline = no
-      controller.configurationObject.style.layout = no
-      controller.configurationObject.style.mode = "portrait-centered"
+  ctrl.changeStencilPosition = ->
+    if not ctrl.configurationObject.position?
+      ctrl.configurationObject.style.outline = no
+      ctrl.configurationObject.style.layout = no
+      ctrl.configurationObject.style.mode = "portrait-centered"
     else
-      aligment = controller.configurationObject.position.aligment ? "portrait"
-      position = controller.configurationObject.position.position
+      aligment = ctrl.configurationObject.position.aligment ? "portrait"
+      position = ctrl.configurationObject.position.position
       mode = ""
       if position isnt "pcb-centered"
-        controller.configurationObject.style.outline = no
-        controller.configurationObject.style.layout = position is "layout-centered"
-        if controller.configurationObject.style.layout
+        ctrl.configurationObject.style.outline = no
+        ctrl.configurationObject.style.layout = position is "layout-centered"
+        if ctrl.configurationObject.style.layout
           mode = "centered"
         else mode = "no"
-        controller.configurationObject.style.mode = [aligment, mode].join "-"
+        ctrl.configurationObject.style.mode = [aligment, mode].join "-"
       else
-        controller.configurationObject.style.outline = yes
-        controller.configurationObject.style.layout = no
-        controller.configurationObject.style.mode = [aligment, "centered"].join "-"
+        ctrl.configurationObject.style.outline = yes
+        ctrl.configurationObject.style.layout = no
+        ctrl.configurationObject.style.mode = [aligment, "centered"].join "-"
 
-  controller.change = ->
-    if not controller.configurationObject.style?
-      controller.configurationObject.style = {}
+  ctrl.change = ->
+    if not ctrl.configurationObject.style?
+      ctrl.configurationObject.style = {}
 
   listen()
 
-  controller
+  ctrl
+
+controller.$inject = ["$controller", "template", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+
+module.exports = controller

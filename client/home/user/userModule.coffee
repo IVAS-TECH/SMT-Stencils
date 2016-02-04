@@ -1,9 +1,6 @@
 {angular} = require "dependencies"
 moduleName = "userModule"
 
-en = require "./language-en"
-bg = require "./language-bg"
-
 noController = ->
 
 dependencies = [
@@ -21,8 +18,6 @@ angular
       .controller "simpleDialogController", noController
       .controller "userController", require "./userController"
       .directive "ivoUser", require "./userDirective"
-      .config (translateProvider) ->
-        @$inject = ["translateProvider"]
-        translateProvider.add en, bg
+      .config require "./userConfig"
 
 module.exports = moduleName

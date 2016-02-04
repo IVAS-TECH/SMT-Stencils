@@ -1,7 +1,6 @@
 Promise = require "promise"
 
-module.exports = (RESTHelperService) ->
-  @$inject = ["RESTHelperService"]
+directive = (RESTHelperService) ->
 
   restric: "A"
   require: "ngModel"
@@ -14,3 +13,7 @@ module.exports = (RESTHelperService) ->
         RESTHelperService.user.email newValue, (res) ->
 
           if res.taken then reject() else resolve()
+
+directive.$inject = ["RESTHelperService"]
+
+module.exports = directive

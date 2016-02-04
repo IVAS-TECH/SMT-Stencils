@@ -1,3 +1,7 @@
 {dateHelper} = require "share"
 
-module.exports = -> dateHelper
+provider = -> dateHelper
+
+provider.$inject = []
+
+module.exports =  provider

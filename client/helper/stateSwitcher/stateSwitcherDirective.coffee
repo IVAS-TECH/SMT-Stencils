@@ -1,6 +1,5 @@
-module.exports = (template) ->
-  @$inject = ["template"]
-
+directive = (template) ->
+  
   template: template "stateSwitcherView"
   scope: true
   controller: "stateSwitcherController"
@@ -10,3 +9,7 @@ module.exports = (template) ->
     menu: "@"
     override: "="
     remove: "="
+
+directive.$inject = ["template"]
+
+module.exports = directive

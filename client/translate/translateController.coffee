@@ -1,19 +1,18 @@
-module.exports = ($translate, $scope, RESTHelperService, authenticationService) ->
-  @$inject = ["$translate", "$scope", "RESTHelperService", "authenticationService"]
+controller = ($translate, $scope, RESTHelperService, authenticationService) ->
 
-  controller = @
+  ctrl = @
 
-  controller.languages = ["bg", "en"]
+  ctrl.languages = ["bg", "en"]
 
-  controller.current = $translate.use()
+  ctrl.current = $translate.use()
 
   init = ->
 
     getLanguage = ->
       RESTHelperService.language.find "id", (res) ->
         if res.language?
-          controller.current = res.language.language
-          $translate.use controller.current
+          ctrl.current = res.language.language
+          $translate.use ctrl.current
           $scope.$digest()
 
     if authenticationService.isAuthenticated()
@@ -23,11 +22,15 @@ module.exports = ($translate, $scope, RESTHelperService, authenticationService) 
 
     $scope.$on "$destroy", stop
 
-  controller.change = (language) ->
+  ctrl.change = (language) ->
     $translate.use language
     if authenticationService.isAuthenticated()
       RESTHelperService.language.change language: language, (res) ->
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = ["$translate", "$scope", "RESTHelperService", "authenticationService"]
+
+module.exports = controller

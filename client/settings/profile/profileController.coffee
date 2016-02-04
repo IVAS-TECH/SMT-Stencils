@@ -1,18 +1,21 @@
-module.exports = ($scope, confirmService, RESTHelperService, simpleDialogService) ->
-  @$inject = ["$scope", "confirmService", "RESTHelperService", "simpleDialogService"]
+controller = ($scope, confirmService, RESTHelperService, simpleDialogService) ->
 
-  controller = @
+  ctrl = @
 
-  controller.change = (event, type, valid) ->
+  ctrl.change = (event, type, valid) ->
     if valid
       confirmService event, success: ->
-        RESTHelperService.user.profile type: type, value: controller.user[type], (res) ->
+        RESTHelperService.user.profile type: type, value: ctrl.user[type], (res) ->
           simpleDialogService event, "title-changed-#{type}"
 
-  controller.remove = (event) ->
+  ctrl.remove = (event) ->
     confirmService event, success: ->
       RESTHelperService.user.remove "id", (res) ->
         simpleDialogService event, "title-account-deleted", success: ->
           $scope.$emit "remove-account"
 
-  controller
+  ctrl
+
+controller.$inject = ["$scope", "confirmService", "RESTHelperService", "simpleDialogService"]
+
+module.exports = controller

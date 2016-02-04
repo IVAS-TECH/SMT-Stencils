@@ -1,5 +1,4 @@
-module.exports = (template, scopeControllerService) ->
-  @$inject = ["template", "scopeControllerService"]
+directive = (template, scopeControllerService) ->
 
   template: template "stencilPreviewView"
   restrict: "E"
@@ -13,3 +12,8 @@ module.exports = (template, scopeControllerService) ->
 
     if typeof scope.text is "string"
       scope.text = [scope.text]
+
+
+directive.$inject = ["template", "scopeControllerService"]
+
+module.exports = directive

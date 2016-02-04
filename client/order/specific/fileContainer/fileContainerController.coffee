@@ -1,43 +1,46 @@
-module.exports = (simpleDialogService, RESTHelperService, $window) ->
-  @$inject = ["simpleDialogService", "RESTHelperService", "$window"]
+controller = (simpleDialogService, RESTHelperService, $window) ->
 
-  controller = @
+  ctrl = @
 
-  controller.file = controller.order.files[controller.layer]
+  ctrl.file = ctrl.order.files[ctrl.layer]
 
-  controller.preview = ->
-    controller.order.invalid = (not controller.order.files.top? and not controller.order.files.bottom?)
-    if not controller.order.ifInvalid()
-      RESTHelperService.upload.preview controller.order.files, (res) ->
+  ctrl.preview = ->
+    ctrl.order.invalid = (not ctrl.order.files.top? and not ctrl.order.files.bottom?)
+    if not ctrl.order.ifInvalid()
+      RESTHelperService.upload.preview ctrl.order.files, (res) ->
         for layer in ["top", "bottom"]
           console.log typeof res[layer]
-          if typeof res[layer] is "string" then controller.order[layer].view = res[layer]
+          if typeof res[layer] is "string" then ctrl.order[layer].view = res[layer]
           else if res[layer] is null or res[layer] is no
             what = "error"
             if res[layer] is no then what = "empty"
             simpleDialogService {}, "title-#{what}-layer-#{layer}"
 
-  controller.action = (event) ->
+  ctrl.action = (event) ->
     event.stopPropagation()
-    if controller.remove
-      delete controller.order.files[controller.layer]
-      delete controller.file
-      if controller.layer isnt "outline" and controller.order[controller.layer].view?
-        delete controller.order[controller.layer].view
-      controller.preview()
+    if ctrl.remove
+      delete ctrl.order.files[ctrl.layer]
+      delete ctrl.file
+      if ctrl.layer isnt "outline" and ctrl.order[ctrl.layer].view?
+        delete ctrl.order[ctrl.layer].view
+      ctrl.preview()
     else
-      $window.open "api/order/download/#{controller.file}", controller.fileName()
+      $window.open "api/order/download/#{ctrl.file}", ctrl.fileName()
       return
 
-  controller.fileName = ->
-    if typeof controller.file is "object" then controller.file.name
-    else (controller.file.split "___")[2]
+  ctrl.fileName = ->
+    if typeof ctrl.file is "object" then ctrl.file.name
+    else (ctrl.file.split "___")[2]
 
-  controller.upload = ->
-    if typeof controller.file is "object" and controller.file?
-      if controller.file.size < 1000000
-        controller.order.files[controller.layer] = controller.file
-        controller.preview()
+  ctrl.upload = ->
+    if typeof ctrl.file is "object" and ctrl.file?
+      if ctrl.file.size < 1000000
+        ctrl.order.files[ctrl.layer] = ctrl.file
+        ctrl.preview()
       else simpleDialogService {}, "title-wrong-file-size"
 
-  controller
+  ctrl
+
+controller.$inject = ["simpleDialogService", "RESTHelperService", "$window"]
+
+module.exports = controller

@@ -1,4 +1,5 @@
-module.exports = (dialogWithNoDefaultHandleService) ->
-  @$inject = ["dialogWithNoDefaultHandleService"]
+service = (dialogWithNoDefaultHandleService) -> dialogWithNoDefaultHandleService "showCalculatedPrice"
 
-  dialogWithNoDefaultHandleService "showCalculatedPrice"
+service.$inject = ["dialogWithNoDefaultHandleService"]
+
+module.exports = service

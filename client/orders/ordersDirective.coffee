@@ -1,5 +1,4 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+directive = (template) ->
 
   template: template "ordersBaseView"
   restrict: "E"
@@ -7,3 +6,7 @@ module.exports = (template) ->
   controller: "@"
   name: "ordersController"
   controllerAs: "ordersCtrl"
+
+directive.$inject = ["template"]
+
+module.exports = directive

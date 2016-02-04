@@ -1,15 +1,10 @@
-module.exports = ->
+provider = ->
 
   fromState = ""
 
   move = []
 
-  setState: (state) -> fromState = state
-
-  setMove: (moves) -> move = moves
-
-  $get: ($state) ->
-    @$inject = ["$state"]
+  service = ($state) ->
 
     (scope, parent, current, exclude = [], awaiting = []) ->
 
@@ -41,5 +36,17 @@ module.exports = ->
           parentScope[property] = currentScope[property]
 
         change = if progress then 1 else -1
-        
+
         $state.go fromState + "\." + move[(move.indexOf state) + change]
+
+  service.$inject = ["$state"]
+
+  setState: (state) -> fromState = state
+
+  setMove: (moves) -> move = moves
+
+  $get: service
+
+provider.$inject = []
+
+module.exports = provider

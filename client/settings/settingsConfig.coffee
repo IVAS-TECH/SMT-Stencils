@@ -1,8 +1,7 @@
 en = require "./language-en"
 bg = require "./language-bg"
 
-module.exports = ($stateProvider, templateProvider, translateProvider) ->
-  @$inject = ["$stateProvider", "templateProvider", "translateProvider"]
+config = ($stateProvider, templateProvider, translateProvider) ->
 
   translateProvider.add en, bg
 
@@ -20,3 +19,7 @@ module.exports = ($stateProvider, templateProvider, translateProvider) ->
     .state "home.settings.addresses",
       url: "/addresses"
       template: templateProvider.provide "addressesSettingsView"
+
+config.$inject = ["$stateProvider", "templateProvider", "translateProvider"]
+
+module.exports = config

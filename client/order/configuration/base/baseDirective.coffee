@@ -1,5 +1,4 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+directive = (template) ->
 
   template: template "baseView"
   restrict: "E"
@@ -10,3 +9,7 @@ module.exports = (template) ->
   bindToController: settings: "="
   link: (scope, element, attrs, controller) ->
     controller[if controller.settings then "getObjects" else "restore"]()
+
+directive.$inject = ["template"]
+
+module.exports = directive

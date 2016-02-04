@@ -1,7 +1,6 @@
 Promise = require "promise"
 
-module.exports = ($rootScope, RESTHelperService) ->
-  @$inject = ["$rootScope", "RESTHelperService"]
+service = ($rootScope, RESTHelperService) ->
 
   _authenticated = no
   _user = null
@@ -49,3 +48,7 @@ module.exports = ($rootScope, RESTHelperService) ->
   isAsync: -> _async
 
   isAdmin: -> if _admin? then _admin.admin else no
+
+service.$inject = ["$rootScope", "RESTHelperService"]
+
+module.exports = service

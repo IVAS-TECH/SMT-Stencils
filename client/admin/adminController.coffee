@@ -1,35 +1,34 @@
-module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService, showCalculatedPriceService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService", "showCalculatedPriceService"]
+controller = ($controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
 
-  controller = $controller "ordersInterface",
+  ctrl = $controller "ordersInterface",
     "$scope": $scope
     "RESTHelperService": RESTHelperService
     "$filter": $filter
     "dateService": dateService
     "showDescriptionService": showDescriptionService
-    "getStatusOptionsService": getStatusOptionsService
+    "statusOptions": statusOptions
     "notificationService": notificationService
     "confirmService": confirmService
 
-  controller.adminPanel = "adminPanelView"
+  ctrl.adminPanel = "adminPanelView"
 
   init = ->
 
     RESTHelperService.visit.find (res) ->
 
-      controller.listOfVisits = res.visits
+      ctrl.listOfVisits = res.visits
 
       stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
 
         if not orders? then return
 
-        beggin = controller.fromDate
+        beggin = ctrl.fromDate
 
-        end = controller.toDate
+        end = ctrl.toDate
 
         if end < beggin then [beggin, end] = [end, beggin]
 
-        [controller.fromDate, controller.toDate] = [beggin, end]
+        [ctrl.fromDate, ctrl.toDate] = [beggin, end]
 
         it = dateService.iterator beggin, end
 
@@ -62,7 +61,7 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
               if order.status is "delivered"
                 data.delivered++
 
-          for visit in controller.listOfVisits
+          for visit in ctrl.listOfVisits
             if visit.date is search
               data.visits++
               if visit.user then data.users++
@@ -119,18 +118,18 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
 
           charts
 
-        controller.charts = buildCharts()
+        ctrl.charts = buildCharts()
 
       stopRemove = $scope.$on "user-removed", (event, user) ->
-        controller.fullListOfOrders = controller.fullListOfOrders.filter (element) ->
+        ctrl.fullListOfOrders = ctrl.fullListOfOrders.filter (element) ->
           element.user._id isnt user
-        controller.filterFn()
+        ctrl.filterFn()
 
       $scope.$on "$destroy", ->
         stopStatistics()
         stopRemove()
 
-  controller.doAction = (event, order) ->
+  ctrl.doAction = (event, order) ->
     showDescriptionService event,
       info:
         id: order._id
@@ -139,12 +138,16 @@ module.exports = ($controller, $scope, RESTHelperService, $filter, dateService, 
         user: order.user._id
         price: order.price
 
-  controller.afterChoose = (event, order, stencil, callback) ->
+  ctrl.afterChoose = (event, order, stencil, callback) ->
     if order.status is "new"
       locals = order: order, stencil: stencil
-      showCalculatedPriceService event, locals, update: -> controller.doAction event, order
+      showCalculatedPriceService event, locals, update: -> ctrl.doAction event, order
     else callback()
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = ["$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
+
+module.exports = controller

@@ -1,3 +1,7 @@
 template = require "./template"
 
-module.exports = -> provide: template, $get: -> template
+provider = -> provide: template, $get: -> template
+
+provider.$inject = []
+
+module.exports = provider

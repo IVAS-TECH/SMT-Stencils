@@ -5,8 +5,8 @@ noController = ->
 
 angular
   .module moduleName, []
-    .factory "showNotificationService", require "./showNotificationService"
-    .factory "notificationService", require "./notificationService"
+    .provider "showNotificationService", require "./showNotificationServiceProvider"
+    .provider "notificationService", require "./notificationServiceProvider"
     .controller "showNotificationController", noController
 
 module.exports = moduleName

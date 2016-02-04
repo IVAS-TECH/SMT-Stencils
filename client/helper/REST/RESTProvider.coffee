@@ -1,7 +1,7 @@
 http = require "http"
 Promise = require "promise"
 
-module.exports = ->
+provider = ->
 
   _base = ""
 
@@ -57,3 +57,7 @@ module.exports = ->
       rest.patch = (send = {}) -> rest.make "PATCH", send
 
       rest
+
+provider.$inject = []
+
+module.exports = provider

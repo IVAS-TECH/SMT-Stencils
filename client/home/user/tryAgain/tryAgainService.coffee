@@ -1,4 +1,5 @@
-module.exports = (dialogWithTitleService) ->
-  @$inject = ["dialogWithTitleService"]
+service = (dialogWithTitleService) -> dialogWithTitleService "tryAgain"
 
-  dialogWithTitleService "tryAgain"
+service.$inject = ["dialogWithTitleService"]
+
+module.exports = service

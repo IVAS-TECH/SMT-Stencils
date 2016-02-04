@@ -1,14 +1,17 @@
-module.exports = (authenticationService) ->
-  @$inject = ["authenticationService"]
+controller = (authenticationService) ->
 
-  controller = @
+  ctrl = @
 
-  controller.key = authenticationService.getUser().password
+  ctrl.key = authenticationService.getUser().password
 
-  controller.confirm = (valid) ->
+  ctrl.confirm = (valid) ->
     if valid
-      if controller.password is controller.key
-        controller.hide "success"
-      else controller.hide "fail"
+      if ctrl.password is ctrl.key
+        ctrl.hide "success"
+      else ctrl.hide "fail"
 
-  controller
+  ctrl
+
+controller.$inject = ["authenticationService"]
+
+module.exports = controller

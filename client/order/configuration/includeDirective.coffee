@@ -1,5 +1,4 @@
-module.exports = ($compile, template, scopeControllerService) ->
-  @$inject = ["$compile", "template", "scopeControllerService"]
+directive = ($compile, template, scopeControllerService) ->
 
   restrict: "E"
   scope:
@@ -20,3 +19,7 @@ module.exports = ($compile, template, scopeControllerService) ->
         compile template scope.include
       else
         scope.$watch "include", compile
+
+directive.$inject = ["$compile", "template", "scopeControllerService"]
+
+module.exports = directive

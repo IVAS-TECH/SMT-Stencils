@@ -1,17 +1,16 @@
-module.exports = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, getStatusOptionsService, notificationService, confirmService) ->
-  @$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "getStatusOptionsService", "notificationService", "confirmService"]
+controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
 
   filter = $filter "filter"
 
-  controller = @
+  ctrl = @
 
-  controller.fromDate = new Date()
+  ctrl.fromDate = new Date()
 
-  controller.toDate = new Date()
+  ctrl.toDate = new Date()
 
-  controller.status = getStatusOptionsService()
+  ctrl.status = statusOptions
 
-  controller.listOfOrders = []
+  ctrl.listOfOrders = []
 
   init = ->
 
@@ -19,9 +18,9 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
       orders = res.orders
 
-      controller.fromDate = dateService.compatible orders[orders.length - 1].orderDate
+      ctrl.fromDate = dateService.compatible orders[orders.length - 1].orderDate
 
-      controller.toDate = dateService.compatible orders[0].orderDate
+      ctrl.toDate = dateService.compatible orders[0].orderDate
 
       transform = (full) ->
 
@@ -43,9 +42,9 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
 
         fn = transformFn full
 
-        controller.fullListOfOrders = (fn order for order in orders).sort (a, b) ->
-          indexA = controller.status.indexOf a.status
-          indexB = controller.status.indexOf b.status
+        ctrl.fullListOfOrders = (fn order for order in orders).sort (a, b) ->
+          indexA = ctrl.status.indexOf a.status
+          indexB = ctrl.status.indexOf b.status
           notifyA = if a.notify? then 1 else 0
           notifyB = if b.notify? then 1 else 0
           index = indexA - indexB
@@ -53,54 +52,54 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
             notifyB - notifyA
           else index
 
-      controller.listOfOrders = controller.fullListOfOrders
+      ctrl.listOfOrders = ctrl.fullListOfOrders
 
       transform yes
 
-      listeners = ($scope.$watch "ordersCtrl." + watch, controller.filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
+      listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
 
       $scope.$on "notification", ->
         transform no
-        controller.filterFn()
+        ctrl.filterFn()
 
       $scope.$on "$destroy", -> listener() for listener in listeners
 
       $scope.$digest()
 
-  controller.labels =
+  ctrl.labels =
     _id: 25
     status: 15
     price: 15
     orderDate: 15
     sendingDate: 15
 
-  controller.filterFn = (newValue) ->
-    filtered = filter controller.fullListOfOrders, controller.filter
-    controller.listOfOrders = filter filtered, (order) ->
+  ctrl.filterFn = (newValue) ->
+    filtered = filter ctrl.fullListOfOrders, ctrl.filter
+    ctrl.listOfOrders = filter filtered, (order) ->
       date = dateService.parse order.orderDate
-      controller.toDate >= date >= controller.fromDate
-    if controller.showing?
-      controller.listOfOrders = filter controller.listOfOrders, _id: controller.showing
+      ctrl.toDate >= date >= ctrl.fromDate
+    if ctrl.showing?
+      ctrl.listOfOrders = filter ctrl.listOfOrders, _id: ctrl.showing
 
-  controller.compareableDate = (wich) ->
-    controller[wich + "Date"] = dateService.compatible controller[wich + "Date"]
+  ctrl.compareableDate = (wich) ->
+    ctrl[wich + "Date"] = dateService.compatible ctrl[wich + "Date"]
 
-  controller.showAll = -> delete controller.showing
+  ctrl.showAll = -> delete ctrl.showing
 
-  controller.removeNotifcation = (order) ->
+  ctrl.removeNotifcation = (order) ->
     if order.notify?
       RESTHelperService.notification.remove order.notify, (res) ->
-        index = controller.fullListOfOrders.indexOf order
-        delete controller.fullListOfOrders[index].notify
+        index = ctrl.fullListOfOrders.indexOf order
+        delete ctrl.fullListOfOrders[index].notify
         delete order.notify
 
-  controller.choose = (event, order) ->
+  ctrl.choose = (event, order) ->
 
     checkForDescription = ->
       RESTHelperService.description.find order._id, (res) ->
         if res.description? then showDescriptionService event, info: res.description
 
-    controller.showing = order._id
+    ctrl.showing = order._id
 
     RESTHelperService.order.view files: order.files, (res) ->
       set = (wich) -> text: order[wich + "Text"], view: res[wich]
@@ -109,19 +108,23 @@ module.exports = ($scope, RESTHelperService, $filter, dateService, showDescripti
       $scope.order.bottom = set "bottom"
       $scope.$digest()
 
-      if controller.afterChoose? then controller.afterChoose event, order, res, checkForDescription
+      if ctrl.afterChoose? then ctrl.afterChoose event, order, res, checkForDescription
       else checkForDescription()
 
-  controller.doAction = (event, order) ->
+  ctrl.doAction = (event, order) ->
 
     if order.status is "rejected"
       confirmService event, success: ->
         RESTHelperService.order.remove order._id, (res) ->
           remove = (list) ->
-            index = controller[list].indexOf order
-            controller[list].splice index, 1
+            index = ctrl[list].indexOf order
+            ctrl[list].splice index, 1
           remove list for list in ["listOfOrders", "fullListOfOrders"]
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService"]
+
+module.exports = controller

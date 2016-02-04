@@ -1,5 +1,5 @@
-module.exports = ($rootScope, $scope, RESTHelperService, getStatusOptionsService, confirmService, simpleDialogService) ->
-  @$inject = ["$rootScope", "$scope", "RESTHelperService", "getStatusOptionsService", "confirmService", "simpleDialogService"]
+module.exports = ($rootScope, $scope, RESTHelperService, statusOptions, confirmService, simpleDialogService) ->
+  @$inject = ["$rootScope", "$scope", "RESTHelperService", "statusOptions", "confirmService", "simpleDialogService"]
 
   controller = @
 
@@ -7,7 +7,7 @@ module.exports = ($rootScope, $scope, RESTHelperService, getStatusOptionsService
     if controller.info.admin
 
       controller.adminPanel = "orderMenageView"
-      controller.statusOptions = getStatusOptionsService()
+      controller.statusOptions = statusOptions
       controller.statusOptions.push "delete"
 
       RESTHelperService.language.find controller.info.user, (res) ->

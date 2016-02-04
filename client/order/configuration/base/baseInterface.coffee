@@ -1,120 +1,123 @@
 Promise = require "promise"
 
-module.exports = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings, exclude) ->
-  @$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings", "exclude"]
+controller = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings, exclude) ->
 
-  controller = @
+  ctrl = @
 
-  controller.link = link
+  ctrl.link = link
 
-  controller.settings = settings
+  ctrl.settings = settings
 
-  controller.template = link + "PanelView"
+  ctrl.template = link + "PanelView"
 
-  controller.controller = "baseCtrl"
+  ctrl.controller = "baseCtrl"
 
-  controller.valid = []
+  ctrl.valid = []
 
-  controller.common = ["Object", "List", "Index", "Action", "Disabled"]
+  ctrl.common = ["Object", "List", "Index", "Action", "Disabled"]
 
-  controller[controller.link + controller.common[0]] = {}
+  ctrl[ctrl.link + ctrl.common[0]] = {}
 
-  controller.change = ->
+  ctrl.change = ->
 
-  controller.getObjects = ->
-    list = controller.link + controller.common[1]
-    RESTHelperService[controller.link].find (res) ->
-        controller[list] = res[list]
+  ctrl.getObjects = ->
+    list = ctrl.link + ctrl.common[1]
+    RESTHelperService[ctrl.link].find (res) ->
+        ctrl[list] = res[list]
 
-  controller.reset = ->
-    controller[controller.link + controller.common[4]] = no
-    controller[controller.link + controller.common[3]] = "create"
-    delete controller[controller.link + controller.common[2]]
-    controller[controller.link + controller.common[0]] = {}
-    controller.change()
+  ctrl.reset = ->
+    ctrl[ctrl.link + ctrl.common[4]] = no
+    ctrl[ctrl.link + ctrl.common[3]] = "create"
+    delete ctrl[ctrl.link + ctrl.common[2]]
+    ctrl[ctrl.link + ctrl.common[0]] = {}
+    ctrl.change()
 
-  controller.preview = ->
-    controller[controller.link + controller.common[4]] = yes
-    controller[controller.link + controller.common[3]] = "preview"
+  ctrl.preview = ->
+    ctrl[ctrl.link + ctrl.common[4]] = yes
+    ctrl[ctrl.link + ctrl.common[3]] = "preview"
 
-  controller.choose = ->
-    controller.preview()
-    index = controller[controller.link + controller.common[2]]
-    controller[controller.link + controller.common[0]] = controller[controller.link + controller.common[1]][index]
-    controller.change()
+  ctrl.choose = ->
+    ctrl.preview()
+    index = ctrl[ctrl.link + ctrl.common[2]]
+    ctrl[ctrl.link + ctrl.common[0]] = ctrl[ctrl.link + ctrl.common[1]][index]
+    ctrl.change()
 
-  controller.isValid = (event, resolve, reject) ->
-    validForm = (controller.valid.every (e) -> e is yes)
-    if validForm and controller[controller.link + controller.common[0]].name
+  ctrl.isValid = (event, resolve, reject) ->
+    validForm = (ctrl.valid.every (e) -> e is yes)
+    if validForm and ctrl[ctrl.link + ctrl.common[0]].name
       resolve()
     else
       reject()
       simpleDialogService event, "required-fields"
 
-  controller.save = (event) ->
+  ctrl.save = (event) ->
     new Promise (resolve, reject) ->
       create = ->
-        save = controller[controller.link + controller.common[0]]
-        RESTHelperService[controller.link].create "#{controller.link}": save, (res) ->
-          index = controller[controller.link + controller.common[1]].length
-          controller[controller.link + controller.common[1]].push save
-          controller[controller.link + controller.common[2]] = index
+        save = ctrl[ctrl.link + ctrl.common[0]]
+        RESTHelperService[ctrl.link].create "#{ctrl.link}": save, (res) ->
+          index = ctrl[ctrl.link + ctrl.common[1]].length
+          ctrl[ctrl.link + ctrl.common[1]].push save
+          ctrl[ctrl.link + ctrl.common[2]] = index
           resolve()
-      controller.isValid event, create, reject
+      ctrl.isValid event, create, reject
 
-  if not controller.settings
+  if not ctrl.settings
 
-    properties = (controller.link + prop for prop in controller.common)
+    properties = (ctrl.link + prop for prop in ctrl.common)
 
     excludeProperties = ["link", "template", "valid", "btnBack", "settings", "common", "controller"]
 
     excludeProperties.push excld for excld in exclude
 
-    progress = progressService $scope, "orderCtrl", controller.controller, excludeProperties, properties
+    progress = progressService $scope, "orderCtrl", ctrl.ctrl, excludeProperties, properties
 
-    controller.restore = ->
-      if not $scope.$parent.orderCtrl[controller.link + controller.common[0]]?
-        controller.getObjects()
+    ctrl.restore = ->
+      if not $scope.$parent.orderCtrl[ctrl.link + ctrl.common[0]]?
+        ctrl.getObjects()
       else
         stop = $scope.$on "update-view", ->
-          controller.choose()
+          ctrl.choose()
           stop()
 
-    controller.next = (event) ->
-      if controller.saveIt and controller[controller.link + controller.common[3]] is "create"
-        controller.save(event).then -> progress yes
+    ctrl.next = (event) ->
+      if ctrl.saveIt and ctrl[ctrl.link + ctrl.common[3]] is "create"
+        ctrl.save(event).then -> progress yes
       else progress yes
 
-    controller.back = -> progress no
+    ctrl.back = -> progress no
 
   else
 
-    controller.edit = ->
-      controller[controller.link + controller.common[4]] = no
-      controller[controller.link + controller.common[3]] = "edit"
+    ctrl.edit = ->
+      ctrl[ctrl.link + ctrl.common[4]] = no
+      ctrl[ctrl.link + ctrl.common[3]] = "edit"
 
-    controller.delete = (event) ->
+    ctrl.delete = (event) ->
       confirmService event, success: ->
-        id = controller[controller.link + controller.common[0]]._id
-        RESTHelperService[controller.link].remove id, (res) ->
-          controller[controller.link + controller.common[1]]
-            .splice  controller[controller.link + controller.common[2]], 1
-          controller.reset()
+        id = ctrl[ctrl.link + ctrl.common[0]]._id
+        RESTHelperService[ctrl.link].remove id, (res) ->
+          ctrl[ctrl.link + ctrl.common[1]]
+            .splice  ctrl[ctrl.link + ctrl.common[2]], 1
+          ctrl.reset()
           $scope.$digest()
 
-    controller.update = (event) ->
-      controller.isValid event, ->
+    ctrl.update = (event) ->
+      ctrl.isValid event, ->
         confirmService event, success: ->
-          update = controller[controller.link + controller.common[0]]
-          RESTHelperService[controller.link].update "#{controller.link}": update, (res) ->
-            controller.preview()
+          update = ctrl[ctrl.link + ctrl.common[0]]
+          RESTHelperService[ctrl.link].update "#{ctrl.link}": update, (res) ->
+            ctrl.preview()
             $scope.$digest()
 
-    controller.doAction = (event) ->
-      action = controller[controller.link + controller.common[3]]
+    ctrl.doAction = (event) ->
+      action = ctrl[ctrl.link + ctrl.common[3]]
       if action is "create"
-        controller.save event
+        ctrl.save event
       if action is "edit"
-        controller.update event
+        ctrl.update event
 
-  controller
+  ctrl
+
+controller.$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings", "exclude"]
+
+module.exports = controller

@@ -1,11 +1,14 @@
-module.exports = (RESTHelperService) ->
-  @$inject = ["RESTHelperService"]
+controller = (RESTHelperService) ->
 
-  controller = @
+  ctrl = @
 
-  controller.register = (valid) ->
+  ctrl.register = (valid) ->
     if valid
-      RESTHelperService.user.register user: controller.user, (res) ->
-        controller.hide "success"
+      RESTHelperService.user.register user: ctrl.user, (res) ->
+        ctrl.hide "success"
 
-  controller
+  ctrl
+
+controller.$inject = ["RESTHelperService"]
+
+module.exports = controller

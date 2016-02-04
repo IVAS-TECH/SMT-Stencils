@@ -1,6 +1,6 @@
-module.exports = ->
+controller = ->
 
-  controller = @
+  ctrl = @
 
   init = ->
 
@@ -13,11 +13,11 @@ module.exports = ->
       number = 1
 
       for type in ["top", "bottom"]
-        stencil[type] = typeof controller.stencil[type] is "string" and controller.stencil.apertures[type]
+        stencil[type] = typeof ctrl.stencil[type] is "string" and ctrl.stencil.apertures[type]
 
       if stencil.top and stencil.bottom then number = 2
 
-      configuration = controller.order.configurationObject
+      configuration = ctrl.order.configurationObject
 
       fudicals = configuration.fudical.number
 
@@ -61,7 +61,7 @@ module.exports = ->
 
         if not stencil[wich] then return 0
 
-        extraApertures = controller.stencil.apertures[wich] - baseApertures
+        extraApertures = ctrl.stencil.apertures[wich] - baseApertures
 
         if extraApertures > 0
 
@@ -79,7 +79,7 @@ module.exports = ->
       calculateTextPrice = (wich) ->
         if not stencil[wich] then return 0
         else
-          text = controller.order[wich].text
+          text = ctrl.order[wich].text
           symbols = (line.match /\S/g for line in text).join()
           extra = symbols.length - 120
           if extra > 0 then return extra * 0.04
@@ -100,8 +100,12 @@ module.exports = ->
 
       (value for key, value of price).reduce (a, b) -> a + b
 
-    controller.order.price = parseFloat calculatePrice().toFixed 2
+    ctrl.order.price = parseFloat calculatePrice().toFixed 2
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = []
+
+module.exports = controller

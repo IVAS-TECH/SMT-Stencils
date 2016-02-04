@@ -1,5 +1,4 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+directive = (template) ->
 
   template: template "addressView"
   controller: "addressController"
@@ -16,3 +15,7 @@ module.exports = (template) ->
       scope.$emit "address-validity", scope.name, value
 
     scope.$on "$destroy", stop
+
+directive.$inject = ["template"]
+
+module.exports = directive

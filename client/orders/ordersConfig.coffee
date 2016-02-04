@@ -1,8 +1,7 @@
 en = require "./language-en"
 bg = require "./language-bg"
 
-module.exports = ($stateProvider, templateProvider, translateProvider, $mdDateLocaleProvider, dateServiceProvider) ->
-  @$inject = ["$stateProvider", "templateProvider", "translateProvider", "$mdDateLocaleProvider", "dateServiceProvider"]
+config = ($stateProvider, templateProvider, translateProvider, $mdDateLocaleProvider, dateServiceProvider, notificationServiceProvider) ->
 
   translateProvider.add en, bg
 
@@ -14,3 +13,9 @@ module.exports = ($stateProvider, templateProvider, translateProvider, $mdDateLo
   $mdDateLocaleProvider.formatDate = dateServiceProvider.formater()
 
   $mdDateLocaleProvider.parseDate = dateServiceProvider.parser()
+
+  notificationServiceProvider.setState "home.order"
+
+config.$inject = ["$stateProvider", "templateProvider", "translateProvider", "$mdDateLocaleProvider", "dateServiceProvider", "notificationServiceProvider"]
+
+module.exports = config

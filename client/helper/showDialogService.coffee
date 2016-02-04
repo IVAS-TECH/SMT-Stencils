@@ -1,5 +1,4 @@
-module.exports = ($mdDialog, template) ->
-  @$inject = ["$mdDialog", "template"]
+service = ($mdDialog, template) ->
 
   (event, action, locals, handle = {}, extend) ->
 
@@ -26,3 +25,7 @@ module.exports = ($mdDialog, template) ->
           return
 
         else if handle[val]? then handle[val]()
+
+service.$inject = ["$mdDialog", "template"]
+
+module.exports = service

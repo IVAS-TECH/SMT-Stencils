@@ -1,6 +1,9 @@
-module.exports = (template) ->
-  directive = @
-  directive.$inject = ["template"]
+directive = (template) ->
+
   template: template "translateView"
   controller: "translateController"
   controllerAs: "translateCtrl"
+
+directive.$inject = ["template"]
+
+module.exports = directive

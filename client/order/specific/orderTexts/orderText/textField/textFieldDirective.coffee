@@ -1,5 +1,4 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+directive = (template) ->
 
   template: template "textFieldView"
   scope: yes
@@ -11,3 +10,7 @@ module.exports = (template) ->
     index: "="
     texts: "="
     disabled: "="
+
+directive.$inject = ["template"]
+
+module.exports = directive

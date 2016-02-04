@@ -1,4 +1,4 @@
-module.exports = ->
+service = ->
 
   (scope) ->
 
@@ -15,3 +15,7 @@ module.exports = ->
       if search.$parent?
         search = search.$parent
       else break
+
+service.$inject = []
+
+module.exports = service

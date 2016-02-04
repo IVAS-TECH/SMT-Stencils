@@ -1,4 +1,4 @@
-module.exports = ->
+filter = ->
 
   (obj) ->
 
@@ -7,3 +7,7 @@ module.exports = ->
       if Object.keys(obj).length then yes else no
 
     else no
+
+filter.$inject = []
+
+module.exports = filter

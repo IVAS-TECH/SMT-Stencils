@@ -1,15 +1,19 @@
-module.exports = ->
+controller = ->
 
-  controller = @
+  ctrl = @
 
-  controller.countries = [
+  ctrl.countries = [
     "bulgaria"
     "romania"
   ]
 
-  controller.cities = [
+  ctrl.cities = [
     "bulgaria"
     "romania"
   ]
-  
-  controller
+
+  ctrl
+
+controller.$inject = []
+
+module.exports = controller

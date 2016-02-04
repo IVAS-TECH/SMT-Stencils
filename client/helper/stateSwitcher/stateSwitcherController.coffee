@@ -1,29 +1,28 @@
-module.exports = ($scope, $state) ->
-  @$inject = ["$scope", "$state"]
+controller = ($scope, $state) ->
 
-  controller = @
+  ctrl = @
 
   init = ->
 
     allStates = $state.get()
 
-    if not controller.override? then controller.override = {}
-    if not controller.remove? then controller.remove = []
+    if not ctrl.override? then ctrl.override = {}
+    if not ctrl.remove? then ctrl.remove = []
 
     addIfDirectChild = (s) ->
-      if not s.abstract and s.name isnt controller.state and s.name.match controller.state
-        name = if controller.state then s.name.replace "#{controller.state}.", "" else s.name
-        if name not in controller.remove and not name.match /\./ then return name
+      if not s.abstract and s.name isnt ctrl.state and s.name.match ctrl.state
+        name = if ctrl.state then s.name.replace "#{ctrl.state}.", "" else s.name
+        if name not in ctrl.remove and not name.match /\./ then return name
 
-    controller.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
+    ctrl.states = (addIfDirectChild state for state in allStates).filter (e) -> e?
 
     override = (event, toState, toParams, fromState, fromParams) ->
       current = toState.name
       name = current.split "\."
       check = name[name.length - 1]
-      change = controller.override[check]
-      controller.selected = (Boolean current.match "#{state}(?!s)" for state in controller.states)
-      if change? then $state.go [controller.state, check, change].join "\."
+      change = ctrl.override[check]
+      ctrl.selected = (Boolean current.match "#{state}(?!s)" for state in ctrl.states)
+      if change? then $state.go [ctrl.state, check, change].join "\."
 
     override null, $state.current
 
@@ -31,8 +30,12 @@ module.exports = ($scope, $state) ->
 
     $scope.$on "$destroy", stop
 
-  controller.switchState = (state) -> $state.go "#{controller.state}.#{state}"
+  ctrl.switchState = (state) -> $state.go "#{ctrl.state}.#{state}"
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = ["$scope", "$state"]
+
+module.exports = controller

@@ -1,19 +1,22 @@
-module.exports = ($scope, $state, RESTHelperService, simpleDialogService) ->
-  @$inject = ["$scope", "$state", "RESTHelperService", "simpleDialogService"]
+controller = ($scope, $state, RESTHelperService, simpleDialogService) ->
 
-  controller = @
+  ctrl = @
 
-  controller.back = -> $state.go "home.order.addresses"
+  ctrl.back = -> $state.go "home.order.addresses"
 
-  controller.order = (event) ->
-    RESTHelperService.upload.order controller.files, (res) ->
+  ctrl.order = (event) ->
+    RESTHelperService.upload.order ctrl.files, (res) ->
       order =
         files: res.files
-        topText: controller.top.text
-        bottomText: controller.bottom.text
-        configurationObject: controller.configurationObject
-        addressesObject: controller.addressesObject
+        topText: ctrl.top.text
+        bottomText: ctrl.bottom.text
+        configurationObject: ctrl.configurationObject
+        addressesObject: ctrl.addressesObject
       RESTHelperService.order.create order: order, (res) ->
         simpleDialogService event, "title-order-created"
 
-  controller
+  ctrl
+
+controller.$inject = ["$scope", "$state", "RESTHelperService", "simpleDialogService"]
+
+module.exports = controller

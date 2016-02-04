@@ -1,9 +1,6 @@
 {angular} = require "dependencies"
 moduleName = "configurationModule"
 
-en = require "./language-en"
-bg = require "./language-bg"
-
 angular
   .module moduleName, [require "./base/baseModule"]
     .provider "progressService", require "./progressServiceProvider"
@@ -12,8 +9,6 @@ angular
     .directive "ivoConfigInfo", require "./configurationInfo/configurationInfoDirective"
     .directive "ivoInclude", require "./includeDirective"
     .directive "ivoStencilPreview", require "./stencilPreview/stencilPreviewDirective"
-    .config (translateProvider) ->
-      @$inject = ["translateProvider"]
-      translateProvider.add en, bg
+    .config require "./configurationConfig"
 
 module.exports = moduleName

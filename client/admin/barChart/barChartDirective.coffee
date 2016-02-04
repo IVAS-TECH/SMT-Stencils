@@ -1,7 +1,6 @@
 {angular} = require "dependencies"
 
-module.exports = (template, $compile, $window) ->
-  @$inject = ["template", "$compile", "$window"]
+directive = (template, $compile, $window) ->
 
   template: template "barChartView"
   scope: chart: "="
@@ -27,3 +26,7 @@ module.exports = (template, $compile, $window) ->
     resize()
 
     (angular.element $window).on "resize", resize
+
+directive.$inject = ["template", "$compile", "$window"]
+
+module.exports = directive

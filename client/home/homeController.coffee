@@ -1,9 +1,8 @@
-module.exports = ($scope, $state, authenticationService, loginService, transitionService, notificationService) ->
-  @$inject = ["$scope", "$state", "authenticationService", "loginService", "transitionService", "notificationService"]
+controller = ($scope, $state, authenticationService, loginService, transitionService, notificationService) ->
 
-  controller = @
+  ctrl = @
 
-  controller.admin = no
+  ctrl.admin = no
 
   init = ->
 
@@ -22,12 +21,12 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
       authenticationService.authenticate().then ->
 
         tryBecomeAdmin = ->
-          admin = controller.admin
-          controller.admin = authenticationService.isAdmin()
-          if controller.admin is admin then return admin
-          if controller.admin then transitionService.toAdmin()
+          admin = ctrl.admin
+          ctrl.admin = authenticationService.isAdmin()
+          if ctrl.admin is admin then return admin
+          if ctrl.admin then transitionService.toAdmin()
           else notificationService.reListenForNotification()
-          controller.admin
+          ctrl.admin
 
         goTo = null
 
@@ -52,7 +51,7 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
               login: -> setTimeout (-> if not tryBecomeAdmin() then $state.go toState.name), 1
               close: transitionService.toHome
 
-        stopUnAuth = $scope.$on "unauthentication", -> controller.admin = no
+        stopUnAuth = $scope.$on "unauthentication", -> ctrl.admin = no
 
         if goTo? then $state.go goTo
 
@@ -70,4 +69,8 @@ module.exports = ($scope, $state, authenticationService, loginService, transitio
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = ["$scope", "$state", "authenticationService", "loginService", "transitionService", "notificationService"]
+
+module.exports = controller

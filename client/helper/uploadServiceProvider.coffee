@@ -1,14 +1,8 @@
-module.exports = (RESTProvider) ->
-  @$inject = ["RESTProvider"]
+provider = (RESTProvider) ->
 
   _base = ""
 
-  setBase: (base) -> _base = base
-
-  getBase: -> _base
-
-  $get: (Upload) ->
-    @$inject = ["Upload"]
+  service = (Upload) ->
 
     (url) ->
 
@@ -26,7 +20,7 @@ module.exports = (RESTProvider) ->
       else URL = chain.join "\/"
 
       (files) ->
-        
+
         data = map: {}, files: []
 
         for layer, file of files
@@ -36,3 +30,15 @@ module.exports = (RESTProvider) ->
         Upload.upload
           url: URL
           data: data
+
+  service.$inject = ["Upload"]
+
+  setBase: (base) -> _base = base
+
+  getBase: -> _base
+
+  $get: service
+
+provider.$inject = ["RESTProvider"]
+
+module.exports = provider

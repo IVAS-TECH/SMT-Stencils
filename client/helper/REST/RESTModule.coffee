@@ -3,8 +3,8 @@ moduleName = "RESTModule"
 
 angular
   .module moduleName, []
-    .factory "errorHandleService", require "./errorHandleService"
-    .factory "RESTHelperService", require "./RESTHelperService"
     .provider "REST", require "./RESTProvider"
+    .provider "RESTHelperService", require "./RESTHelperServiceProvider"
+    .factory "errorHandleService", require "./errorHandleService"
 
 module.exports = moduleName

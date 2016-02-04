@@ -1,5 +1,4 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+directive = (template) ->
 
   template: template "orderTextView"
   scope: yes
@@ -12,3 +11,7 @@ module.exports = (template) ->
   link: (scope, element, attrs, controller) ->
     if not controller.text?
       controller.text = [""]
+
+directive.$inject = ["template"]
+
+module.exports = directive

@@ -1,19 +1,22 @@
-module.exports = (RESTHelperService) ->
-  @$inject = ["RESTHelperService"]
+controller = (RESTHelperService) ->
 
-  controller = @
-  controller.session = yes
+  ctrl = @
+  ctrl.session = yes
 
-  controller.login = (valid) ->
+  ctrl.login = (valid) ->
     if valid
-      RESTHelperService.login.login user: controller.user, (res) ->
+      RESTHelperService.login.login user: ctrl.user, (res) ->
         if res.login
-          controller.hide
+          ctrl.hide
             "login": null
             "success":
-              user: controller.user
-              session: controller.session
+              user: ctrl.user
+              session: ctrl.session
               admin: res.admin
-        else controller.hide "fail"
+        else ctrl.hide "fail"
 
-  controller
+  ctrl
+
+controller.$inject = ["RESTHelperService"]
+
+module.exports = controller

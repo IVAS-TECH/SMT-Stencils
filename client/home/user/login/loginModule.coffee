@@ -1,15 +1,11 @@
 {angular} = require "dependencies"
 moduleName = "loginModule"
-en = require "./language-en"
-bg = require "./language-bg"
 
 angular
     .module moduleName, []
       .factory "circularDialogService", require "./circularDialogService"
       .factory "loginService", require "./loginService"
       .controller "loginController", require "./loginController"
-      .config (translateProvider) ->
-        @$inject = ["translateProvider"]
-        translateProvider.add en, bg
+      .config require "./loginConfig"
 
 module.exports = moduleName

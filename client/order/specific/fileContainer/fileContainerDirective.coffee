@@ -1,5 +1,4 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+directive = (template) ->
 
   template: template "fileContainerView"
   scope: yes
@@ -9,3 +8,7 @@ module.exports = (template) ->
     layer: "="
     order: "="
     remove: "="
+
+directive.$inject = ["template"]
+
+module.exports = directive

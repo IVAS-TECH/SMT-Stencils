@@ -1,7 +1,6 @@
-module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
-  @$inject = ["$controller", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+controller = ($controller, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
 
-  controller = $controller "baseInterface",
+  ctrl = $controller "baseInterface",
     "$scope": $scope
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
@@ -11,7 +10,7 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
     "settings": @settings
     "exclude": []
 
-  controller.btnBack = yes
+  ctrl.btnBack = yes
 
   listen = ->
     stop = $scope.$on "address-validity", (event, wich, value) ->
@@ -20,10 +19,10 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
         when "delivery" then index = 0
         when "invoice" then index = 1
         when "firm" then index = 2
-      controller.valid[index] = value
+      ctrl.valid[index] = value
     $scope.$on "$destroy", stop
 
-  controller.fill = (src, dst) ->
+  ctrl.fill = (src, dst) ->
     info = [
       "country"
       "city"
@@ -34,8 +33,12 @@ module.exports = ($controller, $scope, RESTHelperService, simpleDialogService, p
       "lastname"
     ]
     for key in info
-      controller.addressesObject[src][key] =  controller.addressesObject[dst][key]
+      ctrl.addressesObject[src][key] =  ctrl.addressesObject[dst][key]
 
   listen()
 
-  controller
+  ctrl
+
+controller.$inject = ["$controller", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+
+module.exports = controller

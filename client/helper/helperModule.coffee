@@ -10,7 +10,7 @@ angular
   .module moduleName, deps
     .provider "template", require "./templateProvider"
     .provider "translate", require "./translateProvider"
-    .provider "uploadService", require "./uploadService"
+    .provider "uploadService", require "./uploadServiceProvider"
     .factory "showDialogService", require "./showDialogService"
     .filter "isntEmpty", require "./isntEmptyFilter"
 

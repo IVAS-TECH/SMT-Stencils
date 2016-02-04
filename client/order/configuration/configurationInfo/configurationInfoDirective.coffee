@@ -1,5 +1,4 @@
-module.exports = (template, scopeControllerService) ->
-  @$inject = ["template", "scopeControllerService"]
+directive = (template, scopeControllerService) ->
 
   template: template "configurationInfoView"
   restrict: "E"
@@ -14,3 +13,7 @@ module.exports = (template, scopeControllerService) ->
       scope.$emit "configuration-validity", value
 
     scope.$on "$destroy", stop
+
+directive.$inject = ["template", "scopeControllerService"]
+
+module.exports = directive

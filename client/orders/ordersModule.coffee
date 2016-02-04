@@ -8,8 +8,8 @@ deps = [
 
 angular
   .module moduleName, deps
+    .constant "statusOptions", require "./statusOptions"
     .provider "dateService", require "./dateServiceProvider"
-    .factory "getStatusOptionsService", require "./getStatusOptionsService"
     .controller "ordersInterface", require "./ordersInterface"
     .directive "ivoOrders", require "./ordersDirective"
     .config require "./ordersConfig"

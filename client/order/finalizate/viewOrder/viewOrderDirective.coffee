@@ -1,5 +1,4 @@
-module.exports = (template) ->
-  @$inject = ["template"]
+directive = (template) ->
 
   template: template "viewOrderView"
   scope:
@@ -8,3 +7,7 @@ module.exports = (template) ->
 
   link: (scope) ->
     scope.order.disabled = true
+
+directive.$inject = ["template"]
+
+module.exports = directive
