@@ -1,6 +1,6 @@
 requests = require "./requests"
 
-config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, $mdThemingProvider) ->
+config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notificationServiceProvider, $mdThemingProvider) ->
 
   RESTProvider.setBase "api"
 
@@ -8,10 +8,12 @@ config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, $mdThe
 
   RESTHelperServiceProvider.setRequets requests
 
+  notificationServiceProvider.setState "home.orders"
+
   $mdThemingProvider
     .theme "default"
     .accentPalette "deep-purple"
 
-config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "$mdThemingProvider"]
+config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider"]
 
 module.exports = config

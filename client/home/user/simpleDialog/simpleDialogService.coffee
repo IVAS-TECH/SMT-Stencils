@@ -1,4 +1,4 @@
-service = (dialogWithTitleService) -> ialogWithTitleService "simpleDialog"
+service = (dialogWithTitleService) -> dialogWithTitleService "simpleDialog"
 
 service.$inject = ["dialogWithTitleService"]
 

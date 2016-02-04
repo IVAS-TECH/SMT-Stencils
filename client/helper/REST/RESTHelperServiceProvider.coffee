@@ -1,6 +1,6 @@
 provider = ->
 
-  requests = {}
+  _requests = {}
 
   service = (REST, uploadService, errorHandleService) ->
 
@@ -19,11 +19,11 @@ provider = ->
         (resolver) ->
           req().then (resolve resolver), errorHandleService
 
-    rest = {}
+    requests = {}
 
-    for key, value of requests
+    for key, value of _requests
 
-      rest[key] = {}
+      requests[key] = {}
 
       if key is "upload"
 
@@ -31,20 +31,20 @@ provider = ->
 
           uploader = uploadService upload
 
-          rest[key][upload] = handle uploader, yes
+          requests[key][upload] = handle uploader, yes
 
       else
 
         rest = REST key
 
         for index of value.arg
-          rest[key][value.alias[index]] = handle rest[value.method[index]], value.arg[index]
+          requests[key][value.alias[index]] = handle rest[value.method[index]], value.arg[index]
 
-    rest
+    requests
 
   service.$inject = ["REST", "uploadService", "errorHandleService"]
 
-  setRequets: (reqsts) -> requests = reqsts
+  setRequets: (requests) -> _requests = requests
 
   $get: service
 

@@ -1,29 +1,33 @@
-module.exports = ($rootScope, $scope, RESTHelperService, statusOptions, confirmService, simpleDialogService) ->
-  @$inject = ["$rootScope", "$scope", "RESTHelperService", "statusOptions", "confirmService", "simpleDialogService"]
+controller = ($rootScope, $scope, RESTHelperService, statusOptions, confirmService, simpleDialogService) ->
 
-  controller = @
+  ctrl = @
 
   init = ->
-    if controller.info.admin
+    if ctrl.info.admin
 
-      controller.adminPanel = "orderMenageView"
-      controller.statusOptions = statusOptions
-      controller.statusOptions.push "delete"
+      ctrl.adminPanel = "orderMenageView"
+      ctrl.statusOptions = statusOptions
+      ctrl.statusOptions.push "delete"
 
-      RESTHelperService.language.find controller.info.user, (res) ->
-        controller.info.language = res.language.language
+      RESTHelperService.language.find ctrl.info.user, (res) ->
+        ctrl.info.language = res.language.language
         $scope.$digest()
 
-  controller.action = (event) ->
-    if controller.info.admin
-      if controller.info.status is "delete"
+  ctrl.action = (event) ->
+    if ctrl.info.admin
+      if ctrl.info.status is "delete"
         confirmService event, success: ->
-          RESTHelperService.user.remove controller.info.user, (res) ->
+          RESTHelperService.user.remove ctrl.info.user, (res) ->
             simpleDialogService event, "title-deleted", success: ->
-              $rootScope.$broadcast "user-removed", controller.info.user
-      else RESTHelperService.order.update controller.info, (res) ->
-    controller.hide "success"
+              $rootScope.$broadcast "user-removed", ctrl.info.user
+      else RESTHelperService.order.update ctrl.info, (res) ->
+          simpleDialogService event, "title-order-status-updated"
+    ctrl.hide "success"
 
   init()
 
-  controller
+  ctrl
+
+controller.$inject = ["$rootScope", "$scope", "RESTHelperService", "statusOptions", "confirmService", "simpleDialogService"]
+
+module.exports = controller

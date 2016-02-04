@@ -8,8 +8,6 @@ provider = ->
 
     listening = null
 
-    showNotification = showNotificationService _state
-
     notificationFor: (order) -> notifications[order]
 
     notify: ->
@@ -19,10 +17,10 @@ provider = ->
             notifications = {}
             for notification in res.notifications
               notifications[notification.order] = notification._id
-            extend = {}
+            handle = success: -> $state.go _state
             if $state.current.name is _state
-              extend.success = -> $rootScope.$broadcast "notification"
-            showNotification extend
+              handle.success = -> $rootScope.$broadcast "notification"
+            showNotificationService {}, {}, handle
 
     listenForNotification: ->
 
@@ -40,7 +38,7 @@ provider = ->
 
   $get: service
 
-  setState: (_state) -> state = _state
+  setState: (state) -> _state = state
 
   getState: -> _state
 
