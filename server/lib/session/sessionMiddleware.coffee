@@ -20,7 +20,6 @@ module.exports = (field = "user", ipField = "userIP") ->
           .exec().then (-> query res), next
 
       when "get" then return (req, res, next) ->
-          console.log req.method, req.url
           setIp req
           (sessionModel.findOne ip: req[ipField])
             .exec().then (action req, next), next

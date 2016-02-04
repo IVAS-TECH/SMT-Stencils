@@ -1,5 +1,5 @@
 service = ->
-  -> console.log "error there was"
+  -> alert "error there was"
 
 service.$inject = []
 

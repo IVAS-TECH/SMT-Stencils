@@ -1,6 +1,10 @@
 {join} = require "path"
+{createWriteStream} = require "fs"
 bodyParser = require "body-parser"
+errorLogger = require "./errorLogger"
 errorHandler = require "./errorHandler"
+
+errorStream = createWriteStream (join __dirname, "error.log"), flags: "a"
 
 sendDir = join __dirname, 'send'
 
@@ -12,7 +16,7 @@ sendFile = (file, gzip) ->
 
 module.exports =
 
-  beforeEach: bodyParser.json()
+  beforeEach: [bodyParser.json(), errorLogger errorStream]
 
   get: sendFile "index.html", yes
 
@@ -23,6 +27,6 @@ module.exports =
   "favicon.ico": get: sendFile "favicon.ico"
 
   afterEach: [
-    (req, res, next) -> next "Not Found"
-    errorHandler join sendDir, "error.html"
+    (req, res, next) -> next new Error "Not Found"
+    errorHandler errorStream, join sendDir, "error.html"
   ]
