@@ -4,7 +4,7 @@ decorator = ($delegate, $injector) ->
     sender = REST "client-error"
     stack = err
     if err? and err.stack? then stack = err.stack
-    sender.post error: stack, cause: cause
+    sender.post error: stack
 
 decorator.$inject = ["$delegate", "$injector"]
 
