@@ -14,3 +14,5 @@ module.exports =
   configuration: require "./order/configuration/configurationHandle"
   file: require "./order/file/fileHandle"
   order: require "./order/orderHandle"
+  "response-error": require "./logResponseError"
+  "client-error": require "./logClientError"

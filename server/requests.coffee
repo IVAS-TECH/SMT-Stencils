@@ -22,7 +22,7 @@ module.exports =
 
   api: require "./routes/routes"
 
-  script: get: sendFile "final.js", yes
+  script: get: sendFile "bundle.js"#"final.js", yes
 
   "favicon.ico": get: sendFile "favicon.ico"
 

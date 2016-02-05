@@ -1,4 +1,4 @@
-controller = ($rootScope, $scope, RESTHelperService, statusOptions, confirmService, simpleDialogService) ->
+controller = ($rootScope, RESTHelperService, statusOptions, confirmService, simpleDialogService) ->
 
   ctrl = @
 
@@ -9,9 +9,7 @@ controller = ($rootScope, $scope, RESTHelperService, statusOptions, confirmServi
       ctrl.statusOptions = statusOptions
       ctrl.statusOptions.push "delete"
 
-      RESTHelperService.language.find ctrl.info.user, (res) ->
-        ctrl.info.language = res.language.language
-        $scope.$digest()
+      RESTHelperService.language.find ctrl.info.user, (res) -> ctrl.info.language = res.language.language
 
   ctrl.action = (event) ->
     if ctrl.info.admin
@@ -28,6 +26,6 @@ controller = ($rootScope, $scope, RESTHelperService, statusOptions, confirmServi
 
   ctrl
 
-controller.$inject = ["$rootScope", "$scope", "RESTHelperService", "statusOptions", "confirmService", "simpleDialogService"]
+controller.$inject = ["$rootScope", "RESTHelperService", "statusOptions", "confirmService", "simpleDialogService"]
 
 module.exports = controller

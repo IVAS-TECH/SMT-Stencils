@@ -31,8 +31,7 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
         goTo = null
 
         if authenticationService.isAuthenticated()
-          if tryBecomeAdmin() then $scope.$digest()
-          else goTo = going.name
+          if not tryBecomeAdmin() then goTo = going.name
         else
 
           if event.defaultPrevented then loginService event,

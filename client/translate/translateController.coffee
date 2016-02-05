@@ -13,7 +13,6 @@ controller = ($translate, $scope, RESTHelperService, authenticationService) ->
         if res.language?
           ctrl.current = res.language.language
           $translate.use ctrl.current
-          $scope.$digest()
 
     if authenticationService.isAuthenticated()
       getLanguage()

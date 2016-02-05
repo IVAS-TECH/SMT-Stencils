@@ -5,8 +5,6 @@ controller = ($scope, $window, registerService, loginService, authenticationServ
   authenticateUser = ->
     ctrl.authenticated = authenticationService.isAuthenticated()
     ctrl.user = authenticationService.getUser()
-    if authenticationService.isAsync()
-      $scope.$digest()
 
   init = ->
 

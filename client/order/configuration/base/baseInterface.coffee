@@ -99,15 +99,12 @@ controller = ($scope, RESTHelperService, simpleDialogService, progressService, c
           ctrl[ctrl.link + ctrl.common[1]]
             .splice  ctrl[ctrl.link + ctrl.common[2]], 1
           ctrl.reset()
-          $scope.$digest()
 
     ctrl.update = (event) ->
       ctrl.isValid event, ->
         confirmService event, success: ->
           update = ctrl[ctrl.link + ctrl.common[0]]
-          RESTHelperService[ctrl.link].update "#{ctrl.link}": update, (res) ->
-            ctrl.preview()
-            $scope.$digest()
+          RESTHelperService[ctrl.link].update "#{ctrl.link}": update, (res) -> ctrl.preview()
 
     ctrl.doAction = (event) ->
       action = ctrl[ctrl.link + ctrl.common[3]]

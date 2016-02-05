@@ -64,8 +64,6 @@ controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionSe
 
       $scope.$on "$destroy", -> listener() for listener in listeners
 
-      $scope.$digest()
-
   ctrl.labels =
     _id: 25
     status: 15
@@ -106,7 +104,6 @@ controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionSe
       $scope.order = order
       $scope.order.top = set "top"
       $scope.order.bottom = set "bottom"
-      $scope.$digest()
 
       if ctrl.afterChoose? then ctrl.afterChoose event, order, res, checkForDescription
       else checkForDescription()

@@ -8,9 +8,8 @@ provider = ->
 
       resolve = (resolver) ->
         (res) ->
-          if res.status is 200
-            resolver res.data
-          else errorHandleService()
+          if res.status is 200 then resolver res.data
+          else errorHandleService res
 
       if arg
         (argument, resolver) ->

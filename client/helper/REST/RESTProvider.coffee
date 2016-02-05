@@ -1,54 +1,24 @@
-http = require "http"
-Promise = require "promise"
+provider = ($httpProvider) ->
 
-provider = ->
+  $httpProvider.useApplyAsync yes
 
   _base = ""
 
-  setBase: (base) -> _base = base
-
-  getBase: -> _base
-
-  $get: ->
+  service = ($http) ->
 
     (resource) ->
-      _path = "#{_base}/#{resource}"
+      _url = "#{_base}/#{resource}"
 
-      rest = make: (method, send) ->
-        json = "application/json"
-        path = _path
-        if method in ["GET", "DELETE"] and send isnt ""
-          path += "\/" + send
+      rest = make: (method, data) ->
+        url = _url
+        if method in ["GET", "DELETE"] and data isnt "" then url += "\/" + data
+        request = url: url, method: method
 
-        new Promise (resolve, reject) ->
-          request =
-            path: path
-            method: method
-            responseType: json
+        if typeof data is "object"
+          request.headers = "Content-Type": "application/json"
+          request.data = data
 
-          req = http.request request, (res) ->
-
-            response = ""
-
-            res.on "data", (chunk) -> response += chunk
-
-            res.on "end", ->
-              if res.statusCode is 200
-                resolve
-                  headers: res.headers
-                  data: JSON.parse response
-                  status: res.statusCode
-              else reject()
-
-            res.on "error", reject
-
-          if typeof send isnt "string"
-            data = JSON.stringify send
-            req.setHeader "Content-Type", json
-            req.setHeader "Content-Length", data.length
-            req.write data
-
-          req.end()
+        $http request
 
       rest.get = (send = "") -> rest.make "GET", send
       rest.post = (send = {}) -> rest.make "POST", send
@@ -58,6 +28,14 @@ provider = ->
 
       rest
 
-provider.$inject = []
+  service.$inject = ["$http"]
+
+  setBase: (base) -> _base = base
+
+  getBase: -> _base
+
+  $get: service
+
+provider.$inject = ["$httpProvider"]
 
 module.exports = provider

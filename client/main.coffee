@@ -20,9 +20,13 @@ deps = [
   require "./admin/adminModule"
 ]
 
+run = (RESTHelperService) -> RESTHelperService.order.find (res) -> console.log res
+run.$inject = ["RESTHelperService"]
+
 angular
   .module moduleName, deps
     .config require "./mainConfig"
+    .run run
 
 angular
   .element document
