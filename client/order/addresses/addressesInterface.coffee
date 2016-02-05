@@ -1,7 +1,8 @@
-controller = ($controller, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
+controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService) ->
 
   ctrl = $controller "baseInterface",
     "$scope": $scope
+    "$q": $q
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
     "progressService": progressService
@@ -39,6 +40,6 @@ controller = ($controller, $scope, RESTHelperService, simpleDialogService, progr
 
   ctrl
 
-controller.$inject = ["$controller", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+controller.$inject = ["$controller", "$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
 
 module.exports = controller

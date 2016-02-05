@@ -1,4 +1,4 @@
-service = (REST)->
+service = (REST) ->
 
   (res) ->
     sender = REST "response-error"

@@ -1,9 +1,8 @@
-Promise = require "promise"
-
-controller = ($controller, template, $scope, RESTHelperService, simpleDialogService, progressService, confirmService) ->
+controller = ($controller, template, $scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService) ->
 
   ctrl = $controller "baseInterface",
     "$scope": $scope
+    "$q": $q
     "RESTHelperService": RESTHelperService
     "simpleDialogService": simpleDialogService
     "progressService": progressService
@@ -129,6 +128,6 @@ controller = ($controller, template, $scope, RESTHelperService, simpleDialogServ
 
   ctrl
 
-controller.$inject = ["$controller", "template", "$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+controller.$inject = ["$controller", "template", "$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
 
 module.exports = controller

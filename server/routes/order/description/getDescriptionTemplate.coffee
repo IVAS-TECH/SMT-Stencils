@@ -1,6 +1,5 @@
 {join} = require "path"
 fs = require "fs"
-Promise = require "promise"
 templates = join __dirname, "../../../../descriptionTemplates"
 
 module.exports = (status, lenguage, populate) ->

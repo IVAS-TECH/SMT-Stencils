@@ -5,4 +5,4 @@ module.exports = (errorStream, errorFile) ->
       when "Unauthorized Access" then status = 401
       else status = 500
     (res.status status).send error: status, message: if status is 500 then "Internal Server Error" else err.message
-    errorStream.write err.stack, "utf-8"
+    errorStream.write "#{err.stack}\n", "utf-8"

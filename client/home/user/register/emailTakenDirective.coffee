@@ -1,6 +1,4 @@
-Promise = require "promise"
-
-directive = (RESTHelperService) ->
+directive = ($q, RESTHelperService) ->
 
   restric: "A"
   require: "ngModel"
@@ -8,12 +6,12 @@ directive = (RESTHelperService) ->
 
     ngModel.$asyncValidators["email-taken"] = (newValue) ->
 
-      new Promise (resolve, reject) ->
+      $q (resolve, reject) ->
 
         RESTHelperService.user.email newValue, (res) ->
 
           if res.taken then reject() else resolve()
 
-directive.$inject = ["RESTHelperService"]
+directive.$inject = ["$q", "RESTHelperService"]
 
 module.exports = directive

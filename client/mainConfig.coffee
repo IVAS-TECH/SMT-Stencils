@@ -1,6 +1,6 @@
 requests = require "./requests"
 
-config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notificationServiceProvider, $mdThemingProvider) ->
+config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider) ->
 
   RESTProvider.setBase "api"
 
@@ -14,6 +14,8 @@ config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notifi
     .theme "default"
     .accentPalette "deep-purple"
 
-config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider"]
+  $compileProvider.debugInfoEnabled no
+
+config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider"]
 
 module.exports = config

@@ -1,6 +1,4 @@
-Promise = require "promise"
-
-controller = ($scope, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings, exclude) ->
+controller = ($scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings, exclude) ->
 
   ctrl = @
 
@@ -51,7 +49,7 @@ controller = ($scope, RESTHelperService, simpleDialogService, progressService, c
       simpleDialogService event, "required-fields"
 
   ctrl.save = (event) ->
-    new Promise (resolve, reject) ->
+    $q (resolve, reject) ->
       create = ->
         save = ctrl[ctrl.link + ctrl.common[0]]
         RESTHelperService[ctrl.link].create "#{ctrl.link}": save, (res) ->
@@ -115,6 +113,6 @@ controller = ($scope, RESTHelperService, simpleDialogService, progressService, c
 
   ctrl
 
-controller.$inject = ["$scope", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings", "exclude"]
+controller.$inject = ["$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings", "exclude"]
 
 module.exports = controller
