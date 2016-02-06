@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/IVAS-TECH/SMT-Stencils#readme",
   "devDependencies": {
+    "gulp": "3.9.0",
+    "gulp-jade": "1.1.0",
+    "gulp-coffee": "2.3.1",
+    "gulp-htmlmin": "1.3.0",
+    "gulp-angular-templatecache": "1.8.0",
     "proxyquireify": "3.0.1",
     "proxyquire-universal": "1.0.8",
     "browserify-istanbul": "0.2.1",
