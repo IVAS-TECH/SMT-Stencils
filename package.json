@@ -49,7 +49,6 @@
     "body-parser": "1.14.2",
     "express": "4.13.3",
     "mongoose": "4.3.4",
-    "uglify-js": "2.6.1",
     "uglifycss": "0.0.19",
     "browserify": "12.0.1",
     "walk": "2.3.9",

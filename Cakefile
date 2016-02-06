@@ -17,7 +17,6 @@ nodeModules = "./node_modules"
 exec =
   jade: "./node_modules/jade/bin/jade.js"
   browserify: "./node_modules/browserify/bin/cmd.js"
-  uglifyJS: "./node_modules/uglify-js/bin/uglifyjs"
   karma: "./node_modules/karma-cli/bin/karma"
   mocha: "./node_modules/mocha/bin/mocha"
   _mocha: "./node_modules/mocha/bin/_mocha"
@@ -61,22 +60,33 @@ task "bundle", "Compiles jade and coffee and bundles into single bundle.js file"
       next()
     walker.on "end", ->
       zlib = require "zlib"
+      {minify} = require "uglify-js"
       fse.emptyDirSync compileDir
       file = join clientDir, "helper/template.coffee"
       fse.writeFileSync file, "map = #{JSON.stringify map}\nmodule.exports = (tmp) -> map[tmp]"
       invoke "coffee"
       invoke "browserify"
       invoke "style"
-      spawnSync exec.uglifyJS, ["#{sendDir}/bundle.js", "-o", "#{sendDir}/final.js"], stdio: "inherit"
+      bundled = minify "#{sendDir}/bundle.js",
+        mangle: yes
+        copress:
+          screw_ie8: yes
+          sequences: yes
+      		dead_code: yes
+      		conditionals: yes
+      		booleans: yes
+      		unused: yes
+      		if_return: yes
+      		join_vars: yes
+      		drop_console: yes
       style = join sendDir, "style.css"
-      bundle = join sendDir, "final.js"
       index = join sendDir, "index.html"
+      bundle = join sendDir, "bundle.js"
       styleContent = fse.readFileSync style, "utf8"
       indexContent = fse.readFileSync index, "utf8"
       styled = new Buffer (indexContent.replace "@@@", styleContent), "utf-8"
       fse.writeFileSync index, (zlib.gzipSync styled), "utf8"
-      finalContent = new Buffer (fse.readFileSync bundle, "utf8"), "utf-8"
-      fse.writeFileSync bundle, (zlib.gzipSync finalContent), "utf-8"
+      fse.writeFileSync bundle, (zlib.gzipSync new Buffer bundled.code, "utf-8"), "utf-8"
       resolve()
 
 task "style", "Compiles all Stylus files into single CSS3 file", ->
