@@ -8,4 +8,4 @@ deploy/*
 client/coverage/*
 server/coverage/*
 template.coffee
-task
+cake

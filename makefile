@@ -1,4 +1,4 @@
-gulp = ./node_modules/gulp/bin/gulp.js
+gulp = ./node_modules/.bin/gulp
 
 setup:
 	sudo apt-get install -y curl
@@ -7,10 +7,8 @@ setup:
 	sudo apt-get install -y mongodb
 	sudo apt-get install gerbv
 
-task:
-	npm install
-	sed 's/\.\.\/lib/\.\/node_modules\/coffee\-script\/lib/' < ./node_modules/coffee-script/bin/cake > ./task
-	chmod 777 ./task
+build:
+	${gulp} --color --require coffee-script/register build
 
-test:
-	${gulp} --require coffee-script/register test
+styles:
+	${gulp} --color --require coffee-script/register styles
