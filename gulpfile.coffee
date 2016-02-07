@@ -63,14 +63,14 @@ gulp.task "cache", ["index"], ->
 gulp.task "client", ["cache"], ->
   gulp
     .src "./client/**/*.coffee"
-    .pipe coffee bare: no
+    .pipe coffee bare: yes
     .on "error", gutil.log
     .pipe gulp.dest "./build"
 
 gulp.task "server", ["client"], ->
   gulp
     .src "./server/**/*.coffee"
-    .pipe coffee bare: no
+    .pipe coffee bare: yes
     .on "error", gutil.log
     .pipe gulp.dest "./deploy"
 

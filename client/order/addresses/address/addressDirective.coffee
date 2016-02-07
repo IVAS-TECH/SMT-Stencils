@@ -1,6 +1,6 @@
-directive = (template) ->
+directive = ->
 
-  template: template "addressView"
+  templateUrl: "addressView"
   controller: "addressController"
   controllerAs: "addressCtrl"
   scope:
@@ -16,6 +16,6 @@ directive = (template) ->
 
     scope.$on "$destroy", stop
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

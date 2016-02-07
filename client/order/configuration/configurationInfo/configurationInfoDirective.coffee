@@ -1,4 +1,4 @@
-directive = (copeControllerService) ->
+directive = (scopeControllerService) ->
 
   templateUrl: "configurationInfoView"
   restrict: "E"

@@ -21,10 +21,9 @@ deps = [
   require "./admin/adminModule"
 ]
 
-angular
-  .module moduleName, deps
-    .decorator "$exceptionHandler", require "./errorReporter"
-    .config require "./mainConfig"
+angular.module moduleName, deps
+  .decorator "$exceptionHandler", require "./errorReporter"
+  .config require "./mainConfig"
 
 angular
   .element document

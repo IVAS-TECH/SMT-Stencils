@@ -8,9 +8,8 @@ dependencies = [
   require "./finalizate/finalizateModule"
 ]
 
-angular
-  .module moduleName, dependencies
-    .controller "orderController", require "./orderController"
-    .config require "./orderConfig"
+angular.module moduleName, dependencies
+  .controller "orderController", require "./orderController"
+  .config require "./orderConfig"
 
 module.exports = moduleName
