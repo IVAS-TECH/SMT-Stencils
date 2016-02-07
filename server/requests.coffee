@@ -15,7 +15,7 @@ module.exports =
 
   beforeEach: [bodyParser.json(), errorLogger errorStream]
 
-  get: sendFile "index.html", yes
+  get: sendFile "index.html"
 
   api: require "./routes/routes"
 

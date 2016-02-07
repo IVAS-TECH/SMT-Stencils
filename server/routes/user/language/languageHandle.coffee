@@ -9,7 +9,7 @@ module.exports =
       .exec().then ((doc) -> query res, language: doc), next
 
   post: (req, res, next) ->
-    (languageModel.update user: req.user.user, {language: req.body.language}, {upsert: yes})
+    (languageModel.update user: req.user.user, {language: req.body.language}, {upsert: no})
       .exec().then ((doc) -> query res, doc), next
 
   params: get:

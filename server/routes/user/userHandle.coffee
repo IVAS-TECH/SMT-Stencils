@@ -1,5 +1,4 @@
 fs = require "fs"
-{walk} = require "walk"
 {join} = require "path"
 userModel = require "./userModel"
 query = require "./../../lib/query"
@@ -17,28 +16,36 @@ files = join __dirname, "../../../files"
 
 wipeFromCollection = (collection) ->
   (req, res, next) ->
-    (collection.remove user: req.userId)
+    (collection.remove user: req.userID)
       .exec().then ( -> next()), next
 
-wipeFromDB = (wipeFromCollection model for model in models)
+wipeFromDB = [
+  (req, res, next) ->
+    req.deletes = []
+    (models[0].find user: req.userID).exec()
+      .then (docs) ->
+        for doc in docs
+          for name, path of doc.files
+            console.log name, path
+            if typeof path is "string" and path.length then req.deletes.push path
+        console.log req.deletes
+        next()
+      .catch next
+]
+
+wipeFromDB.push wipeFromCollection model for model in models
 
 wipeFromDB.push (req, res, next) ->
-  (userModel.remove _id: req.userId)
+  (userModel.remove _id: req.userID)
     .exec().then ( -> next()), next
 
 wipeFromDB.push (req, res, next) ->
-  walker = walk files
-  deleted = []
-  walker.on "file", (root, file, following) ->
-    pathTo = join root, file.name
-    if pathTo.match req.userID + "___"
-      deleted.push new Promise (resolve, reject) ->
-        fs.unlink pathTo, (err) ->
-          if err then reject err
-          else resolve()
-    following()
-  walker.on "end", -> (Promise.all deleted).then (-> query res), next
-  walker.on "error", next
+  deleted = (for file in req.deletes
+    new Promise (resolve, reject) ->
+      fs.unlink file, (err) ->
+        if err then reject err
+        else resolve())
+  (Promise.all deleted).then (-> query res), next
 
 module.exports =
 
@@ -46,9 +53,17 @@ module.exports =
     (userModel.findOne email: req.params.email)
       .exec().then ((doc) -> query res, taken: doc?), next
 
-  post: (req, res, next) ->
-    (userModel.create req.body.user)
-      .then ((doc) -> query res, doc), next
+  post: [
+    (req, res, next) ->
+      (userModel.create req.body.user)
+        .then (doc) ->
+          req.register = doc
+          next()
+        .catch next
+    (req, res, next) ->
+      (models[1].create user: req.register._id, language: req.body.language)
+        .then ((doc) -> query res, req.register), next
+  ]
 
   patch: (req, res, next) ->
     update = "#{req.body.type}": req.body.value

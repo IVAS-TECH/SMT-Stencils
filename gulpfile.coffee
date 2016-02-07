@@ -147,6 +147,7 @@ gulp.task "preview", ["clone"], ->
 gulp.task "favicon", ["preview"], ->
   gulp
     .src "./resources/favicon.ico"
+    .pipe gzip append: no
     .pipe gulp.dest "./deploy/send"
 
 gulp.task "build", ["favicon"]

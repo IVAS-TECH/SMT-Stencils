@@ -6,7 +6,7 @@ controller = ($rootScope, RESTHelperService, statusOptions, confirmService, simp
     if ctrl.info.admin
 
       ctrl.adminPanel = "orderMenageView"
-      ctrl.statusOptions = statusOptions
+      ctrl.statusOptions = new Array.apply null, statusOptions
       ctrl.statusOptions.push "delete"
 
       RESTHelperService.language.find ctrl.info.user, (res) -> ctrl.info.language = res.language.language

@@ -121,8 +121,11 @@ controller = ($controller, $scope, RESTHelperService, $filter, dateService, show
         ctrl.charts = buildCharts()
 
       stopRemove = $scope.$on "user-removed", (event, user) ->
+        console.log "user", user
+        console.log "orders", ctrl.fullListOfOrders
         ctrl.fullListOfOrders = ctrl.fullListOfOrders.filter (element) ->
-          element.user._id isnt user
+          console.log "e: ", element.user._id# isnt user
+          yes
         ctrl.filterFn()
 
       $scope.$on "$destroy", ->

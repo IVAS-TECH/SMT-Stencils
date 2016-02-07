@@ -1,4 +1,3 @@
-ip = require "ip"
 mongoose = require "mongoose"
 express = require "express"
 routerTree = require "./lib/routerTree"
@@ -12,4 +11,4 @@ server.use routerTree require "./requests"
 mongoose.connect require "./mongo"
 mongoose.Promise = global.Promise
 
-server.listen port, -> console.log "Server started at #{ip.address()}:#{port}"
+server.listen port, -> console.log "Server started at port:#{port}"

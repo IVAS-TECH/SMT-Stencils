@@ -1,14 +1,15 @@
-controller = (RESTHelperService) ->
+controller = ($translate, RESTHelperService) ->
 
   ctrl = @
 
   ctrl.register = (valid) ->
     if valid
-      RESTHelperService.user.register user: ctrl.user, (res) ->
+      send = user: ctrl.user, language: $translate.use()
+      RESTHelperService.user.register send, (res) ->
         ctrl.hide "success"
 
   ctrl
 
-controller.$inject = ["RESTHelperService"]
+controller.$inject = ["$translate", "RESTHelperService"]
 
 module.exports = controller
