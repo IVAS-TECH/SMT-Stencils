@@ -1,8 +1,8 @@
-directive = (template) ->
+directive = ->
 
-  template: template "fileView"
+  templateUrl: "fileView"
   scope: name: "="
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

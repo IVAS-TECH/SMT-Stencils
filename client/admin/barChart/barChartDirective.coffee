@@ -1,8 +1,8 @@
 {angular} = require "dependencies"
 
-directive = (template, $compile, $window) ->
+directive = ($compile, $window) ->
 
-  template: template "barChartView"
+  templateUrl: "barChartView"
   scope: chart: "="
   link: (scope, element, attrs) ->
 
@@ -10,7 +10,7 @@ directive = (template, $compile, $window) ->
 
     resize = ->
 
-      wrapper.html template "barChart"
+      wrapper.html "barChart" #get it from cahce
 
       ($compile wrapper.contents()) scope
 
@@ -27,6 +27,6 @@ directive = (template, $compile, $window) ->
 
     (angular.element $window).on "resize", resize
 
-directive.$inject = ["template", "$compile", "$window"]
+directive.$inject = ["$compile", "$window"]
 
 module.exports = directive

@@ -1,10 +1,10 @@
-directive = (template) ->
+directive = ->
 
-  template: template "filesView"
+  templateUrl: "filesView"
   scope:
     order: "="
     remove: "="
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

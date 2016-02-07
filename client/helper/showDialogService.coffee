@@ -1,4 +1,4 @@
-service = ($mdDialog, template) ->
+service = ($mdDialog) ->
 
   (event, action, locals, handle = {}, extend) ->
 
@@ -8,7 +8,7 @@ service = ($mdDialog, template) ->
 
     $mdDialog
       .show
-        template: template "#{action}View"
+        templateUrl: "#{action}View"
         targetEvent: if event.target? then event else undefined
         controller: "#{action}Controller"
         controllerAs: "#{action}Ctrl"
@@ -26,6 +26,6 @@ service = ($mdDialog, template) ->
 
         else if handle[val]? then handle[val]()
 
-service.$inject = ["$mdDialog", "template"]
+service.$inject = ["$mdDialog"]
 
 module.exports = service

@@ -1,6 +1,6 @@
-directive = (template, scopeControllerService) ->
+directive = (scopeControllerService) ->
 
-  template: template "stencilPreviewView"
+  templateUrl: "stencilPreviewView"
   restrict: "E"
   scope:
     text: "="
@@ -14,6 +14,6 @@ directive = (template, scopeControllerService) ->
       scope.text = [scope.text]
 
 
-directive.$inject = ["template", "scopeControllerService"]
+directive.$inject = ["scopeControllerService"]
 
 module.exports = directive

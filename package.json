@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/IVAS-TECH/SMT-Stencils#readme",
   "devDependencies": {
+    "gulp-inline": "0.1.0",
     "jade": "1.11.0",
     "coffee-script": "1.10.0",
     "vinyl-paths": "2.1.0",

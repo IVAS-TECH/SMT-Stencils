@@ -1,7 +1,7 @@
 en = require "./language-en"
 bg = require "./language-bg"
 
-config = ($stateProvider, templateProvider, translateProvider, progressServiceProvider) ->
+config = ($stateProvider, translateProvider, progressServiceProvider) ->
 
   translateProvider.add en, bg
 
@@ -13,14 +13,14 @@ config = ($stateProvider, templateProvider, translateProvider, progressServicePr
     .state "home.order",
       url: "/order"
       controller: "orderController as orderCtrl"
-      template: templateProvider.provide "orderView"
-    .state "home.order.configuration", template: templateProvider.provide "configurationView"
+      templateUrl: "orderView"
+    .state "home.order.configuration", templateUrl: "configurationView"
     .state "home.order.specific",
       controller: "specificController as specificCtrl"
-      template: templateProvider.provide "specificView"
-    .state "home.order.addresses", template: templateProvider.provide "addressesView"
-    .state "home.order.finalizate", template: templateProvider.provide "finalizateView"
+      templateUrl: "specificView"
+    .state "home.order.addresses", templateUrl: "addressesView"
+    .state "home.order.finalizate", templateUrl: "finalizateView"
 
-config.$inject = ["$stateProvider", "templateProvider", "translateProvider", "progressServiceProvider"]
+config.$inject = ["$stateProvider", "translateProvider", "progressServiceProvider"]
 
 module.exports = config

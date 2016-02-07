@@ -1,8 +1,10 @@
+require "./templates"
 dependencies = require "dependencies"
 angular = dependencies.angular
 moduleName = "main"
 
 deps = [
+  "templates"
   dependencies["angular-animate"]
   dependencies["angular-aria"]
   dependencies["angular-messages"]

@@ -1,10 +1,10 @@
-directive = (template) ->
+directive = ->
 
-  template: template "orderPreviewView"
+  templateUrl: "orderPreviewView"
   scope:
     controller: "="
     order: "="
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

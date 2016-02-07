@@ -8,6 +8,7 @@ html = require "gulp-htmlmin"
 vinyl = require "vinyl-paths"
 coffee = require "gulp-coffee"
 stylus = require "gulp-stylus"
+inline = require "gulp-inline"
 concat = require "gulp-concat"
 uglify = require "gulp-uglify"
 browserify = require "browserify"
@@ -43,7 +44,7 @@ gulp.task "index", ["error"], ->
   gulp
     .src "./templates/index.html"
     .pipe vinyl del
-    .pipe gulp.dest "./build"
+    .pipe gulp.dest "./build/inline"
 
 gulp.task "cache", ["index"], ->
   gulp
@@ -93,7 +94,7 @@ gulp.task "uglify", ["browserify"], ->
         if_return: yes
         join_vars: yes
         drop_console: yes
-    .pipe gulp.dest "./build"
+    .pipe gulp.dest "./build/inline"
 
 gulp.task "stylus", ["uglify"], ->
   gulp
@@ -119,9 +120,13 @@ gulp.task "styles", ["stylus"], ->
       "expand-vars": no
       "ugly-comments": yes
       "cute-comments": no
-    .pipe gulp.dest "./build"
+    .pipe gulp.dest "./build/inline"
 
 gulp.task "bundle", ["styles"], ->
+  gulp
+    .src "./build/inline/index.html"
+    .pipe inline base: "./build/inline"
+    .pipe gulp.dest "./build/send"
 
 gulp.task "clone", ["bundle"], ->
   spawnSync "git", [

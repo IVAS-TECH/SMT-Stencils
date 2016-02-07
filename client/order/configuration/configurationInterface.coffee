@@ -1,4 +1,4 @@
-controller = ($controller, template, $scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService) ->
+controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService) ->
 
   ctrl = $controller "baseInterface",
     "$scope": $scope
@@ -39,7 +39,7 @@ controller = ($controller, template, $scope, $q, RESTHelperService, simpleDialog
 
   ctrl.text = "Text"
 
-  ctrl.view = template "top"
+  ctrl.view = "top"#template "top"
 
   ctrl.options =
     side: ["pcb-side", "squeegee-side"]

@@ -1,6 +1,6 @@
-directive = (template) ->
+directive = ->
 
-  template: template "fileContainerView"
+  templateUrl: "fileContainerView"
   scope: yes
   controller: "fileContainerController"
   controllerAs: "fileCnrCtrl"
@@ -9,6 +9,6 @@ directive = (template) ->
     order: "="
     remove: "="
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

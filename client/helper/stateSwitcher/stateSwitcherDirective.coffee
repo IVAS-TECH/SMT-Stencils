@@ -1,6 +1,6 @@
-directive = (template) ->
-  
-  template: template "stateSwitcherView"
+directive = ->
+
+  templateUrl: "stateSwitcherView"
   scope: true
   controller: "stateSwitcherController"
   controllerAs: "stateSwitcherCtrl"
@@ -10,6 +10,6 @@ directive = (template) ->
     override: "="
     remove: "="
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

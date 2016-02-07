@@ -1,6 +1,6 @@
-directive = (template) ->
+directive = ->
 
-  template: template "baseView"
+  templateUrl: "baseView"
   restrict: "E"
   scope: yes
   controller: "@"
@@ -10,6 +10,6 @@ directive = (template) ->
   link: (scope, element, attrs, controller) ->
     controller[if controller.settings then "getObjects" else "restore"]()
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

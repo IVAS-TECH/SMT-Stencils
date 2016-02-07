@@ -1,6 +1,6 @@
-directive = (template, scopeControllerService) ->
+directive = (copeControllerService) ->
 
-  template: template "configurationInfoView"
+  templateUrl: "configurationInfoView"
   restrict: "E"
   scope:
     controller: "="
@@ -14,6 +14,6 @@ directive = (template, scopeControllerService) ->
 
     scope.$on "$destroy", stop
 
-directive.$inject = ["template", "scopeControllerService"]
+directive.$inject = ["scopeControllerService"]
 
 module.exports = directive
