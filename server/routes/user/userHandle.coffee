@@ -25,10 +25,9 @@ wipeFromDB = [
     (models[0].find user: req.userID).exec()
       .then (docs) ->
         for doc in docs
-          for name, path of doc.files
-            console.log name, path
-            if typeof path is "string" and path.length then req.deletes.push path
-        console.log req.deletes
+          for layer in ["top", "bottom", "outline"]
+            path = doc.files[layer]
+            if typeof path is "string" and path.length and path not in req.deletes then req.deletes.push path
         next()
       .catch next
 ]
@@ -42,7 +41,7 @@ wipeFromDB.push (req, res, next) ->
 wipeFromDB.push (req, res, next) ->
   deleted = (for file in req.deletes
     new Promise (resolve, reject) ->
-      fs.unlink file, (err) ->
+      fs.unlink (join files, file), (err) ->
         if err then reject err
         else resolve())
   (Promise.all deleted).then (-> query res), next

@@ -98,6 +98,7 @@
     "clean": "./node_modules/.bin/gulp --color --require coffee-script/register clean",
     "build": "./node_modules/.bin/gulp --color --require coffee-script/register build && npm run clean",
     "clear": "./node_modules/.bin/gulp --color --require coffee-script/register clear && rm -R ./node_module &&",
-    "start": "node ./deploy/server.js"
+    "start": "node ./deploy/server.js",
+    "fillDB": "./node_modules/.bin/coffee server/routes/order/testingOnly/fillDB.coffee"
   }
 }

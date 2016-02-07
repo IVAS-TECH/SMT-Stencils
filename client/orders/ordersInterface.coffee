@@ -18,9 +18,13 @@ controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionSe
 
       orders = res.orders
 
-      ctrl.fromDate = dateService.compatible orders[orders.length - 1].orderDate
+      beggin = orders[0]
 
-      ctrl.toDate = dateService.compatible orders[0].orderDate
+      end = orders[orders.length - 1]
+
+      if end? then ctrl.fromDate = dateService.compatible end.orderDate
+
+      if beggin? then ctrl.toDate = dateService.compatible beggin.orderDate
 
       transform = (full) ->
 
@@ -74,8 +78,10 @@ controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionSe
   ctrl.filterFn = (newValue) ->
     filtered = filter ctrl.fullListOfOrders, ctrl.filter
     ctrl.listOfOrders = filter filtered, (order) ->
-      date = dateService.parse order.orderDate
-      ctrl.toDate >= date >= ctrl.fromDate
+      if order?
+        date = dateService.parse order.orderDate
+        return ctrl.toDate >= date >= ctrl.fromDate
+      else no
     if ctrl.showing?
       ctrl.listOfOrders = filter ctrl.listOfOrders, _id: ctrl.showing
 
