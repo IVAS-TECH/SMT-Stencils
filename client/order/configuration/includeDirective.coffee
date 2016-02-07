@@ -16,7 +16,7 @@ directive = ($compile, $templateCache, scopeControllerService) ->
     if scope.include?
 
       if attrs.template is "true"
-        compile "templ" $templateCache.get scope.include
+        compile $templateCache.get scope.include
       else
         scope.$watch "include", compile
 

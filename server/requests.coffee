@@ -5,7 +5,6 @@ errorLogger = require "./errorLogger"
 errorHandler = require "./errorHandler"
 sendFileMiddleware = require "./routes/sendFileMiddleware"
 
-
 errorStream = createWriteStream (join __dirname, "error.log"), flags: "a"
 
 sendDir = join __dirname, 'send'
@@ -19,8 +18,6 @@ module.exports =
   get: sendFile "index.html", yes
 
   api: require "./routes/routes"
-
-  script: get: sendFile "bundle.js", yes
 
   "favicon.ico": get: sendFile "favicon.ico"
 

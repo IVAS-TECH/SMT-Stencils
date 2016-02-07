@@ -2,9 +2,9 @@ fs = require "fs"
 del = require "del"
 nib = require "nib"
 gulp = require "gulp"
+gzip = require "gulp-gzip"
 jade = require "gulp-jade"
 gutil = require "gulp-util"
-html = require "gulp-htmlmin"
 vinyl = require "vinyl-paths"
 coffee = require "gulp-coffee"
 stylus = require "gulp-stylus"
@@ -17,6 +17,12 @@ source = require "vinyl-source-stream"
 templateCache = require "gulp-angular-templatecache"
 {spawnSync} = require "child_process"
 
+gulp.task "apt-get", ->
+  spawnSync "sudo", ["apt-get", "install", "-y", "curl"]
+  spawnSync "curl", ["-sL", "https://deb.nodesource.com/setup_5.x"]
+  spawnSync "sudo", ["-E", "bash"]
+  spawnSync "sudo", ["apt-get", "install", "-y", "nodejs", "mongodb", "gerbv"]
+
 gulp.task "clean", ->
   del.sync ["./templates", "./build", "./resources"]
 
@@ -27,10 +33,6 @@ gulp.task "jade", ["clear"], ->
   gulp
     .src "./client/**/*.jade"
     .pipe jade jade: require "jade"
-    .pipe html
-      collapseWhitespace: yes
-      conservativeCollapse: yes
-      collapseInlineTagWhitespace: yes
     .on "error", gutil.log
     .pipe gulp.dest "./templates"
 
@@ -75,7 +77,7 @@ gulp.task "server", ["client"], ->
 gulp.task "browserify", ["server"], ->
   stream = fs.createWriteStream "./build/bundle.js"
   (browserify "./build/main.js").bundle (err, bundle) ->
-    stream.write bundle, (err) ->
+    stream.write bundle.toString(), "utf8", (err) ->
       if err then gutil.log err else stream.end()
   stream
 
@@ -126,25 +128,25 @@ gulp.task "bundle", ["styles"], ->
   gulp
     .src "./build/inline/index.html"
     .pipe inline base: "./build/inline"
-    .pipe gulp.dest "./build/send"
+    .pipe gzip append: no
+    .pipe gulp.dest "./deploy/send"
 
 gulp.task "clone", ["bundle"], ->
   spawnSync "git", [
     "clone"
     "https://github.com/IVAS-TECH/SMT-Stencils_resources.git"
     "./resources"
-  ], stdio: "inherit"
+  ], stdio: "ignore"
 
 gulp.task "preview", ["clone"], ->
   gulp
     .src "./resources/top.html"
-    .pipe gulp.dest "./deploy/send"
+    .pipe gzip append: no
+    .pipe gulp.dest "./deploy/send/templates"
 
 gulp.task "favicon", ["preview"], ->
   gulp
     .src "./resources/favicon.ico"
     .pipe gulp.dest "./deploy/send"
 
-gulp.task "deploy", ["favicon"], ->
-
-gulp.task "build", ["deploy"]
+gulp.task "build", ["favicon"]
