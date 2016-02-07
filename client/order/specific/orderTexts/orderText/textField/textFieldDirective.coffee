@@ -1,6 +1,6 @@
-directive = (template) ->
+directive = ->
 
-  template: template "textFieldView"
+  templateUrl: "textFieldView"
   scope: yes
   controller: "textFieldController"
   controllerAs: "textFieldCtrl"
@@ -11,6 +11,6 @@ directive = (template) ->
     texts: "="
     disabled: "="
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

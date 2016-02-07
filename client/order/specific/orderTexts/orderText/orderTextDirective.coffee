@@ -1,6 +1,6 @@
-directive = (template) ->
+directive = ->
 
-  template: template "orderTextView"
+  templateUrl: "orderTextView"
   scope: yes
   controller: ->
   controllerAs: "orderTextCtrl"
@@ -9,9 +9,8 @@ directive = (template) ->
     label: "="
     disabled: "="
   link: (scope, element, attrs, controller) ->
-    if not controller.text?
-      controller.text = [""]
+    if not controller.text? then controller.text = [""]
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

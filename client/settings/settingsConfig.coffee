@@ -1,25 +1,25 @@
 en = require "./language-en"
 bg = require "./language-bg"
 
-config = ($stateProvider, templateProvider, translateProvider) ->
+config = ($stateProvider, translateProvider) ->
 
   translateProvider.add en, bg
 
   $stateProvider
     .state "home.settings",
       url: "/settings"
-      template: templateProvider.provide "settingsView"
+      templateUrl: "settingsView"
     .state "home.settings.profile",
       url: "/profile"
       controller: "profileController as profileCtrl"
-      template: templateProvider.provide "profileView"
+      templateUrl: "profileView"
     .state "home.settings.configurations",
       url: "/configurations"
-      template: templateProvider.provide "configurationSettingsView"
+      templateUrl: "configurationSettingsView"
     .state "home.settings.addresses",
       url: "/addresses"
-      template: templateProvider.provide "addressesSettingsView"
+      templateUrl:"addressesSettingsView"
 
-config.$inject = ["$stateProvider", "templateProvider", "translateProvider"]
+config.$inject = ["$stateProvider", "translateProvider"]
 
 module.exports = config

@@ -7,6 +7,7 @@ module.exports =
   user: require "./user/userHandle"
   login: require "./user/loginHandle"
   visit: require "./user/visit/visitHandle"
+  template: require "./templateHandle"
   language: require "./user/language/languageHandle"
   addresses: require "./order/addresses/addressesHandle"
   description: require "./order/description/descriptionHandle"

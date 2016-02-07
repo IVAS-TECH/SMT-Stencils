@@ -29,6 +29,11 @@ module.exports =
 
   order: order
 
+  template:
+    alias: ["fetch"]
+    method: ["get"]
+    arg: [yes]
+
   description:
     alias: ["find"]
     method: ["get"]

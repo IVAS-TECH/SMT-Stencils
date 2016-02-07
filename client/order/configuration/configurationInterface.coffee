@@ -30,6 +30,8 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
 
   listen = ->
 
+    RESTHelperService.template.fetch "top.html", (res) -> ctrl.view = res
+
     stop = $scope.$on "configuration-validity", (event, value) ->
       ctrl.valid = [value]
 
@@ -38,8 +40,6 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
   ctrl.btnBack = no
 
   ctrl.text = "Text"
-
-  ctrl.view = "top"#template "top"
 
   ctrl.options =
     side: ["pcb-side", "squeegee-side"]
@@ -128,6 +128,6 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
 
   ctrl
 
-controller.$inject = ["$controller", "template", "$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+controller.$inject = ["$controller", "$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
 
 module.exports = controller

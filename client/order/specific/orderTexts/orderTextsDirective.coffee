@@ -1,8 +1,8 @@
-directive = (template) ->
+directive = ->
 
-  template: template "orderTextsView"
+  templateUrl: "orderTextsView"
   scope: order: "="
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

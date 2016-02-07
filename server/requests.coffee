@@ -3,16 +3,14 @@
 bodyParser = require "body-parser"
 errorLogger = require "./errorLogger"
 errorHandler = require "./errorHandler"
+sendFileMiddleware = require "./routes/sendFileMiddleware"
+
 
 errorStream = createWriteStream (join __dirname, "error.log"), flags: "a"
 
 sendDir = join __dirname, 'send'
 
-sendFile = (file, gzip) ->
-  send = join sendDir, file
-  (req, res) ->
-    if gzip then res.set "Content-Encoding", "gzip"
-    res.status(200).sendFile send
+sendFile = sendFileMiddleware sendDir
 
 module.exports =
 

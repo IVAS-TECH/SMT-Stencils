@@ -1,9 +1,9 @@
-directive = (template) ->
+directive = ->
 
-  template: template "translateView"
+  templateUrl: "translateView"
   controller: "translateController"
   controllerAs: "translateCtrl"
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive

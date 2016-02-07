@@ -1,12 +1,12 @@
-directive = (template) ->
+directive = ->
 
-  template: template "ordersBaseView"
+  templateUrl: "ordersBaseView"
   restrict: "E"
   scope: yes
   controller: "@"
   name: "ordersController"
   controllerAs: "ordersCtrl"
 
-directive.$inject = ["template"]
+directive.$inject = []
 
 module.exports = directive
