@@ -7,8 +7,8 @@ setup:
 	sudo apt-get install -y mongodb
 	sudo apt-get install gerbv
 
-build:
-	${gulp} --color --require coffee-script/register build
+test:
+	${gulp} --color --require coffee-script/register bundle
 
 styles:
 	${gulp} --color --require coffee-script/register styles

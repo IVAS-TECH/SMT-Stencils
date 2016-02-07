@@ -3,7 +3,7 @@ data/*
 files/*
 resources/*
 coverage/*
-compile/*
+build/*
 deploy/*
 client/coverage/*
 server/coverage/*

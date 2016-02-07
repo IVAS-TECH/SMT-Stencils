@@ -1,3 +1,4 @@
+fs = require "fs"
 del = require "del"
 nib = require "nib"
 gulp = require "gulp"
@@ -8,19 +9,20 @@ vinyl = require "vinyl-paths"
 coffee = require "gulp-coffee"
 stylus = require "gulp-stylus"
 concat = require "gulp-concat"
+uglify = require "gulp-uglify"
 browserify = require "browserify"
 uglifyCSS = require "gulp-uglifycss"
+source = require "vinyl-source-stream"
 templateCache = require "gulp-angular-templatecache"
 {spawnSync} = require "child_process"
 
-gulp.task "client", ->
-  gulp
-    .src "./client/**/*.coffee"
-    .pipe coffee bare: no
-    .on "error", gutil.log
-    .pipe gulp.dest "./build"
+gulp.task "clean", ->
+  del.sync ["./templates", "./build", "./resources"]
 
-gulp.task "jade", ->
+gulp.task "clear", ["clean"], ->
+  del.sync ["./deploy"]
+
+gulp.task "jade", ["clear"], ->
   gulp
     .src "./client/**/*.jade"
     .pipe jade jade: require "jade"
@@ -28,29 +30,22 @@ gulp.task "jade", ->
       collapseWhitespace: yes
       conservativeCollapse: yes
       collapseInlineTagWhitespace: yes
+    .on "error", gutil.log
     .pipe gulp.dest "./templates"
 
-gulp.task "clone", ->
-  spawnSync "git", ["clone", "https://github.com/IVAS-TECH/SMT-Stencils_resources.git", "./resources"], stdio: "inherit"
-
-gulp.task "preview", ->
+gulp.task "error", ["jade"], ->
   gulp
-    .src "./resources/top.html"
-    .pipe gulp.dest "./deploy/send"
-
-gulp.task "index", ->
-  gulp
-    .src "./client/index.html"
+    .src "./templates/error.html"
+    .pipe vinyl del
     .pipe gulp.dest "./build"
 
-gulp.task "error", ->
+gulp.task "index", ["error"], ->
   gulp
-    .src "./client/error.html"
+    .src "./templates/index.html"
+    .pipe vinyl del
     .pipe gulp.dest "./build"
 
-gulp.task "resources", ["clone", "preview"], ->
-
-gulp.task "templates", ["jade", "index", "error", "resources"], ->
+gulp.task "cache", ["index"], ->
   gulp
     .src "./templates/**/*.html"
     .pipe vinyl del
@@ -62,14 +57,45 @@ gulp.task "templates", ["jade", "index", "error", "resources"], ->
         struc[struc.length - 1]
     .pipe gulp.dest "./build"
 
-gulp.task "server", ->
+gulp.task "client", ["cache"], ->
+  gulp
+    .src "./client/**/*.coffee"
+    .pipe coffee bare: no
+    .on "error", gutil.log
+    .pipe gulp.dest "./build"
+
+gulp.task "server", ["client"], ->
   gulp
     .src "./server/**/*.coffee"
     .pipe coffee bare: no
     .on "error", gutil.log
     .pipe gulp.dest "./deploy"
 
-gulp.task "stylus", ->
+gulp.task "browserify", ["server"], ->
+  stream = fs.createWriteStream "./build/bundle.js"
+  (browserify "./build/main.js").bundle (err, bundle) ->
+    stream.write bundle, (err) ->
+      if err then gutil.log err else stream.end()
+  stream
+
+gulp.task "uglify", ["browserify"], ->
+  gulp
+    .src "./build/bundle.js"
+    .pipe uglify
+      mangle: yes
+      copress:
+        screw_ie8: yes
+        sequences: yes
+        dead_code: yes
+        conditionals: yes
+        booleans: yes
+        unused: yes
+        if_return: yes
+        join_vars: yes
+        drop_console: yes
+    .pipe gulp.dest "./build"
+
+gulp.task "stylus", ["uglify"], ->
   gulp
     .src "./client/styles/style.styl"
     .pipe stylus
@@ -82,7 +108,11 @@ gulp.task "stylus", ->
 
 gulp.task "styles", ["stylus"], ->
   gulp
-    .src ["./build/style.css", "./node_modules/angular-material/angular-material.min.css", "./node_modules/angular-chart.js/dist/angular-chart.min.css"]
+    .src [
+      "./build/style.css"
+      "./node_modules/angular-material/angular-material.min.css"
+      "./node_modules/angular-chart.js/dist/angular-chart.min.css"
+    ]
     .pipe concat "style.css"
     .pipe uglifyCSS
       "max-line-len": 1
@@ -91,26 +121,25 @@ gulp.task "styles", ["stylus"], ->
       "cute-comments": no
     .pipe gulp.dest "./build"
 
-gulp.task "browserify", ["client", "templates"], ->
+gulp.task "bundle", ["styles"], ->
+
+gulp.task "clone", ["bundle"], ->
+  spawnSync "git", [
+    "clone"
+    "https://github.com/IVAS-TECH/SMT-Stencils_resources.git"
+    "./resources"
+  ], stdio: "inherit"
+
+gulp.task "preview", ["clone"], ->
   gulp
-    .src "./build/main.js"
-    .pipe (file) -> (browserify file).bundle()
-    .pipe uglify()
-    .pipe gulp.dest "./build"
+    .src "./resources/top.html"
+    .pipe gulp.dest "./deploy/send"
 
-gulp.task "bundle", ["browserify", "styles"], ->
-
-gulp.task "favicon", ->
+gulp.task "favicon", ["preview"], ->
   gulp
     .src "./resources/favicon.ico"
     .pipe gulp.dest "./deploy/send"
 
-gulp.task "clean", ->
-  del.sync ["./templates", "./build", "./resources"]
+gulp.task "deploy", ["favicon"], ->
 
-gulp.task "clear", ["clean"], ->
-  del.sync ["./deploy"]
-
-gulp.task "deploy", ["bundle", "server", "favicon"], ->
-
-gulp.task "build", ["clear", "deploy", "clean"], ->
+gulp.task "build", ["deploy"]
