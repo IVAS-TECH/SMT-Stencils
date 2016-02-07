@@ -5,10 +5,7 @@ config = ($stateProvider, translateProvider, ChartJsProvider) ->
 
   translateProvider.add en, bg
 
-  $stateProvider
-    .state "home.admin",
-      url: "/admin"
-      templateUrl: "adminView"
+  $stateProvider.state "home.admin", url: "/admin", templateUrl: "adminView"
 
   ChartJsProvider.setOptions
     responsive: no

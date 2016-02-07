@@ -23,5 +23,5 @@ module.exports =
 
   afterEach: [
     (req, res, next) -> next new Error "Not Found"
-    errorHandler errorStream, join sendDir, "error.html"
+    errorHandler errorStream, "/#!/notfound"
   ]

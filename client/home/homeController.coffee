@@ -40,7 +40,7 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
 
         stopAuth = $scope.$on "authentication", tryBecomeAdmin
 
-        stopRestriction = $scope.$on "$stateChangeStart", (event, toState) ->
+        stopRestriction = $scope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
 
           if not authenticationService.isAuthenticated() and toState.url not in notRestricted
 
@@ -48,7 +48,7 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
 
             loginService event,
               login: -> setTimeout (-> if not tryBecomeAdmin() then $state.go toState.name), 1
-              close: transitionService.toHome
+              close: -> $state.go fromState.name
 
         stopUnAuth = $scope.$on "unauthentication", -> ctrl.admin = no
 

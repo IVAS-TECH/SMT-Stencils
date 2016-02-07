@@ -122,7 +122,7 @@ controller = ($controller, $scope, RESTHelperService, $filter, dateService, show
 
       stopRemove = $scope.$on "user-removed", (event, user) ->
         ctrl.fullListOfOrders = ctrl.fullListOfOrders.filter (element) ->
-          element ? and element.user._id isnt user
+          element? and element.user._id isnt user
         ctrl.filterFn()
 
       $scope.$on "$destroy", ->

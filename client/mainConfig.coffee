@@ -1,6 +1,6 @@
 requests = require "./requests"
 
-config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider) ->
+config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider, $locationProvider, $stateProvider) ->
 
   RESTProvider.setBase "api"
 
@@ -16,6 +16,10 @@ config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notifi
 
   $compileProvider.debugInfoEnabled no
 
-config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider"]
+  $locationProvider.hashPrefix "!"
+
+  $stateProvider.state "notfound", url: "/notfound", template: "Not Found"
+
+config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider", "$stateProvider"]
 
 module.exports = config

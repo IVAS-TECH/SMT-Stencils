@@ -36,13 +36,7 @@ gulp.task "jade", ["clear"], ->
     .on "error", gutil.log
     .pipe gulp.dest "./templates"
 
-gulp.task "error", ["jade"], ->
-  gulp
-    .src "./templates/error.html"
-    .pipe vinyl del
-    .pipe gulp.dest "./build"
-
-gulp.task "index", ["error"], ->
+gulp.task "index", ["jade"], ->
   gulp
     .src "./templates/index.html"
     .pipe vinyl del
