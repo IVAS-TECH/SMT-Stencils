@@ -27,6 +27,8 @@ module.exports =
 
   addresses: crud
 
+  admin: crud
+
   order: order
 
   template:

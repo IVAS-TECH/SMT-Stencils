@@ -12,4 +12,5 @@ md-tab(ng-click="scopeCtrl.editProfile()")
   md-tab-label
     span(translate="label-admin")
   md-tab-body
-    ui-view
+    ivo-state-switcher(state="home.admin" menu="admin")
+    ui-view(layout="column" layout-wrap layout-padding layout-margin)
