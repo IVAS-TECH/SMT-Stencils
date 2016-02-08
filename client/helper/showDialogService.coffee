@@ -1,30 +1,30 @@
 service = ($mdDialog) ->
 
-  (event, action, locals, handle = {}, extend) ->
+  (event, dialog, locals, handle = {}, extend) ->
 
     locals.hide = $mdDialog.hide
 
-    if extend then handle[key] = value for key, value of extend
+    if extend? then handle[key] = value for key, value of extend
 
     $mdDialog
       .show
-        templateUrl: "#{action}View"
+        templateUrl: "#{dialog}View"
         targetEvent: if event.target? then event else undefined
-        controller: "#{action}Controller"
-        controllerAs: "#{action}Ctrl"
+        controller: "#{dialog}Controller"
+        controllerAs: "#{dialog}Ctrl"
         bindToController: yes
         locals: locals
         openFrom: "body"
         closeFrom: "body"
         escapeToClose: no
-      .then (val) ->
+      .then (reason) ->
 
-        if typeof val is "object"
-          for key, value of val
+        if typeof reason is "object"
+          for key, value of reason
             if handle[key]? then handle[key] value
           return
 
-        else if handle[val]? then handle[val]()
+        else if handle[reason]? then handle[reason]()
 
 service.$inject = ["$mdDialog"]
 
