@@ -8,11 +8,11 @@ gutil = require "gulp-util"
 vinyl = require "vinyl-paths"
 coffee = require "gulp-coffee"
 stylus = require "gulp-stylus"
+css = require "gulp-uglifycss"
 inline = require "gulp-inline"
 concat = require "gulp-concat"
 uglify = require "gulp-uglify"
 browserify = require "browserify"
-uglifyCSS = require "gulp-uglifycss"
 source = require "vinyl-source-stream"
 templateCache = require "gulp-angular-templatecache"
 {spawnSync} = require "child_process"
@@ -98,7 +98,7 @@ gulp.task "stylus", ["uglify"], ->
     .pipe stylus
       compress: yes
       use: nib()
-    .pipe uglifyCSS
+    .pipe css
       "max-line-len": 1
       "expand-vars": no
     .pipe gulp.dest "./build"
@@ -111,7 +111,7 @@ gulp.task "styles", ["stylus"], ->
       "./node_modules/angular-chart.js/dist/angular-chart.min.css"
     ]
     .pipe concat "style.css"
-    .pipe uglifyCSS
+    .pipe css
       "max-line-len": 1
       "expand-vars": no
       "ugly-comments": yes

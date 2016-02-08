@@ -10,15 +10,15 @@ config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notifi
 
   notificationServiceProvider.setState "home.orders"
 
-  $mdThemingProvider
-    .theme "default"
-    .accentPalette "deep-purple"
+  $stateProvider.state "notfound", url: "/notfound", template: "Not Found"
 
   $compileProvider.debugInfoEnabled no
 
   $locationProvider.hashPrefix "!"
 
-  $stateProvider.state "notfound", url: "/notfound", template: "Not Found"
+  $mdThemingProvider
+    .theme "default"
+    .accentPalette "deep-purple"
 
 config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider", "$stateProvider"]
 

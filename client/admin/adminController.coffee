@@ -1,4 +1,4 @@
-controller = ($controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
+controller = ($state, $controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
 
   ctrl = $controller "ordersInterface",
     "$scope": $scope
@@ -144,10 +144,12 @@ controller = ($controller, $scope, RESTHelperService, $filter, dateService, show
       showCalculatedPriceService event, locals, update: -> ctrl.doAction event, order
     else callback()
 
+  ctrl.editProfile = -> $state.go "home.admin.profile"    
+
   init()
 
   ctrl
 
-controller.$inject = ["$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
+controller.$inject = ["$state", "$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
 
 module.exports = controller

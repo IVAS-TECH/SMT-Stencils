@@ -8,3 +8,8 @@ md-tab
           span(translate="{{'label-' + chart}}")
         md-tab-body
           ivo-bar-chart(chart="scopeCtrl.charts[chart]")
+md-tab(ng-click="scopeCtrl.editProfile()")
+  md-tab-label
+    span(translate="label-admin")
+  md-tab-body
+    ui-view
