@@ -1,4 +1,4 @@
-service = ($rootScope, $q, RESTHelperService) ->
+service = ($rootScope, $q, $translate, RESTHelperService) ->
 
   _authenticated = no
   _user = null
@@ -12,6 +12,7 @@ service = ($rootScope, $q, RESTHelperService) ->
       _user = auth.user
       _session = auth.session ? yes
       _admin = auth.user.admin
+      $translate.use auth.user.language
       $rootScope.$broadcast "authentication"
 
     if authentication? then broadcast authentication
@@ -40,6 +41,6 @@ service = ($rootScope, $q, RESTHelperService) ->
 
   isAdmin: -> _admin > 0
 
-service.$inject = ["$rootScope", "$q", "RESTHelperService"]
+service.$inject = ["$rootScope", "$q", "$translate", "RESTHelperService"]
 
 module.exports = service

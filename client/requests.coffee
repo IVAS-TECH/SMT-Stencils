@@ -35,9 +35,9 @@ module.exports =
     arg: [yes]
 
   description:
-    alias: ["find"]
-    method: ["get"]
-    arg: [yes]
+    alias: ["find", "remove"]
+    method: ["get", "delete"]
+    arg: [yes, yes]
 
   visit:
     alias: ["find"]

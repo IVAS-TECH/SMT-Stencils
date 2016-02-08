@@ -37,9 +37,7 @@ module.exports =
     session "set"
 
     (req, res, next) ->
-      send = login: req.user?
-      if send.login then send.admin = req.user.admin
-      query res, send
+      query res, login: req.user?, user: req.user.user
   ]
 
   delete: session "remove"

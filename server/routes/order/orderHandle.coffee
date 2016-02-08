@@ -20,7 +20,7 @@ handle.download =
     params: "file"
 
 handle.get = (req, res, next) ->
-    find = if req.admin then find = {} else user: req.user.user._id
+    find = if req.user.user.admin then find = {} else user: req.user.user._id
     (((orderModel.find find).populate "user").sort orderDate: "desc")
       .exec().then ((docs) -> query res, orders: docs), next
 

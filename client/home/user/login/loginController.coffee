@@ -10,9 +10,8 @@ controller = (RESTHelperService) ->
           ctrl.hide
             "login": null
             "success":
-              user: ctrl.user
+              user: res.user
               session: ctrl.session
-              admin: res.admin
         else ctrl.hide "fail"
 
   ctrl
