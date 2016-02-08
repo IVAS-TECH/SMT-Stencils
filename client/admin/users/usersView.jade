@@ -1,0 +1,5 @@
+div(layout="column" layout-align="center center" layout-wrap)
+  div(ng-repeat="user in usersCtrl.listOfUsers" layout="row" layout-align="space-between center")
+    span(class="md-primary md-button fake-button") {{user.email}}
+    md-button(ng-click="usersCtrl.makeAdmin($event, user)" class="md-primary md-raised" translate="button-make-admin")
+    md-button(ng-click="usersCtrl.removeUser($event, user)" class="md-warn md-raised" translate="button-delete")

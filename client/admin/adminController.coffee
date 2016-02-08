@@ -1,4 +1,4 @@
-controller = ($state, $controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
+controller = (simpleDialogService, $state, $controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
 
   ctrl = $controller "ordersInterface",
     "$scope": $scope
@@ -130,13 +130,15 @@ controller = ($state, $controller, $scope, RESTHelperService, $filter, dateServi
         stopRemove()
 
   ctrl.doAction = (event, order) ->
-    showDescriptionService event,
+    info =
       info:
         id: order._id
         status: order.status
         admin: yes
         user: order.user._id
         price: order.price
+    showDescriptionService event, info, success: ->
+      simpleDialogService event, "title-order-status-updated"
 
   ctrl.afterChoose = (event, order, stencil, callback) ->
     if order.status is "new"
@@ -144,12 +146,12 @@ controller = ($state, $controller, $scope, RESTHelperService, $filter, dateServi
       showCalculatedPriceService event, locals, update: -> ctrl.doAction event, order
     else callback()
 
-  ctrl.editProfile = -> $state.go "home.admin.profile"    
+  ctrl.editProfile = -> $state.go "home.admin.profile"
 
   init()
 
   ctrl
 
-controller.$inject = ["$state", "$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
+controller.$inject = ["simpleDialogService", "$state", "$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
 
 module.exports = controller

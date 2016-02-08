@@ -5,7 +5,8 @@ controller = ($scope, confirmService, RESTHelperService, simpleDialogService) ->
   ctrl.change = (event, type, valid) ->
     if valid
       confirmService event, success: ->
-        RESTHelperService.user.profile type: type, value: ctrl.user[type], (res) ->
+        send = id: "id", user: "#{type}": ctrl.user[type]
+        RESTHelperService.user.profile send, (res) ->
           simpleDialogService event, "title-changed-#{type}"
 
   ctrl.remove = (event) ->

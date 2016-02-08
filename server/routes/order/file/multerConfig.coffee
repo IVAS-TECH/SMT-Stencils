@@ -22,5 +22,5 @@ module.exports = (dir) ->
     multer
       storage: multer.diskStorage destination: dir, filename: (req, file, cb) ->
         delimiter = "___"
-        cb null, [req.user._id, delimiter, randomString(), delimiter, fileName file.originalname].join ""
+        cb null, [req.user.user._id, delimiter, randomString(), delimiter, fileName file.originalname].join ""
       limits: limits

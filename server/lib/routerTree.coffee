@@ -50,7 +50,7 @@ routerLeaf = (handle) ->
                 router.param param.name, param.callback
                 param = param.name
 
-          if typeof params is "string" then param = params
+          else if typeof params is "string" then param = params
 
           if param? then uri += "\:" + param
 

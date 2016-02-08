@@ -7,6 +7,6 @@ div(layout="column" layout-align="center center" layout-wrap)
         md-option(
           ng-repeat="access in adminsCtrl.accessValues"
           ng-value="$index" 
-          translate="{{'option-' + $index}}"
+          translate="{{'option-' + access}}"
         )
-    md-button(ng-click="adminsCtrl.removeAdmin($event, admin._id)" class="md-warn md-raised" translate="button-delete")
+    md-button(ng-click="adminsCtrl.removeAdmin($event, admin)" class="md-warn md-raised" translate="button-delete")

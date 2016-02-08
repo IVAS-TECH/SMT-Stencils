@@ -14,9 +14,9 @@ order.arg.push yes
 module.exports =
 
   user:
-    alias: ["email", "register", "profile", "remove"]
-    method: ["get", "post", "patch", "delete"]
-    arg: [yes, yes, yes, yes]
+    alias: ["find", "register", "email", "profile", "remove"]
+    method: ["get", "post", "put", "patch", "delete"]
+    arg: [no, yes, yes, yes, yes]
 
   login:
     alias: ["logged", "login", "logout"]
@@ -26,8 +26,6 @@ module.exports =
   configuration: crud
 
   addresses: crud
-
-  admin: crud
 
   order: order
 
@@ -52,8 +50,8 @@ module.exports =
     arg: [no, yes]
 
   language:
-    alias: ["find", "change"]
-    method: ["get", "post"]
-    arg: [yes, yes]
+    alias: ["find"]
+    method: ["get"]
+    arg: [yes]
 
   upload: ["preview", "order"]

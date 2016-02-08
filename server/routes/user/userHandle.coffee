@@ -5,7 +5,6 @@ query = require "./../../lib/query"
 userIDParam = require "./userIDParam"
 models = [
   require "./../order/orderModel"
-  require "./language/languageModel"
   require "./../order/notification/notificationModel"
   require "./../order/description/descriptionModel"
   require "./../order/configuration/configurationModel"
@@ -49,30 +48,28 @@ wipeFromDB.push (req, res, next) ->
 module.exports =
 
   get: (req, res, next) ->
-    (userModel.findOne email: req.params.email)
-      .exec().then ((doc) -> query res, taken: doc?), next
+    (userModel.find {}).exec()
+      .then (docs) -> query res, users: docs
+      .catch next
 
-  post: [
-    (req, res, next) ->
-      (userModel.create req.body.user)
-        .then (doc) ->
-          req.register = doc
-          next()
-        .catch next
-    (req, res, next) ->
-      (models[1].create user: req.register._id, language: req.body.language)
-        .then ((doc) -> query res, req.register), next
-  ]
+  post: (req, res, next) ->
+    (userModel.create req.body.user)
+      .then (doc) -> query res, doc
+      .catch next
 
   patch: (req, res, next) ->
-    update = "#{req.body.type}": req.body.value
-    (userModel.findByIdAndUpdate req.user.user, $set: update, {new: true})
+    id = if req.body.id is "id" then req.user.user._id else req.body.id
+    (userModel.findByIdAndUpdate id, $set: req.body.user, {new: yes})
       .exec().then ((doc) -> query res, doc), next
+
+  put: (req, res, next) ->
+    (userModel.findOne email: req.body.email).exec()
+      .then (doc) -> query res, taken: doc?
+      .catch next
 
   delete: wipeFromDB
 
   params:
-    get: "email"
     delete:
       name: "userID"
       callback: userIDParam

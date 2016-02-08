@@ -22,6 +22,8 @@ module.exports =
   "favicon.ico": get: sendFile "favicon.ico"
 
   afterEach: [
-    (req, res, next) -> next new Error "Not Found"
+    (req, res, next) ->
+      console.log req.url, req.method
+      next new Error "Not Found"
     errorHandler errorStream, "/#!/notfound"
   ]

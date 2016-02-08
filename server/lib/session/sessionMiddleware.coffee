@@ -2,14 +2,7 @@ sessionModel = require "./sessionModel"
 requestIp = require "request-ip"
 query = require "./../query"
 
-module.exports = (field = "user", ipField = "userIP") ->
-
-  setIp = (req) -> req[ipField] = requestIp.getClientIp req
-
-  action = (req, next) ->
-    (doc) ->
-      req[field] = doc
-      next()
+module.exports = (field = "user") ->
 
   (middleware) ->
 
@@ -20,13 +13,23 @@ module.exports = (field = "user", ipField = "userIP") ->
           .exec().then (-> query res), next
 
       when "get" then return (req, res, next) ->
-          setIp req
-          (sessionModel.findOne ip: req[ipField])
-            .exec().then (action req, next), next
+          ip = requestIp.getClientIp req
+          (sessionModel.findOne ip: ip)
+            .populate "user"
+            .exec()
+            .then (doc) ->
+              req[field] = doc
+              if not doc? then req.userIP = ip
+              next()
+            .catch next
 
       when "set" then return (req, res, next) ->
-        setIp req
         if not req.user? then next()
         else
-          (sessionModel.create user: req[field]._id, ip: req[ipField])
-            .then (action req, next), next
+          ip = requestIp.getClientIp req
+          user = req[field]
+          (sessionModel.create user: user._id, ip: ip)
+            .then (doc) ->
+              req[field] = user: user, ip: ip, _id: doc._id
+              next()
+            .catch next

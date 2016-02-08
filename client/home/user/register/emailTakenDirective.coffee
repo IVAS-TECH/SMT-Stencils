@@ -8,7 +8,7 @@ directive = ($q, RESTHelperService) ->
 
       $q (resolve, reject) ->
 
-        RESTHelperService.user.email newValue, (res) ->
+        RESTHelperService.user.email email: newValue, (res) ->
 
           if res.taken then reject() else resolve()
 

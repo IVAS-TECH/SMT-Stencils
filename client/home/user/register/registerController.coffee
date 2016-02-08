@@ -4,8 +4,8 @@ controller = ($translate, RESTHelperService) ->
 
   ctrl.register = (valid) ->
     if valid
-      send = user: ctrl.user, language: $translate.use()
-      RESTHelperService.user.register send, (res) ->
+      ctrl.user.language = $translate.use()
+      RESTHelperService.user.register user: ctrl.user, (res) ->
         ctrl.hide "success"
 
   ctrl

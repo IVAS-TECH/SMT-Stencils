@@ -6,10 +6,9 @@ module.exports =
   beforeEach: [(session "get"), restrictMiddleware]
   user: require "./user/userHandle"
   login: require "./user/loginHandle"
-  visit: require "./user/visit/visitHandle"
-  admin: require "./user/admin/adminHandle"
   template: require "./templateHandle"
-  language: require "./user/language/languageHandle"
+  visit: require "./user/visit/visitHandle"
+  language: require "./user/languageHandle"
   addresses: require "./order/addresses/addressesHandle"
   description: require "./order/description/descriptionHandle"
   notification: require "./order/notification/notificationHandle"

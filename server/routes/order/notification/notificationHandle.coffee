@@ -4,7 +4,7 @@ query = require "./../../../lib/query"
 module.exports =
 
   get: (req, res, next) ->
-    (notificationModel.find user: req.user.user)
+    (notificationModel.find user: req.user.user._id)
       .exec().then ((docs) -> query res, notifications: docs), next
 
   delete: (req, res, next) ->

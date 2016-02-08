@@ -24,7 +24,7 @@ controller = ($translate, $scope, RESTHelperService, authenticationService) ->
   ctrl.change = (language) ->
     $translate.use language
     if authenticationService.isAuthenticated()
-      RESTHelperService.language.change language: language, (res) ->
+      RESTHelperService.user.profile id: "id", user: language: language, (res) ->
 
   init()
 

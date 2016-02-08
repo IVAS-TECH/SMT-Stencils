@@ -1,0 +1,18 @@
+md-dialog
+  md-dialog-content(class="md-dialog-content")
+    md-input-container
+      label(translate="label-access")
+      md-select(ng-model="makeAdminCtrl.access")
+        md-option(
+          ng-repeat="access in makeAdminCtrl.accessValues"
+          ng-value="$index" 
+          translate="{{'option-' + access}}"
+        )
+    md-dialog-actions(layout="row" layout-align="center center")
+      md-button(
+        ng-click="makeAdminCtrl.makeAdmin($event)"
+        class="md-primary"
+        aria-label="action"
+        md-autofocus="true"
+        translate="button-make-admin"
+      )

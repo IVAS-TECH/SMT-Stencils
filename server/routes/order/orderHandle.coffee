@@ -1,6 +1,5 @@
 {join} = require "path"
 orderModel = require "./orderModel"
-isAdminMiddleware = require "./../user/admin/isAdminMiddleware"
 basicCRUDHandle = require "./basicCRUDHandle"
 descriptionModel = require "./description/descriptionModel"
 notificationModel = require "./notification/notificationModel"
@@ -20,15 +19,10 @@ handle.download =
 
     params: "file"
 
-handle.get = [
-  isAdminMiddleware
-
-  (req, res, next) ->
-    find = user: req.user.user
-    if req.admin.admin then find = {}
+handle.get = (req, res, next) ->
+    find = if req.admin then find = {} else user: req.user.user._id
     (((orderModel.find find).populate "user").sort orderDate: "desc")
       .exec().then ((docs) -> query res, orders: docs), next
-]
 
 handle.put = [
   (req, res, next) ->

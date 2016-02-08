@@ -11,7 +11,7 @@ service = ($rootScope, $q, RESTHelperService) ->
       _authenticated = yes
       _user = auth.user
       _session = auth.session ? yes
-      _admin = auth.admin
+      _admin = auth.user.admin
       $rootScope.$broadcast "authentication"
 
     if authentication? then broadcast authentication
@@ -32,14 +32,13 @@ service = ($rootScope, $q, RESTHelperService) ->
 
   getUser: -> _user
 
-  getAdminAccess: ->
-    if @isAdmin() then _admin.access ? -1 else -1
+  getAdminAccess: -> _admin
 
   isAuthenticated: -> _authenticated
 
   isSession: -> _session
 
-  isAdmin: -> if _admin? then _admin.admin else no
+  isAdmin: -> _admin > 0
 
 service.$inject = ["$rootScope", "$q", "RESTHelperService"]
 
