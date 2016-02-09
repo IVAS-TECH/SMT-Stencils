@@ -21,7 +21,7 @@ routerLeaf = (handle) ->
 
   use = (wich) ->
     if handle[special[wich]]?
-      router.use "\/", handle[special[wich]]
+      router.use "/", handle[special[wich]]
 
   use 1
 
@@ -31,7 +31,7 @@ routerLeaf = (handle) ->
     if key not in special
 
       if key not in methods
-        router.use "\/" + key, routerLeaf value
+        router.use "/" + key, routerLeaf value
 
       else
         uri = "\/"
@@ -52,7 +52,7 @@ routerLeaf = (handle) ->
 
           else if typeof params is "string" then param = params
 
-          if param? then uri += "\:" + param
+          if param? then uri += ":" + param
 
         if value instanceof Array
           value.unshift uri

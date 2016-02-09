@@ -22,6 +22,7 @@ deps = [
 ]
 
 angular.module moduleName, deps
+  .constant "errorsLogResource", "client-error"
   .decorator "$exceptionHandler", require "./errorReporter"
   .config require "./mainConfig"
 

@@ -4,6 +4,6 @@ moduleName = "RESTModule"
 angular.module moduleName, []
   .provider "RESTService", require "./RESTServiceProvider"
   .provider "RESTHelperService", require "./RESTHelperServiceProvider"
-  .factory "errorHandleService", require "./errorHandleService"
+  .provider "errorHandleService", require "./errorHandleServiceProvider"
 
 module.exports = moduleName

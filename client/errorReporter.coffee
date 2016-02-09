@@ -1,11 +1,12 @@
-decorator = ($delegate, $injector) ->
-  (err, cause) ->
+decorator = ($delegate, $injector, errorsLogResource) ->
+
+  (err) ->
     RESTService = $injector.get "RESTService"
-    sender = RESTService "client-error"
+    sender = RESTService errorsLogResource
     stack = err
     if err? and err.stack? then stack = err.stack
     sender.post error: stack
 
-decorator.$inject = ["$delegate", "$injector"]
+decorator.$inject = ["$delegate", "$injector", "errorsLogResource"]
 
 module.exports = decorator

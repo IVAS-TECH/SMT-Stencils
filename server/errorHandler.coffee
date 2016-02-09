@@ -9,4 +9,4 @@ module.exports = (errorStream, redirect) ->
     send = res.status status
     if status is 404 then send.redirect redirect
     else send.send  error: status, message: err.message
-    errorStream.write "#{err.stack}\n", "utf-8"
+    errorStream.write err.stack + "\n", "utf-8"

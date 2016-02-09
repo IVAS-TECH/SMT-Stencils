@@ -1,6 +1,9 @@
 sessionMiddleware = require "./../lib/session/sessionMiddleware"
 restrictMiddleware = require "./restrictMiddleware"
+logErrorHandle = require "./logErrorHandle"
+{join} = require "path"
 session = sessionMiddleware()
+log = (file) -> join __dirname, "../#{file}.log"
 
 module.exports =
   beforeEach: [(session "get"), restrictMiddleware]
@@ -15,5 +18,5 @@ module.exports =
   configuration: require "./order/configuration/configurationHandle"
   file: require "./order/file/fileHandle"
   order: require "./order/orderHandle"
-  "response-error": require "./logResponseError"
-  "client-error": require "./logClientError"
+  "response-error": logErrorHandle log "response"
+  "client-error": logErrorHandle log "client"
