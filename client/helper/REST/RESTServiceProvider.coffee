@@ -7,11 +7,11 @@ provider = ($httpProvider) ->
   service = ($http) ->
 
     (resource) ->
-      _url = "#{_base}/#{resource}"
+      _url = _base + "/" + resource
 
-      rest = make: (method, data) ->
+      make = (method, data) ->
         url = _url
-        if method in ["GET", "DELETE"] and data isnt "" then url += "\/" + data
+        if method in ["GET", "DELETE"] and data isnt "" then url += "/" + data
         request = url: url, method: method
 
         if typeof data is "object"
@@ -20,13 +20,11 @@ provider = ($httpProvider) ->
 
         $http request
 
-      rest.get = (send = "") -> rest.make "GET", send
-      rest.post = (send = {}) -> rest.make "POST", send
-      rest.put = (send = {}) -> rest.make "PUT", send
-      rest.delete = (send = "") -> rest.make "DELETE", send
-      rest.patch = (send = {}) -> rest.make "PATCH", send
-
-      rest
+      get: (send = "") -> make "GET", send
+      post: (send = {}) -> make "POST", send
+      put: (send = {}) -> make "PUT", send
+      delete: (send = "") -> make "DELETE", send
+      patch: (send = {}) -> make "PATCH", send
 
   service.$inject = ["$http"]
 
