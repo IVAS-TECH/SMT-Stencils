@@ -1,8 +1,8 @@
 requests = require "./requests"
 
-config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider, $locationProvider, $stateProvider) ->
+config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider, $locationProvider, $stateProvider) ->
 
-  RESTProvider.setBase "api"
+  RESTServiceProvider.setBase "api"
 
   uploadServiceProvider.setBase "file"
 
@@ -20,6 +20,6 @@ config = (RESTProvider, uploadServiceProvider, RESTHelperServiceProvider, notifi
     .theme "default"
     .accentPalette "deep-purple"
 
-config.$inject = ["RESTProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider", "$stateProvider"]
+config.$inject = ["RESTServiceProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider", "$stateProvider"]
 
 module.exports = config

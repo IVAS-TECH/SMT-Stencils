@@ -1,4 +1,4 @@
-provider = (RESTProvider) ->
+provider = (RESTServiceProvider) ->
 
   _base = ""
 
@@ -6,7 +6,7 @@ provider = (RESTProvider) ->
 
     (url) ->
 
-      base = RESTProvider.getBase()
+      base = RESTServiceProvider.getBase()
       chain = [base, _base, url]
       noBase = _base is ""
       noUpload = base is ""
@@ -39,6 +39,6 @@ provider = (RESTProvider) ->
 
   $get: service
 
-provider.$inject = ["RESTProvider"]
+provider.$inject = ["RESTServiceProvider"]
 
 module.exports = provider

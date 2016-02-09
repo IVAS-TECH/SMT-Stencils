@@ -2,7 +2,7 @@
 moduleName = "RESTModule"
 
 angular.module moduleName, []
-  .provider "REST", require "./RESTProvider"
+  .provider "RESTService", require "./RESTServiceProvider"
   .provider "RESTHelperService", require "./RESTHelperServiceProvider"
   .factory "errorHandleService", require "./errorHandleService"
 

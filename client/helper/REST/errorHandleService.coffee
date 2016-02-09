@@ -1,13 +1,13 @@
-service = (REST) ->
+service = (RESTService) ->
 
   (res) ->
-    sender = REST "response-error"
+    sender = RESTService "response-error"
     sender.post
       url: res.config.url
       method: res.config.method
       headers: res.config.headers
       data: res.data
 
-service.$inject = ["REST"]
+service.$inject = ["RESTService"]
 
 module.exports = service

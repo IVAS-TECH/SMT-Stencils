@@ -2,7 +2,7 @@ provider = ->
 
   _requests = {}
 
-  service = (REST, uploadService, errorHandleService) ->
+  service = (RESTService, uploadService, errorHandleService) ->
 
     handle = (req, arg) ->
 
@@ -34,14 +34,14 @@ provider = ->
 
       else
 
-        rest = REST key
+        rest = RESTService key
 
         for index of value.arg
           requests[key][value.alias[index]] = handle rest[value.method[index]], value.arg[index]
 
     requests
 
-  service.$inject = ["REST", "uploadService", "errorHandleService"]
+  service.$inject = ["RESTService", "uploadService", "errorHandleService"]
 
   setRequets: (requests) -> _requests = requests
 
