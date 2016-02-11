@@ -8,7 +8,6 @@ config = ($stateProvider, translateProvider, ChartJsProvider) ->
   $stateProvider
     .state "home.admin", url: "/admin", templateUrl: "adminView"
     .state "home.admin.profile", url: "/profile", controller: "profileController as profileCtrl", templateUrl: "profileView"
-    .state "home.admin.admins", url: "/admins", controller: "adminsController as adminsCtrl", templateUrl: "adminsView"
     .state "home.admin.users", url: "/users", controller: "usersController as usersCtrl", templateUrl: "usersView"
 
   ChartJsProvider.setOptions

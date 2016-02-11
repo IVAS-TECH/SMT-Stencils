@@ -1,5 +1,12 @@
 div(layout="column" layout-align="center center" layout-wrap)
   div(ng-repeat="user in usersCtrl.listOfUsers" layout="row" layout-align="space-between center")
-    span(class="md-primary md-button fake-button") {{user.email}}
-    md-button(ng-click="usersCtrl.makeAdmin($event, user)" class="md-primary md-raised" translate="button-make-admin")
+    span(ng-class="user.admin ? 'md-warn' : 'md-primary'" class="md-button fake-button") {{user.email}}
+    md-input-container
+      label(translate="label-access")
+      md-select(ng-model="user.admin" ng-change="usersCtrl.changeAccess(user)")
+        md-option(
+          ng-repeat="access in usersCtrl.accessValues"
+          ng-value="$index" 
+          translate="{{'option-' + access}}"
+        )
     md-button(ng-click="usersCtrl.removeUser($event, user)" class="md-warn md-raised" translate="button-delete")

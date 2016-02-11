@@ -1,15 +1,10 @@
 {angular} = require "dependencies"
 moduleName = "adminModule"
 
-deps = [
-  require "./showCalculatedPrice/showCalculatedPriceModule"
-  require "./users/usersModule"
-]
-
-angular.module moduleName, deps
+angular.module moduleName, [require "./showCalculatedPrice/showCalculatedPriceModule"]
   .constant "accessValues", require "./accessValues"
   .controller "adminController", require "./adminController"
-  .controller "adminsController", require "./admins/adminsController"
+  .controller "usersController", require "./users/usersController"
   .directive "ivoBarChart", require "./barChart/barChartDirective"
   .config require "./adminConfig"
 

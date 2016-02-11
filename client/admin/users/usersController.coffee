@@ -1,26 +1,27 @@
-controller = ($rootScope, makeAdminService, RESTHelperService, confirmService, simpleDialogService) ->
+controller = (accessValues, RESTHelperService, confirmService, simpleDialogService) ->
 
   ctrl = @
+
+  ctrl.accessValues = accessValues
 
   init = ->
 
     RESTHelperService.user.find (res) -> ctrl.listOfUsers = res.users
 
-  ctrl.makeAdmin = (event, user) ->
-    makeAdminService event, user: user, success: ->
-      simpleDialogService "users-is-admin-now"
+  ctrl.changeAccess = (user) ->
+    confirmService {}, success: ->
+      RESTHelperService.user.profile id: user._id, admin: user.admin, (res) ->
+        simpleDialogService {}, "title-user-access-changed"
 
-  ctrl.removeUser = (event, user) ->
-    id = user._id
+  ctrl.removeAdmin = (event, user) ->
     confirmService event, success: ->
-      RESTHelperService.user.remove id, (res) ->
-        simpleDialogService event, "title-user-deleted", success: ->
-          $rootScope.$broadcast "user-removed", id
+      RESTHelperService.user.remove user._id, (res) ->
+        simpleDialogService event, "title-user-removed"
 
   init()
 
   ctrl
 
-controller.$inject = ["$rootScope", "makeAdminService", "RESTHelperService", "confirmService", "simpleDialogService"]
+controller.$inject = ["accessValues", "RESTHelperService", "confirmService", "simpleDialogService"]
 
 module.exports = controller
