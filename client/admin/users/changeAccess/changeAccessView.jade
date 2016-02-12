@@ -1,0 +1,16 @@
+md-dialog
+  md-dialog-content(class="md-dialog-content")
+    md-dialog-actions(layout="row" layout-align="center center")
+      md-button(ng-click="changeAccessCtrl.hide('close')" class="md-warn" aria-label="close" translate="button-close")
+    div(layout="column" layout-align="center center")
+      span(ng-class="changeAccessCtrl.user.admin ? 'md-warn' : 'md-primary'" class="md-button fake-button" disabled="yes") {{changeAccessCtrl.user._id}}
+      md-input-container
+        label(translate="label-access")
+        md-select(ng-model="changeAccessCtrl.user.admin")
+          md-option(
+            ng-repeat="access in changeAccessCtrl.accessValues"
+            ng-value="$index" 
+            translate="{{'option-' + access}}"
+          )
+    md-dialog-actions(layout="row" layout-align="center center")
+      md-button(ng-click="changeAccessCtrl.changeAccess($event)" class="md-warn" aria-label="update" md-autofocus="true" translate="button-update")

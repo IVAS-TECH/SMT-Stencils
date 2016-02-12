@@ -1,17 +1,14 @@
-controller = (accessValues, RESTHelperService, confirmService, simpleDialogService) ->
+controller = (RESTHelperService, confirmService, simpleDialogService, changeAccessService) ->
 
   ctrl = @
-
-  ctrl.accessValues = accessValues
 
   init = ->
 
     RESTHelperService.user.find (res) -> ctrl.listOfUsers = res.users
 
-  ctrl.changeAccess = (user) ->
-    confirmService {}, success: ->
-      RESTHelperService.user.profile id: user._id, admin: user.admin, (res) ->
-        simpleDialogService {}, "title-user-access-changed"
+  ctrl.changeAccess = (event, user) ->
+    changeAccessService event, user: user, success: ->
+      simpleDialogService event, "title-user-access-changed"
 
   ctrl.removeAdmin = (event, user) ->
     confirmService event, success: ->
@@ -22,6 +19,6 @@ controller = (accessValues, RESTHelperService, confirmService, simpleDialogServi
 
   ctrl
 
-controller.$inject = ["accessValues", "RESTHelperService", "confirmService", "simpleDialogService"]
+controller.$inject = ["RESTHelperService", "confirmService", "simpleDialogService", "changeAccessService"]
 
 module.exports = controller

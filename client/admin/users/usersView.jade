@@ -1,12 +1,15 @@
-div(layout="column" layout-align="center center" layout-wrap)
-  div(ng-repeat="user in usersCtrl.listOfUsers" layout="row" layout-align="space-between center")
-    span(ng-class="user.admin ? 'md-warn' : 'md-primary'" class="md-button fake-button") {{user.email}}
-    md-input-container
-      label(translate="label-access")
-      md-select(ng-model="user.admin" ng-change="usersCtrl.changeAccess(user)")
-        md-option(
-          ng-repeat="access in usersCtrl.accessValues"
-          ng-value="$index" 
-          translate="{{'option-' + access}}"
-        )
-    md-button(ng-click="usersCtrl.removeUser($event, user)" class="md-warn md-raised" translate="button-delete")
+div(layout="row" layout-align="center stretch" layout-wrap)
+  div(layout="column" layout-wrap flex="auto")
+    div(ng-repeat="user in usersCtrl.listOfUsers" layout="row" flex="auto")
+      span(
+        ng-click="usersCtrl.changeAccess($event, user)"
+        ng-class="user.admin ? 'md-warn' : 'md-primary'"
+        class="md-button fake-button"
+        flex="50"
+      ) {{user.email}}
+      span(
+        ng-click="usersCtrl.removeUser($event, user)"
+        class="md-button md-warn md-raised"
+        translate="button-delete"
+        flex="50"
+      )
