@@ -6,9 +6,7 @@ controller = (RESTHelperService, confirmService, simpleDialogService, changeAcce
 
     RESTHelperService.user.find (res) -> ctrl.listOfUsers = res.users
 
-  ctrl.changeAccess = (event, user) ->
-    changeAccessService event, user: user, success: ->
-      simpleDialogService event, "title-user-access-changed"
+  ctrl.changeAccess = (event, user) -> changeAccessService event, user: user
 
   ctrl.removeAdmin = (event, user) ->
     confirmService event, success: ->

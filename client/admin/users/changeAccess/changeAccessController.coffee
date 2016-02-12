@@ -1,4 +1,4 @@
-controller = (RESTHelperService, confirmService) ->
+controller = (RESTHelperService, confirmService, simpleDialogService) ->
 
   ctrl = @
 
@@ -6,11 +6,12 @@ controller = (RESTHelperService, confirmService) ->
 
   ctrl.changeAccess = (event) ->
     confirmService event, success: ->
-      RESTHelperService.user.profile id: ctrl.user._id, admin: ctrl.user.admin, (res) ->
-        ctrl.hide "success"
+      user = id: ctrl.user._id, user: admin: ctrl.user.admin
+      RESTHelperService.user.profile user, (res) ->
+        simpleDialogService event, "title-user-removed"
 
   ctrl
 
-controller.$inject = ["RESTHelperService", "confirmService"]
+controller.$inject = ["RESTHelperService", "confirmService", "simpleDialogService"]
 
 module.exports = controller
