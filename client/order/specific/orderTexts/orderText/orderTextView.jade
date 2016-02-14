@@ -1,4 +1,4 @@
-div(layout="column" layout-wrap)
+div(layout="column" layout-align="center stretch" layout-fill flex="auto")
   ivo-text-field(
     ng-repeat="t in orderTextCtrl.text track by $index"
     label="orderTextCtrl.label"
@@ -6,4 +6,5 @@ div(layout="column" layout-wrap)
     index="$index"
     texts="orderTextCtrl.text"
     disabled="orderTextCtrl.disabled"
+    flex="grow"
   )

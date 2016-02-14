@@ -8,7 +8,7 @@ controller = (RESTHelperService, confirmService, simpleDialogService) ->
     confirmService event, success: ->
       user = id: ctrl.user._id, user: admin: ctrl.user.admin
       RESTHelperService.user.profile user, (res) ->
-        simpleDialogService event, "title-user-removed"
+        simpleDialogService event, "title-access-updated"
 
   ctrl
 
