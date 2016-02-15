@@ -21,6 +21,10 @@ module.exports =
 
   "favicon.ico": get: sendFile "favicon.ico"
 
+  "bundle.js": get: sendFile "bundle.js"
+
+  "style.css": get: sendFile "style.css"
+
   afterEach: [
     (req, res, next) -> next new Error "Not Found"
     errorHandler errorStream, "/#!/notfound"
