@@ -1,4 +1,4 @@
-controller = ($scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings, exclude) ->
+controller = ($scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService, link, settings, exclude, awaiting) ->
 
   ctrl = @
 
@@ -63,6 +63,8 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
     properties = (ctrl.link + prop for prop in ctrl.common)
 
+    properties.push awaitProperty for awaitProperty in awaiting
+
     excludeProperties = ["link", "template", "valid", "btnBack", "settings", "common", "controller"]
 
     excludeProperties.push excld for excld in exclude
@@ -113,6 +115,6 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
   ctrl
 
-controller.$inject = ["$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings", "exclude"]
+controller.$inject = ["$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "link", "settings", "exclude", "awaiting"]
 
 module.exports = controller

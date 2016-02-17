@@ -4,6 +4,8 @@ controller = ($scope, progressService, simpleDialogService) ->
   ctrl.files = {}
   ctrl.top = {}
   ctrl.bottom = {}
+  ctrl.specific = {}
+  ctrl.apertures = {}
 
   progress = progressService $scope, "orderCtrl", "specificCtrl"
 

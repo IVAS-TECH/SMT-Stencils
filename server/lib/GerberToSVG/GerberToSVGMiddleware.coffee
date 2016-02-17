@@ -7,7 +7,7 @@ module.exports = (middleware) ->
 
     if not req.stencil? then req.stencil = apertures: {}
 
-    if req.gerbers[middleware]? and req.gerbers[middleware].length
+    if req.gerbers[middleware]?
       (transform req.gerbers[middleware], req.gerbers.outline)
         .then (stencil) ->
           if stencil? and typeof stencil is "object"

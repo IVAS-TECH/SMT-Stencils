@@ -8,6 +8,7 @@ controller = (simpleDialogService, RESTHelperService, $window) ->
     ctrl.order.invalid = (not ctrl.order.files.top? and not ctrl.order.files.bottom?)
     if not ctrl.order.ifInvalid()
       RESTHelperService.upload.preview ctrl.order.files, (res) ->
+        ctrl.order.apertures = res.apertures
         for layer in ["top", "bottom"]
           console.log typeof res[layer]
           if typeof res[layer] is "string" then ctrl.order[layer].view = res[layer]

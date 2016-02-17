@@ -10,6 +10,7 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
     "link": "addresses"
     "settings": @settings
     "exclude": []
+    "awaiting": []
 
   ctrl.btnBack = yes
 

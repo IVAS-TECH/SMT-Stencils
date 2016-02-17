@@ -4,17 +4,13 @@ module.exports =
   fudical:
     marks: String
     side: String
-    number: Number
   position:
     aligment: String
     position: String
     side: String
   stencil:
-    tickness: String
     transitioning: String
     type: String
-    height: Number
-    width: Number
     impregnation: Boolean
     frame:
       size: String

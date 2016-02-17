@@ -1,7 +1,5 @@
 makeModel = require "./../../lib/makeModel"
 
-file = [String, ""]
-
 date = [Date, Date.now]
 
 module.exports = makeModel "Order",
@@ -11,9 +9,15 @@ module.exports = makeModel "Order",
   sendingDate: date
   user: "User"
   files:
-    top: file
-    bottom: file
-    outline: file
+    top: String
+    bottom: String
+    outline: String
+  specific:
+    fudicals: Number
+    dimenstions:
+      tickness: Number
+      height: Number
+      width: Number
   topText: [String]
   bottomText: [String]
   configurationObject: require "./configuration/configurationSchem"

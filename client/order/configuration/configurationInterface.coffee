@@ -9,7 +9,8 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
     "confirmService": confirmService
     "link": "configuration"
     "settings": @settings
-    "exclude": ["text", "view", "options"]
+    "exclude": []
+    "awaiting": ["view"]
 
   textPosition = ->
     options = []
@@ -51,28 +52,6 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
       ctrl.configurationObject.style.frame = no
     else
       ctrl.configurationObject.style.frame = (ctrl.configurationObject.stencil.transitioning.match /frame/)?
-
-  ctrl.changeDimenstions = (stencil) ->
-
-    stencil = ctrl.configurationObject.stencil
-
-    if not stencil or stencil.width < 100 or stencil.height < 100
-      ctrl.configurationObject.style.stencil = no
-      return
-
-    base =
-      width: 115
-      height: 145
-
-    if ctrl.configurationObject.style.frame
-      for prop in ["width", "height"]
-        base[prop] += 70
-
-    calculate = (wich) -> base[wich] + ((stencil[wich] - 90) / 9)
-
-    ctrl.configurationObject.style.stencil =
-      height: calculate "height"
-      width: calculate "width"
 
   ctrl.textAngle = textAngle
 
@@ -121,8 +100,7 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
         ctrl.configurationObject.style.mode = [aligment, "centered"].join "-"
 
   ctrl.change = ->
-    if not ctrl.configurationObject.style?
-      ctrl.configurationObject.style = {}
+    if not ctrl.configurationObject.style? then ctrl.configurationObject.style = {}
 
   listen()
 

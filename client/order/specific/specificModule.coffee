@@ -4,6 +4,7 @@ moduleName = "specificModule"
 dependencies = [
   require "./orderTexts/orderTextsModule"
   require "./fileContainer/fileContainerModule"
+  require "./orderSpecific/orderSpecificModule"
 ]
 
 angular.module moduleName, dependencies
