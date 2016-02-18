@@ -1,0 +1,8 @@
+div(layout="row" layout-align="center center" layout-wrap)
+  md-list
+    md-subheader(class="md-no-sticky")
+      span(translate="header-price")
+    md-list-item(ng-repeat="(key, value) in price")
+      div(layout="row" class="md-list-item-text")
+        span(translate="{{'info-' + key + ' : '}}")
+        span {{" " + value}}

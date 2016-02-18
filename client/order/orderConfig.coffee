@@ -7,7 +7,7 @@ config = ($stateProvider, translateProvider, progressServiceProvider) ->
 
   progressServiceProvider.setState "home.order"
 
-  progressServiceProvider.setMove ["configuration", "specific", "addresses", "finalizate"]
+  progressServiceProvider.setMove ["configuration", "specific", "addresses", "price"]
 
   $stateProvider
     .state "home.order",
@@ -19,6 +19,7 @@ config = ($stateProvider, translateProvider, progressServiceProvider) ->
       controller: "specificController as specificCtrl"
       templateUrl: "specificView"
     .state "home.order.addresses", templateUrl: "addressesView"
+    .state "home.order.price", templateUrl: "showPriceInfoView"
     .state "home.order.finalizate", templateUrl: "finalizateView"
 
 config.$inject = ["$stateProvider", "translateProvider", "progressServiceProvider"]

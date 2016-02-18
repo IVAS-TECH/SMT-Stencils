@@ -1,25 +1,24 @@
-controller = ($scope, $state, RESTHelperService, simpleDialogService) ->
+controller = ($state, RESTHelperService, simpleDialogService, orderPriceCalculatorService) ->
 
   ctrl = @
 
-  ctrl.back = -> $state.go "home.order.addresses"
+  ctrl.back = -> $state.go "home.order.price"
 
-  ctrl.makeOder = ->
-    order = {}
-    order[part] = ctrl[part] for part in ["configurationObject", "addressesObject", "specific"]
-    order[text + "Text"] = ctrl[text].text for text in ["top", "bottom"]
-
-  ctrl.calculatedPrice = ->
-    
+  ctrl.calculatePrice = ->
+    ctrl.order = {}
+    ctrl.order[part] = ctrl[part] for part in ["configurationObject", "addressesObject", "specific", "apertures"]
+    ctrl.order[text + "Text"] = ctrl[text].text for text in ["top", "bottom"]
+    ctrl.order.price = orderPriceCalculatorService ctrl.order
 
   ctrl.order = (event) ->
     RESTHelperService.upload.order ctrl.files, (res) ->
       ctrl.order.files = res.files
+      ctrl.order.price = ctrl.order.price.total
       RESTHelperService.order.create order: ctrl.order, (res) ->
         simpleDialogService event, "title-order-created"
 
   ctrl
 
-controller.$inject = ["$scope", "$state", "RESTHelperService", "simpleDialogService"]
+controller.$inject = ["$state", "RESTHelperService", "simpleDialogService", "orderPriceCalculatorService"]
 
 module.exports = controller
