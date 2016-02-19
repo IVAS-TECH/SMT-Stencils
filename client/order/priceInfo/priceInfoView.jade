@@ -1,4 +1,4 @@
-div(layout="row" layout-align="center center" layout-wrap)
+div(layout="column" layout-align="center center" layout-wrap)
   md-list
     md-subheader(class="md-no-sticky")
       span(translate="header-price")
@@ -6,3 +6,6 @@ div(layout="row" layout-align="center center" layout-wrap)
       div(layout="row" class="md-list-item-text")
         span(translate="{{'info-' + key + ' : '}}")
         span {{" " + value}}
+  div(layout="row" layout-align="center center")
+    md-button(ng-click="back()" class="md-warn" aria-label="back" translate="button-back")
+    md-button(ng-click="next()" class="md-primary" aria-label="next" translate="button-next")

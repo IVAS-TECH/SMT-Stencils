@@ -69,13 +69,13 @@ service = ->
 
       else return 0
 
-      price.apertures = (calculateExtraAperturesPrice "top") + calculateExtraAperturesPrice "bottom"
+    price.apertures = (calculateExtraAperturesPrice "top") + calculateExtraAperturesPrice "bottom"
 
     calculateTextPrice = (wich) ->
       if not stencil[wich] then return 0
       else
         text = order[wich + "Text"]
-        symbols = (line.match /\S/g for line in text).join()
+        symbols = (line.match /\S/g for line in text).join().replace /\,/g, ""
         extra = symbols.length - 120
         if extra > 0 then return extra * 0.04
         else return 0
@@ -94,8 +94,6 @@ service = ->
     price.total = (value for key, value of price).reduce (a, b) -> a + b
 
     price[key] = parseFloat value.toFixed 2 for key, value of price
-
-    console.log price
 
     price
 
