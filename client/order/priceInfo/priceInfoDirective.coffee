@@ -1,4 +1,4 @@
-directive = (scopeControllerService, $state) ->
+directive = (scopeControllerService, $state, $interval) ->
 
   templateUrl: "priceInfoView"
   scope: controller: "@"
@@ -8,6 +8,7 @@ directive = (scopeControllerService, $state) ->
     init = ->
       scope.scopeCtrl.calculatePrice()
       scope.price = {}
+      scope.progress = 0
       update = {}
       prices = ["fudicals", "size", "apertures", "text", "glued", "impregnation", "total"]
       count = 0
@@ -16,10 +17,12 @@ directive = (scopeControllerService, $state) ->
         scope.price[price] = 0
         checked = scope.scopeCtrl.order.price[price]
         update[price] = if checked? then (parseFloat checked / times).toFixed 2 else 0
-      interval = setInterval (->
+      interval = $interval (->
         count++
+        scope.progress = 20 * count
         if count is times
-          clearInterval interval
+          $interval.cancel interval
+          scope.hide = yes
           for price in prices
             checked = scope.scopeCtrl.order.price[price]
             if checked? then scope.price[price] = checked
@@ -34,6 +37,6 @@ directive = (scopeControllerService, $state) ->
 
     init()
 
-directive.$inject = ["scopeControllerService", "$state"]
+directive.$inject = ["scopeControllerService", "$state", "$interval"]
 
 module.exports = directive

@@ -1,11 +1,14 @@
 div(layout="column" layout-align="center center" layout-wrap)
+  md-progress-circular(ng-if="!hide" md-mode="determinate" ng-value="progress")
   md-list
-    md-subheader(class="md-no-sticky")
+    md-subheader(class="md-no-sticky md-primary")
       span(translate="header-price")
     md-list-item(ng-repeat="(key, value) in price")
       div(layout="row" class="md-list-item-text")
-        span(translate="{{'info-' + key + ' : '}}")
-        span {{" " + value}}
+        h3(translate="{{'info-' + key}}")
+        h3 &nbsp&nbsp
+        h4 {{value}}
+      md-divider
   div(layout="row" layout-align="center center")
     md-button(ng-click="back()" class="md-warn" aria-label="back" translate="button-back")
     md-button(ng-click="next()" class="md-primary" aria-label="next" translate="button-next")

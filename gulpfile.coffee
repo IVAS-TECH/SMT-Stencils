@@ -13,7 +13,6 @@ inline = require "gulp-inline"
 concat = require "gulp-concat"
 uglify = require "gulp-uglify"
 browserify = require "browserify"
-source = require "vinyl-source-stream"
 templateCache = require "gulp-angular-templatecache"
 {spawnSync} = require "child_process"
 
