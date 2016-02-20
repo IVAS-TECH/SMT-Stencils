@@ -1,11 +1,12 @@
-require "safe-angular"
+require "angular"
 require "./templates"
-require "safe-angular-animate"
-require "safe-angular-aria"
-require "safe-angular-messages"
-require "safe-angular-material"
-require "safe-ng-file-upload"
+require "angular-animate"
+require "angular-aria"
+require "angular-messages"
+require "angular-material"
+require "ng-file-upload"
 require "angular-chart.js"
+require "angular-loading-bar"
 
 module.exports =
   "angular": angular
@@ -16,3 +17,4 @@ module.exports =
   "angular-material": "ngMaterial"
   "ng-file-upload": "ngFileUpload"
   "angular-chart.js": "chart.js"
+  "angular-loading-bar": "angular-loading-bar"

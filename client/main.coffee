@@ -10,6 +10,7 @@ deps = [
   dependencies["angular-material"]
   dependencies["ng-file-upload"]
   dependencies["angular-chart.js"]
+  dependencies["angular-loading-bar"]
   require "ui-router"
   require "angular-translate"
   require "./helper/helperModule"

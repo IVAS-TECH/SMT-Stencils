@@ -97,6 +97,7 @@ gulp.task "styles", ["stylus"], ->
       "./build/style.css"
       "./node_modules/angular-material/angular-material.min.css"
       "./node_modules/angular-chart.js/dist/angular-chart.min.css"
+      "./node_modules/angular-loading-bar/build/loading-bar.min.css"
     ]
     .pipe concat "style.css"
     .pipe css

@@ -1,6 +1,6 @@
 requests = require "./requests"
 
-config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider, errorHandleServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider, $locationProvider, $stateProvider) ->
+config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider, errorHandleServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider, $locationProvider, $stateProvider, cfpLoadingBarProvider) ->
 
   RESTServiceProvider.setBase "api"
 
@@ -22,6 +22,10 @@ config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider,
     .theme "default"
     .accentPalette "deep-purple"
 
-config.$inject = ["RESTServiceProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "errorHandleServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider", "$stateProvider"]
+  for loading in ["spinner", "loadingBar"]
+    tmp = loading + "Template"
+    cfpLoadingBarProvider[tmp] = cfpLoadingBarProvider[tmp].replace "id", "class='md-warn' id"
+
+config.$inject = ["RESTServiceProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "errorHandleServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider", "$stateProvider", "cfpLoadingBarProvider"]
 
 module.exports = config
