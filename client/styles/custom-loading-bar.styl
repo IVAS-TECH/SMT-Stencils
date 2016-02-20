@@ -1,0 +1,60 @@
+@import "nib"
+@require "mixins"
+
+loading-color = #FF4726
+index = 10002
+
+#loading-bar,
+#loading-bar-spinner
+  pointer-events none
+  transition 350ms linear all
+
+#loading-bar.ng-enter
+#loading-bar.ng-leave.ng-leave-active
+#loading-bar-spinner.ng-enter
+#loading-bar-spinner.ng-leave.ng-leave-active
+  opacity 0
+
+#loading-bar.ng-enter.ng-enter-active
+#loading-bar.ng-leave
+#loading-bar-spinner.ng-enter.ng-enter-active
+#loading-bar-spinner.ng-leave
+  opacity 1
+
+#loading-bar .bar 
+    transition width 350ms
+    background loading-color
+    fixed top left
+    z-index index
+    width 100%
+    height 5px
+    border-bottom-right-radius 1px
+    border-top-right-radius @border-bottom-right-radius
+
+#loading-bar .peg
+    absolute right top
+    width 70px
+    height 5px
+    opacity 0.45
+    box-shadow loading-color 1px 0 6px 1px
+    border-radius 100%
+
+#loading-bar-spinner
+  display block
+  z-index index
+  fixed top 10px left 10px
+
+#loading-bar-spinner .spinner-icon
+  width 34px
+  height 34px
+  border solid 6px transparent
+  border-top-color loading-color
+  border-left-color @border-top-color
+  border-radius 50%
+  animation loading-bar-spinner 400ms linear infinite
+
+@keyframes loading-bar-spinner
+    0%
+        transform rotate(0deg)
+    100%
+        transform rotate(360deg)
