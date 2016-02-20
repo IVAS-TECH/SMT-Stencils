@@ -16,7 +16,7 @@ directive = (scopeControllerService, $state, $interval) ->
       for price in prices
         scope.price[price] = 0
         checked = scope.scopeCtrl.order.price[price]
-        update[price] = if checked? then (parseFloat checked / times).toFixed 2 else 0
+        update[price] = if checked? then (parseFloat checked / times).toFixed 2 else 0.00
       interval = $interval (->
         count++
         scope.progress = 20 * count
@@ -26,7 +26,7 @@ directive = (scopeControllerService, $state, $interval) ->
           for price in prices
             checked = scope.scopeCtrl.order.price[price]
             if checked? then scope.price[price] = checked
-        else scope.price[price] = update[price] * count for price in prices
+        else scope.price[price] = (parseFloat update[price] * count).toFixed 2 for price in prices
         scope.$digest()
         ), 500
       return
