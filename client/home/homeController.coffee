@@ -58,8 +58,6 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
 
         notificationService.listenForNotification()
 
-        ctrl.ready = yes
-
         $scope.$on "$destroy", ->
           stopRestriction()
           stopAuth()
@@ -69,6 +67,10 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
     stop.start = $scope.$on "$stateChangeStart", prevent
 
     stop.success = $scope.$on "$stateChangeSuccess", prevent
+
+    stopLoading = $scope.$on "cancel-loading", ->
+      ctrl.ready = yes
+      stopLoading()
 
   init()
 

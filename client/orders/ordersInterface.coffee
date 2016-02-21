@@ -1,4 +1,4 @@
-controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
+controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
 
   filter = $filter "filter"
 
@@ -66,6 +66,8 @@ controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionSe
         transform no
         ctrl.filterFn()
 
+      stopLoadingService "orders"
+
       $scope.$on "$destroy", -> listener() for listener in listeners
 
   ctrl.labels =
@@ -128,6 +130,6 @@ controller = ($scope, RESTHelperService, $filter, dateService, showDescriptionSe
 
   ctrl
 
-controller.$inject = ["$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService"]
+controller.$inject = ["$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService"]
 
 module.exports = controller

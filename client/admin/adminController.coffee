@@ -1,7 +1,8 @@
-controller = (simpleDialogService, $state, $controller, $scope, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
+controller = (simpleDialogService, $state, $controller, $scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
 
   ctrl = $controller "ordersInterface",
     "$scope": $scope
+    "stopLoadingService": stopLoadingService
     "RESTHelperService": RESTHelperService
     "$filter": $filter
     "dateService": dateService
@@ -17,6 +18,8 @@ controller = (simpleDialogService, $state, $controller, $scope, RESTHelperServic
     RESTHelperService.visit.find (res) ->
 
       ctrl.listOfVisits = res.visits
+
+      stopLoadingService "admin"
 
       stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
 
@@ -152,6 +155,6 @@ controller = (simpleDialogService, $state, $controller, $scope, RESTHelperServic
 
   ctrl
 
-controller.$inject = ["simpleDialogService", "$state", "$controller", "$scope", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
+controller.$inject = ["simpleDialogService", "$state", "$controller", "$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
 
 module.exports = controller
