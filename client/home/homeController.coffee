@@ -55,6 +55,8 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
         if goTo? then $state.go goTo
 
         notificationService.listenForNotification()
+        
+        ctrl.ready = yes
 
         $scope.$on "$destroy", ->
           stopRestriction()

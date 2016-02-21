@@ -1,4 +1,4 @@
-div(layout="column" layout-align="space-between strech" layout-wrap)
+div(layout="column" layout-fill)
   md-toolbar(
     layout="row"
     layout-align="space-around strech"
@@ -9,12 +9,15 @@ div(layout="column" layout-align="space-between strech" layout-wrap)
     layout-wrap
   )
     div(layout="row" layout-align="center center")
-      h1(translate="firm-name")
-      md-button(class="md-raised md-warn" aria-label="logo" translate="web-page")
-    div(layout="row" layout-align="space-around center" layout-xs="column" layout-align-xs="start strech")
+      h1(translate="firm-name" )
+      div(class="md-button fake-button md-raised md-warn" aria-label="logo" translate="web-page")
+    div(ng-show="homeCtrl.ready" layout="row" layout-align="space-around center" layout-xs="column" layout-align-xs="start strech")
       ivo-translate
       ivo-user
-  div(layout="column" layout-align="space-between strech" layout-wrap)
+  div(ng-hide="homeCtrl.ready" layout="row" layout-align="center center" layout-fill)
+      h1(class="md-primary" translate="loading")
+      md-progress-circular(class="md-primary" md-mode="indeterminate" md-diameter="'80%'")
+  div(ng-show="homeCtrl.ready" layout="column" layout-align="space-between strech" layout-wrap)
     ivo-state-switcher(
       ng-if="!homeCtrl.admin"
       state="home"
