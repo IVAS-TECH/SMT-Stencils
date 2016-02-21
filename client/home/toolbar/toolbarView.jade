@@ -1,0 +1,15 @@
+md-toolbar(
+  layout="row"
+  layout-align="space-around stretch"
+  layout-xs="column"
+  layout-align-xs="start stretch"
+  layout-sm="column"
+  layout-align-sm="start stretch"
+  layout-wrap
+)
+  div(layout="row" layout-align="center center")
+    h1(translate="firm-name" )
+    div(class="md-button fake-button md-raised md-warn" aria-label="logo" translate="web-page")
+  div(ng-if="ready" layout="row" layout-align="space-around center" layout-xs="column" layout-align-xs="start strech")
+    ivo-translate
+    ivo-user
