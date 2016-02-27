@@ -1,4 +1,4 @@
-controller = ($scope, $state, authenticationService, loginService, transitionService, notificationService) ->
+controller = ($timeout, $scope, $state, authenticationService, loginService, transitionService, notificationService) ->
 
   ctrl = @
 
@@ -35,7 +35,6 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
         if authenticationService.isAuthenticated()
           if not tryBecomeAdmin() then goTo = going.name
         else
-
           if event.defaultPrevented then loginService event,
             login: -> $state.go going.name
             close: transitionService.toHome
@@ -67,15 +66,19 @@ controller = ($scope, $state, authenticationService, loginService, transitionSer
     stop.start = $scope.$on "$stateChangeStart", prevent
 
     stop.success = $scope.$on "$stateChangeSuccess", prevent
-
+    
+    ###
     stopLoading = $scope.$on "cancel-loading", ->
-      ctrl.ready = yes
-      stopLoading()
-
+        ctrl.ready = yes
+        stopLoading()
+    ###
+    
+    $timeout (-> ctrl.ready = yes), 1000
+    
   init()
 
   ctrl
 
-controller.$inject = ["$scope", "$state", "authenticationService", "loginService", "transitionService", "notificationService"]
+controller.$inject = ["$timeout", "$scope", "$state", "authenticationService", "loginService", "transitionService", "notificationService"]
 
 module.exports = controller

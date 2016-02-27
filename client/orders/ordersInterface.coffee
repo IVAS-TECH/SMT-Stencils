@@ -22,51 +22,38 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
 
       end = orders[orders.length - 1]
 
-      if end? then ctrl.fromDate = dateService.compatible end.orderDate
-
       if beggin? then ctrl.toDate = dateService.compatible beggin.orderDate
+      
+      if end? then ctrl.fromDate = dateService.compatible end.orderDate
 
       transform = (full) ->
 
-        addNotify = (order) ->
-          order.notify = notificationService.notificationFor order._id
-
-        transformFn = (full) ->
-
-          (order) ->
-
-            addNotify order
-
-            if full
-              for type in ["order", "sending"]
-                date = type + "Date"
-                order[date] = dateService.format order[date]
-
+        transformFn = (order) ->
+            if full then order[type + "Date"] = dateService.format order[type + "Date"] for type in ["order", "sending"]
+            order.notify = notificationService.notificationFor order._id
             order
 
-        fn = transformFn full
-
-        ctrl.fullListOfOrders = (fn order for order in orders).sort (a, b) ->
+        (transformFn order for order in orders).sort (a, b) ->
           indexA = ctrl.status.indexOf a.status
           indexB = ctrl.status.indexOf b.status
           notifyA = if a.notify? then 1 else 0
           notifyB = if b.notify? then 1 else 0
           index = indexA - indexB
-          if not index
-            notifyB - notifyA
-          else index
+          if not index then notifyB - notifyA else index
 
+      ctrl.fullListOfOrders = transform yes
+      
       ctrl.listOfOrders = ctrl.fullListOfOrders
-
-      transform yes
+      
+      console.log orders.length, ctrl.fullListOfOrders.length
+      
+      stopLoadingService()
 
       listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
 
       $scope.$on "notification", ->
-        transform no
+        ctrl.fullListOfOrders = transform no
         ctrl.filterFn()
-
-      stopLoadingService "orders"
 
       $scope.$on "$destroy", -> listener() for listener in listeners
 
@@ -84,8 +71,7 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
         date = dateService.parse order.orderDate
         return ctrl.toDate >= date >= ctrl.fromDate
       else no
-    if ctrl.showing?
-      ctrl.listOfOrders = filter ctrl.listOfOrders, _id: ctrl.showing
+    if ctrl.showing? then ctrl.listOfOrders = filter ctrl.listOfOrders, _id: ctrl.showing
 
   ctrl.compareableDate = (wich) ->
     ctrl[wich + "Date"] = dateService.compatible ctrl[wich + "Date"]

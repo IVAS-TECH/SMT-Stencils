@@ -1,6 +1,6 @@
 div(layout="column" layout-fill)
   ivo-toolbar(ready="homeCtrl.ready" layout-wrap)
-  div(ng-if="!homeCtrl.ready" layout="row" layout-align="center center" layout-fill)
+  div(ng-hide="homeCtrl.ready" layout="row" layout-align="center center" layout-fill)
       h1(class="md-primary" translate="loading")
       md-progress-circular(class="md-primary" md-mode="indeterminate" md-diameter="'80%'")
   div(ng-show="homeCtrl.ready" layout="column" layout-align="space-between strech" layout-wrap)
