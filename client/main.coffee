@@ -27,6 +27,5 @@ angular.module moduleName, deps
   .decorator "$exceptionHandler", require "./errorReporter"
   .config require "./mainConfig"
 
-angular
-  .element document
+angular.element document
     .ready -> angular.bootstrap document, [moduleName], strictDi: on

@@ -1,10 +1,8 @@
-controller = ($timeout, $scope, $state, authenticationService, loginService, transitionService, notificationService) ->
+controller = ($mdDialog, $timeout, $scope, $state, authenticationService, loginService, transitionService, notificationService) ->
 
   ctrl = @
 
   ctrl.admin = no
-
-  ctrl.ready = no
 
   init = ->
 
@@ -32,10 +30,18 @@ controller = ($timeout, $scope, $state, authenticationService, loginService, tra
 
         goTo = null
 
+        $mdDialog.show
+            templateUrl: "loadingView"
+            fullscreen: yes
+            autoWrap: no
+            hasBackdrop: no
+            escapeToClose: no
+        
+        $timeout $mdDialog.hide, 2000
+
         if authenticationService.isAuthenticated()
           if not tryBecomeAdmin() then goTo = going.name
-        else
-          if event.defaultPrevented then loginService event,
+        else if event.defaultPrevented then loginService event,
             login: -> $state.go going.name
             close: transitionService.toHome
 
@@ -66,19 +72,11 @@ controller = ($timeout, $scope, $state, authenticationService, loginService, tra
     stop.start = $scope.$on "$stateChangeStart", prevent
 
     stop.success = $scope.$on "$stateChangeSuccess", prevent
-    
-    ###
-    stopLoading = $scope.$on "cancel-loading", ->
-        ctrl.ready = yes
-        stopLoading()
-    ###
-    
-    $timeout (-> ctrl.ready = yes), 1000
-    
+
   init()
 
   ctrl
 
-controller.$inject = ["$timeout", "$scope", "$state", "authenticationService", "loginService", "transitionService", "notificationService"]
+controller.$inject = ["$mdDialog", "$timeout", "$scope", "$state", "authenticationService", "loginService", "transitionService", "notificationService"]
 
 module.exports = controller
