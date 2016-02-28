@@ -4,10 +4,7 @@ div(layout="column" layout-align="center center" layout-wrap)
     md-subheader(class="md-no-sticky md-primary")
       span(translate="header-price")
     md-list-item(ng-repeat="(key, value) in price")
-      div(layout="row" class="md-list-item-text")
-        h3(translate="{{'info-' + key}}")
-        h3 &nbsp&nbsp
-        h4 {{value}}
+      ivo-price-field(field="key" price="value")
       md-divider
   div(layout="row" layout-align="center center")
     md-button(ng-click="back()" class="md-warn" aria-label="back" translate="button-back")

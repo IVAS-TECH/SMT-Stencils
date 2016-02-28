@@ -6,12 +6,12 @@ dependencies = [
   require "./specific/specificModule"
   require "./configuration/configurationModule"
   require "./finalizate/finalizateModule"
+  require "./priceInfo/priceInfoModule"
 ]
 
 angular.module moduleName, dependencies
   .factory "orderPriceCalculatorService", require "./orderPriceCalculatorService"
   .controller "orderController", require "./orderController"
-  .directive "ivoPriceInfo", require "./priceInfo/priceInfoDirective"
   .config require "./orderConfig"
 
 module.exports = moduleName

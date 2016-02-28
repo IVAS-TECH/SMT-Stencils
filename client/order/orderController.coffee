@@ -10,10 +10,10 @@ controller = ($state, RESTHelperService, simpleDialogService, orderPriceCalculat
     ctrl.order[text + "Text"] = ctrl[text].text for text in ["top", "bottom"]
     ctrl.order.price = orderPriceCalculatorService ctrl.order
 
-  ctrl.order = (event) ->
+  ctrl.makeOrder = (event) ->
     RESTHelperService.upload.order ctrl.files, (res) ->
       ctrl.order.files = res.files
-      ctrl.order.price = ctrl.order.price.total
+      ctrl.order.price = ctrl.price
       RESTHelperService.order.create order: ctrl.order, (res) ->
         simpleDialogService event, "title-order-created"
 
