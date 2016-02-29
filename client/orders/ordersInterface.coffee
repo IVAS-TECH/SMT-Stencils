@@ -45,8 +45,6 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       
       ctrl.listOfOrders = ctrl.fullListOfOrders
       
-      console.log orders.length, ctrl.fullListOfOrders.length
-      
       stopLoadingService()
 
       listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate", "showing"])

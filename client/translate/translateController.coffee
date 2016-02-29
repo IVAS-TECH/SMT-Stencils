@@ -8,8 +8,7 @@ controller = ($translate, authenticationService, RESTHelperService) ->
 
   ctrl.change = (language) ->
     $translate.use language
-    if authenticationService.isAuthenticated()
-        RESTHelperService.user.profile id: "id", user: language: language, (res) ->
+    if authenticationService.isAuthenticated() then RESTHelperService.user.profile id: "id", user: language: language
 
   ctrl
 

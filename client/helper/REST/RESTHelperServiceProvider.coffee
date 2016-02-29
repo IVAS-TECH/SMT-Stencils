@@ -8,15 +8,11 @@ provider = ->
 
       resolve = (resolver) ->
         (res) ->
-          if res.status is 200 then resolver res.data
+          if res.status is 200 and resolver? then resolver res.data
           else errorHandleService res
 
-      if arg
-        (argument, resolver) ->
-          req(argument).then (resolve resolver), errorHandleService
-      else
-        (resolver) ->
-          req().then (resolve resolver), errorHandleService
+      if arg then (argument, resolver) -> req(argument).then (resolve resolver), errorHandleService
+      else (resolver) -> req().then (resolve resolver), errorHandleService
 
     requests = {}
 
@@ -27,17 +23,12 @@ provider = ->
       if key is "upload"
 
         for upload in value
-
           uploader = uploadService upload
-
           requests[key][upload] = handle uploader, yes
 
       else
-
         rest = RESTService key
-
-        for index of value.arg
-          requests[key][value.alias[index]] = handle rest[value.method[index]], value.arg[index]
+        requests[key][value.alias[index]] = handle rest[value.method[index]], value.arg[index] for index of value.arg
 
     requests
 
