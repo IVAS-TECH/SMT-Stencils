@@ -7,5 +7,6 @@ angular.module moduleName, [require './user/userModule']
   .controller "homeController", require "./homeController"
   .directive "ivoToolbar", require "./toolbar/toolbarDirective"
   .config require "./homeConfig"
+  .run require "./homeRun"
 
 module.exports = moduleName

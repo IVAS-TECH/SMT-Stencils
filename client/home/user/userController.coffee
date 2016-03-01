@@ -7,10 +7,10 @@ controller = ($scope, $window, registerService, loginService, authenticationServ
     ctrl.user = authenticationService.getUser()
 
   init = ->
-
+  
+    authenticateUser()
+  
     stopAuth = $scope.$on "authentication", ->
-
-      authenticateUser()
 
       if not authenticationService.isSession()
         $window.onbeforeunload = (event) ->
