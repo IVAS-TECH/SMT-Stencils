@@ -6,12 +6,7 @@ service = ($rootScope, $state, $location) ->
     running = no
     $rootScope.$broadcast "cancel-loading"
     
-  check = ->
-    state = $state.current.name
-    path = $location.path().replace "/", ""
-    res =  (state.match path)?
-    console.log state, path, res
-    res
+  check = -> ($state.current.name.match $location.path().replace "/", "")?
 
   -> if running and check() then stop()
 

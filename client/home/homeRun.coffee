@@ -1,4 +1,4 @@
-run = ($rootScope, $state, authenticationService, loginService, transitionService, notificationService, $timeout) ->
+run = ($rootScope, $state, authenticationService, loginService, transitionService, notificationService, $timeout, $mdDialog) ->
     
     stop = $rootScope.$on "$stateChangeStart", (event, going) ->
 
@@ -7,6 +7,21 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
       stop()
       
       force = (state) -> $state.go state.name, {}, reload: yes
+      
+      $mdDialog.show
+            templateUrl: "loadingView"
+            fullscreen: yes
+            hasBackdrop: no
+            escapeToClose: no
+            
+      stopLoading = $rootScope.$on "$stateChangeSuccess", (e, transition) ->
+        
+        if transition.name is "home.orders" or transition.name is "home.admin"
+            stopWaitingLoading = $rootScope.$on "cancel-loading", $mdDialog.hide
+            $rootScope.$on "$destroy", stopWaitingLoading
+        else $mdDialog.hide()
+            
+        stopLoading()
 
       if going.url not in notRestricted then event.preventDefault()
 
@@ -20,7 +35,7 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
           else notificationService.reListenForNotification()
 
         goTo = no
-        
+                
         if authenticationService.isAuthenticated()
             tryBecomeAdmin()
             if not admin then goTo = yes
@@ -49,6 +64,6 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
           stopAuth()
           notificationService.stopListen()
 
-run.$inject = ["$rootScope", "$state", "authenticationService", "loginService", "transitionService", "notificationService", "$timeout"]
+run.$inject = ["$rootScope", "$state", "authenticationService", "loginService", "transitionService", "notificationService", "$timeout", "$mdDialog"]
 
 module.exports = run

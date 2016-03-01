@@ -11,6 +11,8 @@ controller = ($scope, $window, registerService, loginService, authenticationServ
     authenticateUser()
   
     stopAuth = $scope.$on "authentication", ->
+    
+      authenticateUser()
 
       if not authenticationService.isSession()
         $window.onbeforeunload = (event) ->
