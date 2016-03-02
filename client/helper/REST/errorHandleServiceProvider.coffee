@@ -2,11 +2,7 @@ provider = ->
 
   _resource = ""
 
-  service = (RESTService) ->
-
-    (res) ->
-      sender = RESTService _resource
-      sender.post res
+  service = (RESTService) -> (res) -> ((RESTService _resource) "post") res
 
   service.$inject = ["RESTService"]
 

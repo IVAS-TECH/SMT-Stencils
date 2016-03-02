@@ -2,7 +2,7 @@ provider = ->
 
   _state = ""
 
-  service = ($state, $rootScope, RESTHelperService, authenticationService, showNotificationService) ->
+  service = ($state, $rootScope, $timeout, $interval, RESTHelperService, authenticationService, showNotificationService) ->
 
     notifications = {}
 
@@ -15,26 +15,22 @@ provider = ->
         RESTHelperService.notification.find (res) ->
           if res.notifications and res.notifications.length
             notifications = {}
-            for notification in res.notifications
-              notifications[notification.order] = notification._id
-            handle = success: -> $state.go _state
-            if $state.current.name is _state
-              handle.success = -> $rootScope.$broadcast "notification"
-            showNotificationService {}, {}, handle
+            notifications[notification.order] = notification._id for notification in res.notifications
+            showNotificationService {}, {}, success: if $state.current.name is _state then -> $rootScope.$broadcast "notification" else -> $state.go _state
 
     listenForNotification: ->
 
-      setTimeout @notify, 10
+      $timeout @notify, 10
 
-      listening = setInterval @notify, 60000
+      listening = $interval @notify, 60000
 
-    stopListen: -> clearInterval listening
+    stopListen: -> $interval.cancel listening
 
     reListenForNotification: ->
       @stopListen()
       @listenForNotification()
 
-  service.$inject = ["$state", "$rootScope", "RESTHelperService", "authenticationService", "showNotificationService"]
+  service.$inject = ["$state", "$rootScope", "$timeout", "$interval", "RESTHelperService", "authenticationService", "showNotificationService"]
 
   $get: service
 

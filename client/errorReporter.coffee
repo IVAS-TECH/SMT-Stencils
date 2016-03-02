@@ -1,11 +1,6 @@
 decorator = ($delegate, $injector, errorsLogResource) ->
 
-  (err) ->
-    RESTService = $injector.get "RESTService"
-    sender = RESTService errorsLogResource
-    stack = err
-    if err? and err.stack? then stack = err.stack
-    sender.post error: stack
+  (err) -> ((($injector.get "RESTService") errorsLogResource) "post") error: if err? and err.stack? then err.stack else err
 
 decorator.$inject = ["$delegate", "$injector", "errorsLogResource"]
 
