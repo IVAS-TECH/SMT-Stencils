@@ -10,13 +10,11 @@ provider = (RESTServiceProvider) ->
       chain = [base, _base, url]
       noBase = _base is ""
       noUpload = base is ""
-      URL = ""
 
       if noBase then chain.splice 1, 1
       if noUpload then chain.splice 0, 1
 
-      if noBase and noUpload then URL = "/" + url
-      else URL = chain.join "/"
+      URL = if noBase and noUpload then "/" + url else chain.join "/"
 
       (files) ->
 
