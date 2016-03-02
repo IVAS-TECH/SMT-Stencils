@@ -4,29 +4,18 @@ provider = ($httpProvider) ->
 
   _base = ""
 
-  service = ($http) ->
+  service = ($http, $filter) ->
 
     (resource) ->
-      _url = _base + "/" + resource
+      url = _base + "/" + resource
+      (method) ->
+        (data) ->
+            $http
+                method: method.toUpperCase()
+                data: if ($filter "isntEmpty") data then data else undefined
+                url: if method in ["get", "delete"] and typeof data is "string" then url + "/" + data else url
 
-      make = (method, data) ->
-        url = _url
-        if method in ["GET", "DELETE"] and data isnt "" then url += "/" + data
-        request = url: url, method: method
-
-        if typeof data is "object"
-          request.headers = "Content-Type": "application/json"
-          request.data = data
-
-        $http request
-
-      get: (send = "") -> make "GET", send
-      post: (send = {}) -> make "POST", send
-      put: (send = {}) -> make "PUT", send
-      delete: (send = "") -> make "DELETE", send
-      patch: (send = {}) -> make "PATCH", send
-
-  service.$inject = ["$http"]
+  service.$inject = ["$http", "$filter"]
 
   setBase: (base) -> _base = base
 
