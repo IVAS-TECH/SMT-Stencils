@@ -34,7 +34,7 @@ module.exports =
           next()
         .catch next
 
-    session "set"
+    session.set
 
     (req, res, next) ->
       login = req.user?
@@ -42,4 +42,4 @@ module.exports =
       query res, login: login, user: user
   ]
 
-  delete: session "remove"
+  delete: session.remove

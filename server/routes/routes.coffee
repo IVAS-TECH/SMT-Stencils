@@ -6,7 +6,7 @@ session = sessionMiddleware()
 log = (file) -> join __dirname, "../#{file}.log"
 
 module.exports =
-  beforeEach: [(session "get"), restrictMiddleware]
+  beforeEach: [session.get, restrictMiddleware]
   user: require "./user/userHandle"
   login: require "./user/loginHandle"
   template: require "./templateHandle"

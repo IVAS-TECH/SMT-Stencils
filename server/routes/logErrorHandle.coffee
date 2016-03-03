@@ -7,5 +7,5 @@ module.exports = (log) ->
 
   post: (req, res, next) ->
     stream.write (JSON.stringify req.body) + "\n", "utf-8", (err) ->
-      if err then next err
-      else query res
+      if err then next err else query res
+      
