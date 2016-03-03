@@ -17,9 +17,9 @@ provider = ->
     
     requests = upload: {}
     
-    requests["upload"][upload] = handleUpload uploadService upload for upload in _requests.alias.upload
+    requests["upload"][upload] = handleUpload uploadService upload for upload in _requests.upload
     
-    delete _requests.alias.upload
+    delete _requests.upload
     
     (aliasMap[name] = method for name in names) for method, names of _requests.alias
     

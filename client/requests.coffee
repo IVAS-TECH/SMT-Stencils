@@ -29,10 +29,11 @@ module.exports =
 
   language: find
   
+  upload: ["preview", "order"]
+  
   alias:
     get: ["find", "logged", "fetch"]
     post: ["register", "login", "create"]
     delete: ["remove", "logout"]
     patch: ["update", "profile"]
     put: ["view", "email"]
-    upload: ["preview", "order"]
