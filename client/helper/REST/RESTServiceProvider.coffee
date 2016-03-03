@@ -8,12 +8,11 @@ provider = ($httpProvider) ->
 
     (resource) ->
       url = _base + "/" + resource
-      (method) ->
-        (data) ->
-            $http
-                method: method.toUpperCase()
-                data: if ($filter "isntEmpty") data then data else undefined
-                url: if method in ["get", "delete"] and typeof data is "string" then url + "/" + data else url
+      (method, data) ->
+        $http
+            method: method.toUpperCase()
+            data: if ($filter "isntEmpty") data then data else undefined
+            url: if method in ["get", "delete"] and typeof data is "string" then url + "/" + data else url
 
   service.$inject = ["$http", "$filter"]
 

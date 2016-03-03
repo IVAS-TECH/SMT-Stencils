@@ -1,27 +1,17 @@
-crud =
-  alias: ["find", "create", "remove", "update"]
-  method: ["get", "post", "delete", "patch"]
-  arg: [no, yes, yes, yes]
+crud = ["find", "create", "remove", "update"]
 
-order = {}
+order = (value for value in crud)
+order.push "view"
 
-order[key] = value for key, value of crud
+find = ["find"]
 
-order.alias.push "view"
-order.method.push "put"
-order.arg.push yes
+findAndRemove = ["find", "remove"]
 
 module.exports =
 
-  user:
-    alias: ["find", "register", "email", "profile", "remove"]
-    method: ["get", "post", "put", "patch", "delete"]
-    arg: [no, yes, yes, yes, yes]
+  user: ["find", "register", "email", "profile", "remove"]
 
-  login:
-    alias: ["logged", "login", "logout"]
-    method: ["get", "post", "delete"]
-    arg: [no, yes, no]
+  login: ["logged", "login", "logout"]
 
   configuration: crud
 
@@ -29,29 +19,21 @@ module.exports =
 
   order: order
 
-  template:
-    alias: ["fetch"]
-    method: ["get"]
-    arg: [yes]
+  template: ["fetch"]
 
-  description:
-    alias: ["find", "remove"]
-    method: ["get", "delete"]
-    arg: [yes, yes]
+  description: findAndRemove
 
-  visit:
-    alias: ["find"]
-    method: ["get"]
-    arg: [no]
+  visit: find
 
-  notification:
-    alias: ["find", "remove"]
-    method: ["get", "delete"]
-    arg: [no, yes]
+  notification: findAndRemove
 
-  language:
-    alias: ["find"]
-    method: ["get"]
-    arg: [yes]
+  language: find
 
   upload: ["preview", "order"]
+  
+  alias:
+    get: ["find", "logged", "fetch"]
+    post: ["register", "login", "create"]
+    delete: ["remove", "logout"]
+    patch: ["update", "profile"]
+    put: ["view", "email"]

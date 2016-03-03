@@ -3,25 +3,30 @@ provider = ->
   _requests = {}
 
   service = (RESTService, uploadService, errorHandleService) ->
+  
+    resolve = (res) -> (resp) -> if resp.status is 200 and res? then res resp.data else errorHandleService resp
+  
+    handleUpload = (req) -> (arg, res) -> (req arg).then (resolve res), errorHandleService
 
-    handle = (req, arg) ->
-
-      resolve = (resolver) ->
-        (res) ->
-          if res.status is 200 and resolver? then resolver res.data
-          else errorHandleService res
-
-      if arg then (argument, resolver) -> req(argument).then (resolve resolver), errorHandleService
-      else (resolver) -> req().then (resolve resolver), errorHandleService
+    handle = (req, method) ->
+        (arg, res) ->
+            if typeof arg is "function" then (req method).then (resolve arg), errorHandleService
+            else (req method, arg).then (resolve res), errorHandleService
+    
+    aliasMap = {}
+    
+    (aliasMap[name] = method for name in names) for method, names of _requests.alias
+    
+    delete _requests.alias
 
     requests = {}
 
     for key, value of _requests
       requests[key] = {}
-      if key is "upload" then requests[key][upload] = handle (uploadService upload), yes for upload in value
+      if key is "upload" then requests[key][upload] = handleUpload uploadService upload for upload in value
       else
         rest = RESTService key
-        requests[key][value.alias[index]] = handle (rest value.method[index]), value.arg[index] for index of value.arg
+        requests[key][api] = handle rest, aliasMap[api] for api in value
 
     requests
 
