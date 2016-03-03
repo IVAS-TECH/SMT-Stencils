@@ -15,18 +15,20 @@ provider = ->
     
     aliasMap = {}
     
+    requests = upload: {}
+    
+    requests["upload"][upload] = handleUpload uploadService upload for upload in _requests.alias.upload
+    
+    delete _requests.alias.upload
+    
     (aliasMap[name] = method for name in names) for method, names of _requests.alias
     
     delete _requests.alias
 
-    requests = {}
-
-    for key, value of _requests
-      requests[key] = {}
-      if key is "upload" then requests[key][upload] = handleUpload uploadService upload for upload in value
-      else
-        rest = RESTService key
-        requests[key][api] = handle rest, aliasMap[api] for api in value
+    for resource, apis of _requests
+      requests[resource] = {}
+      rest = RESTService resource
+      requests[resource][api] = handle rest, aliasMap[api] for api in apis
 
     requests
 
