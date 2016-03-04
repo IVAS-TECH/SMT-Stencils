@@ -1,7 +1,5 @@
 service = (circularDialogService, authenticationService) ->
-
-  circularDialogService "login", "login", (authentication) ->
-    authenticationService.authenticate authentication
+    circularDialogService "login", "login", (authentication) -> authenticationService.authenticate authentication
 
 service.$inject = ["circularDialogService", "authenticationService"]
 

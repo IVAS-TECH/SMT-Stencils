@@ -4,14 +4,8 @@ service = (showDialogService, tryAgainService) ->
 
     circular = (event, extend) ->
 
-      handle =
-
-        "success": success
-
-        "fail": ->
-
-          tryAgainService event, "title-wrong-#{wrong}", "success": ->
-            circular event, extend
+      handle = success: success, fail: ->
+        tryAgainService event, "title-wrong-" + wrong, success: (-> circular event, extend), cancel: handle.cancel
 
       showDialogService event, dialog, {}, handle, extend
 

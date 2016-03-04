@@ -2,53 +2,45 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
     
     stop = $rootScope.$on "$stateChangeStart", (event, going) ->
 
-      notRestricted = ["/about", "/technologies", "/contacts"]
-
-      stop()
+      notRestricted = ["/about", "/technologies", "/contacts", "/notfound"]
+      
+      admin = no
+      
+      goTo = no
       
       force = (state) -> $state.go state.name, {}, reload: yes
       
-      $mdDialog.show
-            templateUrl: "loadingView"
-            fullscreen: yes
-            hasBackdrop: no
-            escapeToClose: no
-            
-      stopLoading = $rootScope.$on "cancel-loading", ->
-        $mdDialog.hide()
-        stopLoading()
-
-      if going.url not in notRestricted then event.preventDefault()
-
-      authenticationService.authenticate().then ->
+      login = (state, close) -> loginService {}, login: (-> $timeout (-> if not admin then force state), 1), close: close, cancel: close
       
-        admin = no
-
-        tryBecomeAdmin = ->
+      tryBecomeAdmin = ->
           admin = authenticationService.isAdmin()
           if admin then transitionService.toAdmin()
           else notificationService.reListenForNotification()
+      
+      stop()
 
-        goTo = no
+      if going.url not in notRestricted then event.preventDefault()
+      else
+        $mdDialog.show templateUrl: "loadingView", fullscreen: yes, hasBackdrop: no, escapeToClose: no
+            
+        stopLoading = $rootScope.$on "cancel-loading", ->
+            $mdDialog.hide()
+            stopLoading()
+
+      authenticationService.authenticate().then ->
                 
         if authenticationService.isAuthenticated()
             tryBecomeAdmin()
             if not admin then goTo = yes
-        else if event.defaultPrevented then loginService {},
-            login: -> $timeout (-> if not admin then force going), 1
-            close: transitionService.toHome
+        else if event.defaultPrevented then login going, transitionService.toHome
 
         stopAuth = $rootScope.$on "authentication", tryBecomeAdmin
 
         stopRestriction = $rootScope.$on "$stateChangeStart", (evnt, toState, toParams, fromState, fromParams) ->
 
           if not authenticationService.isAuthenticated() and toState.url not in notRestricted
-
             evnt.preventDefault()
-
-            loginService {},
-              login: -> $timeout (-> if not admin then force toState), 1
-              close: -> force fromState
+            login toState, -> force fromState
 
         if goTo then force going
 
