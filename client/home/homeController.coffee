@@ -1,6 +1,8 @@
-controller = ($scope, authenticationService) ->
+controller = ($scope, $state, authenticationService) ->
 
   ctrl = @
+  
+  ctrl.notFound = $state.current.url is "/notfound"
 
   init = ->
   
@@ -20,6 +22,6 @@ controller = ($scope, authenticationService) ->
 
   ctrl
 
-controller.$inject = ["$scope", "authenticationService"]
+controller.$inject = ["$scope", "$state", "authenticationService"]
 
 module.exports = controller

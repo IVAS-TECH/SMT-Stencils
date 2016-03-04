@@ -10,6 +10,7 @@ config = ($stateProvider, $urlRouterProvider, translateProvider) ->
     .state "home.about", url: "/about", template: "A"
     .state "home.technologies", url: "/technologies", template: "T"
     .state "home.contacts", url: "/contacts", template: "C"
+    .state "home.notfound", url: "/notfound", template: "Not Found"
 
   $urlRouterProvider.otherwise "/about"
 

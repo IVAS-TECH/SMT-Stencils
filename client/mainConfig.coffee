@@ -1,6 +1,6 @@
 requests = require "./requests"
 
-config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider, errorHandleServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider, $locationProvider, $stateProvider) ->
+config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider, errorHandleServiceProvider, notificationServiceProvider, $mdThemingProvider, $compileProvider, $locationProvider) ->
 
   RESTServiceProvider.setBase "api"
 
@@ -9,8 +9,6 @@ config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider,
   RESTHelperServiceProvider.setRequets requests
 
   errorHandleServiceProvider.setResource "response-error"
-
-  $stateProvider.state "notfound", url: "/notfound", template: "Not Found"
 
   notificationServiceProvider.setState "home.orders"
 
@@ -22,6 +20,6 @@ config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider,
     .theme "default"
     .accentPalette "deep-purple"
 
-config.$inject = ["RESTServiceProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "errorHandleServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider", "$stateProvider"]
+config.$inject = ["RESTServiceProvider", "uploadServiceProvider", "RESTHelperServiceProvider", "errorHandleServiceProvider", "notificationServiceProvider", "$mdThemingProvider", "$compileProvider", "$locationProvider"]
 
 module.exports = config
