@@ -7,10 +7,10 @@ md-tab
         md-tab-label
           span(translate="{{'label-' + chart}}")
         md-tab-body
-          ivo-bar-chart(chart="scopeCtrl.charts[chart]")
+          ivst-bar-chart(chart="scopeCtrl.charts[chart]")
 md-tab(ng-click="scopeCtrl.editProfile()")
   md-tab-label
     span(translate="label-admin")
   md-tab-body
-    ivo-state-switcher(state="home.admin" menu="admin")
+    ivst-state-switcher(state="home.admin" menu="admin")
     ui-view(layout="column" layout-wrap layout-padding layout-margin)

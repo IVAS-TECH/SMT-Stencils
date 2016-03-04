@@ -45,7 +45,7 @@ describe "addressesInterface", ->
         postcode: "1000"
         address1: "St. 1"
         address2: "St. 2"
-        firstname: "Ivo"
+        firstname: "ivst"
         lastname: "Stratev"
 
       addressesInterface.fill "firm", "delivery"

@@ -2,6 +2,6 @@
 moduleName = "orderText"
 
 angular.module moduleName, [require "./textField/textFieldModule"]
-  .directive "ivoOrderText", require "./orderTextDirective"
+  .directive "ivstOrderText", require "./orderTextDirective"
 
 module.exports = moduleName

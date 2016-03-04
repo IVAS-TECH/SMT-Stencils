@@ -3,6 +3,6 @@ moduleName = "stateSwitcherModule"
 
 angular.module moduleName, []
   .controller "stateSwitcherController", require "./stateSwitcherController"
-  .directive "ivoStateSwitcher", require "./stateSwitcherDirective"
+  .directive "ivstStateSwitcher", require "./stateSwitcherDirective"
 
 module.exports = moduleName

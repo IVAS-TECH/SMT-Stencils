@@ -2,6 +2,6 @@
 moduleName = "finalizateModule"
 
 angular.module moduleName, []
-  .directive "ivoViewOrder", require "./viewOrder/viewOrderDirective"
+  .directive "ivstViewOrder", require "./viewOrder/viewOrderDirective"
 
 module.exports = moduleName

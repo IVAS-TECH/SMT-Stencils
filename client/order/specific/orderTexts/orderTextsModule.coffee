@@ -2,6 +2,6 @@
 moduleName = "orderTexts"
 
 angular.module moduleName, [require "./orderText/orderTextModule"]
-  .directive "ivoOrderTexts", require "./orderTextsDirective"
+  .directive "ivstOrderTexts", require "./orderTextsDirective"
 
 module.exports = moduleName

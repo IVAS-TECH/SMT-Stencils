@@ -3,6 +3,6 @@ moduleName = "textField"
 
 angular.module moduleName, []
   .controller "textFieldController", require "./textFieldController"
-  .directive "ivoTextField", require "./textFieldDirective"
+  .directive "ivstTextField", require "./textFieldDirective"
 
 module.exports = moduleName

@@ -16,7 +16,7 @@ angular.module moduleName, dependencies
   .controller "tryAgainController", noController
   .controller "simpleDialogController", noController
   .controller "userController", require "./userController"
-  .directive "ivoUser", require "./userDirective"
+  .directive "ivstUser", require "./userDirective"
   .config require "./userConfig"
 
 module.exports = moduleName

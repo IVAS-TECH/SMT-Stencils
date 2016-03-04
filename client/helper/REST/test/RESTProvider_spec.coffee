@@ -40,7 +40,7 @@ describe "RESTProvider", ->
         headers: headers
         on: (event, callback) ->
           if event is "data"
-            callback "{\"ivo\""
+            callback "{\"ivst\""
             callback ": 9}"
           if event is "end" then callback()
         statusCode: 200
@@ -73,7 +73,7 @@ describe "RESTProvider", ->
 
         expect(data.status).toEqual 200
 
-        expect(data.data).toEqual ivo: 9
+        expect(data.data).toEqual ivst: 9
 
         expect(data.headers).toEqual headers
 
@@ -95,7 +95,7 @@ describe "RESTProvider", ->
 
     it "makes post request and sends object as body", (done) ->
 
-      resource.make("POST", ivo: 9).then (data) ->
+      resource.make("POST", ivst: 9).then (data) ->
 
         expect(request).toHaveBeenCalledWith
           path: "api/test"
@@ -107,7 +107,7 @@ describe "RESTProvider", ->
 
         expect(req.setHeader).toHaveBeenCalledWith "Content-Length", 9
 
-        expect(req.write).toHaveBeenCalledWith "{\"ivo\":9}"
+        expect(req.write).toHaveBeenCalledWith "{\"ivst\":9}"
 
         done()
 

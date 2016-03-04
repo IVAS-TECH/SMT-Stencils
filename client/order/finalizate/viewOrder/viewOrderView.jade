@@ -1,16 +1,16 @@
 div(layout="column" layout-align="space-between strech" layout-margin layout-wrap)
-  ivo-order-preview(order="order", controller="controller")
+  ivst-order-preview(order="order", controller="controller")
   md-divider
-  ivo-price-field(field="'total'" price="order.price")
+  ivst-price-field(field="'total'" price="order.price")
   md-divider
-  ivo-files(order="order" remove="false")
+  ivst-files(order="order" remove="false")
   md-divider
-  ivo-order-texts(order="order")
+  ivst-order-texts(order="order")
   md-divider
-  ivo-config-info(controller="controller" disabled="true")
+  ivst-config-info(controller="controller" disabled="true")
   md-divider
-  ivo-order-specific(specific="order.specific" disabled="true")
+  ivst-order-specific(specific="order.specific" disabled="true")
   md-divider
   div(ng-repeat="address in ['delivery', 'invoice', 'firm']")
-    ivo-address(disabled="true" address="order.addressesObject[address]" name="{{address}}")
+    ivst-address(disabled="true" address="order.addressesObject[address]" name="{{address}}")
     md-divider

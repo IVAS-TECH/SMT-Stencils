@@ -3,6 +3,6 @@ moduleName = "fileContainer"
 
 angular.module moduleName, []
   .controller "fileContainerController", require "./fileContainerController"
-  .directive "ivoFileContainer", require "./fileContainerDirective"
+  .directive "ivstFileContainer", require "./fileContainerDirective"
 
 module.exports = moduleName

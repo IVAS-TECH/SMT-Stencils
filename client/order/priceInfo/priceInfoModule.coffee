@@ -2,7 +2,7 @@
 moduleName = "priceInfoModule"
 
 angular.module moduleName, []
-  .directive "ivoPriceField", require "./priceField/priceFieldDirective"
-  .directive "ivoPriceInfo", require "./priceInfoDirective"
+  .directive "ivstPriceField", require "./priceField/priceFieldDirective"
+  .directive "ivstPriceInfo", require "./priceInfoDirective"
 
 module.exports = moduleName
