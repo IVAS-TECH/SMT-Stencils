@@ -1,45 +1,39 @@
 service = ($rootScope, $q, $translate, RESTHelperService) ->
 
-  _authenticated = no
-  _user = null
-  _session = yes
-  _admin = null
+  state = {}
+
+  reset = -> state = auth: no, user: null, session: yes, admin: 0
+    
+  reset()
 
   authenticate: (authentication) ->
 
     broadcast = (auth) ->
-      _authenticated = yes
-      _user = auth.user
-      _session = auth.session ? yes
-      _admin = auth.user.admin
+      state = auth: yes, user: auth.user, session: auth.session ? yes, admin: auth.user.admin
       $translate.use auth.user.language
       $rootScope.$broadcast "authentication"
 
     if authentication? then broadcast authentication
-    else
-      $q (resolve, reject) ->
-        RESTHelperService.login.logged (res) ->
-          if res.login then broadcast res
-          resolve()
+    else $q (resolve, reject) ->
+      RESTHelperService.login.logged (res) ->
+        if res.login then broadcast res
+        resolve()
 
   unauthenticate: (callback) ->
     RESTHelperService.login.logout ->
-      _authenticated = no
-      _user = null
-      _session = yes
-      _admin = null
+      reset()
       $rootScope.$broadcast "unauthentication"
       if callback? then callback()
 
-  getUser: -> _user
+  getUser: -> state.user
 
-  getAdminAccess: -> _admin
+  getAdminAccess: -> state.admin
 
-  isAuthenticated: -> _authenticated
+  isAuthenticated: -> state.auth
 
-  isSession: -> _session
+  isSession: -> state.session
 
-  isAdmin: -> _admin > 0
+  isAdmin: -> state.admin > 0
 
 service.$inject = ["$rootScope", "$q", "$translate", "RESTHelperService"]
 
