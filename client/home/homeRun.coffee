@@ -15,17 +15,16 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
       tryBecomeAdmin = ->
           admin = authenticationService.isAdmin()
           if admin then transitionService.toAdmin()
-          else notificationService.reListenForNotification()
+          else notificationService.listenForNotification()
       
       stop()
 
-      if going.url not in notRestricted then event.preventDefault()
-      else
+      if going.url not in notRestricted
+        event.preventDefault()
         $mdDialog.show templateUrl: "loadingView", fullscreen: yes, hasBackdrop: no, escapeToClose: no
-            
         stopLoading = $rootScope.$on "cancel-loading", ->
-            $mdDialog.hide()
-            stopLoading()
+          $mdDialog.hide()
+          stopLoading()
 
       authenticationService.authenticate().then ->
                 
@@ -40,11 +39,9 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
 
           if not authenticationService.isAuthenticated() and toState.url not in notRestricted
             evnt.preventDefault()
-            login toState, -> force fromState
+            login toState
 
         if goTo then force going
-
-        notificationService.listenForNotification()
 
         $rootScope.$on "$destroy", ->
           stopRestriction()

@@ -19,16 +19,10 @@ provider = ->
             showNotificationService {}, {}, success: if $state.current.name is _state then -> $rootScope.$broadcast "notification" else -> $state.go _state
 
     listenForNotification: ->
-
       $timeout @notify, 10
-
       listening = $interval @notify, 60000
 
-    stopListen: -> $interval.cancel listening
-
-    reListenForNotification: ->
-      @stopListen()
-      @listenForNotification()
+    stopListen: -> if listening? then $interval.cancel listening
 
   service.$inject = ["$state", "$rootScope", "$timeout", "$interval", "RESTHelperService", "authenticationService", "showNotificationService"]
 
