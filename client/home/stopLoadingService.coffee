@@ -1,15 +1,13 @@
-service = ($rootScope, $state, $location) ->
+service = ($rootScope, $state) ->
 
   running = yes
 
   stop = ->
     running = no
     $rootScope.$broadcast "cancel-loading"
-    
-  check = -> ($state.current.name.match $location.path().replace "/", "")?
 
-  -> if running and check() then stop()
+  (state) -> if running and ($state.current.name.match state)? then stop()
 
-service.$inject = ["$rootScope", "$state", "$location"]
+service.$inject = ["$rootScope", "$state"]
 
 module.exports = service

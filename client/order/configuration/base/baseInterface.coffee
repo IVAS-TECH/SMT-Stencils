@@ -20,8 +20,7 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
   ctrl.getObjects = ->
     list = ctrl.link + ctrl.common[1]
-    RESTHelperService[ctrl.link].find (res) ->
-        ctrl[list] = res[list]
+    RESTHelperService[ctrl.link].find (res) -> ctrl[list] = res[list]
 
   ctrl.reset = ->
     ctrl[ctrl.link + ctrl.common[4]] = no
@@ -42,8 +41,7 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
   ctrl.isValid = (event, resolve, reject) ->
     validForm = (ctrl.valid.every (e) -> e is yes)
-    if validForm and ctrl[ctrl.link + ctrl.common[0]].name
-      resolve()
+    if validForm and ctrl[ctrl.link + ctrl.common[0]].name then resolve()
     else
       reject()
       simpleDialogService event, "required-fields"
@@ -72,8 +70,7 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
     progress = progressService $scope, "orderCtrl", ctrl.controller, excludeProperties, properties
 
     ctrl.restore = ->
-      if not $scope.$parent.orderCtrl[ctrl.link + ctrl.common[0]]?
-        ctrl.getObjects()
+      if not $scope.$parent.orderCtrl[ctrl.link + ctrl.common[0]]? then ctrl.getObjects()
       else
         stop = $scope.$on "update-view", ->
           ctrl.choose()
@@ -108,10 +105,8 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
     ctrl.doAction = (event) ->
       action = ctrl[ctrl.link + ctrl.common[3]]
-      if action is "create"
-        ctrl.save event
-      if action is "edit"
-        ctrl.update event
+      if action is "create" then ctrl.save event
+      if action is "edit" then ctrl.update event
 
   ctrl
 

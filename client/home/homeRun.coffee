@@ -14,13 +14,8 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
             hasBackdrop: no
             escapeToClose: no
             
-      stopLoading = $rootScope.$on "$stateChangeSuccess", (e, transition) ->
-        
-        if transition.name is "home.orders" or transition.name is "home.admin"
-            stopWaitingLoading = $rootScope.$on "cancel-loading", $mdDialog.hide
-            $rootScope.$on "$destroy", stopWaitingLoading
-        else $mdDialog.hide()
-            
+      stopLoading = $rootScope.$on "cancel-loading", ->
+        $mdDialog.hide()
         stopLoading()
 
       if going.url not in notRestricted then event.preventDefault()

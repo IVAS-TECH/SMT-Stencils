@@ -1,4 +1,4 @@
-controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService) ->
+controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, progressService, confirmService, stopLoadingService) ->
 
   ctrl = $controller "baseInterface",
     "$scope": $scope
@@ -15,6 +15,9 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
   ctrl.btnBack = yes
 
   listen = ->
+  
+    stopLoadingService "addresses"
+    
     stop = $scope.$on "address-validity", (event, wich, value) ->
       index = -1
       switch wich
@@ -22,6 +25,7 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
         when "invoice" then index = 1
         when "firm" then index = 2
       ctrl.valid[index] = value
+      
     $scope.$on "$destroy", stop
 
   ctrl.fill = (src, dst) ->
@@ -41,6 +45,6 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
 
   ctrl
 
-controller.$inject = ["$controller", "$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService"]
+controller.$inject = ["$controller", "$scope", "$q", "RESTHelperService", "simpleDialogService", "progressService", "confirmService", "stopLoadingService"]
 
 module.exports = controller

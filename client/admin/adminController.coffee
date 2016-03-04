@@ -19,7 +19,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
 
       ctrl.listOfVisits = res.visits
 
-      stopLoadingService()
+      stopLoadingService "admin"
 
       stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
 
