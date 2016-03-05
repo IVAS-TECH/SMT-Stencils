@@ -1,13 +1,11 @@
 provider = ->
 
   fromState = ""
-  
-  excluded = []
 
   service = ($state, statesForStateService) ->
     separator = "."
     parent = $state.get fromState
-    move = statesForStateService fromState, excluded
+    move = statesForStateService fromState
 
     (scope, current, exclude = [], awaiting = []) ->
       state = $state.current.name.replace fromState + separator, ""
@@ -33,8 +31,6 @@ provider = ->
   service.$inject = ["$state", "statesForStateService"]
 
   setState: (state) -> fromState = state
-  
-  setExclude: (exclude) -> excluded = exclude
 
   $get: service
 
