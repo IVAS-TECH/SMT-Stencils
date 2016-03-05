@@ -1,8 +1,8 @@
-controller = ($state, RESTHelperService, simpleDialogService, orderPriceCalculatorService) ->
+controller = (progressService, RESTHelperService, simpleDialogService, orderPriceCalculatorService) ->
 
   ctrl = @
 
-  ctrl.back = -> $state.go "home.order.price"
+  ctrl.back = -> progressService() no
 
   ctrl.calculatePrice = ->
     ctrl.order = {}
@@ -19,6 +19,6 @@ controller = ($state, RESTHelperService, simpleDialogService, orderPriceCalculat
 
   ctrl
 
-controller.$inject = ["$state", "RESTHelperService", "simpleDialogService", "orderPriceCalculatorService"]
+controller.$inject = ["progressService", "RESTHelperService", "simpleDialogService", "orderPriceCalculatorService"]
 
 module.exports = controller

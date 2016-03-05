@@ -13,7 +13,7 @@ provider = ->
       state = $state.current.name.replace fromState + separator, ""
       currentScope = parentScope = properties = null
 
-      restored = scope.$watch current, (controller) ->
+      if scope? then restored = scope.$watch current, (controller) ->
         currentScope = scope[current]
         parentScope = scope.$parent[(parent.controller.split " as ")[1]]
 
@@ -27,7 +27,7 @@ provider = ->
         restored()
 
       (progress) ->
-        parentScope[property] = currentScope[property] for property in properties
+        if scope? then parentScope[property] = currentScope[property] for property in properties
         $state.go fromState + separator + move[(move.indexOf state) + if progress then 1 else -1]
 
   service.$inject = ["$state", "statesForStateService"]

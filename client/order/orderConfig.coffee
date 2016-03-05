@@ -6,8 +6,6 @@ config = ($stateProvider, translateProvider, progressServiceProvider) ->
   translateProvider.add en, bg
 
   progressServiceProvider.setState "home.order"
-  
-  progressServiceProvider.setExclude ["finalizate"]
 
   $stateProvider
     .state "home.order",

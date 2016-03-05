@@ -1,9 +1,12 @@
-directive = (scopeControllerService, $state, $interval) ->
+directive = (scopeControllerService, $interval, progressService) ->
 
   templateUrl: "priceInfoView"
   scope: controller: "@"
   link: (scope) ->
+  
     scopeControllerService scope
+    
+    progress = progressService()
 
     init = ->
       scope.scopeCtrl.calculatePrice()
@@ -31,12 +34,12 @@ directive = (scopeControllerService, $state, $interval) ->
         ), 500
       return
 
-    scope.next = -> $state.go "home.order.finalizate"
+    scope.next = -> progress yes
 
-    scope.back = -> $state.go "home.order.addresses"
+    scope.back = -> progress no
 
     init()
 
-directive.$inject = ["scopeControllerService", "$state", "$interval"]
+directive.$inject = ["scopeControllerService", "$interval", "progressService"]
 
 module.exports = directive
