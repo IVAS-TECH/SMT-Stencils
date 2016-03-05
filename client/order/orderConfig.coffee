@@ -7,9 +7,7 @@ config = ($stateProvider, translateProvider, progressServiceProvider) ->
 
   progressServiceProvider.setState "home.order"
   
-  progressServiceProvider.setParent "orderCtrl"
-
-  progressServiceProvider.setMove ["configuration", "specific", "addresses", "price"]
+  progressServiceProvider.setExclude ["finalizate"]
 
   $stateProvider
     .state "home.order",
