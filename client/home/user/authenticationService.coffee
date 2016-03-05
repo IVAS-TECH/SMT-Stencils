@@ -20,10 +20,12 @@ service = ($rootScope, $q, $translate, RESTHelperService) ->
         resolve()
 
   unauthenticate: (callback) ->
-    RESTHelperService.login.logout ->
+    callCallback = -> if callback? then callback()
+    if state.auth then RESTHelperService.login.logout ->
       reset()
       $rootScope.$broadcast "unauthentication"
-      if callback? then callback()
+      callCallback()
+    else callCallback()
 
   getUser: -> state.user
 
