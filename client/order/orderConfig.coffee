@@ -6,6 +6,8 @@ config = ($stateProvider, translateProvider, progressServiceProvider) ->
   translateProvider.add en, bg
 
   progressServiceProvider.setState "home.order"
+  
+  progressServiceProvider.setParent "orderCtrl"
 
   progressServiceProvider.setMove ["configuration", "specific", "addresses", "price"]
 

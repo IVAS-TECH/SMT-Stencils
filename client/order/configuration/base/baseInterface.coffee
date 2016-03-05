@@ -67,7 +67,7 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
     excludeProperties.push excld for excld in exclude
 
-    progress = progressService $scope, "orderCtrl", ctrl.controller, excludeProperties, properties
+    progress = progressService $scope, ctrl.controller, excludeProperties, properties
 
     ctrl.restore = ->
       if not $scope.$parent.orderCtrl[ctrl.link + ctrl.common[0]]? then ctrl.getObjects()

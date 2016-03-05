@@ -7,7 +7,7 @@ controller = ($scope, progressService, simpleDialogService) ->
   ctrl.specific = {}
   ctrl.apertures = {}
 
-  progress = progressService $scope, "orderCtrl", "specificCtrl"
+  progress = progressService $scope, "specificCtrl"
 
   ctrl.ifInvalid = ->
     if ctrl.invalid then simpleDialogService {}, "title-add-paste-layer"
