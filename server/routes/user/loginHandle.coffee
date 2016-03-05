@@ -10,15 +10,14 @@ module.exports =
 
   get: [
     (req, res, next) ->
-      if not req.user?
-        req.send = login: no
-        next()
-      else
+      req.send = login: req.user?
+      if req.send.login
         (userModel.findById req.user.user._id).exec()
           .then (doc) ->
-            req.send = login: yes, user: doc
+            req.send.user = doc
             next()
           .catch next
+      else next()
 
     (req, res, next) ->
       find = date: date.format(), ip: if req.userIP? then req.userIP else req.user.ip
@@ -36,10 +35,9 @@ module.exports =
 
     session.set
 
-    (req, res, next) ->
+    (req, res) ->
       login = req.user?
-      if login then user = req.user.user else null
-      query res, login: login, user: user
+      query res, login: login, user: if login then req.user.user else req.user
   ]
 
   delete: session.remove

@@ -1,4 +1,4 @@
-separator = "\/"
+separator = "/"
 
 module.exports =
 
@@ -17,9 +17,7 @@ module.exports =
 
   formater: ->
     (date) ->
-      info = new Date()
-      if date?
-        info = new Date date
+      info = if date? then new Date date else new Date()
       [info.getDate(), info.getMonth() + 1, info.getFullYear()].join separator
 
   parser: ->

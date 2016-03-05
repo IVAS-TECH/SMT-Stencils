@@ -2,11 +2,10 @@ sessionMiddleware = require "./../lib/session/sessionMiddleware"
 restrictMiddleware = require "./restrictMiddleware"
 logErrorHandle = require "./logErrorHandle"
 {join} = require "path"
-session = sessionMiddleware()
 log = (file) -> join __dirname, "../#{file}.log"
 
 module.exports =
-  beforeEach: [session.get, restrictMiddleware]
+  beforeEach: [sessionMiddleware().get, restrictMiddleware]
   user: require "./user/userHandle"
   login: require "./user/loginHandle"
   template: require "./templateHandle"
