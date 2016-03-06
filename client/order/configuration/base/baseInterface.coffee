@@ -3,108 +3,87 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
   ctrl = @
 
   ctrl.link = link
-
   ctrl.settings = settings
-
   ctrl.template = link + "PanelView"
-
   ctrl.controller = "baseCtrl"
-
   ctrl.valid = []
-
-  ctrl.common = ["Object", "List", "Index", "Action", "Disabled"]
-
-  ctrl[ctrl.link + ctrl.common[0]] = {}
-
+  ctrl[link + "Object"] = {}
+  
   ctrl.change = ->
 
   ctrl.getObjects = ->
-    list = ctrl.link + ctrl.common[1]
-    RESTHelperService[ctrl.link].find (res) -> ctrl[list] = res[list]
+    field = link + "List"
+    RESTHelperService[link].find (res) -> ctrl[field] = res[field]
 
   ctrl.reset = ->
-    ctrl[ctrl.link + ctrl.common[4]] = no
-    ctrl[ctrl.link + ctrl.common[3]] = "create"
-    delete ctrl[ctrl.link + ctrl.common[2]]
-    ctrl[ctrl.link + ctrl.common[0]] = {}
+    ctrl[link + "Disabled"] = no
+    ctrl[link + "Action"] = "create" 
+    delete ctrl[link + "Index"]
+    ctrl[link + "Object"] = {}
     ctrl.change()
 
   ctrl.preview = ->
-    ctrl[ctrl.link + ctrl.common[4]] = yes
-    ctrl[ctrl.link + ctrl.common[3]] = "preview"
+    ctrl[link + "Disabled"] = yes
+    ctrl[link + "Action"] = "preview"
 
   ctrl.choose = ->
     ctrl.preview()
-    index = ctrl[ctrl.link + ctrl.common[2]]
-    ctrl[ctrl.link + ctrl.common[0]] = ctrl[ctrl.link + ctrl.common[1]][index]
+    ctrl[link + "Object"] = ctrl[link + "List"][ctrl[link + "Index"]]
     ctrl.change()
 
   ctrl.isValid = (event, resolve, reject) ->
     validForm = (ctrl.valid.every (e) -> e is yes)
-    if validForm and ctrl[ctrl.link + ctrl.common[0]].name then resolve()
+    if validForm and ctrl[link + "Object"].name then resolve()
     else
-      reject()
+      if reject? then reject()
       simpleDialogService event, "required-fields"
 
   ctrl.save = (event) ->
     $q (resolve, reject) ->
       create = ->
-        save = ctrl[ctrl.link + ctrl.common[0]]
-        RESTHelperService[ctrl.link].create "#{ctrl.link}": save, (res) ->
-          index = ctrl[ctrl.link + ctrl.common[1]].length
-          ctrl[ctrl.link + ctrl.common[1]].push save
-          ctrl[ctrl.link + ctrl.common[2]] = index
+        RESTHelperService[link].create "#{link}": ctrl[link + "Object"], (res) ->
+          ctrl[link + "Index"] = ctrl[link + "List"].length
+          ctrl[link + "List"].push res 
           resolve()
       ctrl.isValid event, create, reject
 
   if not ctrl.settings
-
-    properties = (ctrl.link + prop for prop in ctrl.common)
-
+    properties = (link + prop for prop in ["Object", "List", "Index", "Action", "Disabled"])
     properties.push awaitProperty for awaitProperty in awaiting
-
     excludeProperties = ["link", "template", "valid", "btnBack", "settings", "common", "controller"]
-
     excludeProperties.push excld for excld in exclude
-
     progress = progressService $scope, ctrl.controller, excludeProperties, properties
 
     ctrl.restore = ->
-      if not $scope.$parent.orderCtrl[ctrl.link + ctrl.common[0]]? then ctrl.getObjects()
-      else
-        stop = $scope.$on "update-view", ->
-          ctrl.choose()
-          stop()
+      if not $scope.$parent.orderCtrl[link + "Object"]? then ctrl.getObjects()
+      else stop = $scope.$on "update-view", ->
+        ctrl.choose()
+        stop()
 
     ctrl.next = (event) ->
-      if ctrl.saveIt and ctrl[ctrl.link + ctrl.common[3]] is "create"
-        ctrl.save(event).then progress.next
+      if ctrl.saveIt and ctrl[link + "Action"] is "create" then (ctrl.save event).then progress.next
       else progress.next()
 
     ctrl.back = progress.back
 
   else
-
     ctrl.edit = ->
-      ctrl[ctrl.link + ctrl.common[4]] = no
-      ctrl[ctrl.link + ctrl.common[3]] = "edit"
+      ctrl[link + "Disabled"] = no
+      ctrl[link + "Action"] = "edit"
 
     ctrl.delete = (event) ->
       confirmService event, success: ->
-        id = ctrl[ctrl.link + ctrl.common[0]]._id
-        RESTHelperService[ctrl.link].remove id, (res) ->
-          ctrl[ctrl.link + ctrl.common[1]]
-            .splice  ctrl[ctrl.link + ctrl.common[2]], 1
+        RESTHelperService[link].remove ctrl[link + "Object"]._id, (res) ->
+          ctrl[link + "List"].splice ctrl[link + "Index"], 1
           ctrl.reset()
 
     ctrl.update = (event) ->
       ctrl.isValid event, ->
         confirmService event, success: ->
-          update = ctrl[ctrl.link + ctrl.common[0]]
-          RESTHelperService[ctrl.link].update "#{ctrl.link}": update, (res) -> ctrl.preview()
+          RESTHelperService[link].update "#{link}": ctrl[link + "Object"], (res) -> ctrl.preview()
 
     ctrl.doAction = (event) ->
-      action = ctrl[ctrl.link + ctrl.common[3]]
+      action = ctrl[link + "Action"]
       if action is "create" then ctrl.save event
       if action is "edit" then ctrl.update event
 

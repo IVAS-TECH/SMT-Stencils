@@ -29,7 +29,7 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
     $scope.$on "$destroy", stop
 
   ctrl.fill = (src, dst) ->
-    info = [
+    ctrl.addressesObject[src][key] =  ctrl.addressesObject[dst][key] for key in [
       "country"
       "city"
       "postcode"
@@ -38,8 +38,6 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
       "firstname"
       "lastname"
     ]
-    for key in info
-      ctrl.addressesObject[src][key] =  ctrl.addressesObject[dst][key]
 
   listen()
 

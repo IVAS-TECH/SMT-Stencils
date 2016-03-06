@@ -4,24 +4,24 @@ div(layout="column" layout-align="center center" layout-wrap)
     div(layout="row" layout-align="center center" layout-wrap)
       md-input-container(flex="auto")
         label(translate="label-choose")
-        md-select(ng-model="baseCtrl[baseCtrl.link + baseCtrl.common[2]]" ng-change="baseCtrl.choose()")
-          md-option(ng-repeat="object in baseCtrl[baseCtrl.link + baseCtrl.common[1]]" ng-value="$index") {{object.name}}
+        md-select(ng-model="baseCtrl[baseCtrl.link + 'Index']" ng-change="baseCtrl.choose()")
+          md-option(ng-repeat="object in baseCtrl[baseCtrl.link + 'List']" ng-value="$index") {{object.name}}
       div(ng-if="baseCtrl.settings" layout="row" layout-align="center center")
         md-button(ng-click="baseCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="baseCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")
-  div(ng-if="baseCtrl[baseCtrl.link + baseCtrl.common[3]]" layout="column" layout-align="center stretch" layout-wrap)
+  div(ng-if="baseCtrl[baseCtrl.link + 'Action']" layout="column" layout-align="center stretch" layout-wrap)
     ivst-include(include="baseCtrl.template" template="true" controller="baseCtrl.controller")
     div(layout="column" layout-wrap flex="auto")
       md-button(
-        ng-if="baseCtrl.settings && baseCtrl[baseCtrl.link + baseCtrl.common[3]] !== 'preview'"
+        ng-if="baseCtrl.settings && baseCtrl[baseCtrl.link + 'Action'] !== 'preview'"
         ng-click="baseCtrl.doAction($event)"
         class="md-primary"
-        aria-label="{{baseCtrl[baseCtrl.link + baseCtrl.common[3]]}}"
-        translate="{{baseCtrl[baseCtrl.link + baseCtrl.common[3]]}}"
+        aria-label="{{baseCtrl[baseCtrl.link + 'Action']}}"
+        translate="{{baseCtrl[baseCtrl.link + 'Action']}}"
       )
-      div(ng-if="!baseCtrl.settings" layout="column" layout-wrap)
+      div(layout="column" layout-wrap)
         md-checkbox(
-          ng-if="baseCtrl[baseCtrl.link + baseCtrl.common[3]] === 'create'"
+          ng-if="baseCtrl[baseCtrl.link + 'Action'] === 'create'"
           ng-model="baseCtrl.saveIt"
           ng-init="baseCtrl.saveIt=true"
           class="md-primary"
@@ -30,11 +30,8 @@ div(layout="column" layout-align="center center" layout-wrap)
           p(translate="checkbox-save-configuration")
         md-input-container(flex="auto")
           label(translate="{{'label-' + baseCtrl.link + '-name'}}")
-          input(
-            ng-model="baseCtrl[baseCtrl.link + baseCtrl.common[0]].name"
-            ng-disabled="baseCtrl[baseCtrl.link + baseCtrl.common[4]]"
-          )
-        div(layout="row" layout-align="center center" layout-wrap)
+          input(ng-model="baseCtrl[baseCtrl.link + 'Object'].name" ng-disabled="baseCtrl[baseCtrl.link + 'Disabled']")
+        div(ng-if="!baseCtrl.settings" layout="row" layout-align="center center" layout-wrap)
           md-button(
             ng-disabled="!baseCtrl.btnBack"
             ng-click="baseCtrl.back()"
