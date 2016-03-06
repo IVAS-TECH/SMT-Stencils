@@ -7,11 +7,10 @@ directive = (scopeControllerService) ->
     view: "="
     controller: "="
   link: (scope) ->
-
+  
     scopeControllerService scope
 
-    if typeof scope.text is "string"
-      scope.text = [scope.text]
+    if typeof scope.text is "string" then scope.text = [scope.text]
 
 
 directive.$inject = ["scopeControllerService"]

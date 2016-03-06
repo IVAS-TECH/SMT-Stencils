@@ -32,11 +32,10 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
     ctrl.change()
 
   ctrl.isValid = (event, resolve, reject) ->
-    validForm = (ctrl.valid.every (e) -> e is yes)
-    if validForm and ctrl[link + "Object"].name then resolve()
-    else
-      if reject? then reject()
-      simpleDialogService event, "required-fields"
+    tryToCall = (fns) -> (if fn? then fn()) for fn in fns
+    checkValid = -> ctrl.valid.length and (ctrl.valid.every (e) -> e is yes)
+    if checkValid() and ctrl[link + "Object"].name then tryToCall [resolve]
+    else tryToCall [reject, -> simpleDialogService event, "required-fields"]
 
   ctrl.save = (event) ->
     $q (resolve, reject) ->
