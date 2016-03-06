@@ -2,7 +2,7 @@ controller = (progressService, RESTHelperService, simpleDialogService, orderPric
 
   ctrl = @
 
-  ctrl.back = -> progressService() no
+  ctrl.back = -> (progressService()).back()
 
   ctrl.calculatePrice = ->
     ctrl.order = {}

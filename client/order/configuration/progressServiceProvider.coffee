@@ -1,14 +1,14 @@
 provider = ->
 
-  fromState = ""
+  parentState = ""
 
   service = ($state, statesForStateService) ->
     separator = "."
-    parent = $state.get fromState
-    move = statesForStateService fromState
+    parent = $state.get parentState
+    move = statesForStateService parentState
 
     (scope, current, exclude = [], awaiting = []) ->
-      state = $state.current.name.replace fromState + separator, ""
+      state = $state.current.name.replace parentState + separator, ""
       currentScope = parentScope = properties = null
 
       if scope? then restored = scope.$watch current, (controller) ->
@@ -24,13 +24,17 @@ provider = ->
           scope.$emit "update-view"
         restored()
 
-      (progress) ->
+      progress = (forward) ->
         if scope? then parentScope[property] = currentScope[property] for property in properties
-        $state.go fromState + separator + move[(move.indexOf state) + if progress then 1 else -1]
+        $state.go parentState + separator + move[(move.indexOf state) + if forward then 1 else -1]
+        
+      next: -> progress yes
+      
+      back: -> progress no
 
   service.$inject = ["$state", "statesForStateService"]
 
-  setState: (state) -> fromState = state
+  setState: (state) -> parentState = state
 
   $get: service
 

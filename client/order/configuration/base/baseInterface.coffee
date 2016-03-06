@@ -78,10 +78,10 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
     ctrl.next = (event) ->
       if ctrl.saveIt and ctrl[ctrl.link + ctrl.common[3]] is "create"
-        ctrl.save(event).then -> progress yes
-      else progress yes
+        ctrl.save(event).then progress.next
+      else progress.next()
 
-    ctrl.back = -> progress no
+    ctrl.back = progress.back
 
   else
 

@@ -31,12 +31,12 @@ directive = (scopeControllerService, $interval, progressService) ->
             if checked then scope.price[price] = checked
           scope.scopeCtrl.price = scope.scopeCtrl.order.price.total
         else scope.price[price] = (parseFloat update[price] * count).toFixed 2 for price in prices
-        ), 500
+        ), 400
       return
 
-    scope.next = -> progress yes
+    scope.next = progress.next
 
-    scope.back = -> progress no
+    scope.back = progress.back
 
     init()
 
