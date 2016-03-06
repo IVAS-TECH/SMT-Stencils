@@ -16,7 +16,7 @@ provider = ->
         parentScope = scope.$parent[(parent.controller.split " as ")[1]]
 
         properties = (Object.keys currentScope).filter (property) ->
-          property isnt "$inject" and typeof currentScope[property] isnt "function" and property not in exclude
+          typeof currentScope[property] isnt "function" and property not in exclude
         properties.push deferred for deferred in awaiting
 
         if parentScope[properties[0]]?

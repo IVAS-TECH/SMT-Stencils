@@ -6,19 +6,16 @@ directive = ($compile, $templateCache, scopeControllerService) ->
     controller: "="
   link: (scope, element, attrs) ->
 
-    compile = (html) ->
+    insertTemplate = (html) ->
       element.html html
       ($compile element.contents()) scope
 
-    if scope.controller?
-      scopeControllerService scope
+    if scope.controller? then scopeControllerService scope
 
     if scope.include?
-
       if attrs.template is "true"
-        compile $templateCache.get scope.include
-      else
-        scope.$watch "include", compile
+        insertTemplate $templateCache.get scope.include
+      else scope.$watch "include", insertTemplate
 
 directive.$inject = ["$compile", "$templateCache", "scopeControllerService"]
 
