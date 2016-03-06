@@ -48,7 +48,7 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
     if not ctrl.configurationObject.stencil? then ctrl.configurationObject.style.frame = no
     else ctrl.configurationObject.style.frame = (ctrl.configurationObject.stencil.transitioning.match /frame/)?
 
-  ctrl.textAngle = textAngle
+  ctrl.textAngle = -> ctrl.options.textAngle = textAngle ctrl.configurationObject.text.position
 
   ctrl.changeText = (text) ->
     color = "pcb-side"

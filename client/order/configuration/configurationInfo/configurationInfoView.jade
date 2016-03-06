@@ -7,12 +7,7 @@ form(name="configuration" layout="column" layout-wrap novalidate)
         md-option(ng-value="'adhesive-stencil'" translate="option-adhesive-stencil")       
     md-input-container(flex="auto")
       label(translate="label-stencil-transitioning")
-      md-select(
-        ng-model="scopeCtrl.configurationObject.stencil.transitioning"
-        ng-change="scopeCtrl.changeStencilTransitioning()"
-        ng-disabled="disabled"
-        required
-      )
+      md-select(ng-model="scopeCtrl.configurationObject.stencil.transitioning" ng-change="scopeCtrl.changeStencilTransitioning()" ng-disabled="disabled" required)
         md-option(ng-value="'rectangular'" translate="option-rectangular")
         md-option(ng-value="'glued-in-frame'" translate="option-glued-in-frame")
     md-input-container(ng-if="scopeCtrl.configurationObject.stencil.transitioning === 'glued-in-frame'" flex="auto")
@@ -38,21 +33,16 @@ form(name="configuration" layout="column" layout-wrap novalidate)
     md-input-container(flex="auto")
       label(translate="label-fudical-marks-side")
       md-select(ng-model="scopeCtrl.configurationObject.fudical.side" ng-disabled="disabled" required)
-        md-option(ng-repeat="o in scopeCtrl.options.side" ng-value="o" translate="{{'option-' + o}}")
+        md-option(ng-repeat="option in scopeCtrl.options.side" ng-value="option" translate="{{'option-' + option}}")
   div(layout="row" layout-xs="column" layout-fill flex="auto")
     md-input-container(flex="auto")
       label(translate="label-text-position")
-      md-select(
-        ng-model="scopeCtrl.configurationObject.text.position"
-        ng-change="scopeCtrl.options.textAngle = scopeCtrl.textAngle(scopeCtrl.configurationObject.text.position)"
-        ng-disabled="disabled"
-        required
-      )
-        md-option(ng-repeat="o in scopeCtrl.options.textPosition" ng-value="o" translate="{{'option-' + o}}")
+      md-select(ng-model="scopeCtrl.configurationObject.text.position" ng-change="scopeCtrl.textAngle()" ng-disabled="disabled" required)
+        md-option(ng-repeat="option in scopeCtrl.options.textPosition" ng-value="option" translate="{{'option-' + option}}")
     md-input-container(flex="auto")
       label(translate="label-text-readable-from")
       md-select(ng-model="scopeCtrl.configurationObject.text.angle" ng-change="scopeCtrl.changeText()" ng-disabled="disabled" required)
-        md-option(ng-repeat="o in scopeCtrl.options.textAngle" ng-value="o" translate="{{'option-' + o}}")
+        md-option(ng-repeat="option in scopeCtrl.options.textAngle" ng-value="option" translate="{{'option-' + option}}")
     md-input-container(flex="auto")
       label(translate="label-text-type")
       md-select(ng-model="scopeCtrl.configurationObject.text.type" ng-change="scopeCtrl.changeText()" ng-disabled="disabled" required)
@@ -65,26 +55,16 @@ form(name="configuration" layout="column" layout-wrap novalidate)
   div(layout="row" layout-xs="column" layout-fill flex="auto")
     md-input-container(flex="auto")
       label(translate="label-position-aligment")
-      md-select(
-        ng-model="scopeCtrl.configurationObject.position.aligment"
-        ng-change="scopeCtrl.changeStencilPosition()"
-        ng-disabled="disabled"
-        required
-      )
+      md-select(ng-model="scopeCtrl.configurationObject.position.aligment" ng-change="scopeCtrl.changeStencilPosition()" ng-disabled="disabled" required)
         md-option(ng-value="'portrait'" translate="option-portrait")
         md-option(ng-value="'landscape'" translate="option-landscape")  
     md-input-container(flex="auto")
       label(translate="label-position-position")
-      md-select(
-        ng-model="scopeCtrl.configurationObject.position.position"
-        ng-change="scopeCtrl.changeStencilPosition()"
-        ng-disabled="disabled"
-        required
-      )
+      md-select(ng-model="scopeCtrl.configurationObject.position.position" ng-change="scopeCtrl.changeStencilPosition()" ng-disabled="disabled" required)
         md-option(ng-value="'layout-centered'" translate="option-layout-centered")
         md-option(ng-value="'pcb-centered'" translate="option-pcb-centered")
         md-option(ng-value="'like-layout-file'" translate="option-like-layout-file")
     md-input-container(flex="auto")
       label(translate="label-position-side")
       md-select(ng-model="scopeCtrl.configurationObject.position.side" ng-disabled="disabled" required)
-        md-option(ng-repeat="o in scopeCtrl.options.side" ng-value="o" translate="{{'option-' + o}}") 
+        md-option(ng-repeat="option in scopeCtrl.options.side" ng-value="option" translate="{{'option-' + option}}") 
