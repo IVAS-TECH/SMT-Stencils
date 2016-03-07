@@ -7,5 +7,3 @@ build/*
 deploy/*
 client/coverage/*
 server/coverage/*
-template.coffee
-cake
