@@ -2,14 +2,9 @@
 fs = require "fs"
 templates = join __dirname, "../../../../descriptionTemplates"
 
-module.exports = (status, lenguage, populate) ->
-
-  requested = join templates, status + "_" + lenguage + ".txt"
-
+module.exports = (status, language, populate) ->
   new Promise (resolve, reject) ->
-
-    fs.readFile requested, "utf8", (err, template) ->
-
+    fs.readFile (join templates, "#{status}_#{language}.txtmp"), "utf8", (err, template) ->
       if err then reject err
       else
         tmp = template.split "\n"
