@@ -23,10 +23,5 @@ md-dialog
           div(ng-message="required")
             span(translate="error-repassword-required")
       md-dialog-actions(layout="row" layout-sm="column" layout-align="center center")
-        md-button(
-          ng-click="confirmCtrl.confirm(confirm.$valid)"
-          class="md-primary" aria-label="confirm"
-          md-autofocus="true"
-          translate="button-confirm"
-        )
+        md-button(ng-click="confirmCtrl.confirm(confirm.$valid)" class="md-primary" aria-label="confirm" md-autofocus="true" translate="button-confirm")
         md-button(ng-click="confirmCtrl.hide('cancel')" class="md-warn" aria-label="cancel" translate="button-cancel")

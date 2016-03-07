@@ -25,10 +25,4 @@ md-dialog
       md-checkbox(ng-model="loginCtrl.session" class="md-primary" aria-label="stay login")
         p(translate="checkbox-stay-login")
       md-dialog-actions(layout="row" layout-sm="column" layout-align="center center")
-        md-button(
-          ng-click="loginCtrl.login(login.$valid)"
-          class="md-primary"
-          aria-label="login"
-          md-autofocus="true"
-          translate="button-login"
-        )
+        md-button(ng-click="loginCtrl.login(login.$valid)" class="md-primary" aria-label="login" md-autofocus="true" translate="button-login")

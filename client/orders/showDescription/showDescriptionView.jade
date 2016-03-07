@@ -1,15 +1,7 @@
 md-dialog
   md-dialog-content(class="md-dialog-content")
-    ivst-include(
-      include="showDescriptionCtrl.adminPanel"
-      controller="'showDescriptionCtrl'"
-      template="true"
-    )
-    ivst-order-text(
-      text="showDescriptionCtrl.info.text"
-      label="'label-desctiption'"
-      disabled="!showDescriptionCtrl.info.admin"
-    )
+    ivst-include(include="showDescriptionCtrl.adminPanel" controller="'showDescriptionCtrl'" template="true")
+    ivst-order-text(text="showDescriptionCtrl.info.text" label="'label-desctiption'" disabled="!showDescriptionCtrl.info.admin")
     md-dialog-actions(layout="row" layout-align="center center")
       md-button(
         ng-click="showDescriptionCtrl.action($event)"

@@ -3,16 +3,5 @@ md-dialog
     div(layout="column")
       span(translate="span-view-notifications")
     md-dialog-actions
-      md-button(
-        ng-click="showNotificationCtrl.hide('success')"
-        class="md-primary"
-        aria-label="view"
-        md-autofocus="true"
-        translate="button-view"
-      )
-      md-button(
-        ng-click="showNotificationCtrl.hide('close')"
-        class="md-warn"
-        aria-label="remaind me later"
-        translate="button-remaind-me"
-      )
+      md-button(ng-click="showNotificationCtrl.hide('success')" class="md-primary" aria-label="view" md-autofocus="true" translate="button-view")
+      md-button(ng-click="showNotificationCtrl.hide('close')" class="md-warn" aria-label="remaind me later" translate="button-remaind-me")

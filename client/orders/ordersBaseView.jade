@@ -9,28 +9,13 @@ div(layout="column" layout-align="center stretch" layout-wrap)
             label(translate="label-filter")
             input(ng-model="ordersCtrl.filter")
           div(layout="row" layout-align="center center")
-            md-datepicker(
-              ng-repeat="wich in ['from', 'to']"  
-              ng-model="ordersCtrl[wich + 'Date']"
-              ng-change="ordersCtrl.compareableDate(wich)"
-            )
+            md-datepicker(ng-repeat="wich in ['from', 'to']" ng-model="ordersCtrl[wich + 'Date']" ng-change="ordersCtrl.compareableDate(wich)")
         div(layout="row" layout-align="center stretch" layout-wrap)
           md-content(layout="column" flex="auto" layout-wrap)
             div(layout="row" flex="auto")
-              span(
-                ng-repeat="(key, value) in ordersCtrl.labels"
-                flex="{{value}}"
-                ng-class="key === '_id' ? 'md-primary' : 'md-warn'"
-                class="md-button fake-button"
-                translate="{{'label-' + key}}"
-              )
+              span(ng-repeat="(key, value) in ordersCtrl.labels" flex="{{value}}" ng-class="key === '_id' ? 'md-primary' : 'md-warn'" class="md-button fake-button" translate="{{'label-' + key}}")
               span(flex="15" class="md-button md-primary fake-button" translate="label-action")
-            div(
-              ng-repeat="order in ordersCtrl.listOfOrders"
-              ng-mouseover="ordersCtrl.removeNotifcation(order)"
-              layout="row"
-              flex="auto"
-            )
+            div(ng-repeat="order in ordersCtrl.listOfOrders" ng-mouseover="ordersCtrl.removeNotifcation(order)" layout="row" flex="auto")
               span(
                 ng-repeat="(key, value) in ordersCtrl.labels"
                 ng-click="key === '_id' ? ordersCtrl.choose($event, order) : null"
@@ -43,23 +28,12 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                 flex="15"
                 class="md-button md-raised"
                 ng-click="ordersCtrl.doAction($event, order)"
-                ng-if="ordersCtrl.adminPanel || (order.status === 'accepted' || order.status === 'rejected')"
+                ng-if="ordersCtrl.adminPanel || ordersCtrl.helpStatus(order, false)"
                 ng-class="ordersCtrl.adminPanel || order.status === 'rejected' ? 'md-warn' : 'md-primary'"
                 translate="{{'button-' + (ordersCtrl.adminPanel ? 'update' : (order.status === 'accepted' ? 'pay' : 'delete'))}}"
               )
-              span(
-                  flex="15"
-                  disabled="true"
-                  class="md-button fake-button"
-                  ng-if="!ordersCtrl.adminPanel && (order.status === 'new' || order.status === 'sent' || order.status === 'delivered')"
-              )
+              span(flex="15" disabled="true" class="md-button fake-button" ng-if="!ordersCtrl.adminPanel && ordersCtrl.helpStatus(order, false)")
         div(layout="column" layout-align="center center" layout-wrap)
-          md-button(
-            ng-if="ordersCtrl.showing"
-            ng-click="ordersCtrl.showAll()"
-            class="md-primary"
-            aria-label="show all"
-            translate="button-show-all"
-          )
+          md-button( ng-if="ordersCtrl.showing" ng-click="ordersCtrl.showAll()" class="md-primary" aria-label="show all" translate="button-show-all")
           ivst-view-order(ng-if="order" order="order" controller="'order'")
     ivst-include(include="ordersCtrl.adminPanel" controller="'ordersCtrl'" template="true")

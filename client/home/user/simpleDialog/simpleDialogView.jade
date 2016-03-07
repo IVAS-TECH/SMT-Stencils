@@ -2,10 +2,4 @@ md-dialog
   md-dialog-content(class="md-dialog-content")
     p(align="center" class="md-title" translate="{{simpleDialogCtrl.title}}")
     md-dialog-actions
-      md-button(
-        ng-click="simpleDialogCtrl.hide('success')"
-        class="md-primary"
-        aria-label="login"
-        md-autofocus="true"
-        translate="button-ok"
-      )
+      md-button(ng-click="simpleDialogCtrl.hide('success')" class="md-primary" aria-label="login" md-autofocus="true" translate="button-ok")

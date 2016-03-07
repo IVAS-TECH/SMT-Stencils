@@ -1,15 +1,11 @@
 div(layout-margin layout-padding layout-wrap)
-  div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-box-framed' : 'stencil-box-simple'" layout="column")
-    div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-outer-shadow' : 'stencil'" layout-fill layout="column")
-      div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-frame' : 'stencil'" layout-fill layout="column")
-        div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-inner-shadow' : 'stencil'" layout-fill layout="column")
-          div(ng-class="scopeCtrl.configurationObject.style.frame ? 'stencil-glued' : 'stencil'" layout-fill layout="column")
+  div(ng-class="frame('stencil-box-framed', 'stencil-box-simple')" layout="column")
+    div(ng-class="frame('stencil-outer-shadow')" layout-fill layout="column")
+      div(ng-class="frame('stencil-frame')" layout-fill layout="column")
+        div(ng-class="frame('stencil-inner-shadow')" layout-fill layout="column")
+          div(ng-class="frame('stencil-glued')" layout-fill layout="column")
             div(class="stencil-view" layout-fill layout="column")
-              div(
-                class="stencil-text"
-                ng-class="[scopeCtrl.configurationObject.style.text.color, scopeCtrl.configurationObject.style.text.view]"
-                layout="column"
-              )
+              div(class="stencil-text" ng-class="[scopeCtrl.configurationObject.style.text.color, scopeCtrl.configurationObject.style.text.view]" ayout="column")
                 span(ng-repeat="field in text track by $index") {{field}}
               div(ng-class="scopeCtrl.configurationObject.style.mode || 'portrait-centered'")
                 ivst-include(include="view" controller="controller")

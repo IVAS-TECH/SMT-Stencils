@@ -10,12 +10,7 @@ form(name="profile" novalidate layout="column")
           span(translate="error-email-taken")
         div(ng-message="required")
           span(translate="error-email-required")
-    md-button(
-      ng-click="profileCtrl.change($event, 'email', profile.email.$valid)"
-      class="md-warn"
-      aria-label="change email"
-      translate="button-change-email"
-    )
+    md-button(ng-click="profileCtrl.change($event, 'email', profile.email.$valid)" class="md-warn" aria-label="change email" translate="button-change-email")
   div(layout="column" layout-align="start center")
     md-input-container(md-is-error="profile.password.$error | isntEmpty")
       label(translate="label-new-password")
@@ -27,16 +22,6 @@ form(name="profile" novalidate layout="column")
           span(translate="error-password-maxlength")
         div(ng-message="required")
           span(translate="error-password-required")
-    md-button(
-      ng-click="profileCtrl.change($event, 'password', profile.password.$valid)"
-      class="md-warn"
-      aria-label="change password"
-      translate="button-change-password"
-    )
+    md-button(ng-click="profileCtrl.change($event, 'password', profile.password.$valid)" class="md-warn" aria-label="change password" translate="button-change-password")
   div(layout="column" layout-align="start center")
-    md-button(
-      ng-click="profileCtrl.remove($event)"
-      class="md-warn md-raised"
-      aria-label="delete account"
-      translate="button-remove-account"
-    )
+    md-button(ng-click="profileCtrl.remove($event)" class="md-warn md-raised" aria-label="delete account" translate="button-remove-account")

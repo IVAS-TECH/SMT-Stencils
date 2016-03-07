@@ -9,19 +9,7 @@ div(hide-xs layout="row" layout-align="center center")
   )
 div(show-xs hide layout="column" layout-align="start end")
   md-menu
-    md-button(
-      md-menu-origin
-      ng-click="$mdOpenMenu($event)"
-      class="md-warn"
-      aria-label="{{stateSwitcherCtrl.menu}}"
-      translate="{{'button-menu-' + stateSwitcherCtrl.menu}}"
-    )
+    md-button(md-menu-origin ng-click="$mdOpenMenu($event)" class="md-warn" aria-label="{{stateSwitcherCtrl.menu}}" translate="{{'button-menu-' + stateSwitcherCtrl.menu}}")
     md-menu-content
       md-menu-item(ng-repeat="state in stateSwitcherCtrl.states")
-        md-button(
-          md-menu-align-target 
-          ng-click="stateSwitcherCtrl.switchState(state)"
-          class="md-primary"
-          aria-label="{{state}}"
-          translate="{{'button-' + state}}"
-        )
+        md-button(md-menu-align-target ng-click="stateSwitcherCtrl.switchState(state)" class="md-primary" aria-label="{{state}}" translate="{{'button-' + state}}")

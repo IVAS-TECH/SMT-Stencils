@@ -71,14 +71,12 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       else no
     if ctrl.showing? then ctrl.listOfOrders = filter ctrl.listOfOrders, _id: ctrl.showing
 
-  ctrl.compareableDate = (wich) ->
-    ctrl[wich + "Date"] = dateService.compatible ctrl[wich + "Date"]
+  ctrl.compareableDate = (wich) -> ctrl[wich + "Date"] = dateService.compatible ctrl[wich + "Date"]
 
   ctrl.showAll = -> delete ctrl.showing
 
   ctrl.removeNotifcation = (order) ->
-    if order.notify?
-      RESTHelperService.notification.remove order.notify, (res) ->
+    if order.notify? then RESTHelperService.notification.remove order.notify, (res) ->
         index = ctrl.fullListOfOrders.indexOf order
         delete ctrl.fullListOfOrders[index].notify
         delete order.notify
@@ -92,23 +90,22 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
     ctrl.showing = order._id
 
     RESTHelperService.order.view files: order.files, (res) ->
-      set = (wich) -> text: order[wich + "Text"], view: res[wich]
       $scope.order = order
-      $scope.order.top = set "top"
-      $scope.order.bottom = set "bottom"
-
+      $scope.order[layer] = text: order[layer + "Text"], view: res[layer] for layer in ["top", "bottom"]
       if ctrl.afterChoose? then ctrl.afterChoose event, order, res, checkForDescription
       else checkForDescription()
 
   ctrl.doAction = (event, order) ->
-
     if order.status is "rejected"
       confirmService event, success: ->
         RESTHelperService.order.remove order._id, (res) ->
-          remove = (list) ->
+          for list in ["listOfOrders", "fullListOfOrders"]
             index = ctrl[list].indexOf order
             ctrl[list].splice index, 1
-          remove list for list in ["listOfOrders", "fullListOfOrders"]
+          
+  ctrl.statusHelp = (order, equals) ->
+    status = order.status is "accepted" or order.status is "rejected"
+    if equals then status else not status
 
   init()
 

@@ -1,22 +1,8 @@
 div(layout="row" layout-align="center stretch" layout-wrap)
   div(layout="column" layout-wrap flex="auto")
     div(ng-repeat="user in usersCtrl.listOfUsers" layout="row" flex="auto")
-      span(
-        ng-class="user.admin ? 'md-warn' : 'md-primary'"
-        class="md-button fake-button"
-        flex="20"
-      ) {{user.email}}
+      span(ng-class="user.admin ? 'md-warn' : 'md-primary'" class="md-button fake-button" flex="20") {{user.email}}
       span(class="md-button fake-button" flex="20" disabled="true")
-      span(
-        ng-click="usersCtrl.changeAccess($event, user)"
-        class="md-button md-primary md-raised"
-        translate="button-change-access"
-        flex="20"
-      )
+      span(ng-click="usersCtrl.changeAccess($event, user)" class="md-button md-primary md-raised" translate="button-change-access" flex="20")
       span(class="md-button fake-button" flex="20" disabled="true")
-      span(
-        ng-click="usersCtrl.removeUser($event, user)"
-        class="md-button md-warn md-raised"
-        translate="button-delete"
-        flex="20"
-      )
+      span(ng-click="usersCtrl.removeUser($event, user)" class="md-button md-warn md-raised" translate="button-delete" flex="20")

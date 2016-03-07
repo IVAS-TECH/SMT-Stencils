@@ -1,12 +1,4 @@
-div(
-  ng-model="fileCnrCtrl.file"
-  ng-change="fileCnrCtrl.upload()"
-  ngf-select
-  ngf-drop
-  class="dashed-border"
-  layout="column"
-  layout-align="center center"
-)
+div(ng-model="fileCnrCtrl.file" ng-change="fileCnrCtrl.upload()" ngf-select ngf-drop class="dashed-border" layout="column" layout-align="center center")
   div(translate="{{'layer-' + fileCnrCtrl.layer}}")
   div(ng-if="!fileCnrCtrl.file" layout="column" layout-align="center center" layout-margin layout-padding)
     div(translate="div-select-files")

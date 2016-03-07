@@ -11,7 +11,8 @@ directive = (scopeControllerService) ->
     scopeControllerService scope
 
     if typeof scope.text is "string" then scope.text = [scope.text]
-
+    
+    scope.frame = (frame, none = "stencil") -> if scope.scopeCtrl.configurationObject.style.frame then frame else none
 
 directive.$inject = ["scopeControllerService"]
 
