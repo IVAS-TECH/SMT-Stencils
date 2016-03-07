@@ -13,8 +13,7 @@ controller = (simpleDialogService, RESTHelperService, $window) ->
           console.log typeof res[layer]
           if typeof res[layer] is "string" then ctrl.order[layer].view = res[layer]
           else if res[layer] is null or res[layer] is no
-            what = "error"
-            if res[layer] is no then what = "empty"
+            what = if res[layer] is no then "empty" else "error"
             simpleDialogService {}, "title-#{what}-layer-#{layer}"
 
   ctrl.action = (event) ->

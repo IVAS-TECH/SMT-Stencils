@@ -1,13 +1,2 @@
 div(layout="row" layout-wrap layout-align="center center")
-  ivst-stencil-preview(
-    ng-if="order.top.view"
-    text="order.top.text"
-    view="order.top.view"
-    controller="controller"
-  )
-  ivst-stencil-preview(
-    ng-if="order.bottom.view"
-    text="order.bottom.text"
-    view="order.bottom.view"
-    controller="controller"
-  )
+  ivst-stencil-preview(ng-repeat="layer in ['top', 'bottom']" ng-if="order[layer].view" text="order[layer].text" view="order[layer].view" controller="controller")

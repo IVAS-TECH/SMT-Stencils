@@ -1,3 +1,8 @@
 div(layout="row" layout-align="center center" layout-fill flex="auto")
-  ivst-order-text(ng-if="order.top.view" text="order.top.text" label="'label-text-top'" disabled="order.disabled")
-  ivst-order-text(ng-if="order.bottom.view" text="order.bottom.text" label="'label-text-bottom'" disabled="order.disabled")
+  ivst-order-text(
+      ng-repeat="layer in ['top', 'bottom']"
+      ng-if="(order.files && order.files[layer]) || (order[layer] | isntEmpty)"
+      text="order[layer].text"
+      label="'label-text-' + layer"
+      disabled="order.disabled"
+  )

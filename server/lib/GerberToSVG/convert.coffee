@@ -9,12 +9,14 @@ module.exports = (paste, outline) ->
     if outline? and outline.length
       args.push "--foreground=#000000FF"
       args.push outline
-    gerbv = spawn "gerbv", args, stdio: "ignore"
+    error = no
+    gerbv = spawn "gerbv", args
+    gerbv.stderr.on "data", (data) ->
+        str = data.toString()
+        if str.includes "Unknown file type" or str.includes "could not read" then error = yes
     gerbv.on "close", ->
-      fs.access output, (err) ->
-        if err then resolve null
-        else fs.readFile output, "utf8", (readErr, data) ->
-          if readErr then reject readErr
-          else fs.unlink output, (removeErr) ->
-            if removeErr then reject removeErr
-            else resolve data.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
+      progress = (err, server, cb) -> if err then (if server then reject err else resolve null) else cb()
+      progress error, no, -> fs.access output, (accessErr) ->
+        progress accessErr, no, -> fs.readFile output, "utf8", (readErr, data) ->
+          progress readErr, yes, -> fs.unlink output, (removeErr) ->
+            progress removeErr, yes, -> resolve data.replace '<?xml version="1.0" encoding="UTF-8"?>', ""
