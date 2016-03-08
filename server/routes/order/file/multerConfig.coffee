@@ -8,6 +8,6 @@ config = (prev, dir) -> ->
       name = [randomString(), fileName + if (fileName.match /\./)? then "" else ("." + fileName)]
       if not prev then name.unshift req.user.user._id
       cb null, name.join "___" 
-    limists: files: 3, fileSize: 4000000000
+    limists: files: 3, fileSize: 10000000
     
 module.exports = (dir) -> preview: (config yes, dir), order: config no, dir

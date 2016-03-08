@@ -10,7 +10,7 @@ controller = ($scope, progressService, simpleDialogService) ->
   progress = progressService $scope, "specificCtrl"
 
   ctrl.ifInvalid = ->
-    if ctrl.invalid then simpleDialogService {}, "title-add-paste-layer"
+    if ctrl.invalid then simpleDialogService {}, "title-add-needed-layers"
     ctrl.invalid
     
   ctrl.next = -> if not ctrl.ifInvalid() then progress.next()
