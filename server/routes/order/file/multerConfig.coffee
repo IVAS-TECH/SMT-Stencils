@@ -1,13 +1,12 @@
 multer = require "multer"
 randomString = require "random-string"
 
-config = (prev, dir) -> ->
+config = (dir, prev) -> ->
   multer
     storage: multer.diskStorage destination: (dir + if prev then "/tmp" else ""), filename: (req, file, cb) ->
-      fileName = file.originalname
-      name = [randomString(), fileName + if (fileName.match /\./)? then "" else ("." + fileName)]
-      if not prev then name.unshift req.user.user._id
-      cb null, name.join "___" 
+      name = file.originalname
+      fileName = name.match /\.[a-zA-Z]+/
+      cb null, [req.user.user._id, randomString(), name + if fileName? and fileName.length > 2 then "" else "." + name].join "___" 
     limists: files: 3, fileSize: 10000000
     
-module.exports = (dir) -> preview: (config yes, dir), order: config no, dir
+module.exports = (dir) -> preview: (config dir, yes), order: config dir, no
