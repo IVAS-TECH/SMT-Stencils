@@ -1,8 +1,9 @@
 module.exports =
-  "div-select-files": "Click to Select files"
-  "div-drop-files": "Or Drag and Drop them"
+  "div-select-file": "Click to Select file"
+  "div-drop-file": "Or Drag and Drop one"
+  "div-download-file": "Click to Download file"
   "div-supported-formats": "Supported formats are: "
   "div-file-number": "Maximum number of files allowed is 10"
   "div-file-size": "Maximum file size allowed is 1GB"
-  "div-selected-files": "Selected File/s:"
-  "div-remove-files": "(Click a file to remove it)"
+  "div-selected-file": "Selected File:"
+  "div-remove-file": "(Click the file to remove it)"

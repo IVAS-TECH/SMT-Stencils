@@ -80,7 +80,7 @@
   },
   "browser": {
     "ng-file-upload": "./node_modules/ng-file-upload/dist/ng-file-upload-all.min.js",
-    "angular": "./node_modules/angular/angular.js",
+    "angular": "./node_modules/angular/angular.min.js",
     "angular-animate": "./node_modules/angular-animate/angular-animate.min.js",
     "angular-aria": "./node_modules/angular-aria/angular-aria.min.js",
     "angular-messages": "./node_modules/angular-messages/angular-messages.min.js",
