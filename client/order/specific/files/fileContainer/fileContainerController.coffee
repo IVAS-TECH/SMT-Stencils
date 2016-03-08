@@ -6,11 +6,9 @@ controller = (simpleDialogService, RESTHelperService, $window) ->
 
   ctrl.preview = ->
     ctrl.order.invalid = (not ctrl.order.files.top? and not ctrl.order.files.bottom?)
-    if not ctrl.order.ifInvalid()
-      RESTHelperService.upload.preview ctrl.order.files, (res) ->
+    if not ctrl.order.ifInvalid() then RESTHelperService.upload.preview ctrl.order.files, (res) ->
         ctrl.order.apertures = res.apertures
         for layer in ["top", "bottom"]
-          console.log typeof res[layer]
           if typeof res[layer] is "string" then ctrl.order[layer].view = res[layer]
           else if res[layer] is null or res[layer] is no
             what = if res[layer] is no then "empty" else "error"
@@ -21,16 +19,13 @@ controller = (simpleDialogService, RESTHelperService, $window) ->
     if ctrl.remove
       delete ctrl.order.files[ctrl.layer]
       delete ctrl.file
-      if ctrl.layer isnt "outline" and ctrl.order[ctrl.layer].view?
-        delete ctrl.order[ctrl.layer].view
+      if ctrl.layer isnt "outline" and ctrl.order[ctrl.layer].view? then delete ctrl.order[ctrl.layer].view
       ctrl.preview()
     else
       $window.open "api/order/download/#{ctrl.file}", ctrl.fileName()
       return
 
-  ctrl.fileName = ->
-    if typeof ctrl.file is "object" then ctrl.file.name
-    else (ctrl.file.split "___")[2]
+  ctrl.fileName = -> if typeof ctrl.file is "object" then ctrl.file.name else (ctrl.file.split "___")[2]
 
   ctrl.upload = ->
     if typeof ctrl.file is "object" and ctrl.file?

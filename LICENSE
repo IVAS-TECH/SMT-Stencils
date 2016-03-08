@@ -1,3 +1,12 @@
+###########################################################################
+                    Material Design Icons
+                    
+Under Creative Commons Public Licenses:
+<https://github.com/google/material-design-icons/blob/master/LICENSE>
+Icons used: "insert drive file".
+Changes made: Turning SVG code into Jade code in file:
+</client/order/specific/filess/fileContainer/file/fileView.jade>.
+###########################################################################
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 
