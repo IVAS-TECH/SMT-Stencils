@@ -29,7 +29,7 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
 
   ctrl.fill = (src, dst, same) ->
     if not ctrl.same[same] or not ctrl.addressesObject[src]? then ctrl.addressesObject[src] = {}
-    if not ctrl.same[same] then ctrl.addressesObject[src][field] = ctrl.addressesObject[dst][field] for field in fields
+    else ctrl.addressesObject[src][field] = ctrl.addressesObject[dst][field] for field in fields
 
   listen()
 
