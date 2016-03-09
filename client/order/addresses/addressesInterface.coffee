@@ -15,16 +15,11 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
   ctrl.btnBack = yes
   ctrl.same = {}
   fields = ["country", "city", "postcode", "address1", "address2", "firstname", "lastname"]
+  valids = ["delivery", "invoice", "firm"]
 
   listen = ->
     stopLoadingService "addresses"
-    stop = $scope.$on "address-validity", (event, wich, value) ->
-      index = -1
-      switch wich
-        when "delivery" then index = 0
-        when "invoice" then index = 1
-        when "firm" then index = 2
-      ctrl.valid[index] = value
+    stop = $scope.$on "address-validity", (event, wich, value) -> ctrl.valid[valids.indexOf wich] = value
     $scope.$on "$destroy", stop
 
   ctrl.fill = (src, dst, same) ->

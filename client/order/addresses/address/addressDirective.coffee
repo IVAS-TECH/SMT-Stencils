@@ -8,7 +8,6 @@ directive = ->
     address: "="
     name: "@"
   link: (scope, element, attrs) ->
-
     scope.address = scope.address ? {}
 
     stop = scope.$watch "addressForm.$valid", (value) ->

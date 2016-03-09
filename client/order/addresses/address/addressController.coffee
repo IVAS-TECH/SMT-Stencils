@@ -1,19 +1,9 @@
-controller = ->
-
+controller = (listOfCountries, listOfCities) ->
   ctrl = @
-
-  ctrl.countries = [
-    "bulgaria"
-    "romania"
-  ]
-
-  ctrl.cities = [
-    "bulgaria"
-    "romania"
-  ]
-
+  ctrl.countries = listOfCountries
+  ctrl.cities = listOfCities
   ctrl
 
-controller.$inject = []
+controller.$inject = ["listOfCountries", "listOfCities"]
 
 module.exports = controller

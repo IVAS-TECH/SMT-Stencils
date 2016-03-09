@@ -4,11 +4,11 @@ form(name="addressForm" layout="column" layout-wrap novalidate)
     md-input-container(flex="33")
       label(translate="label-country")
       md-select(ng-model="address.country" ng-disabled="disabled" required)
-        md-option(ng-repeat="country in addressCtrl.countries") {{country}}
+        md-option(ng-repeat="country in addressCtrl.countries" ng-value="country" translate="{{'option-country-' + country}}")
     md-input-container(flex="33")
       label(translate="label-city")
       md-select(ng-model="address.city" ng-disabled="disabled" required)
-        md-option(ng-repeat="city in addressCtrl.cities") {{city}}
+        md-option(ng-repeat="city in addressCtrl.cities[address.country]" ng-value="city" translate="{{'option-city-' + city}}")
     md-input-container(flex="33")
       label(translate="label-post-code")
       input(ng-model="address.postcode" ng-disabled="disabled" required)
