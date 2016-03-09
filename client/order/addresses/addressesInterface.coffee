@@ -13,11 +13,11 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
     "awaiting": []
 
   ctrl.btnBack = yes
+  ctrl.same = {}
+  fields = ["country", "city", "postcode", "address1", "address2", "firstname", "lastname"]
 
   listen = ->
-  
     stopLoadingService "addresses"
-    
     stop = $scope.$on "address-validity", (event, wich, value) ->
       index = -1
       switch wich
@@ -25,19 +25,11 @@ controller = ($controller, $scope, $q, RESTHelperService, simpleDialogService, p
         when "invoice" then index = 1
         when "firm" then index = 2
       ctrl.valid[index] = value
-      
     $scope.$on "$destroy", stop
 
-  ctrl.fill = (src, dst) ->
-    ctrl.addressesObject[src][key] =  ctrl.addressesObject[dst][key] for key in [
-      "country"
-      "city"
-      "postcode"
-      "address1"
-      "address2"
-      "firstname"
-      "lastname"
-    ]
+  ctrl.fill = (src, dst, same) ->
+    if not ctrl.same[same] or not ctrl.addressesObject[src]? then ctrl.addressesObject[src] = {}
+    if not ctrl.same[same] then ctrl.addressesObject[src][field] = ctrl.addressesObject[dst][field] for field in fields
 
   listen()
 

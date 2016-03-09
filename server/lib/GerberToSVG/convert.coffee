@@ -10,6 +10,7 @@ module.exports = (paste, outline) ->
     gerbv.stderr.on "data", (data) ->
         str = data.toString()
         if str.includes "Unknown file type" or str.includes "could not read" then error = yes
+    gerbv.on "error", reject
     gerbv.on "close", ->
       progress = (err, server, cb) -> if err then (if server then reject err else resolve null) else cb()
       progress error, no, -> fs.access output, (accessErr) ->
