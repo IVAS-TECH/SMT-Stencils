@@ -1,0 +1,1 @@
+module.exports = ["fudicals", "size", "apertures", "text", "glued", "impregnation", "total"]

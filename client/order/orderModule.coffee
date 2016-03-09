@@ -10,6 +10,7 @@ dependencies = [
 ]
 
 angular.module moduleName, dependencies
+  .constant "listOfPrices", require "./listOfPrices"
   .factory "orderPriceCalculatorService", require "./orderPriceCalculatorService"
   .controller "orderController", require "./orderController"
   .config require "./orderConfig"

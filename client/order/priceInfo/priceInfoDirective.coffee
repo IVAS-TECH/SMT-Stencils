@@ -1,45 +1,40 @@
-directive = (scopeControllerService, $interval, progressService) ->
+directive = (scopeControllerService, $interval, progressService, listOfPrices) ->
 
   templateUrl: "priceInfoView"
   scope: controller: "@"
   link: (scope) ->
-  
     scopeControllerService scope
     
     progress = progressService()
-
+    
     init = ->
-      scope.scopeCtrl.calculatePrice()
-      scope.price = {}
-      scope.progress = 0
-      update = {}
-      prices = ["fudicals", "size", "apertures", "text", "glued", "impregnation", "total"]
-      count = 0
-      times = 5
-      for price in prices
-        scope.price[price] = 0
-        checked = scope.scopeCtrl.order.price[price]
-        update[price] = if checked then (parseFloat checked / times).toFixed 2 else 0.00
-      interval = $interval (->
-        count++
-        scope.progress = 20 * count
-        if count is times
-          $interval.cancel interval
-          scope.hide = yes
-          for price in prices
-            checked = scope.scopeCtrl.order.price[price]
-            if checked then scope.price[price] = checked
-          scope.scopeCtrl.price = scope.scopeCtrl.order.price.total
-        else scope.price[price] = (parseFloat update[price] * count).toFixed 2 for price in prices
+      scope.hide = scope.scopeCtrl.prices?
+      if scope.hide then scope.price = scope.scopeCtrl.prices
+      else
+        scope.scopeCtrl.calculatePrice()
+        scope.price = {}
+        scope.progress = 0
+        update = {}
+        count = 0
+        times = 5
+        update[price] = (parseFloat scope.scopeCtrl.order.price[price] / times).toFixed 2 for price in listOfPrices
+        interval = $interval (->
+            count++
+            scope.progress = 20 * count
+            if count is times
+              $interval.cancel interval
+              scope.hide = yes
+              scope.price[price] = scope.scopeCtrl.order.price[price] for price in listOfPrices
+              scope.scopeCtrl.prices = scope.price
+              scope.scopeCtrl.price = scope.scopeCtrl.order.price.total
+            else scope.price[price] = (parseFloat update[price] * count).toFixed 2 for price in listOfPrices
         ), 400
-      return
-
-    scope.next = progress.next
-
-    scope.back = progress.back
+        return
+     
+    scope[move] = progress[move] for move in ["next", "back"]
 
     init()
 
-directive.$inject = ["scopeControllerService", "$interval", "progressService"]
+directive.$inject = ["scopeControllerService", "$interval", "progressService", "listOfPrices"]
 
 module.exports = directive
