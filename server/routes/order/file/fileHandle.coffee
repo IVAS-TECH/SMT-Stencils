@@ -8,8 +8,7 @@ multerConfig = config join __dirname, "../../../../files"
 transformReq = (info) ->
   (req, res, next) ->
     req.gerbers = {}
-    for file in req.files
-      req.gerbers[req.body.map[file.originalname]] = file[info]
+    req.gerbers[req.body.map[file.originalname]] = file[info] for file in req.files
     next()
 
 tryClean = (layer) ->
