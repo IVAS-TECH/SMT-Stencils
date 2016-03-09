@@ -5,12 +5,8 @@ fs = require "fs"
 module.exports = (paste, outline) ->
   new Promise (resolve, reject) ->
     output = "./files/tmp/#{randomString()}.svg"
-    args = ["-x", "svg", "-o", output, "-a", "--foreground=#FFFFFFFF", paste]
-    if outline? and outline.length
-      args.push "--foreground=#000000FF"
-      args.push outline
     error = no
-    gerbv = spawn "gerbv", args
+    gerbv = spawn "gerbv", ["-x", "svg", "-o", output, "-a", "--foreground=#FFFFFFFF", paste, "--foreground=#000000FF", outline]
     gerbv.stderr.on "data", (data) ->
         str = data.toString()
         if str.includes "Unknown file type" or str.includes "could not read" then error = yes
