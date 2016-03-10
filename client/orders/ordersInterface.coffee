@@ -31,7 +31,7 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       ctrl.fullListOfOrders = transform yes
       ctrl.listOfOrders = ctrl.fullListOfOrders
       stopLoadingService "orders"
-      listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
+      listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate"])
       
       $scope.$on "notification", ->
         ctrl.fullListOfOrders = transform no
@@ -53,7 +53,6 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
         date = dateService.parse order.orderDate
         return ctrl.toDate >= date >= ctrl.fromDate
       else no
-    if ctrl.showing? then ctrl.listOfOrders = filter ctrl.listOfOrders, _id: ctrl.showing
 
   ctrl.compareableDate = (wich) -> ctrl[wich + "Date"] = dateService.compatible ctrl[wich + "Date"]
 

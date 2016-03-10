@@ -14,10 +14,10 @@ div(layout="column" layout-align="center stretch" layout-wrap)
           md-content(layout="column" flex="auto" layout-wrap)
             md-divider
             div(layout="row" flex="auto")
-              span(ng-repeat="(key, value) in ordersCtrl.labels" flex="{{value}}" ng-class="key === '_id' ? 'md-primary' : 'md-warn'" class="md-button fake-button" translate="{{'label-' + key}}")
-              span(flex="15" class="md-button md-primary fake-button" translate="label-action")
+              span(ng-repeat="(key, value) in ordersCtrl.labels" flex="{{value}}" ng-class="key === '_id' ? 'md-primary' : 'md-warn'" class="md-button fake-button" translate="{{'span-' + key}}")
+              span(flex="15" class="md-button md-primary fake-button" translate="span-action")
             md-divider
-            div(ng-repeat="order in ordersCtrl.listOfOrders" layout="column" flex="auto")
+            div(ng-repeat="order in ordersCtrl.listOfOrders" ng-if="!ordersCtrl.showing || order._id === ordersCtrl.showing" layout="column" flex="auto")
               div(ng-mouseover="ordersCtrl.removeNotifcation(order)" layout="row" flex="auto")
                 span(
                     ng-repeat="(key, value) in ordersCtrl.labels"
@@ -25,7 +25,7 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                     flex="{{value}}"
                     ng-class="[(key === '_id' ? 'md-primary' : 'md-warn fake-button'), (order.notify ? 'md-raised': '')]"
                     class="md-button"
-                    translate="{{order[key]}}"
+                    translate="{{key === 'status' ? 'span-status-' + order[key] : order[key]}}"
                 )
                 span(
                     flex="15"
@@ -38,6 +38,6 @@ div(layout="column" layout-align="center stretch" layout-wrap)
                 span(flex="15" disabled="true" class="md-button fake-button" ng-if="!ordersCtrl.adminPanel && !ordersCtrl.helpStatus(order)")
               md-divider
         div(layout="column" layout-align="center center" layout-wrap)
-          md-button( ng-if="ordersCtrl.showing" ng-click="ordersCtrl.showAll()" class="md-primary" aria-label="show all" translate="button-show-all")
+          md-button(ng-if="ordersCtrl.showing" ng-click="ordersCtrl.showAll()" class="md-primary" aria-label="show all" translate="button-show-all")
           ivst-view-order(ng-if="order" order="order" controller="'order'")
     ivst-include(include="ordersCtrl.adminPanel" controller="'ordersCtrl'" template="true")
