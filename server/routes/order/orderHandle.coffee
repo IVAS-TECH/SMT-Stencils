@@ -9,13 +9,11 @@ getDescriptionTemplate = require "./description/getDescriptionTemplate"
 query = require "./../../lib/query"
 
 dir = join __dirname, "../../../files"
-
 handle = basicCRUDHandle orderModel, "order"
 
 handle.download =
 
-    get: (req, res, next) ->
-      (res.status 200).sendFile join dir, req.params.file
+    get: (req, res, next) -> (res.status 200).sendFile join dir, req.params.file
 
     params: "file"
 
@@ -27,33 +25,23 @@ handle.get = (req, res, next) ->
 handle.put = [
   (req, res, next) ->
     req.gerbers = {}
-    for layer, file of req.body.files
-      req.gerbers[layer] = join dir, file
+    req.gerbers[layer] = join dir, file for layer, file of req.body.files
     next()
 
   GerberToSVGMiddleware "top"
-
   GerberToSVGMiddleware "bottom"
-
   GerberToSVGMiddleware "send"
 ]
 
 handle.patch = [
   (req, res, next) ->
-
     text = req.body.text
-
     order = status: req.body.status
-
-    if req.body.price?
-      order.price = req.body.price
-
-    if order.status is "sent"
-      order.sendingDate = new Date()
+    if req.body.price? then order.price = req.body.price
+    if order.status is "sent" then order.sendingDate = new Date()
 
     (orderModel.findByIdAndUpdate req.body.id, $set: order, {new: true}).exec()
       .then (doc) ->
-
         if text[0] is ""
           (getDescriptionTemplate order.status, req.body.language).then (txt) ->
             req.text = txt

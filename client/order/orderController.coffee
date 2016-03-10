@@ -14,8 +14,7 @@ controller = (progressService, RESTHelperService, simpleDialogService, orderPric
     RESTHelperService.upload.order ctrl.files, (res) ->
       ctrl.order.files = res.files
       ctrl.order.price = ctrl.price
-      RESTHelperService.order.create order: ctrl.order, (res) ->
-        simpleDialogService event, "title-order-created"
+      RESTHelperService.order.create order: ctrl.order, (res) -> simpleDialogService event, "title-order-created"
 
   ctrl
 
