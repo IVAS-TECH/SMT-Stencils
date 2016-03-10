@@ -1,33 +1,20 @@
 controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
-
   filter = $filter "filter"
-
   ctrl = @
-
   ctrl.fromDate = new Date()
-
   ctrl.toDate = new Date()
-
   ctrl.status = statusOptions
-
   ctrl.listOfOrders = []
 
   init = ->
-
     RESTHelperService.order.find (res) ->
-
       orders = res.orders
-
       beggin = orders[0]
-
       end = orders[orders.length - 1]
-
       if beggin? then ctrl.toDate = dateService.compatible beggin.orderDate
-      
       if end? then ctrl.fromDate = dateService.compatible end.orderDate
-
+      
       transform = (full) ->
-
         transformFn = (order) ->
             if full then order[type + "Date"] = dateService.format order[type + "Date"] for type in ["order", "sending"]
             order.notify = notificationService.notificationFor order._id
@@ -42,13 +29,10 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
           if not index then notifyB - notifyA else index
 
       ctrl.fullListOfOrders = transform yes
-      
       ctrl.listOfOrders = ctrl.fullListOfOrders
-      
       stopLoadingService "orders"
-
       listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate", "showing"])
-
+      
       $scope.$on "notification", ->
         ctrl.fullListOfOrders = transform no
         ctrl.filterFn()
@@ -103,9 +87,7 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
             index = ctrl[list].indexOf order
             ctrl[list].splice index, 1
           
-  ctrl.statusHelp = (order, equals) ->
-    status = order.status is "accepted" or order.status is "rejected"
-    if equals then status else not status
+  ctrl.statusHelp = (order, equals) -> order.status is "accepted" or order.status is "rejected"
 
   init()
 
