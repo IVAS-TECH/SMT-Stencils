@@ -8,8 +8,8 @@ directive = (scopeControllerService, $interval, progressService, listOfPrices) -
     progress = progressService()
     
     init = ->
-      scope.hide = scope.scopeCtrl.prices?
-      if scope.hide then scope.price = scope.scopeCtrl.prices
+      scope.hide = scope.scopeCtrl.order? and scope.scopeCtrl.order.price?
+      if scope.hide then scope.price = scope.scopeCtrl.order.price
       else
         scope.scopeCtrl.calculatePrice()
         scope.price = {}
@@ -24,8 +24,7 @@ directive = (scopeControllerService, $interval, progressService, listOfPrices) -
             if count is times
               $interval.cancel interval
               scope.hide = yes
-              scope.price[price] = scope.scopeCtrl.order.price[price] for price in listOfPrices
-              scope.scopeCtrl.prices = scope.price
+              scope.price = scope.scopeCtrl.order.price
               scope.scopeCtrl.price = scope.scopeCtrl.order.price.total
             else scope.price[price] = (parseFloat update[price] * count).toFixed 2 for price in listOfPrices
         ), 400
