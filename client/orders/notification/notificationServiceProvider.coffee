@@ -1,14 +1,9 @@
 provider = ->
-
   _state = ""
 
   service = ($state, $rootScope, $timeout, $interval, RESTHelperService, authenticationService, showNotificationService) ->
-
     notifications = {}
-
     listening = null
-
-    notificationFor: (order) -> notifications[order]
 
     notify: ->
       if authenticationService.isAuthenticated() and not authenticationService.isAdmin()
@@ -19,10 +14,22 @@ provider = ->
             showNotificationService {}, {}, success: if $state.current.name is _state then -> $rootScope.$broadcast "notification" else -> $state.go _state
 
     listenForNotification: ->
+      @stopListen()
       $timeout @notify, 10
       listening = $interval @notify, 60000
 
-    stopListen: -> if listening? then $interval.cancel listening
+    stopListen: ->
+      if listening?
+        $interval.cancel listening
+        listening = null
+        
+    notificationFor: (order) -> notifications[order]
+    
+    removeNotification: (notification, callback) ->
+      for order, notific of notifications
+        if notific is notification then RESTHelperService.notification.remove notification, (res) ->
+          delete notifications[order]
+          callback res
 
   service.$inject = ["$state", "$rootScope", "$timeout", "$interval", "RESTHelperService", "authenticationService", "showNotificationService"]
 

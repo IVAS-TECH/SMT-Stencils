@@ -1,4 +1,5 @@
 controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
+  ctrl.labels = _id: 25, status: 15, price: 15, orderDate: 15, sendingDate: 15
   filter = $filter "filter"
   ctrl = @
   ctrl.fromDate = new Date()
@@ -39,13 +40,6 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
 
       $scope.$on "$destroy", -> listener() for listener in listeners
 
-  ctrl.labels =
-    _id: 25
-    status: 15
-    price: 15
-    orderDate: 15
-    sendingDate: 15
-
   ctrl.filterFn = (newValue) ->
     filtered = filter ctrl.fullListOfOrders, ctrl.filter
     ctrl.listOfOrders = filter filtered, (order) ->
@@ -59,9 +53,8 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
   ctrl.showAll = -> delete ctrl.showing
 
   ctrl.removeNotifcation = (order) ->
-    if order.notify? then RESTHelperService.notification.remove order.notify, (res) ->
-        index = ctrl.fullListOfOrders.indexOf order
-        delete ctrl.fullListOfOrders[index].notify
+    if order.notify? then notificationService.removeNotification order.notify, (res) ->
+        delete ctrl.fullListOfOrders[ctrl.fullListOfOrders.indexOf order].notify
         delete order.notify
 
   ctrl.choose = (event, order) ->
