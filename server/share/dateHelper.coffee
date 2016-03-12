@@ -3,13 +3,17 @@ separator = "/"
 module.exports =
 
   $get: ->
+  
     format: @formater()
+    
     parse: @parser()
-    compatible: (date,end) ->
-      @parse @format date
+    
+    compatible: (date,end) -> @parse @format date
+    
     iterator: (start, end) ->
       begging = @compatible start
       begging.setDate begging.getDate() - 1
+      
       value: begging
       inc: ->
         begging.setDate begging.getDate() + 1

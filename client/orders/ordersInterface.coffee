@@ -1,11 +1,11 @@
 controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
-  ctrl.labels = _id: 25, status: 15, price: 15, orderDate: 15, sendingDate: 15
   filter = $filter "filter"
   ctrl = @
   ctrl.fromDate = new Date()
   ctrl.toDate = new Date()
   ctrl.status = statusOptions
   ctrl.listOfOrders = []
+  ctrl.labels = _id: 25, status: 15, price: 15, orderDate: 15, sendingDate: 15
 
   init = ->
     RESTHelperService.order.find (res) ->
@@ -22,16 +22,14 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
             order
 
         (transformFn order for order in orders).sort (a, b) ->
-          indexA = ctrl.status.indexOf a.status
-          indexB = ctrl.status.indexOf b.status
-          notifyA = if a.notify? then 1 else 0
-          notifyB = if b.notify? then 1 else 0
-          index = indexA - indexB
-          if not index then notifyB - notifyA else index
+          value = (some) -> if some.notify? then 1 else 0
+          index = (ctrl.status.indexOf a.status) - (ctrl.status.indexOf b.status)
+          if not index then (value a) - (value b) else index
 
       ctrl.fullListOfOrders = transform yes
       ctrl.listOfOrders = ctrl.fullListOfOrders
       stopLoadingService "orders"
+      
       listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate"])
       
       $scope.$on "notification", ->
@@ -41,12 +39,9 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       $scope.$on "$destroy", -> listener() for listener in listeners
 
   ctrl.filterFn = (newValue) ->
-    filtered = filter ctrl.fullListOfOrders, ctrl.filter
+    filtered = if ctrl.filter? and ctrl.filter.length then filter ctrl.fullListOfOrders, ctrl.filter else ctrl.fullListOfOrders
     ctrl.listOfOrders = filter filtered, (order) ->
-      if order?
-        date = dateService.parse order.orderDate
-        return ctrl.toDate >= date >= ctrl.fromDate
-      else no
+      if order? then ctrl.toDate >= (dateService.parse order.orderDate) >= ctrl.fromDate else no
 
   ctrl.compareableDate = (wich) -> ctrl[wich + "Date"] = dateService.compatible ctrl[wich + "Date"]
 
