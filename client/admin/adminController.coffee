@@ -1,4 +1,4 @@
-controller = (simpleDialogService, $state, $controller, $scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, showCalculatedPriceService) ->
+controller = (simpleDialogService, $state, $controller, $scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
 
   ctrl = $controller "ordersInterface",
     "$scope": $scope
@@ -14,89 +14,58 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
   ctrl.adminPanel = "adminPanelView"
 
   init = ->
-
     RESTHelperService.visit.find (res) ->
-
       ctrl.listOfVisits = res.visits
-
       stopLoadingService "admin"
-
+      
       stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
-
         if not orders? then return
-
         beggin = ctrl.fromDate
-
         end = ctrl.toDate
-
         if end < beggin then [beggin, end] = [end, beggin]
-
         [ctrl.fromDate, ctrl.toDate] = [beggin, end]
-
         it = dateService.iterator beggin, end
-
         gap = end.getMonth() - beggin.getMonth()
-
         years = end.getFullYear() - beggin.getFullYear() + 1
-
         normalizate =  Math.abs (Math.floor end.getDate() / 3) - (Math.floor beggin.getDate() / 3)
-
         diff = Math.abs (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
-
-        interval =
-          current: diff
-          label: ""
-
+        interval = current: diff, label: ""
         intervals = {}
+        
+        emptyRecord = ->
+          obj = {}
+          obj[stat] = 0 for stat in ["count", "delivered", "revenue", "visits", "users"]
+          obj
 
         statisticData = (search) ->
-          data =
-            count: 0
-            delivered: 0
-            revenue: 0
-            visits: 0
-            users: 0
-
+          data = emptyRecord()
           for order in orders
             if order.orderDate is search
               data.count++
               data.revenue += order.price
-              if order.status is "delivered"
-                data.delivered++
-
+              if order.status is "delivered" then data.delivered++
           for visit in ctrl.listOfVisits
             if visit.date is search
               data.visits++
               if visit.user then data.users++
-
           data
 
         buildIntervals = (date) ->
           label = dateService.format date
           data = statisticData label
-
           if interval.current is diff
             interval.current = 0
             interval.label = label
-            intervals[label] =
-              count: 0
-              delivered: 0
-              revenue: 0
-              visits: 0
-              users: 0
+            intervals[label] = emptyRecord()
           else
             label = interval.label
             interval.current++
-
-          for info in ["count", "delivered", "revenue", "visits", "users"]
-            intervals[label][info] += data[info]
+          intervals[label][info] += data[info] for info in ["count", "delivered", "revenue", "visits", "users"]
 
         buildIntervals it.value while it.inc()
 
         buildCharts = ->
-
           labels = []
-
           charts =
             count:
               series: ["line-orders-count", "line-delivered"]
@@ -116,8 +85,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
             charts.visit.data[0].push data.visits
             charts.visit.data[1].push data.users
 
-          for chart in ["count", "revenue", "visit"]
-            charts[chart].labels = labels
+          charts[chart].labels = labels for chart in ["count", "revenue", "visit"]
 
           charts
 
@@ -133,21 +101,10 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
         stopRemove()
 
   ctrl.doAction = (event, order) ->
-    info =
-      info:
-        id: order._id
-        status: order.status
-        admin: yes
-        user: order.user._id
-        price: order.price
-    showDescriptionService event, info, success: ->
-      simpleDialogService event, "title-order-status-updated"
+    info = id: order._id, status: order.status, admin: yes, user: order.user._id, price: order.price
+    showDescriptionService event, {info: info}, success: -> simpleDialogService event, "title-order-status-updated"
 
-  ctrl.afterChoose = (event, order, stencil, callback) ->
-    if order.status is "new"
-      locals = order: order, stencil: stencil
-      showCalculatedPriceService event, locals, update: -> ctrl.doAction event, order
-    else callback()
+  ctrl.afterChoose = (event, order, stencil, callback) -> if order.status is "new" then ctrl.doAction event, order else callback()
 
   ctrl.editProfile = -> $state.go "home.admin.profile"
 
@@ -155,6 +112,6 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
 
   ctrl
 
-controller.$inject = ["simpleDialogService", "$state", "$controller", "$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "showCalculatedPriceService"]
+controller.$inject = ["simpleDialogService", "$state", "$controller", "$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService"]
 
 module.exports = controller

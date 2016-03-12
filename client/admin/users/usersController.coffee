@@ -2,16 +2,13 @@ controller = (RESTHelperService, confirmService, simpleDialogService, changeAcce
 
   ctrl = @
 
-  init = ->
-
-    RESTHelperService.user.find (res) -> ctrl.listOfUsers = res.users
+  init = -> RESTHelperService.user.find (res) -> ctrl.listOfUsers = res.users
 
   ctrl.changeAccess = (event, user) -> changeAccessService event, user: user
 
-  ctrl.removeAdmin = (event, user) ->
+  ctrl.removeUser = (event, user) ->
     confirmService event, success: ->
-      RESTHelperService.user.remove user._id, (res) ->
-        simpleDialogService event, "title-user-removed"
+      RESTHelperService.user.remove user._id, (res) -> simpleDialogService event, "title-user-removed"
 
   init()
 
