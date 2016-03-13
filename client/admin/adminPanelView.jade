@@ -5,12 +5,12 @@ md-tab
     md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)
       md-tab(ng-repeat="chart in ['revenue', 'count', 'visit']")
         md-tab-label
-          span(translate="{{'label-' + chart}}")
+          span(translate="{{'span-' + chart}}")
         md-tab-body
           ivst-bar-chart(chart="scopeCtrl.charts[chart]")
 md-tab(ng-click="scopeCtrl.editProfile()")
   md-tab-label
-    span(translate="label-admin")
+    span(translate="span-admin")
   md-tab-body
     ivst-state-switcher(state="home.admin" menu="admin")
     ui-view(layout="column" layout-wrap layout-padding layout-margin)

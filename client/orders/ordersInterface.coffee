@@ -40,6 +40,7 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
 
   ctrl.filterFn = (newValue) ->
     filtered = if ctrl.filter? and ctrl.filter.length then filter ctrl.fullListOfOrders, ctrl.filter else ctrl.fullListOfOrders
+    if ctrl.toDate < ctrl.fromDate then [ctrl.fromDate, ctrl.toDate] = [ctrl.toDate, ctrl.fromDate]
     ctrl.listOfOrders = filter filtered, (order) ->
       if order? then ctrl.toDate >= (dateService.parse order.orderDate) >= ctrl.fromDate else no
 

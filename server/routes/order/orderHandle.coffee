@@ -40,7 +40,7 @@ handle.patch = [
     if req.body.price? then order.price = req.body.price
     if order.status is "sent" then order.sendingDate = new Date()
 
-    (orderModel.findByIdAndUpdate req.body.id, $set: order, {new: true}).exec()
+    (orderModel.findByIdAndUpdate req.body.id, $set: order, {new: yes}).exec()
       .then (doc) ->
         if text[0] is ""
           (getDescriptionTemplate order.status, req.body.language).then (txt) ->

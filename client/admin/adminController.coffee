@@ -22,8 +22,6 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
         if not orders? then return
         beggin = ctrl.fromDate
         end = ctrl.toDate
-        if end < beggin then [beggin, end] = [end, beggin]
-        [ctrl.fromDate, ctrl.toDate] = [beggin, end]
         it = dateService.iterator beggin, end
         gap = end.getMonth() - beggin.getMonth()
         years = end.getFullYear() - beggin.getFullYear() + 1
@@ -31,10 +29,11 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
         diff = Math.abs (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
         interval = current: diff, label: ""
         intervals = {}
+        about = ["count", "delivered", "revenue", "visits", "users"]
         
         emptyRecord = ->
           obj = {}
-          obj[stat] = 0 for stat in ["count", "delivered", "revenue", "visits", "users"]
+          obj[stat] = 0 for stat in about
           obj
 
         statisticData = (search) ->
@@ -60,10 +59,8 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
           else
             label = interval.label
             interval.current++
-          intervals[label][info] += data[info] for info in ["count", "delivered", "revenue", "visits", "users"]
-
-        buildIntervals it.value while it.inc()
-
+          intervals[label][info] += data[info] for info in about
+          
         buildCharts = ->
           labels = []
           charts =
@@ -88,6 +85,8 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
           charts[chart].labels = labels for chart in ["count", "revenue", "visit"]
 
           charts
+
+        buildIntervals it.value while it.inc()
 
         ctrl.charts = buildCharts()
 
