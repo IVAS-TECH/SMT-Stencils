@@ -16,34 +16,25 @@ browserify = require "browserify"
 templateCache = require "gulp-angular-templatecache"
 {spawnSync} = require "child_process"
 
-gulp.task "apt-get", ->
-  spawnSync "sudo", ["apt-get", "install", "-y", "curl"]
-  spawnSync "curl", ["-sL", "https://deb.nodesource.com/setup_5.x"]
-  spawnSync "sudo", ["-E", "bash"]
-  spawnSync "sudo", ["apt-get", "install", "-y", "nodejs", "mongodb", "gerbv"]
+gulp.task "apt-get", -> spawnSync "sudo", ["apt-get", "install", "-y", "mongodb", "gerbv"]
 
-gulp.task "clean", ->
-  del.sync ["./templates", "./build", "./resources"]
+gulp.task "clean", -> del.sync ["./templates", "./build", "./resources"]
 
-gulp.task "clear", ["clean"], ->
-  del.sync ["./deploy"]
+gulp.task "clear", ["clean"], -> del.sync ["./deploy"]
 
 gulp.task "jade", ["clear"], ->
-  gulp
-    .src "./client/**/*.jade"
+  gulp.src "./client/**/*.jade"
     .pipe jade jade: require "jade"
     .on "error", gutil.log
     .pipe gulp.dest "./templates"
 
 gulp.task "index", ["jade"], ->
-  gulp
-    .src "./templates/index.html"
+  gulp.src "./templates/index.html"
     .pipe vinyl del
     .pipe gulp.dest "./build/inline"
 
 gulp.task "cache", ["index"], ->
-  gulp
-    .src "./templates/**/*.html"
+  gulp.src "./templates/**/*.html"
     .pipe vinyl del
     .pipe templateCache "templates.js",
       moduleSystem: "Browserify"
@@ -54,15 +45,13 @@ gulp.task "cache", ["index"], ->
     .pipe gulp.dest "./build"
 
 gulp.task "client", ["cache"], ->
-  gulp
-    .src "./client/**/*.coffee"
+  gulp.src "./client/**/*.coffee"
     .pipe coffee bare: yes
     .on "error", gutil.log
     .pipe gulp.dest "./build"
 
 gulp.task "server", ["client"], ->
-  gulp
-    .src "./server/**/*.coffee"
+  gulp.src "./server/**/*.coffee"
     .pipe coffee bare: yes
     .on "error", gutil.log
     .pipe gulp.dest "./deploy"
@@ -75,14 +64,12 @@ gulp.task "browserify", ["server"], ->
   stream
 
 gulp.task "uglify", ["browserify"], ->
-  gulp
-    .src "./build/bundle.js"
+  gulp.src "./build/bundle.js"
     .pipe gzip append: no
     .pipe gulp.dest "./deploy/send"
 
 gulp.task "stylus", ["uglify"], ->
-  gulp
-    .src "./client/styles/style.styl"
+  gulp.src "./client/styles/style.styl"
     .pipe stylus
       compress: yes
       use: nib()
@@ -92,8 +79,7 @@ gulp.task "stylus", ["uglify"], ->
     .pipe gulp.dest "./build"
 
 gulp.task "styles", ["stylus"], ->
-  gulp
-    .src [
+  gulp.src [
       "./build/style.css"
       "./node_modules/angular-material/angular-material.min.css"
       "./node_modules/angular-chart.js/dist/angular-chart.min.css"
@@ -108,8 +94,7 @@ gulp.task "styles", ["stylus"], ->
     .pipe gulp.dest "./deploy/send"
 
 gulp.task "bundle", ["styles"], ->
-  gulp
-    .src "./build/inline/index.html"
+  gulp.src "./build/inline/index.html"
     .pipe gzip append: no
     .pipe gulp.dest "./deploy/send"
 
@@ -121,14 +106,12 @@ gulp.task "clone", ["bundle"], ->
   ], stdio: "ignore"
 
 gulp.task "preview", ["clone"], ->
-  gulp
-    .src "./resources/top.html"
+  gulp.src "./resources/top.html"
     .pipe gzip append: no
     .pipe gulp.dest "./deploy/send/templates"
 
 gulp.task "favicon", ["preview"], ->
-  gulp
-    .src "./resources/favicon.ico"
+  gulp.src "./resources/favicon.ico"
     .pipe gzip append: no
     .pipe gulp.dest "./deploy/send"
 

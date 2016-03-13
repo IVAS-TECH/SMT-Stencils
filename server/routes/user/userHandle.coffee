@@ -46,7 +46,8 @@ wipeFromDB.push (req, res, next) ->
 module.exports =
 
   get: (req, res, next) ->
-    (userModel.find {}).exec().then ((docs) -> query res, users: docs), next
+    ((userModel.find {}).sort admin: "desc")
+      .exec().then ((docs) -> query res, users: docs), next
 
   post: (req, res, next) ->
     (userModel.create req.body.user).then ((doc) -> query res, doc), next

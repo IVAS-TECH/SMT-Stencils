@@ -1,5 +1,19 @@
 # diplomna3
 
+# install: [node] and [npm]
+
+Almost all [node] installs include and [npm]
+
+You can install node from it's official page:
+
+https://nodejs.org/en/download/
+
+Or if you are running Linux distribution and it's include here:
+
+https://github.com/nodesource/distributions
+
+you can install it from there.
+
 # setup
 
 Server can currently be ran under Linux only because of [gerbv] beeing a dependency.
@@ -11,8 +25,6 @@ you can setup the project by runing: [sudo npm run apt-get]
 else do:
 
 install: [mongodb]
-
-install: [node] and [npm]
 
 install: [gerbv] and make sure that it's build with Cairo!
 
