@@ -86,7 +86,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
 
           charts
 
-        buildIntervals it.value while it.inc()
+        buildIntervals it.value while it.next()
 
         ctrl.charts = buildCharts()
 
@@ -105,7 +105,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
 
   ctrl.afterChoose = (event, order, stencil, callback) -> if order.status is "new" then ctrl.doAction event, order else callback()
 
-  ctrl.editProfile = -> $state.go "home.admin.profile"
+  ctrl.goToUsers = -> $state.go "home.admin.users"
 
   init()
 

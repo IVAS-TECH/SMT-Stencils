@@ -1,6 +1,6 @@
 md-tab
   md-tab-label
-    span(translate="label-statistics")
+    span(translate="span-statistics")
   md-tab-body
     md-tabs(md-selected="0" md-dynamic-height="true" md-center-tabs)
       md-tab(ng-repeat="chart in ['revenue', 'count', 'visit']")
@@ -8,7 +8,7 @@ md-tab
           span(translate="{{'span-' + chart}}")
         md-tab-body
           ivst-bar-chart(chart="scopeCtrl.charts[chart]")
-md-tab(ng-click="scopeCtrl.editProfile()")
+md-tab(ng-click="scopeCtrl.goToUsers()")
   md-tab-label
     span(translate="span-admin")
   md-tab-body

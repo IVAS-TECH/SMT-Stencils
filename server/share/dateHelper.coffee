@@ -15,7 +15,7 @@ module.exports =
       begging.setDate begging.getDate() - 1
       
       value: begging
-      inc: ->
+      next: ->
         begging.setDate begging.getDate() + 1
         begging <= end
 
