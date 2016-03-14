@@ -5,7 +5,6 @@ directive = ($compile, $templateCache, scopeControllerService) ->
     include: "="
     controller: "="
   link: (scope, element, attrs) ->
-
     insertTemplate = (html) ->
       element.html html
       ($compile element.contents()) scope

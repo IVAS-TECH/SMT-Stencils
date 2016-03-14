@@ -1,11 +1,8 @@
 run = ($rootScope, $state, authenticationService, loginService, transitionService, notificationService, $timeout, $mdDialog) ->
     
     stop = $rootScope.$on "$stateChangeStart", (event, going) ->
-
       notRestricted = ["/about", "/technologies", "/contacts", "/notfound"]
-      
       admin = no
-      
       goTo = no
       
       force = (state) -> $state.go state.name, {}, reload: yes
@@ -27,7 +24,6 @@ run = ($rootScope, $state, authenticationService, loginService, transitionServic
           stopLoading()
 
       authenticationService.authenticate().then ->
-                
         if authenticationService.isAuthenticated()
             tryBecomeAdmin()
             if not admin then goTo = yes

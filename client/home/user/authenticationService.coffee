@@ -7,7 +7,6 @@ service = ($rootScope, $q, $translate, RESTHelperService) ->
   reset()
 
   authenticate: (authentication) ->
-
     broadcast = (auth) ->
       state = auth: yes, user: auth.user, session: auth.session ? yes, admin: auth.user.admin
       $translate.use auth.user.language

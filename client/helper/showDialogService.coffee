@@ -1,11 +1,8 @@
 service = ($mdDialog, $filter) ->
 
   (event, dialog, locals, handle = {}, extend = {}) ->
-
     locals.hide = $mdDialog.hide
-
     if extend? then handle[key] = value for key, value of extend
-
     $mdDialog
       .show
         templateUrl: dialog + "View"

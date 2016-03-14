@@ -3,7 +3,6 @@ provider = (RESTServiceProvider) ->
   _base = ""
 
   service = (Upload) ->
-
     (url) ->
       base = RESTServiceProvider.getBase()
       chain = [base, _base, url]
