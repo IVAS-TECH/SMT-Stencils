@@ -17,9 +17,9 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       
       transform = (full) ->
         transformFn = (order) ->
-            if full then order[type + "Date"] = dateService.format order[type + "Date"] for type in ["order", "sending"]
-            order.notify = notificationService.notificationFor order._id
-            order
+          if full then order[type + "Date"] = dateService.format order[type + "Date"] for type in ["order", "sending"]
+          order.notify = notificationService.notificationFor order._id
+          order
 
         (transformFn order for order in orders).sort (a, b) ->
           value = (some) -> if some.notify? then 1 else 0

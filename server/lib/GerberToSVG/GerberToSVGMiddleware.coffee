@@ -3,9 +3,7 @@ transform = require "./transform"
 
 module.exports = (middleware) ->
   if middleware isnt "send" then (req, res, next) ->
-  
     if not req.stencil? then req.stencil = apertures: {}
-    
     if req.gerbers[middleware]?
       (transform req.gerbers[middleware], req.gerbers.outline)
         .then (stencil) ->
@@ -16,5 +14,4 @@ module.exports = (middleware) ->
           next()
         .catch next
     else next()
-    
   else (req, res) -> query res, req.stencil
