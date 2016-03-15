@@ -65,8 +65,19 @@ gulp.task "browserify", ["server"], ->
 
 gulp.task "uglify", ["browserify"], ->
   gulp.src "./build/bundle.js"
-    .pipe gzip append: no
-    .pipe gulp.dest "./deploy/send"
+    .pipe uglify
+      mangle: yes
+      copress:
+        screw_ie8: yes
+        sequences: yes
+        dead_code: yes
+        conditionals: yes
+        booleans: yes
+        unused: yes
+        if_return: yes
+        join_vars: yes
+        drop_console: yes
+    .pipe gulp.dest "./build/inline"
 
 gulp.task "stylus", ["uglify"], ->
   gulp.src "./client/styles/style.styl"
@@ -90,11 +101,11 @@ gulp.task "styles", ["stylus"], ->
       "expand-vars": no
       "ugly-comments": yes
       "cute-comments": no
-    .pipe gzip append: no
-    .pipe gulp.dest "./deploy/send"
+    .pipe gulp.dest "./build/inline"
 
 gulp.task "bundle", ["styles"], ->
   gulp.src "./build/inline/index.html"
+    .pipe inline base: "./build/inline"
     .pipe gzip append: no
     .pipe gulp.dest "./deploy/send"
 
