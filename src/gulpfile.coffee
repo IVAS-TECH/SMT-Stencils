@@ -22,7 +22,11 @@ gulp.task "clean", -> del.sync ["./templates", "./build", "./resources"]
 
 gulp.task "clear", ["clean"], -> del.sync ["./deploy"]
 
-gulp.task "jade", ["clear"], ->
+gulp.task "mongo", ["clear"], ->
+  spawnSync "mkdir", ["mongo"]
+  spawnSync "mongod", ["--dbpath", "mongo"]
+
+gulp.task "jade", ["mongo"], ->
   gulp.src "./client/**/*.jade"
     .pipe jade jade: require "jade"
     .on "error", gutil.log
