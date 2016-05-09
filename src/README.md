@@ -28,6 +28,10 @@ install: [mongodb]
 
 install: [gerbv] and make sure that it's build with Cairo!
 
+# install dependencies
+
+run: [npm install] 
+
 # build
 
 run: [npm run build]
