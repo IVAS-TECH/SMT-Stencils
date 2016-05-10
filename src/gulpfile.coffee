@@ -128,6 +128,7 @@ gulp.task "favicon", ["preview"], ->
 
 gulp.task "folders", ["favicon"], ->
     spawnSync "cp", ["-R", "./descriptionTemplates", "./deploy"]
+    spawnSync "mkdir", ["./deploy/logs"]
     spawnSync "mkdir", ["./deploy/files"]
     spawnSync "mkdir", ["./deploy/files/tmp"]
 

@@ -5,7 +5,7 @@ errorLogger = require "./errorLogger"
 errorHandler = require "./errorHandler"
 sendFileMiddleware = require "./routes/sendFileMiddleware"
 
-errorStream = createWriteStream (join __dirname, "error.log"), flags: "a"
+errorStream = createWriteStream (join __dirname, "logs/error.log"), flags: "a"
 sendDir = join __dirname, 'send'
 sendFile = sendFileMiddleware sendDir
 
