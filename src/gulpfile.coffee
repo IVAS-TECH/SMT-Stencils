@@ -126,8 +126,13 @@ gulp.task "favicon", ["preview"], ->
     .pipe gzip append: no
     .pipe gulp.dest "./deploy/send"
 
-gulp.task "mongo", ["favicon"], ->
-  spawnSync "mkdir", ["mongo"]
+gulp.task "folders", ["favicon"], ->
+    spawnSync "cp", ["-R", "./descriptionTemplates", "./deploy"]
+    spawnSync "mkdir", ["./deploy/files"]
+    spawnSync "mkdir", ["./deploy/files/tmp"]
+
+gulp.task "mongo", ["folders"], ->
+  spawnSync "mkdir", ["./deploy/mongo"]
   spawnSync "mongod", ["--dbpath", "./deploy/mongo"]
 
 gulp.task "build", ["mongo"]

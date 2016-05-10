@@ -8,7 +8,7 @@ resolveDescriptionBindings = require "./description/resolveDescriptionBindings"
 getDescriptionTemplate = require "./description/getDescriptionTemplate"
 query = require "./../../lib/query"
 
-dir = join __dirname, "../../../files"
+dir = join __dirname, "./../../files"
 handle = basicCRUDHandle orderModel, "order"
 
 handle.download =

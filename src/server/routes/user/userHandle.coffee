@@ -11,7 +11,7 @@ models = [
   require "./../order/addresses/addressesModel"
 ]
 
-files = join __dirname, "../../../files"
+files = join __dirname, "./../../files"
 
 wipeFromCollection = (collection) ->
   (req, res, next) ->

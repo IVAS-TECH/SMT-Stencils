@@ -1,10 +1,11 @@
 {spawn} = require "child_process"
 randomString = require "randomstring"
 fs = require "fs"
+{join} = require "path"
 
 module.exports = (paste, outline) ->
   new Promise (resolve, reject) ->
-    output = "./files/tmp/#{randomString.generate()}.svg"
+    output = join __dirname, "../../files/tmp/#{randomString.generate()}.svg"
     error = no
     gerbv = spawn "gerbv", ["-x", "svg", "-o", output, "-a", "--foreground=#FFFFFFFF", paste, "--foreground=#000000FF", outline]
     gerbv.stderr.on "data", (data) ->

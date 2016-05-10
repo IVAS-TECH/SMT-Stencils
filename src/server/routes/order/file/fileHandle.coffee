@@ -3,7 +3,7 @@ fs = require "fs"
 config = require "./multerConfig"
 query = require "./../../../lib/query"
 GerberToSVGMiddleware = require "./../../../lib/GerberToSVG/GerberToSVGMiddleware"
-multerConfig = config join __dirname, "../../../../files"
+multerConfig = config join __dirname, "./../../../files"
 
 transformReq = (info) ->
   (req, res, next) ->
