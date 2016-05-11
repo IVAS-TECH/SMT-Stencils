@@ -58,7 +58,7 @@ module.exports =
       .exec().then ((doc) -> query res, doc), next
 
   put: (req, res, next) ->
-    (userModel.findOne email: req.body.email).exec()
+    (userModel.findOne email: req.body.taken).exec()
       .then ((doc) -> query res, taken: doc?), next
 
   delete: wipeFromDB

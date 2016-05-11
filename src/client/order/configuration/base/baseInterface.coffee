@@ -7,8 +7,9 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
   ctrl.template = link + "PanelView"
   ctrl.controller = "baseCtrl"
   ctrl.valid = []
+  ctrl.prevName = ""
   ctrl[link + "Object"] = {}
-  
+
   ctrl.change = ->
 
   ctrl.getObjects = ->
@@ -17,7 +18,7 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
   ctrl.reset = ->
     ctrl[link + "Disabled"] = no
-    ctrl[link + "Action"] = "create" 
+    ctrl[link + "Action"] = "create"
     delete ctrl[link + "Index"]
     ctrl[link + "Object"] = {}
     ctrl.change()
@@ -29,22 +30,25 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
   ctrl.choose = ->
     ctrl.preview()
     ctrl[link + "Object"] = ctrl[link + "List"][ctrl[link + "Index"]]
+    ctrl.prevName = ctrl[link + "Object"].name
     ctrl.change()
 
-  ctrl.isValid = (event, resolve, reject) ->
+  ctrl.check = (name) -> if not name? or ctrl.prevName is name then "" else ctrl.link
+
+  ctrl.isValid = (name, event, resolve, reject) ->
     tryToCall = (fns) -> (if fn? then fn()) for fn in fns
     checkValid = -> ctrl.valid.length and (ctrl.valid.every (e) -> e is yes)
-    if checkValid() and ctrl[link + "Object"].name then tryToCall [resolve]
+    if checkValid() and name then tryToCall [resolve]
     else tryToCall [reject, -> simpleDialogService event, "required-fields"]
 
-  ctrl.save = (event) ->
+  ctrl.save = (name, event) ->
     $q (resolve, reject) ->
       create = ->
         RESTHelperService[link].create "#{link}": ctrl[link + "Object"], (res) ->
           ctrl[link + "Index"] = ctrl[link + "List"].length
-          ctrl[link + "List"].push res 
+          ctrl[link + "List"].push res
           resolve()
-      ctrl.isValid event, create, reject
+      ctrl.isValid name, event, create, reject
 
   if not ctrl.settings
     properties = (link + prop for prop in ["Object", "List", "Index", "Action", "Disabled"])
@@ -59,8 +63,8 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
         ctrl.choose()
         stop()
 
-    ctrl.next = (event) ->
-      if ctrl.saveIt and ctrl[link + "Action"] is "create" then (ctrl.save event).then progress.next
+    ctrl.next = (name, event) ->
+      if ctrl.saveIt and ctrl[link + "Action"] is "create" then (ctrl.save name, event).then progress.next
       else progress.next()
 
     ctrl.back = progress.back
@@ -76,15 +80,15 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
           ctrl[link + "List"].splice ctrl[link + "Index"], 1
           ctrl.reset()
 
-    ctrl.update = (event) ->
-      ctrl.isValid event, ->
+    ctrl.update = (name, event) ->
+      ctrl.isValid name or (ctrl.prevName is ctrl[link + "Object"].name), event, ->
         confirmService event, success: ->
           RESTHelperService[link].update "#{link}": ctrl[link + "Object"], (res) -> ctrl.preview()
 
-    ctrl.doAction = (event) ->
+    ctrl.doAction = (name, event) ->
       action = ctrl[link + "Action"]
-      if action is "create" then ctrl.save event
-      if action is "edit" then ctrl.update event
+      if action is "create" then ctrl.save name, event
+      if action is "edit" then ctrl.update name, event
 
   ctrl
 

@@ -136,4 +136,4 @@ gulp.task "mongo", ["folders"], ->
   spawnSync "mkdir", ["./deploy/mongo"]
   spawnSync "mongod", ["--dbpath", "./deploy/mongo"]
 
-gulp.task "build", ["mongo"]
+gulp.task "build", ["folders"]

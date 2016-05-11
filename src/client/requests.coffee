@@ -1,7 +1,7 @@
-crud = ["find", "create", "remove", "update"]
+crud = ["find", "create", "remove", "update", "taken"]
 
 order = (value for value in crud)
-order.push "view"
+order[order.length - 1] = "view"
 
 find = ["find"]
 
@@ -9,7 +9,7 @@ findAndRemove = ["find", "remove"]
 
 module.exports =
 
-  user: ["find", "register", "email", "profile", "remove"]
+  user: ["find", "register", "taken", "profile", "remove"]
 
   login: ["logged", "login", "logout"]
 
@@ -28,12 +28,12 @@ module.exports =
   notification: findAndRemove
 
   language: find
-  
+
   upload: ["preview", "order"]
-  
+
   alias:
     get: ["find", "logged", "fetch"]
     post: ["register", "login", "create"]
     delete: ["remove", "logout"]
     patch: ["update", "profile"]
-    put: ["view", "email"]
+    put: ["view", "taken"]

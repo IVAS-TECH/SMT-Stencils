@@ -7,8 +7,8 @@ directive = ->
   bindToController:
     state: "@"
     menu: "@"
-    override: "="
-    remove: "="
+    override: "<"
+    remove: "<"
 
 directive.$inject = []
 
