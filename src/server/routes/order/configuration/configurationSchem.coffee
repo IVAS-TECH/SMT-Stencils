@@ -1,5 +1,9 @@
 module.exports =
-  name: String
+  name:
+    type: String
+    unique: yes
+    required: yes
+    mongoose: yes
   user: "User"
   fudical:
     marks: String

@@ -8,7 +8,11 @@ address =
   lastname: String
 
 module.exports =
-  name: String
+  name:
+    type: String
+    unique: yes
+    required: yes
+    mongoose: yes
   user: "User"
   delivery: address
   invoice: address
