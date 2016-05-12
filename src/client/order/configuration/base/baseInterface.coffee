@@ -7,14 +7,17 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
   ctrl.template = link + "PanelView"
   ctrl.controller = "baseCtrl"
   ctrl.valid = []
-  ctrl.prevName = ""
+  ctrl[link + "Names"] = []
+  ctrl[link + "Name"] = ""
   ctrl[link + "Object"] = {}
 
   ctrl.change = ->
 
   ctrl.getObjects = ->
     field = link + "List"
-    RESTHelperService[link].find (res) -> ctrl[field] = res[field]
+    RESTHelperService[link].find (res) ->
+      ctrl[field] = res[field]
+      ctrl[link + "Names"] = (obj.name for obj in res[field])
 
   ctrl.reset = ->
     ctrl[link + "Disabled"] = no
@@ -29,11 +32,11 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
 
   ctrl.choose = ->
     ctrl.preview()
+    ctrl[link + "Index"] = ctrl[link + "List"].findIndex (e) -> e.name is ctrl[link + "Name"]
     ctrl[link + "Object"] = ctrl[link + "List"][ctrl[link + "Index"]]
-    ctrl.prevName = ctrl[link + "Object"].name
     ctrl.change()
 
-  ctrl.check = (name) -> if not name? or ctrl.prevName is name then "" else ctrl.link
+  ctrl.check = (value) -> value? and ctrl[link + "Name"] isnt value
 
   ctrl.isValid = (name, event, resolve, reject) ->
     tryToCall = (fns) -> (if fn? then fn()) for fn in fns
@@ -47,11 +50,13 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
         RESTHelperService[link].create "#{link}": ctrl[link + "Object"], (res) ->
           ctrl[link + "Index"] = ctrl[link + "List"].length
           ctrl[link + "List"].push res
+          ctrl[link + "Name"] = res.name
+          ctrl[link + "Names"].push ctrl[link + "Name"]
           resolve()
       ctrl.isValid name, event, create, reject
 
   if not ctrl.settings
-    properties = (link + prop for prop in ["Object", "List", "Index", "Action", "Disabled"])
+    properties = (link + prop for prop in ["Object", "List", "Index", "Action", "Disabled", "Name", "Names"])
     properties.push awaitProperty for awaitProperty in awaiting
     excludeProperties = ["link", "template", "valid", "btnBack", "settings", "common", "controller"]
     excludeProperties.push excld for excld in exclude
@@ -78,12 +83,16 @@ controller = ($scope, $q, RESTHelperService, simpleDialogService, progressServic
       confirmService event, success: ->
         RESTHelperService[link].remove ctrl[link + "Object"]._id, (res) ->
           ctrl[link + "List"].splice ctrl[link + "Index"], 1
+          ctrl[link + "Names"].splice ctrl[link + "Index"], 1
           ctrl.reset()
 
     ctrl.update = (name, event) ->
-      ctrl.isValid name or (ctrl.prevName is ctrl[link + "Object"].name), event, ->
+      ctrl.isValid name or (ctrl[link + "Name"] is ctrl[link + "Object"].name), event, ->
         confirmService event, success: ->
-          RESTHelperService[link].update "#{link}": ctrl[link + "Object"], (res) -> ctrl.preview()
+          RESTHelperService[link].update "#{link}": ctrl[link + "Object"], (res) ->
+            ctrl[link + "Name"] = ctrl[link + "Object"].name
+            ctrl[link + "Names"][ctrl[link + "Index"]] = ctrl[link + "Name"]
+            ctrl.preview()
 
     ctrl.doAction = (name, event) ->
       action = ctrl[link + "Action"]

@@ -4,8 +4,8 @@ div(layout="column" layout-align="center center" layout-wrap)
     div(layout="row" layout-align="center center" layout-wrap)
       md-input-container(flex="auto")
         label(translate="label-choose")
-        md-select(ng-model="baseCtrl[baseCtrl.link + 'Index']" ng-change="baseCtrl.choose()")
-          md-option(ng-repeat="object in baseCtrl[baseCtrl.link + 'List']" ng-value="$index") {{object.name}}
+        md-select(ng-model="baseCtrl[baseCtrl.link + 'Name']" ng-change="baseCtrl.choose()")
+          md-option(ng-repeat="name in baseCtrl[baseCtrl.link + 'Names']") {{name}}
       div(ng-if="baseCtrl.settings" layout="row" layout-align="center center")
         md-button(ng-click="baseCtrl.edit()" class="md-primary" aria-label="edit" translate="button-edit")
         md-button(ng-click="baseCtrl.delete($event)" class="md-warn" aria-label="delete" translate="button-delete")
@@ -22,17 +22,18 @@ div(layout="column" layout-align="center center" layout-wrap)
         )
           p(translate="checkbox-save-configuration")
         form(name="wrapper" layout="column" layout-wrap)
-            md-input-container(flex="auto")
-              label(translate="{{'label-' + baseCtrl.link + '-name'}}")
-              input(
-                  ng-model="baseCtrl[baseCtrl.link + 'Object'].name"
-                  name="name"
-                  ng-disabled="baseCtrl[baseCtrl.link + 'Disabled']"
-                  ivst-is-taken="{{baseCtrl.check(baseCtrl[baseCtrl.link + 'Object'].name)}}"
-              )
-              div(ng-messages="wrapper.name.$error")
-                div(ng-message="is-taken")
-                    span(translate="error-name-taken")
+          md-input-container(flex="auto")
+            label(translate="{{'label-' + baseCtrl.link + '-name'}}")
+            input(
+              ng-model="baseCtrl[baseCtrl.link + 'Object'].name"
+              name="name"
+              should-test="baseCtrl.check(value)"
+              ivst-is-taken="{{baseCtrl.link}}"
+              ng-disabled="baseCtrl[baseCtrl.link + 'Disabled']"
+            )
+            div(ng-messages="wrapper.name.$error")
+              div(ng-message="is-taken")
+                span(translate="error-name-taken")
         md-button(
           ng-if="baseCtrl.settings && baseCtrl[baseCtrl.link + 'Action'] !== 'preview'"
           ng-click="baseCtrl.doAction(wrapper.name.$valid, $event)"
