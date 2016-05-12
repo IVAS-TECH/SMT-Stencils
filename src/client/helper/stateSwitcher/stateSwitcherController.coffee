@@ -8,21 +8,18 @@ controller = ($scope, $state, statesForStateService) ->
 
     override = (event, toState, toParams, fromState, fromParams) ->
       current = toState.name
-      console.log current
       ctrl.selected = ((current.match state + "(?!s)")? for state in ctrl.states)
       if ctrl.override?
         name = current.split separator
         check = name[name.length - 1]
-        override = ctrl.override[check]
-        if override? then $state.go [ctrl.state, check, override].join separator
+        change = ctrl.override[check]
+        if change? then $state.go [ctrl.state, check, change].join separator
 
     override null, $state.current
 
     stop = $scope.$on "$stateChangeSuccess", override
 
-    $scope.$on "$destroy", ->
-        console.log "DESTROY"
-        stop()
+    $scope.$on "$destroy", stop
 
   ctrl.switchState = (state) -> $state.go ctrl.state + separator + state
 
