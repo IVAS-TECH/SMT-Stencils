@@ -17,7 +17,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
     RESTHelperService.visit.find (res) ->
       ctrl.listOfVisits = res.visits
       stopLoadingService "admin"
-      
+
       stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
         if not orders? then return
         beggin = ctrl.fromDate
@@ -30,7 +30,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
         interval = current: diff, label: ""
         intervals = {}
         about = ["count", "delivered", "revenue", "visits", "users"]
-        
+
         emptyRecord = ->
           obj = {}
           obj[stat] = 0 for stat in about
@@ -60,7 +60,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
             label = interval.label
             interval.current++
           intervals[label][info] += data[info] for info in about
-          
+
         buildCharts = ->
           labels = []
           charts =
