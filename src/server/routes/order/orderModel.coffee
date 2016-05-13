@@ -1,4 +1,9 @@
 makeModel = require "./../../lib/makeModel"
+configurationSchem = require "./configuration/configurationSchem"
+addressesSchem = require "./addresses/addressesSchem"
+
+configurationSchem.name = String
+addressesSchem.name = String
 
 date = [Date, Date.now]
 
@@ -20,5 +25,5 @@ module.exports = makeModel "Order",
       width: Number
   topText: [String]
   bottomText: [String]
-  configurationObject: require "./configuration/configurationSchem"
-  addressesObject: require "./addresses/addressesSchem"
+  configurationObject: configurationSchem
+  addressesObject: addressesSchem

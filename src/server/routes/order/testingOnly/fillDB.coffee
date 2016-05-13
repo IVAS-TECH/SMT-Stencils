@@ -25,21 +25,28 @@ statuses = ["new", "accepted", "sent", "delivered", "rejected"]
 
 created = []
 
+visit = ip: "127.0.0.1"
+
+success = ->
+  console.log "fill"
+  process.exit()
+
+fail = (err) ->
+  console.log "error", err
+  process.exit()
+
 model.find {}, (err, doc) ->
-	if not err?
-		fake = doc[0]
-		fake._id = undefined
-		for i in [0..99]
-		  order = JSON.parse JSON.stringify fake
-		  order.sendingDate = sendingDates[randomN sendingDates.length]
-		  order.orderDate = orderDates[randomN orderDates.length]
-		  order.price = prices[randomN prices.length]
-		  order.status = statuses[randomN statuses.length]
-		  created.push model.create order
-		  created.push visits.create
-				date: date.format orderDates[randomN orderDates.length]
-				user: Math.random() >= 0.5
-				ip: "ip"
-		Promise
-		  .all created
-		  .then (-> console.log "fill"), ((e)-> console.log "err", e)
+  if not err?
+    fake = doc[0]
+    fake._id = undefined
+    for i in [0..99]
+      order = JSON.parse JSON.stringify fake
+      order.sendingDate = sendingDates[randomN sendingDates.length]
+      order.orderDate = orderDates[randomN orderDates.length]
+      order.price = prices[randomN prices.length]
+      order.status = statuses[randomN statuses.length]
+      created.push model.create order
+      visit.date = date.format orderDates[randomN orderDates.length]
+      visit.user = Math.random() >= 0.5
+      created.push visits.create visit
+    (Promise.all created).then success, fail
