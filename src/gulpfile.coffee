@@ -141,5 +141,5 @@ gulp.task "build", ["folders"]
 
 gulp.task "mocha", [], ->
     spawnSync "./node_modules/.bin/mocha", ["--opts", "./server/mocha.conf", "./server/lib/test"], stdio: "inherit"
-    spawnSync "./node_modules/.bin/istanbul", ["report", "text-summary", "lcov"], stdio: "inherit"
+    spawnSync "./node_modules/.bin/istanbul", ["report", "text-summary", "lcov", "html"], stdio: "inherit"
     open "./coverage/lcov-report/index.html"

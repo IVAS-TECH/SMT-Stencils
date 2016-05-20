@@ -10,7 +10,10 @@ module.exports = (model, schema) ->
       return type: mongoose.Schema.Types.ObjectId, ref: value
 
     if typeof value is "object"
-      return if value.mongoose then value else schemafy value
+      if value.mongoose
+        delete value.mongoose
+        return value
+      else return schemafy value
 
     if key is "type" then return type: value
 
