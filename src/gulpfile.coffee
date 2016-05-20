@@ -9,6 +9,7 @@ vinyl = require "vinyl-paths"
 coffee = require "gulp-coffee"
 stylus = require "gulp-stylus"
 css = require "gulp-uglifycss"
+open = require "open"
 inline = require "gulp-inline"
 concat = require "gulp-concat"
 uglify = require "gulp-uglify"
@@ -137,3 +138,8 @@ gulp.task "mongo", ["folders"], ->
   spawnSync "mongod", ["--dbpath", "./deploy/mongo"]
 
 gulp.task "build", ["folders"]
+
+gulp.task "mocha", [], ->
+    spawnSync "./node_modules/.bin/mocha", ["--opts", "./server/mocha.conf", "./server/lib/test"], stdio: "inherit"
+    spawnSync "./node_modules/.bin/istanbul", ["report", "text-summary", "lcov"], stdio: "inherit"
+    open "./coverage/lcov-report/index.html"

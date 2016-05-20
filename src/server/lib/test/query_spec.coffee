@@ -1,63 +1,25 @@
 describe "query", ->
+    query = res = obj = undefined
 
-  query = require "./../query"
+    beforeEach ->
+        query = sinon.spy require "./../query"
+        res =
+            setHeader: sinon.spy()
+            status: sinon.stub()
+            send: sinon.spy()
+        res.status.returnsThis res
 
-  describe "query checks", ->
+    it "should have a predefined behavour", ->
+        query res, obj
+        (expect query).to.have.been.calledWithExactly res, obj
+        (expect res.setHeader).to.have.been.calledWithExactly "Cache-Control", "public, max-age=50"
+        (expect res.status).to.have.been.calledWithExactly 200
+        (expect res.send).to.have.been.calledWithExactly {}
 
-    before -> query = require "./../query"
+    it "should send what have been passed", ->
+        obj = ivo: 9
+        query res, obj
+        (expect res.send).to.have.been.calledWithExactly obj
 
-    describe "successful", ->
-
-      it "returns true if db query is successful", ->
-
-        expect(query.successful null, _id: "some id").to.be.true
-
-      it "returns false if db query failed", ->
-
-        expect(query.successful new Error(), _id: "some id").to.be.false
-
-        expect(query.successful new Error()).to.be.false
-
-    describe "noErr", ->
-
-      it "returns true if thre is no db query error", ->
-
-        expect(query.noErr null).to.be.true
-
-      it "returns false if thre was a db query error", ->
-
-        expect(query.noErr new Error()).to.be.false
-
-    describe "basicHandle", ->
-
-      next = send = undefined
-
-      beforeEach ->
-
-        send = sinon.spy (res) ->
-
-        next = sinon.spy (err) ->
-
-        proxyquire = require "proxyquire"
-
-        query = proxyquire "./../query", "./send": send
-
-      it "sends if db query was successfull", ->
-
-        res = {}
-
-        query.basicHandle null, {}, res, ->
-
-        expect(send).to.have.been.calledWith res
-
-      it "passes err no req pipe if there was error", ->
-
-        e = new Error()
-
-        res = {}
-
-        query.basicHandle e, {}, res, next
-
-        expect(send).to.have.not.been.calledWith res
-
-        expect(next).to.have.been.calledWith e
+    it "should throw exception if res isn't the same as the request arg", ->
+        (expect query).to.throw TypeError
