@@ -47,7 +47,6 @@
     "chai": "3.5.0",
     "sinon": "1.17.4",
     "sinon-chai": "2.8.0",
-    "chai-as-promised": "5.3.0",
     "jasmine-core": "2.4.1",
     "karma-chrome-launcher": "1.0.1",
     "karma-jasmine": "1.0.2",
