@@ -140,6 +140,9 @@ gulp.task "mongo", ["folders"], ->
 gulp.task "build", ["folders"]
 
 gulp.task "mocha", [], ->
-    spawnSync "./node_modules/.bin/mocha", ["--opts", "./server/mocha.conf", "./server/lib/test", "./server/lib/session/test", "./server/share/test"], stdio: "inherit"
+    tests = ["./server/lib/test", "./server/lib/session/test", "./server/share/test", "./server/test"]
+    mocha = ["--opts", "./server/mocha.conf"]
+    mocha.push dir for dir in tests
+    spawnSync "./node_modules/.bin/mocha", mocha, stdio: "inherit"
     spawnSync "./node_modules/.bin/istanbul", ["report", "text-summary", "lcov", "html"], stdio: "inherit"
     open "./coverage/lcov-report/index.html"
