@@ -10,16 +10,11 @@ sendDir = join __dirname, 'send'
 sendFile = sendFileMiddleware sendDir
 
 module.exports =
-
-  beforeEach: [bodyParser.json(), errorLogger errorStream]
-
-  get: sendFile "index.html"
-
-  api: require "./routes/routes"
-
-  "favicon.ico": get: sendFile "favicon.ico"
-
-  afterEach: [
-    (req, res, next) -> next new Error "Not Found"
-    errorHandler errorStream, "/#!/notfound"
-  ]
+    beforeEach: [bodyParser.json(), errorLogger errorStream]
+    get: sendFile "index.html"
+    api: require "./routes/routes"
+    "favicon.ico": get: sendFile "favicon.ico"
+    afterEach: [
+        (req, res, next) -> next new Error "Not Found"
+        errorHandler errorStream, "/#!/notfound"
+    ]

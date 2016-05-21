@@ -140,7 +140,7 @@ gulp.task "mongo", ["folders"], ->
 gulp.task "build", ["folders"]
 
 gulp.task "mocha", [], ->
-    tests = ["./server/lib/test", "./server/lib/session/test", "./server/share/test", "./server/test"]
+    tests = ["./server/lib/test", "./server/lib/session/test", "./server/share/test", "./server/test", "./server/routes/test"]
     mocha = ["--opts", "./server/mocha.conf"]
     mocha.push dir for dir in tests
     spawnSync "./node_modules/.bin/mocha", mocha, stdio: "inherit"
