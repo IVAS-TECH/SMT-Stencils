@@ -13,7 +13,6 @@ describe "languageHandle", ->
             "./../../lib/query": query
         userModel.findById.returns exec: -> found
 
-
     it "queries user language", (done) ->
         user =
             email: "test@test.com"
