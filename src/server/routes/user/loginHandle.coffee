@@ -18,7 +18,8 @@ module.exports =
             else next()
         (req, res, next) ->
             find = date: date.format(), ip: if req.userIP? then req.userIP else req.user.ip
-            (visitModel.update find, user: req.send.login, {upsert: yes}).exec().then (-> query res, req.send), next
+            update = (visitModel.update find, user: req.send.login, {upsert: yes})
+            update.exec().then (-> query res, req.send), next
     ]
     post: [
         (req, res, next) ->
