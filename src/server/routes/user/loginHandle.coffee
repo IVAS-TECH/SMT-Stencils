@@ -16,6 +16,7 @@ module.exports =
                     next()
                 ), next
             else next()
+
         (req, res, next) ->
             find = date: date.format(), ip: if req.userIP? then req.userIP else req.user.ip
             update = (visitModel.update find, user: req.send.login, {upsert: yes})
@@ -27,7 +28,9 @@ module.exports =
                 req.user = doc
                 next()
             ), next
+
         session.set
+
         (req, res) ->
             login = req.user?
             query res, login: login, user: if login then req.user.user else req.user
