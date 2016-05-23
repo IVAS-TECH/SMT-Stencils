@@ -84,6 +84,49 @@ describe "userHandle", ->
                 (expect query).to.have.not.been.called
                 done()
 
+    describe ".patch", ->
+        update = user = undefined
+
+        beforeEach ->
+            req.user = user: _id: "23020324"
+            user =
+                email: "test@test.com"
+                password: "123456"
+                language: "en"
+                admin: 2
+            req.body = user: user
+            userModel.findByIdAndUpdate.returns exec: -> update
+
+        it "finds and updates user by using req.user.user._id if req.body.id is \"id\"", (done) ->
+            update = new Promise (resolve, reject) -> resolve user
+            req.body.id = "id"
+            userHandle.patch req, res, next
+            (expect userModel.findByIdAndUpdate).to.have.been.calledWithExactly req.user.user._id, $set: req.body.user, {new: yes}
+            update.then (doc) ->
+                (expect query).to.have.been.calledWithExactly res, user
+                (expect next).to.have.not.been.called
+                done()
+
+        it "finds and updates user by using req.body.id if req.body.id isn't \"id\"", (done) ->
+            update = new Promise (resolve, reject) -> resolve user
+            req.body.id = "394239435"
+            userHandle.patch req, res, next
+            (expect userModel.findByIdAndUpdate).to.have.been.calledWithExactly req.body.id, $set: req.body.user, {new: yes}
+            update.then (doc) ->
+                (expect query).to.have.been.calledWithExactly res, user
+                (expect next).to.have.not.been.called
+                done()
+
+        it "calls next with occured error, if there was one", (done) ->
+            error = new Error()
+            update = new Promise (resolve, reject) -> reject error
+            req.body.id = "id"
+            userHandle.patch req, res, next
+            update.then null, (err) ->
+                (expect next).to.have.been.calledWithExactly error
+                (expect query).to.have.not.been.called
+                done()
+
     describe ".put", ->
         find = undefined
 
@@ -117,3 +160,6 @@ describe "userHandle", ->
                 (expect next).to.have.been.calledWithExactly error
                 (expect query).to.have.not.been.called
                 done()
+
+    describe ".delete", ->
+        it "need's to be written at some point"
