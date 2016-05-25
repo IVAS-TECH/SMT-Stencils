@@ -136,7 +136,7 @@ gulp.task "folders", ["favicon"], ->
 gulp.task "build", ["folders"]
 
 gulp.task "mocha", [], ->
-    tests = ["", "lib", "lib/session", "share", "routes", "routes/user/visit", "routes/user", "routes/order/notification", "routes/order/description", "routes/order"]
+    tests = ["", "lib", "lib/session", "share", "routes", "routes/user/visit", "routes/user", "routes/order/notification", "routes/order/description", "routes/order", "routes/order/file"]
     mocha = ["--opts", "./server/mocha.conf"]
     mocha.push "./server/" + dir + "/test" for dir in tests
     spawnSync "./node_modules/.bin/mocha", mocha, stdio: "inherit"
