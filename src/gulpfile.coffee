@@ -133,14 +133,10 @@ gulp.task "folders", ["favicon"], ->
     spawnSync "mkdir", ["./deploy/files"]
     spawnSync "mkdir", ["./deploy/files/tmp"]
 
-gulp.task "mongo", ["folders"], ->
-  spawnSync "mkdir", ["./deploy/mongo"]
-  spawnSync "mongod", ["--dbpath", "./deploy/mongo"]
-
 gulp.task "build", ["folders"]
 
 gulp.task "mocha", [], ->
-    tests = ["", "lib", "lib/session", "share", "routes", "routes/user/visit", "routes/user", "routes/order/notification", "routes/order/description"]
+    tests = ["", "lib", "lib/session", "share", "routes", "routes/user/visit", "routes/user", "routes/order/notification", "routes/order/description", "routes/order"]
     mocha = ["--opts", "./server/mocha.conf"]
     mocha.push "./server/" + dir + "/test" for dir in tests
     spawnSync "./node_modules/.bin/mocha", mocha, stdio: "inherit"

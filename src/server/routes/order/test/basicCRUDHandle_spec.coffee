@@ -1,125 +1,154 @@
 describe "basicCRUDHandle", ->
+    handle = query = model = req = res = next = undefined
 
-  proxyquire = require "proxyquire"
+    beforeEach ->
+        query = sinon.spy()
+        next = sinon.spy()
+        req = user: user: _id: "342923173924"
+        res = {}
+        model =
+            find: sinon.stub()
+            create: sinon.stub()
+            findByIdAndUpdate: sinon.stub()
+            findOne: sinon.stub()
+            remove: sinon.stub()
+        proxyquire = require "proxyquire"
+        basicCRUDHandle = proxyquire "./../basicCRUDHandle", "./../../lib/query": query
+        handle = basicCRUDHandle model, "test"
 
-  req = basicHandle = send = next = handle = modelStub = undefined
+    describe ".get", ->
+        find = undefined
 
-  model =
-    create: ->
-    find: ->
-    findByIdAndUpdate: ->
-    remove: ->
+        beforeEach -> model.find.returns exec: -> find
 
-  res = {}
+        it "gets all documents for user with _id req.user.user._id", (done) ->
+            documents = []
+            find = new Promise (resolve, reject) -> resolve documents
+            handle.get req, res, next
+            (expect model.find).to.have.been.calledWithExactly user: req.user.user._id
+            find.then (docs) ->
+                (expect query).to.have.been.calledWithExactly res, testList: documents
+                (expect next).to.have.not.been.called
+                done()
 
-  error = new Error()
+        it "calls next with occured error, if there was one", (done) ->
+            error = new Error()
+            find = new Promise (resolve, reject) -> reject error
+            handle.get req, res, next
+            find.then null, (err) ->
+                (expect next).to.have.been.calledWithExactly error
+                (expect query).to.have.not.been.called
+                done()
 
-  before ->
+    describe ".post", ->
+        beforeEach -> req.body = test: {}
 
-    modelStub = sinon.stub model
+        it "creates new document", (done) ->
+            created = _id: "394234274137"
+            create = new Promise (resolve, reject) -> resolve created
+            model.create.returns create
+            handle.post req, res, next
+            (expect req.body.test.user).to.equal req.user.user._id
+            (expect model.create).to.have.been.calledWithExactly req.body.test
+            create.then (doc) ->
+                (expect query).to.have.been.calledWithExactly res, created
+                (expect next).to.have.not.been.called
+                done()
 
-    send = sinon.spy()
+        it "calls next with occured error, if there was one", (done) ->
+            error = new Error()
+            create = new Promise (resolve, reject) -> reject error
+            model.create.returns create
+            handle.post req, res, next
+            create.then null, (err) ->
+                (expect next).to.have.been.calledWithExactly error
+                (expect query).to.have.not.been.called
+                done()
 
-    next = sinon.spy()
+    describe ".patch", ->
+        id = update = undefined
 
-    basicHandle = sinon.spy()
+        beforeEach ->
+            id = "34252534545534"
+            req.body = test: _id: id
+            model.findByIdAndUpdate.returns exec: -> update
 
-    tested = proxyquire "./../basicCRUDHandle",
-      "./../../lib/send": send
-      "./../../lib/query": basicHandle: basicHandle
+        it "updates document by id", (done) ->
+            updated = _id: id
+            update = new Promise (resolve, reject) -> resolve updated
+            handle.patch req, res, next
+            (expect req.body.test._id).to.be.undefined
+            (expect model.findByIdAndUpdate).to.have.been.calledWithExactly id, $set: {}, {new: yes}
+            update.then (doc) ->
+                (expect query).to.have.been.calledWithExactly res, updated
+                (expect next).to.have.not.been.called
+                done()
 
-    handle = tested modelStub, "test"
+        it "calls next with occured error, if there was one", (done) ->
+            error = new Error()
+            update = new Promise (resolve, reject) -> reject error
+            handle.patch req, res, next
+            update.then null, (err) ->
+                (expect next).to.have.been.calledWithExactly error
+                (expect query).to.have.not.been.called
+                done()
 
-  beforeEach ->
+    describe ".put", ->
+        find = undefined
 
-    send.reset()
+        beforeEach ->
+            req.body = taken: "test"
+            model.findOne.returns exec: -> find
 
-    next.reset()
+        it "queries taken: false if none document was found", (done) ->
+            find = new Promise (resolve, reject) -> resolve null
+            handle.put req, res, next
+            (expect model.findOne).to.have.been.calledWithExactly
+                user: req.user.user._id
+                name: req.body.taken
+            find.then (doc) ->
+                (expect query).to.have.been.calledWithExactly res, taken: no
+                (expect next).to.have.not.been.called
+                done()
 
-    basicHandle.reset()
+        it "queries taken: true if a document was found", (done) ->
+            find = new Promise (resolve, reject) -> resolve {}
+            handle.put req, res, next
+            find.then (doc) ->
+                (expect query).to.have.been.calledWithExactly res, taken: yes
+                (expect next).to.have.not.been.called
+                done()
 
-  describe "get", ->
+        it "calls next with occured error, if there was one", (done) ->
+            error = new Error()
+            find = new Promise (resolve, reject) -> reject error
+            handle.put req, res, next
+            find.then null, (err) ->
+                (expect next).to.have.been.calledWithExactly error
+                (expect query).to.have.not.been.called
+                done()
 
-    docs = [not null, not null, not null]
+    describe ".delete", ->
+        remove = undefined
 
-    before ->
+        beforeEach ->
+            req.params = id: "3432423445"
+            model.remove.returns exec: -> remove
 
-      req = session: get: uid: "id"
+        it "deletes description with _id req.params.order", (done) ->
+            remove = new Promise (resolve, reject) -> resolve()
+            handle.delete req, res, next
+            (expect model.remove).to.have.been.calledWithExactly _id: req.params.id
+            remove.then (docs) ->
+                (expect query).to.have.been.calledWithExactly res
+                (expect next).to.have.not.been.calledWithExactly
+                done()
 
-      modelStub.find.onFirstCall().callsArgWith 1, null, docs
-
-      modelStub.find.onSecondCall().callsArgWith 1, error, null
-
-    it "should send tests: $Array if there is no error", ->
-
-      handle.get req, res, next
-
-      expect(send).to.have.been.calledWithExactly res, testList: docs
-
-      expect(next).not.to.have.been.called
-
-    it "should passdown error if there is one", ->
-
-      handle.get req, res, next
-
-      expect(send).not.to.have.been.called
-
-      expect(next).to.have.been.calledWithExactly error
-
-  run = (method, mock, index) ->
-
-    describe method, ->
-
-      doc = not null
-
-      before ->
-
-        req =
-          session: get: uid: "id"
-          body: test: doc
-
-        modelStub[mock].onFirstCall().callsArgWith index, null, doc
-
-        modelStub[mock].onSecondCall().callsArgWith index, error, null
-
-      it "should call query.basicHandle with successful result", ->
-
-        handle[method] req, res, next
-
-        expect(basicHandle).to.have.been.calledWithExactly null, doc, res, next
-
-      it "should call query.basicHandle with erroring result", ->
-
-        handle[method] req, res, next
-
-        expect(basicHandle).to.have.been.calledWithExactly error, null, res, next
-
-  run "post", "create", 1
-
-  run "patch", "findByIdAndUpdate", 3
-
-  describe "delete", ->
-
-    before ->
-
-      req = params: id: "id"
-
-      modelStub.remove.onFirstCall().callsArgWith 1, null
-
-      modelStub.remove.onSecondCall().callsArgWith 1, error
-
-    it "should send if there is no error", ->
-
-      handle.delete req, res, next
-
-      expect(send).to.have.been.calledWithExactly res
-
-      expect(next).not.to.have.been.called
-
-    it "should passdown error if there is one", ->
-
-      handle.delete req, res, next
-
-      expect(send).not.to.have.been.called
-
-      expect(next).to.have.been.calledWithExactly error
+        it "calls next with occured error, if there was one", (done) ->
+            error = new Error()
+            remove = new Promise (resolve, reject) -> reject error
+            handle.delete req, res, next
+            remove.then null, (err) ->
+                (expect next).to.have.been.calledWithExactly error
+                (expect query).to.have.not.been.called
+                done()
