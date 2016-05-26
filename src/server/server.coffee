@@ -3,7 +3,7 @@ express = require "express"
 routerTree = require "./lib/routerTree"
 defaultAdmin = require "./defaultAdmin"
 server = express()
-port = process.env.PORT ? 3000
+port = 8080
 
 console.log "PORT", process.env.PORT, port
 
