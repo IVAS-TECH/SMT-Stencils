@@ -1,3 +1,3 @@
 module.exports =
-    docker: "mongodb://130.211.100.71:27017/db"
+    docker: "130.211.100.71"
     local: "localhost"

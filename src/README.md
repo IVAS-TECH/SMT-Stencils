@@ -40,6 +40,8 @@ run: [npm run build]
 
 run: [npm run local] to start the server
 
+navigate to: [http://localhost:8080]
+
 # testing
 
 ## testing Server only
