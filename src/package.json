@@ -1,7 +1,7 @@
 {
   "name": "IVAS-TECH-SMT-Stencils",
   "version": "1.0.0",
-  "description": "",
+  "description": "Application for ordering smt stencils",
   "main": "./server/server.min.js",
   "engines": {
     "node": "5.4.0"
@@ -11,7 +11,7 @@
     "url": "https://github.com/IVAS-TECH/SMT-Stencils.git"
   },
   "author": "NoHomey",
-  "license": "GNU GPL v2",
+  "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/IVAS-TECH/SMT-Stencils/issues"
   },

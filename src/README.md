@@ -30,7 +30,7 @@ install: [gerbv] and make sure that it's build with Cairo!
 
 # install dependencies
 
-run: [npm install] 
+run: [npm install]
 
 # build
 
@@ -39,3 +39,9 @@ run: [npm run build]
 # starting server
 
 run: [npm start] to start the server
+
+# testing
+
+## testing Server only
+
+run: [npm run test-server] to run all server tests and see coverage results for tested files
