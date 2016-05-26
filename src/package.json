@@ -4,8 +4,9 @@
   "description": "Application for ordering smt stencils",
   "main": "./server/server.min.js",
   "engines": {
-    "node": "5.4.0"
+    "node": "latest"
   },
+  "os": "linux",
   "repository": {
     "type": "git",
     "url": "https://github.com/IVAS-TECH/SMT-Stencils.git"
