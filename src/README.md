@@ -36,12 +36,24 @@ run: [npm install]
 
 run: [npm run build]
 
-# starting server
+# starting server locally
 
-run: [npm start] to start the server
+run: [npm run local] to start the server
 
 # testing
 
 ## testing Server only
 
 run: [npm run test-server] to run all server tests and see coverage results for tested files
+
+# deploying at Google Cloud App Engine
+
+install: [gcloud]
+
+run: [gcloud init]
+
+follow: [https://cloud.google.com/nodejs/getting-started/deploy-mongodb#run_mongodb_on_google_compute_engine]
+
+change: [./server/mongo.coffee :: docker:]
+
+run: [gcloud preview app deploy]

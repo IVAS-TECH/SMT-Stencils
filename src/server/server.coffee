@@ -2,16 +2,14 @@ mongoose = require "mongoose"
 express = require "express"
 routerTree = require "./lib/routerTree"
 defaultAdmin = require "./defaultAdmin"
+mongo = require "./mongo"
 server = express()
 port = 8080
-
-console.log "PORT", process.env.PORT, port
 
 server.enable "trust proxy"
 
 server.use routerTree require "./requests"
-
-mongoose.connect require "./mongo"
+mongoose.connect "mongodb://#{mongo[process.argv[2]]}:27017/db"
 
 mongoose.Promise = global.Promise
 
