@@ -3,7 +3,7 @@ express = require "express"
 routerTree = require "./lib/routerTree"
 defaultAdmin = require "./defaultAdmin"
 server = express()
-port = process.env.PORT ? 8080
+port = process.env.PORT ? 3000
 
 server.enable "trust proxy"
 

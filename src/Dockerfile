@@ -20,5 +20,5 @@ RUN cp -ar /tmp/app/deploy /opt/app/
 WORKDIR /opt/app
 ADD . /opt/app
 
-EXPOSE 8080
+EXPOSE 3000
 CMD ["npm", "start"]
