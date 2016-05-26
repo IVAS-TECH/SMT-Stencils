@@ -5,6 +5,8 @@ defaultAdmin = require "./defaultAdmin"
 server = express()
 port = process.env.PORT ? 3000
 
+console.log "PORT", process.env.PORT, port
+
 server.enable "trust proxy"
 
 server.use routerTree require "./requests"
