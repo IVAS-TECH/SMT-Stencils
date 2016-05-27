@@ -20,3 +20,10 @@ describe "sendFileMiddleware", ->
         (expect res.set).to.have.been.calledWithExactly "Content-Encoding", "gzip"
         (expect res.status).to.have.been.calledWithExactly 200
         (expect res.sendFile).to.have.been.calledWithExactly "./test/test.html"
+
+    it "shouldn't set \"Content-Encoding\" header if gzip argument is false", ->
+        dir = sendFileMiddleware "./test", no
+        join.returns "./test/test.html"
+        middleware = dir "test.html"
+        middleware req, res
+        (expect res.set).to.have.not.been.calledWithExactly "Content-Encoding", "gzip"
