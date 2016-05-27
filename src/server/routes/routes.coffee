@@ -9,6 +9,7 @@ module.exports =
   user: require "./user/userHandle"
   login: require "./user/loginHandle"
   template: require "./templateHandle"
+  log: require "./logHandle"
   visit: require "./user/visit/visitHandle"
   language: require "./user/languageHandle"
   addresses: require "./order/addresses/addressesHandle"

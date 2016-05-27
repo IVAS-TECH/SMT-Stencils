@@ -21,6 +21,8 @@ module.exports =
 
   template: ["fetch"]
 
+  log: ["fetch"]
+
   description: findAndRemove
 
   visit: find

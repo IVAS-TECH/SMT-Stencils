@@ -9,6 +9,7 @@ config = ($stateProvider, translateProvider, ChartJsProvider) ->
     .state "home.admin", url: "/admin", templateUrl: "adminView"
     .state "home.admin.users", url: "/users", controller: "usersController as usersCtrl", templateUrl: "usersView"
     .state "home.admin.profile", url: "/profile", controller: "profileController as profileCtrl", templateUrl: "profileView"
+    .state "home.admin.logs", url: "/logs", controller: "logsController as logsCtrl", templateUrl: "logsView"
 
   ChartJsProvider.setOptions responsive: no, colours: ["#FF0000", "#0000FF"]
 

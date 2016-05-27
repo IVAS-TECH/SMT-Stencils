@@ -1,0 +1,25 @@
+md-dialog(class="fullscreen-dialog" layout-fill)
+    md-dialog-content(layout-fill)
+        md-dialog-actions(layout="row" layout-align="end start")
+            md-button(
+                ng-click="logCtrl.close()"
+                class="md-warn"
+                aria-label="close"
+                translate="button-close"
+            )
+        div(
+            ng-if="logCtrl.content[0].length"
+            layout="column"
+            layout-align="center center"
+            layout-fill
+            layout-margin
+        )
+            div(
+                ng-repeat="line in logCtrl.content track by $index"
+                layout="row"
+                layout-align="start center"
+                layout-wrap
+                layout-margin
+            )
+                div {{$index + 1}}
+                div {{line}}
