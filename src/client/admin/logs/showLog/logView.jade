@@ -7,19 +7,5 @@ md-dialog(class="fullscreen-dialog" layout-fill)
                 aria-label="close"
                 translate="button-close"
             )
-        div(
-            ng-if="logCtrl.content[0].length"
-            layout="column"
-            layout-align="center center"
-            layout-fill
-            layout-margin
-        )
-            div(
-                ng-repeat="line in logCtrl.content track by $index"
-                layout="row"
-                layout-align="start center"
-                layout-wrap
-                layout-margin
-            )
-                div {{$index + 1}}
-                div {{line}}
+        div(ng-if="logCtrl.content[0].length" layout="column" layout-fill)
+            div(ng-repeat="line in logCtrl.content track by $index") {{line}}

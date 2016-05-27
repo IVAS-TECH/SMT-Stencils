@@ -4,11 +4,12 @@ controller = ($interval, RESTHelperService) ->
     ctrl.content = [""]
 
     fetch = -> RESTHelperService.log.fetch ctrl.log, (res) ->
-        if typeof res is "string" then ctrl.content = res.split "\n"
+        if typeof res isnt "string" then res = JSON.stringify res
+        ctrl.content = res.split "\n"
 
     init = ->
         fetch()
-        subscribe = $interval fetch, 2000
+        subscribe = $interval fetch, 3000
 
     ctrl.close = ->
         $interval.cancel subscribe
