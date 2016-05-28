@@ -67,6 +67,7 @@
     "multer": "1.1.0",
     "request-ip": "1.2.1",
     "cheerio": "0.20.0",
+    "gcloud": "0.34.0",
     "ng-file-upload": "12.0.4",
     "angular-ui-router": "0.2.18",
     "chart.js": "1.1.1",
@@ -101,8 +102,8 @@
     "clean": "./node_modules/.bin/gulp --color --require coffee-script/register clean",
     "build": "./node_modules/.bin/gulp --color --require coffee-script/register build && npm run clean",
     "clear": "./node_modules/.bin/gulp --color --require coffee-script/register clear && rm -R ./node_module &&",
-    "start": "node ./deploy/server.js docker",
-    "local": "node ./deploy/server.js local",
+    "start": "node ./deploy/server.js",
+    "local": "DB_IP=localhost node ./deploy/server.js",
     "fillDB": "./node_modules/.bin/coffee server/routes/order/testingOnly/fillDB.coffee",
     "test-server": "./node_modules/.bin/gulp --color --require coffee-script/register mocha"
   }
