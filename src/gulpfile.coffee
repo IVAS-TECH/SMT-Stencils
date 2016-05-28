@@ -120,7 +120,7 @@ gulp.task "clone", ["bundle"], ->
 gulp.task "preview", ["clone"], ->
   gulp.src "./resources/top.html"
     .pipe gzip append: no
-    .pipe gulp.dest "./deploy/send/templates"
+    .pipe gulp.dest "./deploy/send/api/template"
 
 gulp.task "favicon", ["preview"], ->
   gulp.src "./resources/favicon.ico"

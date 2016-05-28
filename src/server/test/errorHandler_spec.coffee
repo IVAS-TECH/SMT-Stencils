@@ -20,7 +20,7 @@ describe "errorHandler", ->
         handler err, req, res
         (expect res.status).to.have.been.calledWithExactly 404
         (expect send.redirect).to.have.been.calledWithExactly redirect
-        (expect errorStream.write).to.have.been.calledWithExactly "stack\n", "utf-8"
+        (expect errorStream.write).to.have.not.been.called
 
     it "should send error object if err.message is \"Unauthorized Access\"", ->
         message = "Unauthorized Access"

@@ -6,16 +6,13 @@ notificationModel = require "./notification/notificationModel"
 GerberToSVGMiddleware = require "./../../lib/GerberToSVG/GerberToSVGMiddleware"
 resolveDescriptionBindings = require "./description/resolveDescriptionBindings"
 getDescriptionTemplate = require "./description/getDescriptionTemplate"
+sendFileHandle = require "./../sendFileHandle"
 query = require "./../../lib/query"
 
 dir = join __dirname, "./../../files"
 handle = basicCRUDHandle orderModel, "order"
 
-handle.download =
-
-    get: (req, res, next) -> (res.status 200).sendFile join dir, req.params.file
-
-    params: "file"
+handle.download = sendFileHandle dir
 
 handle.get = (req, res, next) ->
     find = if req.user.user.admin then find = {} else user: req.user.user._id
