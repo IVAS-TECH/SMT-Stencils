@@ -7,7 +7,11 @@ module.exports = (paste, outline) ->
   new Promise (resolve, reject) ->
     output = join __dirname, "../../files/tmp/#{randomString.generate()}.svg"
     error = no
-    gerbv = spawn "gerbv", ["-x", "svg", "-o", output, "-a", "--foreground=#FFFFFFFF", paste, "--foreground=#000000FF", outline]
+    args = ["-x", "svg", "-o", output, "-a", "--foreground=#FFFFFFFF", paste]
+    if outline?
+        args.push "--foreground=#000000FF"
+        args.push outline
+    gerbv = spawn "gerbv", args
     gerbv.stderr.on "data", (data) ->
         str = data.toString()
         if str.includes "Unknown file type" or str.includes "could not read" then error = yes

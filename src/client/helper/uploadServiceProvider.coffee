@@ -11,7 +11,7 @@ provider = (RESTServiceProvider) ->
       if noBase then chain.splice 1, 1
       if noUpload then chain.splice 0, 1
       URL = if noBase and noUpload then "/" + url else chain.join "/"
-      
+
       (files) ->
         data = map: {}, files: []
         for layer, file of files
