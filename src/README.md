@@ -40,7 +40,13 @@ run: [npm run build]
 
 run: [npm run local] to start the server
 
-navigate to: [http://localhost:8080]
+navigate to: [ http://localhost:8080 ]
+
+# previewing statistics
+
+run [npm run fillDB]
+
+navigate to: [ http://localhost:8080 ]
 
 # testing
 
@@ -56,7 +62,7 @@ run: [gcloud init]
 
 run: [gcloud config set app/cloud_build_timeout 3000]
 
-follow: [https://cloud.google.com/nodejs/getting-started/deploy-mongodb#run_mongodb_on_google_compute_engine]
+follow: [ https://cloud.google.com/nodejs/getting-started/deploy-mongodb#run_mongodb_on_google_compute_engine ]
 
 change: [./server/mongo.coffee :: docker:]
 

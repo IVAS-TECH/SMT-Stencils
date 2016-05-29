@@ -26,7 +26,7 @@ provider = ->
     notificationFor: (order) -> notifications[order]
 
     removeNotification: (notification, callback) ->
-      for order, notific of notifications
+      for own order, notific of notifications
         if notific is notification then RESTHelperService.notification.remove notification, (res) ->
           delete notifications[order]
           callback res

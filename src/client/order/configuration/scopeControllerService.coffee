@@ -3,7 +3,7 @@ service = ($filter) ->
   (scope) ->
 
     findAndAssign = (current) ->
-      for key, value of current
+      for own key, value of current
         if key is scope.controller and ($filter "isntEmpty") value then scope.scopeCtrl = value
       scope.scopeCtrl?
 

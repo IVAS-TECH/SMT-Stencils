@@ -1,4 +1,4 @@
-controller = (simpleDialogService, $state, $controller, $scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
+controller = ($state, $controller, $scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, simpleDialogService) ->
     ctrl = $controller "ordersInterface",
         "$scope": $scope
         "stopLoadingService": stopLoadingService
@@ -9,6 +9,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
         "statusOptions": statusOptions
         "notificationService": notificationService
         "confirmService": confirmService
+        "simpleDialogService": simpleDialogService
 
     ctrl.adminPanel = "adminPanelView"
 
@@ -16,7 +17,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
         ctrl.listOfVisits = res.visits
         stopLoadingService "admin"
 
-        topStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
+        stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
             if not orders? then return
             beggin = ctrl.fromDate
             end = ctrl.toDate
@@ -71,7 +72,7 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
                     visit:
                         series: ["line-uniqe-visits", "line-uniqe-users"]
                         data: [[], []]
-                for label, data of intervals
+                for own label, data of intervals
                     labels.push label
                     charts.count.data[0].push data.count
                     charts.count.data[1].push data.delivered
@@ -105,6 +106,6 @@ controller = (simpleDialogService, $state, $controller, $scope, stopLoadingServi
 
     ctrl
 
-controller.$inject = ["simpleDialogService", "$state", "$controller", "$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService"]
+controller.$inject = ["$state", "$controller", "$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "simpleDialogService"]
 
 module.exports = controller

@@ -12,7 +12,7 @@ directive = ($templateCache, $compile, $window) ->
       ($compile wrapper.contents()) scope
       canvas = wrapper.find "canvas"
       part = width: 4, height: 2
-      canvas.prop prop, $window.screen[prop] * value / 5 for prop, value of part
+      canvas.prop prop, $window.screen[prop] * value / 5 for own prop, value of part
 
     resize()
 

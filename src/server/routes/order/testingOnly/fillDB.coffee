@@ -1,8 +1,8 @@
 model = require "./../orderModel"
 visits = require "./../../user/visit/visitModel"
 mongoose = require "mongoose"
-mongoose.connect require "./../../../mongo"
 dateHelper = require "./../../../share/dateHelper"
+mongoose.connect "mongodb://#{process.env.DB_IP}:27017/db"
 date = dateHelper.$get()
 
 randomN = (n) -> Math.floor Math.random() * n

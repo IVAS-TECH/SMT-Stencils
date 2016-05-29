@@ -9,7 +9,7 @@ module.exports = (log) ->
                 return if Object.keys(val).length then format val else return "()"
             return val
         format = (obj) ->
-            str = (key + "=" + (stringify val) + " " for key, val of obj).join ""
+            str = (key + "=" + (stringify val) + " " for own key, val of obj).join ""
             str = (str.slice 0, -1) while str[str.length - 1] is " "
             "(" + str + ")"
         stream.write (format req.body) + "\n", "utf-8", (err) ->

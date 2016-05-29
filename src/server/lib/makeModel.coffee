@@ -21,7 +21,7 @@ module.exports = (model, schema) ->
 
   schemafy = (schem) ->
     schemafied = {}
-    schemafied[key] = mongoosify key, value for key, value of schem
+    schemafied[key] = mongoosify key, value for own key, value of schem
     schemafied
 
   mongoose.model model,  new mongoose.Schema schemafy schema

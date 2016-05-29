@@ -12,7 +12,7 @@ describe "query", ->
     it "should have a predefined behavour", ->
         query res, obj
         (expect query).to.have.been.calledWithExactly res, obj
-        (expect res.setHeader).to.have.been.calledWithExactly "Cache-Control", "public, max-age=50"
+        (expect res.setHeader).to.have.been.calledWithExactly "Cache-Control", "public, max-age=30"
         (expect res.status).to.have.been.calledWithExactly 200
         (expect res.send).to.have.been.calledWithExactly {}
 

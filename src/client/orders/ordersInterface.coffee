@@ -1,4 +1,4 @@
-controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService) ->
+controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateService, showDescriptionService, statusOptions, notificationService, confirmService, simpleDialogService) ->
   filter = $filter "filter"
   ctrl = @
   ctrl.fromDate = new Date()
@@ -74,13 +74,14 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
           for list in ["listOfOrders", "fullListOfOrders"]
             index = ctrl[list].indexOf order
             ctrl[list].splice index, 1
+          simpleDialogService event, "order-deleted"
 
-  ctrl.statusHelp = (order, equals) -> order.status is "accepted" or order.status is "rejected"
+  ctrl.helpStatus = (order, equals) -> order.status is "accepted" or order.status is "rejected"
 
   init()
 
   ctrl
 
-controller.$inject = ["$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService"]
+controller.$inject = ["$scope", "stopLoadingService", "RESTHelperService", "$filter", "dateService", "showDescriptionService", "statusOptions", "notificationService", "confirmService", "simpleDialogService"]
 
 module.exports = controller

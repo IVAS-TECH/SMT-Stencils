@@ -14,7 +14,7 @@ provider = (RESTServiceProvider) ->
 
       (files) ->
         data = map: {}, files: []
-        for layer, file of files
+        for own layer, file of files
           data.map[file.name] = layer
           data.files.push file
         Upload.upload url: URL, data: data

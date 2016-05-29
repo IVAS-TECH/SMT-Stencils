@@ -101,10 +101,10 @@
     "apt-get": "./node_modules/.bin/gulp --color --require coffee-script/register apt-get",
     "clean": "./node_modules/.bin/gulp --color --require coffee-script/register clean",
     "build": "./node_modules/.bin/gulp --color --require coffee-script/register build && npm run clean",
-    "clear": "./node_modules/.bin/gulp --color --require coffee-script/register clear && rm -R ./node_module &&",
+    "clear": "./node_modules/.bin/gulp --color --require coffee-script/register clear && rm -R ./node_modules",
     "start": "node ./deploy/server.js",
     "local": "DB_IP=localhost node ./deploy/server.js",
-    "fillDB": "./node_modules/.bin/coffee server/routes/order/testingOnly/fillDB.coffee",
+    "fillDB": "DB_IP=localhost ./node_modules/.bin/coffee server/routes/order/testingOnly/fillDB.coffee",
     "test-server": "./node_modules/.bin/gulp --color --require coffee-script/register mocha"
   }
 }

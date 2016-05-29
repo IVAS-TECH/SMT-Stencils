@@ -8,7 +8,7 @@ routerLeaf = (handle) ->
     use = (wich) -> if handle[special[wich]]? then router.use "/", handle[special[wich]]
     use 1
     params = handle[special[0]]
-    for key, value of handle
+    for own key, value of handle
         if key not in special
             if key not in methods then router.use "/" + key, routerLeaf value
             else
