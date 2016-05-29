@@ -2,7 +2,7 @@ directive = ->
 
   templateUrl: "ordersBaseView"
   restrict: "E"
-  scope: yes
+  scope: {}
   controller: "@"
   name: "ordersController"
   controllerAs: "ordersCtrl"

@@ -1,7 +1,7 @@
 directive = ->
 
   templateUrl: "stateSwitcherView"
-  scope: yes
+  scope: {}
   controller: "stateSwitcherController"
   controllerAs: "stateSwitcherCtrl"
   bindToController:

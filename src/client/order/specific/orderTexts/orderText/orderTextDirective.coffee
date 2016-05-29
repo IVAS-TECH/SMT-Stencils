@@ -1,7 +1,7 @@
 directive = ->
 
   templateUrl: "orderTextView"
-  scope: yes
+  scope: {}
   controller: ->
   controllerAs: "orderTextCtrl"
   bindToController:

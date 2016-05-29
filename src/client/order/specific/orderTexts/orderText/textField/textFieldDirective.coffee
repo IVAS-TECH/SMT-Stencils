@@ -1,7 +1,7 @@
 directive = ->
 
   templateUrl: "textFieldView"
-  scope: yes
+  scope: {}
   controller: "textFieldController"
   controllerAs: "textFieldCtrl"
   bindToController:

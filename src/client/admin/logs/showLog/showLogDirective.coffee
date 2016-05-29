@@ -1,7 +1,7 @@
 directive = ->
   templateUrl: "showLogView"
   restrict: "E"
-  scope: yes
+  scope: {}
   bindToController: log: "@"
   controller: "showLogController"
   controllerAs: "showLogCtrl"

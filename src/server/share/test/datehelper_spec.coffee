@@ -39,7 +39,7 @@ describe "dateHelper", ->
             dateEnd = iterator = undefined
 
             beforeEach ->
-                dateEnd = new Date 2012, 8, 16
+                dateEnd = new Date 2012, 8, 15
                 iterator = service.iterator dateObject, dateEnd
 
             it "calling iterator(dateStart, dateEnd) should create forward iterator for Date base range [dateStart - 1, dateEnd]", ->
@@ -50,8 +50,7 @@ describe "dateHelper", ->
                 (expect iterator.value).to.eql dateObject
 
             it "should stop changing .value when endDate is reached", ->
-                iterator.next()
                 (expect iterator.next()).to.be.true
                 (expect iterator.value).to.eql dateEnd
-                iterator.next()
+                (expect iterator.next()).to.be.false
                 (expect iterator.value).to.eql dateEnd

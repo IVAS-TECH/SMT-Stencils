@@ -10,8 +10,9 @@ module.exports =
             begging.setDate begging.getDate() - 1
             value: begging
             next: ->
-                if begging < end then begging.setDate begging.getDate() + 1
-                begging <= end
+                isLess = begging < end
+                if isLess then begging.setDate begging.getDate() + 1
+                isLess
     formater: ->
         (date) ->
             info = if date? then new Date date else new Date()

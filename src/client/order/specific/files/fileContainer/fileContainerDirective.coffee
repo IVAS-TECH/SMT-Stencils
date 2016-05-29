@@ -1,7 +1,7 @@
 directive = ->
 
   templateUrl: "fileContainerView"
-  scope: yes
+  scope: {}
   controller: "fileContainerController"
   controllerAs: "fileCnrCtrl"
   bindToController:
