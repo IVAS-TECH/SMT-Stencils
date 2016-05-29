@@ -14,7 +14,7 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       end = orders[orders.length - 1]
       if beggin? then ctrl.toDate = dateService.compatible beggin.orderDate
       if end? then ctrl.fromDate = dateService.compatible end.orderDate
-      
+
       transform = (full) ->
         transformFn = (order) ->
           if full then order[type + "Date"] = dateService.format order[type + "Date"] for type in ["order", "sending"]
@@ -29,9 +29,9 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       ctrl.fullListOfOrders = transform yes
       ctrl.listOfOrders = ctrl.fullListOfOrders
       stopLoadingService "orders"
-      
+
       listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate"])
-      
+
       $scope.$on "notification", ->
         ctrl.fullListOfOrders = transform no
         ctrl.filterFn()
@@ -74,7 +74,7 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
           for list in ["listOfOrders", "fullListOfOrders"]
             index = ctrl[list].indexOf order
             ctrl[list].splice index, 1
-          
+
   ctrl.statusHelp = (order, equals) -> order.status is "accepted" or order.status is "rejected"
 
   init()
