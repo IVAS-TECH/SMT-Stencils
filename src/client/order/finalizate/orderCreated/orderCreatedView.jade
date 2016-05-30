@@ -1,0 +1,22 @@
+md-dialog
+    md-dialog-content(class="md-dialog-content")
+        div(layout="column")
+            p(translate="p-order-created")
+            p(translate="p-order-id-is")
+            p {{orderCreatedCtrl.id}}
+            p(translate="p-pay-or-not-pay")
+        md-dialog-actions
+            md-button(
+                ng-click="orderCreatedCtrl.notNow()"
+                class="md-warn"
+                aria-label="not-now"
+                md-autofocus="true"
+                translate="button-not-now"
+            )
+            md-button(
+                ng-click="orderCreatedCtrl.hide('payNow')"
+                class="md-primary"
+                aria-label="pay-now"
+                md-autofocus="true"
+                translate="button-pay"
+            )

@@ -1,6 +1,6 @@
 run = ($rootScope, $state, transitionFromOrderService) ->
     show = yes
-    stop = $rootScope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
+    stopGuarding = $rootScope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
         isTo = not (toState.name.match /home\.order/)? or toState.name is "home.orders"
         isFrom = (fromState.name.match /home\.order\./)?
         if isTo and isFrom and show
@@ -9,7 +9,10 @@ run = ($rootScope, $state, transitionFromOrderService) ->
                 show = no
                 $state.go toState, {}, reload: yes
         if show is no then show = yes
-    $rootScope.$on "$destroy", stop
+    stopBuypassing = $rootScope.$on "transition-from-order", -> show = no
+    $rootScope.$on "$destroy", ->
+        stopGuarding()
+        stopBuypassing()
 
 run.$inject = ["$rootScope", "$state", "transitionFromOrderService"]
 

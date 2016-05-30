@@ -79,8 +79,8 @@ gulp.task "stylus", ["uglify"], ->
 gulp.task "styles", ["stylus"], ->
   gulp.src [
       "./build/style.css"
-      "./node_modules/angular-material/angular-material.min.css"
-      "./node_modules/angular-chart.js/dist/angular-chart.min.css"
+      "./node_modules/angular-material/angular-material.css"
+      "./node_modules/angular-chart.js/dist/angular-chart.css"
     ]
     .pipe concat "style.css"
     .pipe gzip append: no

@@ -1,0 +1,19 @@
+md-dialog
+    md-dialog-content(class="md-dialog-content")
+        p(translate="p-paing-with-stripes")
+        p {{payWithStripesCtrl.id}}
+        p Coming Soonishs
+        md-dialog-actions
+            md-button(
+                ng-click="payWithStripesCtrl.hide('back')"
+                class="md-warn"
+                aria-label="back"
+                translate="button-back"
+            )
+            md-button(
+                ng-click="payWithStripesCtrl.hide('pay')"
+                class="md-primary"
+                aria-label="pay"
+                md-autofocus="true"
+                translate="button-pay"
+            )
