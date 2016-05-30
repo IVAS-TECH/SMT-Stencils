@@ -14,4 +14,4 @@ mongoose.Promise = global.Promise
 
 defaultAdmin()
 
-server.listen port, -> console.log "Server started at port:#{port}"
+server.listen port, -> console.log "Debugging Ip"

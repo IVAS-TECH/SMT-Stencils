@@ -7,6 +7,9 @@ module.exports = (field = "user") ->
     remove: (req, res, next) -> (sessionModel.remove _id: req[field]._id).exec().then (-> query res), next
     get: (req, res, next) ->
         ip = requestIp.getClientIp req
+        console.log  "ip", ip
+        console.log "req.ip", req.ip
+        console.log "req.ips", req.ips
         find = ((sessionModel.findOne ip: ip).populate "user").exec()
         find.then ((doc) ->
             req[field] = doc
