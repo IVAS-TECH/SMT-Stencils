@@ -1,3 +1,6 @@
 runtime: custom
 vm: true
 threadsafe: true
+env_variables:
+    DB_IP: null
+    Project_ID: null

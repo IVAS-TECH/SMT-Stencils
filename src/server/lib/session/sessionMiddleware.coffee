@@ -10,6 +10,12 @@ module.exports = (field = "user") ->
         console.log  "ip", ip
         console.log "req.ip", req.ip
         console.log "req.ips", req.ips
+        console.log "req.headers[X-Forwarded-For]", req.headers["X-Forwarded-For"]
+        console.log "req.headers[x-forwarded-for]", req.headers["x-forwarded-for"]
+        console.log "req.headers[X-Appengine-User-Ip]", req.headers["X-Appengine-User-Ip"]
+        console.log "req.headers[x-appengine-user-ip]", req.headers["x-appengine-user-ip"]
+        console.log "req.connection.remoteAddress", req.connection.remoteAddress
+        console.log "req.client._peername.address", req.client._peername.address
         find = ((sessionModel.findOne ip: ip).populate "user").exec()
         find.then ((doc) ->
             req[field] = doc
