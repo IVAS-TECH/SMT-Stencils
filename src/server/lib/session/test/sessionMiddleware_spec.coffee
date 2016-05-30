@@ -1,5 +1,5 @@
 describe "sessionMiddleware", ->
-    sessionMiddleware = sessionModel = requestIp = query = undefined
+    sessionMiddleware = sessionModel = getClientIP = query = undefined
     middleware = req = res = next = ip = _id = undefined
 
     beforeEach ->
@@ -9,7 +9,7 @@ describe "sessionMiddleware", ->
             remove: sinon.stub()
             findOne: sinon.stub()
             create: sinon.stub()
-        requestIp = getClientIp: sinon.stub()
+        getClientIP = sinon.stub()
         query = sinon.spy()
         req = {}
         res = {}
@@ -17,10 +17,10 @@ describe "sessionMiddleware", ->
         proxyquire = require "proxyquire"
         sessionMiddleware = sinon.spy proxyquire "./../sessionMiddleware",
             "./sessionModel": sessionModel
-            "request-ip": requestIp
+            "./getClientIP": getClientIP
             "./../query": query
         middleware = sessionMiddleware()
-        requestIp.getClientIp.returns ip
+        getClientIP.returns ip
 
     it "should use \"user\" as default value", ->
         (expect middleware.remove).to.be.instanceOf Function
