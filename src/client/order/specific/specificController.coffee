@@ -7,7 +7,8 @@ controller = ($scope, progressService, simpleDialogService) ->
     ctrl.apertures = {}
     specificValid = no
     ctrl.invalid  = yes
-    progress = progressService $scope, "specificCtrl"
+    ctrl.action = null
+    progress = progressService $scope, "specificCtrl", ["action"]
 
     init = ->
         stop = $scope.$on "specific-validity", (event, valid) -> specificValid = valid
@@ -15,11 +16,11 @@ controller = ($scope, progressService, simpleDialogService) ->
 
     ifSpecificInvalid = ->
         invalid = not specificValid
-        if invalid then simpleDialogService {}, "required-fields"
+        if invalid then simpleDialogService {}, "required-fields-after-#{ctrl.action}"
         invalid
 
     ctrl.ifInvalid = ->
-        if ctrl.invalid then simpleDialogService {}, "title-add-needed-layers"
+        if ctrl.invalid then simpleDialogService {}, "title-add-needed-layers-after-#{ctrl.action}"
         ctrl.invalid
 
     ctrl.next = -> if not ctrl.ifInvalid() and not ifSpecificInvalid() then progress.next()
