@@ -1,0 +1,20 @@
+md-dialog
+    md-dialog-content(class="md-dialog-content")
+        div(layout="column")
+            p(translate="p-transition-from-order")
+            p(translate="p-order-state-will-be-lost")
+            p(translate="p-are-you-sure-you-want-to-continue")
+        md-dialog-actions
+            md-button(
+                ng-click="transitionFromOrderCtrl.hide('stay')"
+                class="md-primary"
+                aria-label="stay"
+                md-autofocus="true"
+                translate="button-stay"
+            )
+            md-button(
+                ng-click="transitionFromOrderCtrl.hide('continue')"
+                class="md-warn"
+                aria-label="continue"
+                translate="button-continue"
+            )
