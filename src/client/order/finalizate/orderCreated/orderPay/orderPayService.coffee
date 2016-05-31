@@ -1,14 +1,14 @@
-service = (showDialogService, payWithPaypalService, payWithStripesService) ->
+service = (showDialogService, payWithPaypalService, payWithStripeService) ->
     dialog = (event, locals, extend) ->
         openSubDialog = (dialogService) ->
             -> dialogService event, locals, back: (-> dialog event, locals, extend), extend
         handle =
             payWithPaypal: openSubDialog payWithPaypalService
-            payWithStripes: openSubDialog payWithStripesService
+            payWithStripe: openSubDialog payWithStripeService
         showDialogService event, "orderPay", locals, handle, extend
 
     dialog
 
-service.$inject = ["showDialogService", "payWithPaypalService", "payWithStripesService"]
+service.$inject = ["showDialogService", "payWithPaypalService", "payWithStripeService"]
 
 module.exports = service

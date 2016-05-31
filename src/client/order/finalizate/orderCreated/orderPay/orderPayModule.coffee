@@ -3,7 +3,7 @@ moduleName = "orderPayModule"
 
 deps = [
     require "./payWithPaypal/payWithPaypalModule"
-    require "./payWithStripes/payWithStripesModule"
+    require "./payWithStripe/payWithStripeModule"
 ]
 
 noController = ->
