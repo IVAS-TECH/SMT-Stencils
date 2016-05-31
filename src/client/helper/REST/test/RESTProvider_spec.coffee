@@ -6,7 +6,7 @@ describe "RESTProvider", ->
 
     beforeEach ->
 
-      tested = require "./../RESTProvider"
+      tested = require "./../RESTServiceProvider"
 
       RESTProvider = tested()
 
@@ -47,7 +47,7 @@ describe "RESTProvider", ->
 
       req = jasmine.createSpyObj "req", ["setHeader", "write", "end"]
 
-      tested = proxyquire "./../RESTProvider", http:
+      tested = proxyquire "./../RESTServiceProvider", http:
         request: request
         "@noCallThru": true
 
@@ -180,7 +180,7 @@ describe "RESTProvider", ->
 
       req = jasmine.createSpyObj "req", ["setHeader", "write", "end"]
 
-      tested = proxyquire "./../RESTProvider", http:
+      tested = proxyquire "./../RESTServiceProvider", http:
         request: request
         "@noCallThru": true
 

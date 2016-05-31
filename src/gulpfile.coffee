@@ -123,3 +123,5 @@ gulp.task "mocha", [], ->
     spawnSync "./node_modules/.bin/mocha", mocha, stdio: "inherit"
     spawnSync "./node_modules/.bin/istanbul", ["report", "text-summary", "lcov", "html"], stdio: "inherit"
     open "./coverage/lcov-report/index.html"
+
+gulp.task "karma", ["client"], -> spawnSync "./node_modules/karma-cli/bin/karma", ["start", "./build/karma.conf.js"], stdio: "inherit"

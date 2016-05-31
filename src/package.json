@@ -105,6 +105,7 @@
     "start": "node ./deploy/server.js",
     "local": "DB_IP=localhost node ./deploy/server.js",
     "fillDB": "DB_IP=localhost ./node_modules/.bin/coffee server/routes/order/testingOnly/fillDB.coffee",
-    "test-server": "./node_modules/.bin/gulp --color --require coffee-script/register mocha"
+    "test-server": "./node_modules/.bin/gulp --color --require coffee-script/register mocha",
+    "test-client": "./node_modules/.bin/gulp --color --require coffee-script/register karma"
   }
 }

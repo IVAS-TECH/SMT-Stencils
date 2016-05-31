@@ -1,6 +1,6 @@
-tested = require "./../RESTHelperService"
+tested = require "./../RESTHelperServiceProvider"
 
-describe "RESTHelperService", ->
+describe "RESTHelperServiceProvider", ->
 
   errorHandleService = request = REST = RESTHelperService = uploadService = undefined
 
