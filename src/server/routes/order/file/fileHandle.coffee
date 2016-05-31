@@ -10,6 +10,8 @@ transformReq = (prop, info) -> (req, res, next) ->
     req[prop][req.body.map[file.originalname]] = file[info] for file in req.files
     next()
 
+layers = ["top", "bottom", "outline"]
+
 module.exports =
     order: post: [
         multerConfig.order().any()
@@ -21,7 +23,8 @@ module.exports =
                 upload = (file) -> new Promise (resolve, reject) -> req.fileStorage.upload file, (err, info) ->
                     console.log "upload: ", file, err
                     if err then reject err else resolve info
-                (Promise.all (upload req.gerbers[layer] for layer in ["top", "bottom", "outline"])).then (-> send()), next
+                promises = ((if req.gerbers[layer]? then upload req.gerbers[layer]) for layer in layers)
+                (Promise.all promises).then (-> send()), next
             else send()
     ]
 

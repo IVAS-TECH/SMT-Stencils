@@ -1,4 +1,5 @@
 fs = require "fs"
+{parse} = require "path"
 
 module.exports = (layer, gcloud = no) ->
     (req, res, next) ->
@@ -8,7 +9,8 @@ module.exports = (layer, gcloud = no) ->
             localClean = -> fs.unlink file, (err) -> if err then next err else next()
             if gcloud
                 if not req.fileStorage? then localClean()
-                else (req.fileStorage.file file).delete (err) -> if err then next err else fs.access file, (accErr) ->
-                    console.log "deleting", file, err
-                    if accErr then next() else localClean()
+                else (req.fileStorage.file (parse file).base).delete (err) ->
+                    console.log "deleting", (parse file).base err
+                    if err then next err else fs.access file, (accErr) ->
+                        if accErr then next() else localClean()
             else localClean()
