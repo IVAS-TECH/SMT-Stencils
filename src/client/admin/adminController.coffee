@@ -13,86 +13,95 @@ controller = ($state, $controller, $scope, stopLoadingService, RESTHelperService
 
     ctrl.adminPanel = "adminPanelView"
 
-    init = -> RESTHelperService.visit.find (res) ->
-        ctrl.listOfVisits = res.visits
-        stopLoadingService "admin"
+    init = ->
+        stop = $scope.$on "orders-processed", ->
+            date = new Date()
+            year = date.getFullYear()
+            month = date.getMonth()
+            ctrl.toDate = dateService.compatible new Date year, month, 1
+            ctrl.fromDate = dateService.compatible new Date year, month + 1, 1
+            stop()
 
-        stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
-            if not orders? then return
-            beggin = ctrl.fromDate
-            end = ctrl.toDate
-            it = dateService.iterator beggin, end
-            gap = end.getMonth() - beggin.getMonth()
-            years = end.getFullYear() - beggin.getFullYear() + 1
-            normalizate =  Math.abs (Math.floor end.getDate() / 3) - (Math.floor beggin.getDate() / 3)
-            diff = Math.abs (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
-            interval = current: diff, label: ""
-            intervals = {}
-            about = ["count", "delivered", "revenue", "visits", "users"]
+        RESTHelperService.visit.find (res) ->
+            ctrl.listOfVisits = res.visits
+            stopLoadingService "admin"
 
-            emptyRecord = ->
-                obj = {}
-                obj[stat] = 0 for stat in about
-                obj
+            stopStatistics = $scope.$watch "ordersCtrl.listOfOrders", (orders) ->
+                if not orders? then return
+                beggin = ctrl.fromDate
+                end = ctrl.toDate
+                it = dateService.iterator beggin, end
+                gap = end.getMonth() - beggin.getMonth()
+                years = end.getFullYear() - beggin.getFullYear() + 1
+                normalizate =  Math.abs (Math.floor end.getDate() / 3) - (Math.floor beggin.getDate() / 3)
+                diff = Math.abs (Math.floor ((3 * gap * years) + 3 - normalizate) / 3) + 3
+                interval = current: diff, label: ""
+                intervals = {}
+                about = ["count", "delivered", "revenue", "visits", "users"]
 
-            statisticData = (search) ->
-                data = emptyRecord()
-                for order in orders
-                    if order.orderDate is search
-                        data.count++
-                        data.revenue += order.price
-                        if order.status is "delivered" then data.delivered++
-                for visit in ctrl.listOfVisits
-                    if visit.date is search
-                        data.visits++
-                        if visit.user then data.users++
-                data
+                emptyRecord = ->
+                    obj = {}
+                    obj[stat] = 0 for stat in about
+                    obj
 
-            buildIntervals = (date) ->
-                label = dateService.format date
-                data = statisticData label
-                if interval.current is diff
-                    interval.current = 0
-                    interval.label = label
-                    intervals[label] = emptyRecord()
-                else
-                    label = interval.label
-                    interval.current++
-                intervals[label][info] += data[info] for info in about
+                statisticData = (search) ->
+                    data = emptyRecord()
+                    for order in orders
+                        if order.orderDate is search
+                            data.count++
+                            data.revenue += order.price
+                            if order.status is "delivered" then data.delivered++
+                    for visit in ctrl.listOfVisits
+                        if visit.date is search
+                            data.visits++
+                            if visit.user then data.users++
+                    data
 
-            buildCharts = ->
-                labels = []
-                charts =
-                    count:
-                        series: ["line-orders-count", "line-delivered"]
-                        data: [[], []]
-                    revenue:
-                        series: ["line-revenue"]
-                        data: [[]]
-                    visit:
-                        series: ["line-uniqe-visits", "line-uniqe-users"]
-                        data: [[], []]
-                for own label, data of intervals
-                    labels.push label
-                    charts.count.data[0].push data.count
-                    charts.count.data[1].push data.delivered
-                    charts.revenue.data[0].push data.revenue
-                    charts.visit.data[0].push data.visits
-                    charts.visit.data[1].push data.users
-                charts[chart].labels = labels for chart in ["count", "revenue", "visit"]
-                charts
+                buildIntervals = (date) ->
+                    label = dateService.format date
+                    data = statisticData label
+                    if interval.current is diff
+                        interval.current = 0
+                        interval.label = label
+                        intervals[label] = emptyRecord()
+                    else
+                        label = interval.label
+                        interval.current++
+                    intervals[label][info] += data[info] for info in about
 
-            buildIntervals it.value while it.next()
-            ctrl.charts = buildCharts()
+                buildCharts = ->
+                    labels = []
+                    charts =
+                        count:
+                            series: ["line-orders-count", "line-delivered"]
+                            data: [[], []]
+                        revenue:
+                            series: ["line-revenue"]
+                            data: [[]]
+                        visit:
+                            series: ["line-uniqe-visits", "line-uniqe-users"]
+                            data: [[], []]
+                    for own label, data of intervals
+                        labels.push label
+                        charts.count.data[0].push data.count
+                        charts.count.data[1].push data.delivered
+                        charts.revenue.data[0].push data.revenue
+                        charts.visit.data[0].push data.visits
+                        charts.visit.data[1].push data.users
+                    charts[chart].labels = labels for chart in ["count", "revenue", "visit"]
+                    charts
 
-        stopRemove = $scope.$on "user-removed", (event, user) ->
-            ctrl.fullListOfOrders = ctrl.fullListOfOrders.filter (element) ->
-                element? and element.user._id isnt user
-            ctrl.filterFn()
+                buildIntervals it.value while it.next()
+                ctrl.charts = buildCharts()
 
-        $scope.$on "$destroy", ->
-            stopStatistics()
-            stopRemove()
+            stopRemove = $scope.$on "user-removed", (event, user) ->
+                ctrl.fullListOfOrders = ctrl.fullListOfOrders.filter (element) ->
+                    element? and element.user._id isnt user
+                ctrl.filterFn()
+
+            $scope.$on "$destroy", ->
+                stopStatistics()
+                stopRemove()
 
     ctrl.doAction = (event, order) ->
         info = id: order._id, status: order.status, admin: yes, user: order.user._id, price: order.price
