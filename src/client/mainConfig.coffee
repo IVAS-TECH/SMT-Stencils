@@ -12,7 +12,7 @@ config = (RESTServiceProvider, uploadServiceProvider, RESTHelperServiceProvider,
 
   notificationServiceProvider.setState "home.orders"
 
-  $compileProvider.debugInfoEnabled yes
+  $compileProvider.debugInfoEnabled no
 
   $locationProvider.hashPrefix "!"
 
