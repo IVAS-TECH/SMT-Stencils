@@ -60,7 +60,7 @@ install: [gcloud]
 
 run: [gcloud init]
 
-run: [gcloud config set app/cloud_build_timeout 3000]
+run: [gcloud config set app/cloud_build_timeout 5000]
 
 follow: [ https://cloud.google.com/nodejs/getting-started/deploy-mongodb#run_mongodb_on_google_compute_engine ]
 

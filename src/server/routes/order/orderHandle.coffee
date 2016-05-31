@@ -20,7 +20,7 @@ gerbersMiddleware = (getGerbers) -> (req, res, next) ->
         (if data[layer]? then req.gerbers[layer] = join dir, data[layer]) for layer in layers
         next()
 
-handle.download = sendFileHandle dir
+handle.download = sendFileHandle dir, yes
 
 handle.get = (req, res, next) ->
     find = if req.user.user.admin then find = {} else user: req.user.user._id
@@ -66,7 +66,7 @@ handle.delete = [
         orderModel.findById req.params.id, (err, order) ->
             if err then next err else callback order.files
 ]
-handle.delete.push tryCleanGerber layer for layer in layers
+handle.delete.push tryCleanGerber layer, yes for layer in layers
 handle.delete.push removeOrderRelation model for model in [notificationModel, descriptionModel]
 handle.delete.push deleteHandle
 

@@ -1,6 +1,11 @@
 {join} = require "path"
 
-module.exports = (dir) ->
+module.exports = (dir, gcloud = no) ->
     get: (req, res) ->
-        (res.status 200).sendFile (join dir, req.params.file), headers: "Content-Type": "text/html"
+        file = join dir, req.params.file)
+        send = -> (res.status 200).sendFile file, headers: "Content-Type": "text/html"
+        if gcloud and req.fileStorage? then (req.fileStorage.file file).download destination: file, (err) ->
+            console.log "download: ", file, err
+            if err then next err else send()
+        else send()
     params: get: "file"

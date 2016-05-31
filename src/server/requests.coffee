@@ -1,5 +1,6 @@
 {join} = require "path"
-{createWriteStream} = require "fs"
+fs = require "fs"
+zlib = require "zlib"
 express = require "express"
 gcloud = require "gcloud"
 bodyParser = require "body-parser"
@@ -7,13 +8,13 @@ errorLogger = require "./errorLogger"
 errorHandler = require "./errorHandler"
 project = process.env.Project_ID
 storage = if project? then (gcloud projectId: project).storage().bucket project
-console.log "STORAGE", storage
-errorStream = createWriteStream (join __dirname, "logs/error.log"), flags: "a"
+errorReqStream = fs.createWriteStream (join __dirname, "logs/request.log"), flags: "a"
+errorStream = fs.createWriteStream (join __dirname, "logs/error.log"), flags: "a"
 
 module.exports =
     beforeEach: [
         bodyParser.json()
-        errorLogger errorStream
+        errorLogger errorReqStream
         express.static (join __dirname, 'send'), setHeaders: (res, path, stat) ->
             res.set "Content-Encoding", "gzip"
         (req, res, next) ->

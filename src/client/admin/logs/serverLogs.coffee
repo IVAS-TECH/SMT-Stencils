@@ -1,1 +1,1 @@
-module.exports = ["error", "client", "response"]
+module.exports = ["request", "error", "client", "response"]
