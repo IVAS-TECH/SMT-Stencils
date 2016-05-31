@@ -20,7 +20,7 @@ describe "uploadService", ->
 
   upload = jasmine.createSpy()
 
-  tested = require "./../uploadService"
+  tested = require "./../uploadServiceProvider"
 
   describe "upload on single url", ->
 

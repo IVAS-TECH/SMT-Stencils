@@ -1,6 +1,6 @@
 describe "emailTakenDirective", ->
 
-  tested = require "./../emailTakenDirective"
+  tested = require "./../isTakenDirective"
 
   RESTHelperService = undefined
 

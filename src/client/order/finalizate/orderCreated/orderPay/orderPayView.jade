@@ -1,0 +1,23 @@
+md-dialog
+    md-dialog-content(class="md-dialog-content")
+        p(translate="p-choose-payment-method")
+        md-dialog-actions
+            md-button(
+                ng-click="orderPayCtrl.hide('back')"
+                md-autofocus="true"
+                class="md-warn"
+                aria-label="back"
+                translate="button-back"
+            ) 
+            md-button(
+                ng-click="orderPayCtrl.hide('payWithPaypal')"
+                class="md-primary"
+                aria-label="pay-with-paypal"
+                translate="button-pay-with-paypal"
+            )
+            md-button(
+                ng-click="orderPayCtrl.hide('payWithStripe')"
+                class="md-warn"
+                aria-label="pay-with-stripe"
+                translate="button-pay-with-stripe"
+            )

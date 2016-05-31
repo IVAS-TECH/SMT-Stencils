@@ -66,47 +66,28 @@ gulp.task "browserify", ["server"], ->
 
 gulp.task "uglify", ["browserify"], ->
   gulp.src "./build/bundle.js"
-    .pipe uglify
-      mangle: yes
-      copress:
-        screw_ie8: yes
-        sequences: yes
-        dead_code: yes
-        conditionals: yes
-        booleans: yes
-        unused: yes
-        if_return: yes
-        join_vars: yes
-        drop_console: yes
-    .pipe gulp.dest "./build/inline"
+    .pipe gzip append: no
+    .pipe gulp.dest "./deploy/send"
 
 gulp.task "stylus", ["uglify"], ->
   gulp.src "./client/styles/style.styl"
     .pipe stylus
       compress: yes
       use: nib()
-    .pipe css
-      "max-line-len": 1
-      "expand-vars": no
     .pipe gulp.dest "./build"
 
 gulp.task "styles", ["stylus"], ->
   gulp.src [
       "./build/style.css"
-      "./node_modules/angular-material/angular-material.min.css"
-      "./node_modules/angular-chart.js/dist/angular-chart.min.css"
+      "./node_modules/angular-material/angular-material.css"
+      "./node_modules/angular-chart.js/dist/angular-chart.css"
     ]
     .pipe concat "style.css"
-    .pipe css
-      "max-line-len": 1
-      "expand-vars": no
-      "ugly-comments": yes
-      "cute-comments": no
-    .pipe gulp.dest "./build/inline"
+    .pipe gzip append: no
+    .pipe gulp.dest "./deploy/send"
 
 gulp.task "bundle", ["styles"], ->
   gulp.src "./build/inline/index.html"
-    .pipe inline base: "./build/inline"
     .pipe gzip append: no
     .pipe gulp.dest "./deploy/send"
 
@@ -142,3 +123,5 @@ gulp.task "mocha", [], ->
     spawnSync "./node_modules/.bin/mocha", mocha, stdio: "inherit"
     spawnSync "./node_modules/.bin/istanbul", ["report", "text-summary", "lcov", "html"], stdio: "inherit"
     open "./coverage/lcov-report/index.html"
+
+gulp.task "karma", ["client"], -> spawnSync "./node_modules/karma-cli/bin/karma", ["start", "./build/karma.conf.js"], stdio: "inherit"

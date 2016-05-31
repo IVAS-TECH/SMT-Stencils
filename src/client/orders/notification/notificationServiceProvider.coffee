@@ -15,8 +15,8 @@ provider = ->
 
     listenForNotification: ->
       @stopListen()
-      $timeout @notify, 10
-      listening = $interval @notify, 60000
+      $timeout @notify, 100
+      listening = $interval @notify, 120000
 
     stopListen: ->
       if listening?

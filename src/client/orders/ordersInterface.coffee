@@ -29,6 +29,7 @@ controller = ($scope, stopLoadingService, RESTHelperService, $filter, dateServic
       ctrl.fullListOfOrders = transform yes
       ctrl.listOfOrders = ctrl.fullListOfOrders
       stopLoadingService "orders"
+      $scope.$emit "orders-processed"
 
       listeners = ($scope.$watch "ordersCtrl." + watch, ctrl.filterFn for watch in ["filter", "fromDate", "toDate"])
 

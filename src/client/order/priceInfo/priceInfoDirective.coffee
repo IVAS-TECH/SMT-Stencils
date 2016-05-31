@@ -4,9 +4,9 @@ directive = (scopeControllerService, $interval, progressService, listOfPrices) -
   scope: controller: "@"
   link: (scope) ->
     scopeControllerService scope
-    
+
     progress = progressService()
-    
+
     init = ->
       scope.scopeCtrl.calculatePrice()
       scope.price = {}
@@ -24,9 +24,9 @@ directive = (scopeControllerService, $interval, progressService, listOfPrices) -
           scope.price = scope.scopeCtrl.order.price
           scope.scopeCtrl.price = scope.scopeCtrl.order.price.total
         else scope.price[price] = (parseFloat update[price] * count).toFixed 2 for price in listOfPrices
-      ), 400
+      ), 100
       return
-     
+
     scope[move] = progress[move] for move in ["next", "back"]
 
     init()

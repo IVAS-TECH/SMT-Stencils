@@ -1,0 +1,19 @@
+md-dialog
+    md-dialog-content(class="md-dialog-content")
+        p(translate="p-paing-with-paypal")
+        p {{payWithPaypalCtrl.id}}
+        p Coming Soonish
+        md-dialog-actions
+            md-button(
+                ng-click="payWithPaypalCtrl.hide('back')"
+                class="md-warn"
+                aria-label="back"
+                translate="button-back"
+            )
+            md-button(
+                ng-click="payWithPaypalCtrl.hide('pay')"
+                class="md-primary"
+                md-autofocus="true"
+                aria-label="pay"
+                translate="button-pay"
+            )

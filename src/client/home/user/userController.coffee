@@ -1,43 +1,36 @@
 controller = ($scope, $window, registerService, loginService, authenticationService, transitionService) ->
+    ctrl = @
 
-  ctrl = @
+    authenticateUser = ->
+        ctrl.authenticated = authenticationService.isAuthenticated()
+        ctrl.user = authenticationService.getUser()
 
-  authenticateUser = ->
-    ctrl.authenticated = authenticationService.isAuthenticated()
-    ctrl.user = authenticationService.getUser()
+    init = ->
+        authenticateUser()
+        stopAuth = $scope.$on "authentication", ->
+            authenticateUser()
+            if not authenticationService.isSession() then $window.onbeforeunload = (event) ->
+                event.preventDefault()
+                authenticationService.unauthenticate()
+                return
 
-  init = ->
-  
-    authenticateUser()
-  
-    stopAuth = $scope.$on "authentication", ->
-    
-      authenticateUser()
+        stopRemove = $scope.$on "remove-account", ctrl.logout
 
-      if not authenticationService.isSession()
-        $window.onbeforeunload = (event) ->
-          event.preventDefault()
-          authenticationService.unauthenticate()
-          return
+        $scope.$on "$destroy", ->
+            stopAuth()
+            stopRemove()
 
-    stopRemove = $scope.$on "remove-account", ctrl.logout
+    ctrl.register = (event) -> registerService event
 
-    $scope.$on "$destroy", ->
-      stopAuth()
-      stopRemove()
+    ctrl.login = (event) -> loginService event
 
-  ctrl.register = (event) -> registerService event
+    ctrl.logout = -> authenticationService.unauthenticate ->
+        authenticateUser()
+        transitionService.toHome()
 
-  ctrl.login = (event) -> loginService event
+    init()
 
-  ctrl.logout = (event) ->
-    authenticationService.unauthenticate ->
-      authenticateUser()
-      transitionService.toHome()
-
-  init()
-
-  ctrl
+    ctrl
 
 controller.$inject = ["$scope", "$window", "registerService", "loginService", "authenticationService", "transitionService"]
 
