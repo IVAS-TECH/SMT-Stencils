@@ -36,7 +36,6 @@ handle.put = [
         else
             download = (layer) -> new Promise (resolve, reject) ->
                 (storage.file files[layer]).download destination: req.gerbers[layer], (err) ->
-                    console.log "download: ", files[layer], err
                     if err then reject err else resolve()
             promises = ((if files[layer]? then download layer) for layer in layers)
             (Promise.all promises).then (-> next()), next
@@ -53,9 +52,10 @@ handle.patch = [
         if order.status is "sent" then order.sendingDate = new Date()
         (orderModel.findByIdAndUpdate req.body.id, $set: order, {new: yes}).exec().then ((doc) ->
             if text[0] is ""
-                (getDescriptionTemplate order.status, req.body.language).then (txt) ->
+                (getDescriptionTemplate order.status, req.body.language).then ((txt) ->
                     req.text = txt
                     next()
+                ), next
             else
                 req.text = text
                 next()

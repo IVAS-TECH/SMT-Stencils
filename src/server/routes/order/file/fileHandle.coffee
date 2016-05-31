@@ -20,9 +20,8 @@ module.exports =
         (req, res, next) ->
             send = -> query res, files: req.fileNames
             if req.fileStorage?
-                upload = (file) -> new Promise (resolve, reject) -> req.fileStorage.upload file, (err, info) ->
-                    console.log "upload: ", file, err
-                    if err then reject err else resolve info
+                upload = (file) -> new Promise (resolve, reject) ->
+                    req.fileStorage.upload file, (err, info) -> if err then reject err else resolve info
                 promises = ((if req.gerbers[layer]? then upload req.gerbers[layer]) for layer in layers)
                 (Promise.all promises).then (-> send()), next
             else send()

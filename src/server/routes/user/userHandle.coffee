@@ -36,7 +36,13 @@ wipeFromDB.push (req, res, next) -> (userModel.remove _id: req.userID).exec().th
 wipeFromDB.push (req, res, next) ->
     deleted = (for file in req.deletes
         new Promise (resolve, reject) ->
-            fs.unlink (join files, file), (err) -> if err then reject err else resolve())
+            localFile = join files, file
+            localClean = -> fs.unlink localFile, (err) -> if err then reject err else resolve()
+            if not req.fileStorage? then localClean()
+            else (req.fileStorage.file file).delete (err) ->
+                if err then reject err else fs.access localFile, (accErr) ->
+                    if accErr then resolve() else localClean()
+    )
     (Promise.all deleted).then (-> query res), next
 
 module.exports =
