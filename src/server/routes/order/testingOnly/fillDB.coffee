@@ -9,11 +9,11 @@ randomN = (n) -> Math.floor Math.random() * n
 
 dates = []
 
-range = [0..3]
+range = [0..10]
 
 for i in range
   for j in range
-    dates.push new Date 2016, i, j * 8, (randomN 12), (randomN 60), (randomN 60), (randomN 60)
+    dates.push new Date 2016, i, j + 3, (randomN 12), (randomN 60), (randomN 60), (randomN 60)
 
 sendingDates = dates
 
