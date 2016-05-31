@@ -7,6 +7,7 @@ errorLogger = require "./errorLogger"
 errorHandler = require "./errorHandler"
 project = process.env.Project_ID
 storage = if project? then (gcloud projectId: project).storage().bucket project
+console.log "STORAGE", storage
 errorStream = createWriteStream (join __dirname, "logs/error.log"), flags: "a"
 
 module.exports =
