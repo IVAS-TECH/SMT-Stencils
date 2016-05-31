@@ -29,6 +29,17 @@ handle.get = (req, res, next) ->
 
 handle.put = [
     gerbersMiddleware (req, res, next, callback) -> callback req.body.files
+    (req, res, next) ->
+        {files} = req.body
+        storage = req.fileStorage
+        if not storage? then next()
+        else
+            download = (layer) -> new Promise (resolve, reject) ->
+                (storage.file files[layer]).download destination: req.gerbers[layer], (err) ->
+                    console.log "download: ", files[layer], err
+                    if err then reject err else resolve()
+            promises = ((if files[layer]? then download layer) for layer in layers)
+            (Promise.all promises).then (-> next()), next
     GerberToSVGMiddleware "top"
     GerberToSVGMiddleware "bottom"
     GerberToSVGMiddleware "send"
