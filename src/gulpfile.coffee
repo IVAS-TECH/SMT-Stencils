@@ -19,7 +19,7 @@ templateCache = require "gulp-angular-templatecache"
 
 gulp.task "apt-get", -> spawnSync "sudo", ["apt-get", "install", "-y", "mongodb", "gerbv"]
 
-gulp.task "clean", -> del.sync ["./templates", "./build", "./resources"]
+gulp.task "clean", -> del.sync ["./templates", "./build", "./resources", "./deploy", "./coverage", "./node_modules"]
 
 gulp.task "clear", ["clean"], -> del.sync ["./deploy"]
 
