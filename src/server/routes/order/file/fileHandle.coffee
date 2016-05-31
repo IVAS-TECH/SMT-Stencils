@@ -6,7 +6,7 @@ multerConfig = config join __dirname, "./../../../files"
 tryCleanGerber = require "./tryCleanGerber"
 
 transformReq = (prop, info) -> (req, res, next) ->
-    req.gerbers = {}
+    req[prop] = {}
     req[prop][req.body.map[file.originalname]] = file[info] for file in req.files
     next()
 
