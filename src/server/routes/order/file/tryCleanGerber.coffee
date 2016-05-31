@@ -11,4 +11,4 @@ module.exports = (layer, gcloud = no) ->
                 else (req.fileStorage.file file).delete (err) -> if err then next err else fs.access file, (accErr) ->
                     console.log "deleting", file, err
                     if accErr then next() else localClean()
-            else cleanFile()
+            else localClean()
