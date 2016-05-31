@@ -9,7 +9,7 @@ controller = ($interval, RESTHelperService) ->
 
     init = ->
         fetch()
-        subscribe = $interval fetch, 3000
+        subscribe = $interval fetch, 5000
 
     ctrl.close = ->
         $interval.cancel subscribe
