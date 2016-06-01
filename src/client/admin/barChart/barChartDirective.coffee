@@ -11,7 +11,8 @@ directive = ($templateCache, $compile, $window, $timeout) ->
             canvas = wrapper.find "canvas"
             part = width: 4, height: 2
             canvas.prop prop, $window.screen[prop] * value / 5 for own prop, value of part
-        $timeout resize, 3000
+        resize()
+        $timeout resize, 5000
         (angular.element $window).on "resize", resize
 
 directive.$inject = ["$templateCache", "$compile", "$window", "$timeout"]
