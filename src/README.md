@@ -54,6 +54,10 @@ navigate to: [ http://localhost:8080 ]
 
 run: [npm run test-server] to run all server tests and see coverage results for tested files
 
+## testing Client only
+
+run: [npm run test-client] to run all client tests and see coverage results for tested files
+
 # deploying at Google Cloud App Engine
 
 install: [gcloud]
